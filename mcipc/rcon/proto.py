@@ -1,7 +1,4 @@
-"""Low-level protocol stuff.
-
-See <http://wiki.vg/RCON> for details.
-"""
+"""Low-level protocol stuff."""
 from collections import namedtuple
 from enum import Enum
 from itertools import chain
