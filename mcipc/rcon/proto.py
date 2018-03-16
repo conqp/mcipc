@@ -72,6 +72,7 @@ class RawClient:
         self._socket = None
 
     def __enter__(self):
+        """Sets up and conntects the socket."""
         if self._socket is None:
             sock = socket()
             self._socket = sock.__enter__()
@@ -80,6 +81,7 @@ class RawClient:
         return self
 
     def __exit__(self, *args):
+        """Disconnects the socket."""
         if self._socket is not None:
             result = self._socket.__exit__(*args)
             self._socket = None
