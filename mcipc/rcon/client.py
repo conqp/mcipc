@@ -57,6 +57,6 @@ class Client(RawClient):
             args += [str(dst_player_or_coordinates)]
 
         if yaw_pitch is not None:
-            args += [yaw, pitch]
+            args += [str(item) for item in yaw_pitch]
 
         return self.run('tp', *args)
