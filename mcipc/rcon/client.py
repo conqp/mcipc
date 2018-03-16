@@ -34,3 +34,29 @@ class Client(RawClient):
     def tell(self, player, message):
         """Whispers a message to the respective player."""
         return self.run('tell', player, message)
+
+    def op(self, player):
+        """Makes the respective player an operator."""
+        return self.run('op', player)
+
+    def deop(self, player):
+        """Revokes operator status from the respective player."""
+        return self.run('deop', player)
+
+    def kick(self, player, *reasons):
+        """Kicks the respective player."""
+        return self.run('kick', player, *reasons)
+
+    def tp(self, target_player, dst_player_or_coordinates, yaw_pitch=None):
+        """Teleports players."""
+        args = [str(target_player)]
+
+        if isinstance(dst_player_or_coordinates, (tuple, list)):
+            args += [str(coord) for coord in dst_player_or_coordinates]
+        else:
+            args += [str(dst_player_or_coordinates)]
+
+        if yaw_pitch is not None:
+            args += [yaw, pitch]
+
+        return self.run('tp', *args)
