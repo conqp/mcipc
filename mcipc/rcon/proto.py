@@ -1,4 +1,5 @@
 """Low-level protocol stuff."""
+
 from collections import namedtuple
 from enum import Enum
 from itertools import chain
