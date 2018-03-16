@@ -11,10 +11,15 @@ Options:
     --passwd=<passwd>   Specifies the respective RCON password.
 """
 from docopt import docopt
+from logging import INFO, basicConfig, getLogger
 from sys import exit as exit_, stderr
 
 from mcipc.config import servers
 from mcipc.rcon.client import Client
+
+
+basicConfig(level=INFO, format='[%(levelname)s] %(name)s: %(message)s')
+LOGGER = getLogger('rconclt')
 
 
 def _get_socket_by_server_name(server):
@@ -23,22 +28,36 @@ def _get_socket_by_server_name(server):
     try:
         return servers()[server]
     except KeyError:
-        print('No such server:', server, file=stderr, flush=True)
+        LOGGER.error('No such server: %s.', server)
         exit_(3)
+
+
+def _get_server_info(server):
+
+
+    try:
+        host, port = server.split(':')
+    except ValueError:
+        return _get_socket_by_server_name(server)
+
+    try:
+        port = int(port)
+    except ValueError:
+        LOGGER.error('Not an integer: %s.', port)
+        exit_(2)
+
+    try:
+        passwd, host = host.split('@')
+    except ValueError:
+        passwd = None
+
+    return (host, port, passwd)
 
 
 def main(options):
     """Test the packet stuff."""
 
-    server = options['<server>']
-
-    try:
-        host, port = server.split(':')
-    except ValueError:
-        host, port, passwd = _get_socket_by_server_name(server)
-    else:
-        port = int(port)
-        passwd = None
+    host, port, passwd = _get_server_info(options['<server>'])
 
     if passwd is None:
         passwd = options['--passwd'] or ''
@@ -46,9 +65,9 @@ def main(options):
     with Client(host, port) as client:
         if client.login(passwd):
             result = client.run(options['<command>'], *options['<args>'])
-            print(result, flush=True)
+            LOGGER.info(result)
         else:
-            print('Failed to log in.', file=stderr, flush=True)
+            LOGGER.error('Failed to log in.')
             exit_(1)
 
 
