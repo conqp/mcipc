@@ -10,9 +10,10 @@ Options:
     --help, -h          Shows this paage.
     --passwd=<passwd>   Specifies the respective RCON password.
 """
-from docopt import docopt
 from logging import INFO, basicConfig, getLogger
 from sys import exit as exit_, stderr
+
+from docopt import docopt
 
 from mcipc.config import servers
 from mcipc.rcon.client import Client
@@ -32,7 +33,7 @@ def _get_socket_by_server_name(server):
 
 
 def _get_server_info(server):
-
+    """Returns host, port and password of the RCON server."""
 
     try:
         host, port = server.split(':')
