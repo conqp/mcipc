@@ -72,7 +72,8 @@ def main(options):
             else:
                 result = client.run(options['<command>'], *options['<args>'])
 
-            LOGGER.info(result)
+            if result:
+                LOGGER.info(result)
         else:
             LOGGER.error('Failed to log in.')
             exit_(1)
