@@ -5,6 +5,7 @@ A Minecraft RCON client.
 
 Usage:
     rconclt <server> <command> [<args>...] [options]
+    rconclt <server> fortune [<fortune_options>...] [options]
 
 Options:
     --passwd=<passwd>   Specifies the respective RCON password.
@@ -62,7 +63,11 @@ def main(options):
 
     with Client(host, port) as client:
         if client.login(passwd):
-            result = client.run(options['<command>'], *options['<args>'])
+            if options['fortune']:
+                result = client.fortune(*options['<fortune_options>'])
+            else:
+                result = client.run(options['<command>'], *options['<args>'])
+
             LOGGER.info(result)
         else:
             LOGGER.error('Failed to log in.')
