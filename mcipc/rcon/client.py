@@ -92,15 +92,14 @@ class Client(RawClient):
 
         try:
             text = check_output([FORTUNE] + args, stderr=PIPE)
+        except FileNotFoundError:
+            LOGGER.error('%s is not available.', FORTUNE)
         except CalledProcessError as called_process_error:
-            if called_process_error.returncode == 127:
-                LOGGER.error('%s is not available.', FORTUNE)
-            else:
-                LOGGER.error('Error running %s.', FORTUNE)
-                LOGGER.debug(called_process_error.stderr.decode())
+            LOGGER.error('Error running %s.', FORTUNE)
+            LOGGER.debug(called_process_error.stderr.decode())
+        else:
+            text = text.decode()
+            LOGGER.debug('Fortune text:\n%s', text)
+            return self.say(text)
 
-            return False
-
-        text = text.decode()
-        LOGGER.debug('Fortune text:\n%s', text)
-        return self.say(text)
+        return False
