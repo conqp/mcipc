@@ -49,7 +49,7 @@ class Packet(namedtuple('Packet', ('request_id', 'type', 'payload'))):
 
     @classmethod
     def from_response(cls, bytes_):
-        """Creates a login packet."""
+        """Creates a packet from command response bytes."""
         request_id, type_ = unpack_from('<ii', bytes_, offset=4)
         playload = bytes_[12:-2]
         return cls(request_id, type_, playload.decode('ascii'))
@@ -115,7 +115,7 @@ class RawClient:
         return response.request_id == login_packet.request_id
 
     def run(self, command, *arguments):
-        """Performs a login."""
+        """Runs a command."""
         command = ' '.join(chain((command,), arguments))
         self.send(Packet.from_command(command))
         response = self.receive()
