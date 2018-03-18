@@ -2,6 +2,7 @@
 
 from collections import namedtuple
 from datetime import datetime
+from locale import LC_TIME, getdefaultlocale, setlocale
 from logging import getLogger
 from subprocess import PIPE, CalledProcessError, check_output
 
@@ -107,4 +108,5 @@ class Client(RawClient):
 
     def datetime(self, format='%c'):
         """Tells all players the current datetime."""
+        setlocale(LC_TIME, getdefaultlocale())  # Fix loacale.
         return self.say(datetime.now().strftime(format))
