@@ -11,6 +11,12 @@ from mcipc.rcon.proto import RequestIdMismatchError, RawClient
 LOGGER = getLogger(__file__)
 
 
+def _fix_text(text):
+    """Fixes text for ascii compliance."""
+
+    return text.replace('\t', '        ')
+
+
 class OnlinePlayers(namedtuple('OnlinePlayers', ('online', 'max', 'players'))):
     """Online players information."""
 
@@ -42,11 +48,11 @@ class Client(RawClient):
 
     def say(self, message):
         """Broadcast a message to all players."""
-        return self.run('say', message)
+        return self.run('say', _fix_text(message))
 
     def tell(self, player, message):
         """Whispers a message to the respective player."""
-        return self.run('tell', player, message)
+        return self.run('tell', player, _fix_text(message))
 
     def op(self, player):
         """Makes the respective player an operator."""
