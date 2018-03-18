@@ -12,7 +12,7 @@ Options:
     --help, -h          Shows this page.
 """
 from logging import DEBUG, INFO, basicConfig, getLogger
-from sys import exit as exit_, stderr
+from sys import exit as exit_
 
 from docopt import docopt
 
