@@ -4,11 +4,13 @@
 A Minecraft RCON client.
 
 Usage:
-    rconclt <server> fortune [<fortune_options>...] [options]
+    rconclt <server> fortune [--long] [--offensive] [options]
     rconclt <server> <command> [<args>...] [options]
 
 Options:
     --passwd=<passwd>   Specifies the respective RCON password.
+    --long              Also generate long fortunes.
+    --offensive         Only genenrate offensive fortunes.
     --debug             Enters debug mode.
     --help, -h          Shows this page.
 """
@@ -64,7 +66,9 @@ def main(options):
     with Client(host, port) as client:
         if client.login(passwd):
             if options['fortune']:
-                result = client.fortune(*options['<fortune_options>'])
+                result = client.fortune(
+                    short=not options['--long'],
+                    offensive=options['--offensive'])
             else:
                 result = client.run(options['<command>'], *options['<args>'])
 

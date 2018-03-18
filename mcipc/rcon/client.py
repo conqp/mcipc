@@ -74,7 +74,7 @@ class Client(RawClient):
 
         return self.run('tp', *args)
 
-    def fortune(self, short=True, offensive=True):
+    def fortune(self, short=True, offensive=False):
         """Sends a fortune to all players."""
         args = []
 
