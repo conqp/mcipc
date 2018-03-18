@@ -1,8 +1,14 @@
 """High level client API."""
 
 from collections import namedtuple
+from logging import getLogger
+from subprocess import PIPE, CalledProcessError, check_output
 
+from mcipc.config import FORTUNE
 from mcipc.rcon.proto import RequestIdMismatchError, RawClient
+
+
+LOGGER = getLogger(__file__)
 
 
 class OnlinePlayers(namedtuple('OnlinePlayers', ('online', 'max', 'players'))):
@@ -67,3 +73,18 @@ class Client(RawClient):
             args += [str(item) for item in yaw_pitch]
 
         return self.run('tp', *args)
+
+    def fortune(self, *fortune_options):
+        """Sends a fortune to all players."""
+        try:
+            text = check_output((FORTUNE,) + fortune_options, stderr=PIPE)
+        except CalledProcessError as called_process_error:
+            if called_process_error.returncode == 127:
+                LOGGER.error('%s is not available.', FORTUNE)
+            else:
+                LOGGER.error('Error running %s.', FORTUNE)
+                LOGGER.debug(called_process_error.stderr.decode())
+
+            return False
+
+        return self.say(text)
