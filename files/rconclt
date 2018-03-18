@@ -7,7 +7,7 @@ Usage:
     rconclt <server> <command> [<args>...] [options]
 
 Options:
-    --help, -h          Shows this paage.
+    --help, -h          Shows this page.
     --passwd=<passwd>   Specifies the respective RCON password.
 """
 from logging import INFO, basicConfig, getLogger
