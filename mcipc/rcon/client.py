@@ -1,6 +1,7 @@
 """High level client API."""
 
 from collections import namedtuple
+from datetime import datetime
 from logging import getLogger
 from subprocess import PIPE, CalledProcessError, check_output
 
@@ -103,3 +104,9 @@ class Client(RawClient):
             return self.say(text)
 
         return False
+
+    def datetime(self, prefix=None, format='%c'):
+        """Tells all players the current datetime."""
+        message = '' if prefix is None else prefix + ' '
+        message += datetime.now().strftime(format)
+        return self.say(message)
