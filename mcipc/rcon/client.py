@@ -87,5 +87,6 @@ class Client(RawClient):
 
             return False
 
-        LOGGER.debug('Fortune text:\n%s', text.decode())
+        text = text.decode()
+        LOGGER.debug('Fortune text:\n%s', text)
         return self.say(text)
