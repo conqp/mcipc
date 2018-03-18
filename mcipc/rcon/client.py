@@ -105,8 +105,6 @@ class Client(RawClient):
 
         return False
 
-    def datetime(self, prefix=None, format='%c'):
+    def datetime(self, format='%c'):
         """Tells all players the current datetime."""
-        message = '' if prefix is None else prefix + ' '
-        message += datetime.now().strftime(format)
-        return self.say(message)
+        return self.say(datetime.now().strftime(format))

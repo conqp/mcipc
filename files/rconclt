@@ -4,13 +4,12 @@
 A Minecraft RCON client.
 
 Usage:
-    rconclt <server> datetime [--prefix=<prefix>] [--format=<format>] [options]
+    rconclt <server> datetime [--format=<format>] [options]
     rconclt <server> fortune [--long] [--offensive] [options]
     rconclt <server> <command> [<args>...] [options]
 
 Options:
     --passwd=<passwd>   Specifies the respective RCON password.
-    --prefix=<prefix>   Specifies the datetime message prefix.
     --format=<format>   Specifies the datetime format [default: %c].
     --long              Also generate long fortunes.
     --offensive         Only genenrate offensive fortunes.
@@ -69,8 +68,7 @@ def main(options):
     with Client(host, port) as client:
         if client.login(passwd):
             if options['datetime']:
-                result = client.datetime(
-                    prefix=options['--prefix'], format=options['--format'])
+                result = client.datetime(format=options['--format'])
             elif options['fortune']:
                 result = client.fortune(
                     short=not options['--long'],
