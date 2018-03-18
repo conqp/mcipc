@@ -7,8 +7,9 @@ Usage:
     rconclt <server> <command> [<args>...] [options]
 
 Options:
-    --help, -h          Shows this page.
     --passwd=<passwd>   Specifies the respective RCON password.
+    --debug             Enters debug mode.
+    --help, -h          Shows this page.
 """
 from logging import INFO, basicConfig, getLogger
 from sys import exit as exit_, stderr
@@ -19,7 +20,8 @@ from mcipc.config import servers
 from mcipc.rcon.client import Client
 
 
-LOGGER = getLogger('rconclt')
+LOGGER = getLogger(__file__)
+_LOG_FORMAT = '[%(levelname)s] %(name)s: %(message)s'
 
 
 def _get_server_info(server):
@@ -51,6 +53,8 @@ def _get_server_info(server):
 def main(options):
     """Test the packet stuff."""
 
+    log_level = DEBUG if options['--debug'] else INFO
+    basicConfig(level=log_level, format=_LOG_FORMAT)
     host, port, passwd = _get_server_info(options['<server>'])
 
     if passwd is None:
@@ -66,5 +70,4 @@ def main(options):
 
 
 if __name__ == '__main__':
-    basicConfig(level=INFO, format='[%(levelname)s] %(name)s: %(message)s')
     main(docopt(__doc__))

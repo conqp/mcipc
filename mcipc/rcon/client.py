@@ -2,7 +2,7 @@
 
 from collections import namedtuple
 
-from mcipc.rcon.proto import RawClient
+from mcipc.rcon.proto import RequestIdMismatchError, RawClient
 
 
 class OnlinePlayers(namedtuple('OnlinePlayers', ('online', 'max', 'players'))):
@@ -22,10 +22,27 @@ class OnlinePlayers(namedtuple('OnlinePlayers', ('online', 'max', 'players'))):
 class Client(RawClient):
     """A high-level RCON client."""
 
+    def __init__(self, host, port, passwd):
+        """Sets the host, port and password """
+        super().__init__(host, port)
+        self.passwd = passwd
+
+    def __enter__(self):
+        """Performs a login."""
+        super().__enter__()
+        self.login(self.passwd)
+
     @property
     def players(self):
         """Returns the players."""
         return OnlinePlayers.from_string(self.run('list'))
+
+    def login(self, passwd):
+        """Performs a login, returning False on failure."""
+        try:
+            return super().login(passwd)
+        except RequestIdMismatchError:
+            return False
 
     def say(self, message):
         """Broadcast a message to all players."""

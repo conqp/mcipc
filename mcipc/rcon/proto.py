@@ -3,18 +3,37 @@
 from collections import namedtuple
 from enum import Enum
 from itertools import chain
+from logging import getLogger
 from random import randint
 from socket import socket
 from struct import pack, unpack_from
 
 
-__all__ = ['NotConnectedError', 'PacketType', 'Packet', 'RawClient']
+__all__ = [
+    'NotConnectedError',
+    'RequestIdMismatchError',
+    'PacketType',
+    'Packet',
+    'RawClient']
+
+
+LOGGER = getLogger(__file__)
 
 
 class NotConnectedError(Exception):
     """Indicates that the client is not connected."""
 
     pass
+
+
+class RequestIdMismatchError(Exception):
+    """Indicates that the sent and received request IDs do not match."""
+
+    def __init__(self, sent_request_id, received_request_id):
+        """Sets the sent and received request IDs."""
+        super().__init__(sent_request_id, received_request_id)
+        self.sent_request_id = sent_request_id
+        self.received_request_id = received_request_id
 
 
 def _rand_int32():
@@ -74,13 +93,17 @@ class RawClient:
         if self._socket is None:
             sock = socket()
             self._socket = sock.__enter__()
-            self._socket.connect(self.socket)
+            socket_ = self.socket
+            LOGGER.debug('Connecting to socket %s.', socket_)
+            self._socket.connect(socket_)
 
         return self
 
     def __exit__(self, *args):
         """Disconnects the socket."""
         if self._socket is not None:
+            LOGGER.debug(
+                'Disconnecting from socket %s.', self._socket.getsockname())
             result = self._socket.__exit__(*args)
             self._socket = None
             return result
@@ -97,7 +120,9 @@ class RawClient:
         if self._socket is None:
             raise NotConnectedError()
 
-        return self._socket.send(bytes(packet))
+        bytes_ = bytes(packet)
+        LOGGER.debug('Sent %i bytes.', len(bytes_))
+        return self._socket.send(bytes_)
 
     def receive(self, bufsize=4096):
         """Receives a packet."""
@@ -105,6 +130,7 @@ class RawClient:
             raise NotConnectedError()
 
         bytes_ = self._socket.recv(bufsize)
+        LOGGER.debug('Received %i bytes.', len(bytes_))
         return Packet.from_response(bytes_)
 
     def login(self, passwd):
@@ -112,11 +138,22 @@ class RawClient:
         login_packet = Packet.from_login(passwd)
         self.send(login_packet)
         response = self.receive()
-        return response.request_id == login_packet.request_id
+
+        if response.request_id == login_packet.request_id:
+            return True
+
+        raise RequestIdMismatchError(
+            login_packet.request_id, response.request_id)
 
     def run(self, command, *arguments):
         """Runs a command."""
         command = ' '.join(chain((command,), arguments))
-        self.send(Packet.from_command(command))
+        command_packet = Packet.from_command(command)
+        self.send(command_packet)
         response = self.receive()
-        return response.payload
+
+        if response.request_id == command_packet.request_id:
+            return response.payload
+
+        raise RequestIdMismatchError(
+            command_packet.request_id, response.request_id)
