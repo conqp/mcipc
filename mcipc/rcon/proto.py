@@ -57,7 +57,7 @@ class Packet(namedtuple('Packet', ('request_id', 'type', 'payload'))):
         """Returns the packet as bytes."""
         payload = pack('<i', self.request_id)
         payload += pack('<i', self.type)
-        payload += self.payload.encode('ascii')
+        payload += self.payload.encode()
         payload += b'\0\0'
         return pack('<i', len(payload)) + payload
 
@@ -71,7 +71,7 @@ class Packet(namedtuple('Packet', ('request_id', 'type', 'payload'))):
         """Creates a packet from command response bytes."""
         request_id, type_ = unpack_from('<ii', bytes_, offset=4)
         playload = bytes_[12:-2]
-        return cls(request_id, type_, playload.decode('ascii'))
+        return cls(request_id, type_, playload.decode())
 
     @classmethod
     def from_login(cls, passwd):
