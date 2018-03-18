@@ -74,10 +74,18 @@ class Client(RawClient):
 
         return self.run('tp', *args)
 
-    def fortune(self, *fortune_options):
+    def fortune(self, short=True, offensive=True):
         """Sends a fortune to all players."""
+        args = []
+
+        if short:
+            args.append('-s')
+
+        if offensive:
+            args.append('-o')
+
         try:
-            text = check_output((FORTUNE,) + fortune_options, stderr=PIPE)
+            text = check_output([FORTUNE] + args, stderr=PIPE)
         except CalledProcessError as called_process_error:
             if called_process_error.returncode == 127:
                 LOGGER.error('%s is not available.', FORTUNE)
