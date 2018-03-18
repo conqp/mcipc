@@ -110,5 +110,5 @@ class Client(RawClient):
         """Tells all players the current datetime."""
         setlocale(LC_TIME, getdefaultlocale())  # Fix loacale.
         text = datetime.now().strftime(format)
-        LOGGER.debug('Sending text: %s.', text)
+        LOGGER.debug('Sending text: "%s".', text)
         return self.say(text)
