@@ -1,5 +1,7 @@
 """An interactive console."""
 
+from getpass import getpass
+
 from mcipc.rcon.client import Client
 
 __all__ = ['rconcmd']
