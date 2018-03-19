@@ -74,6 +74,7 @@ def rconcmd(host=None, port=None, passwd=None, *, prompt=PS1):
             try:
                 command = input(prompt)
             except EOFError:
+                print('\nAborted.')
                 break
             except KeyboardInterrupt:
                 print()
@@ -94,3 +95,5 @@ def rconcmd(host=None, port=None, passwd=None, *, prompt=PS1):
                 except (EOFError, KeyboardInterrupt):
                     print()
                     continue
+
+            print(result)
