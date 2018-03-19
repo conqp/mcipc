@@ -56,35 +56,34 @@ def rconcmd(host=None, port=None, passwd=None, *, prompt=PS1):
         except KeyboardInterrupt:
             print('\Aborted...')
 
-    client = Client(host, port)
-
-    try:
-        passwd = _login(client, passwd)
-    except (EOFError, KeyboardInterrupt):
-        print('\nAborted...')
-        return 1
-
-    while True:
+    with Client(host, port) as client:
         try:
-            command = input(prompt)
-        except EOFError:
-            break
-        except KeyboardInterrupt:
-            print()
-            continue
+            passwd = _login(client, passwd)
+        except (EOFError, KeyboardInterrupt):
+            print('\nAborted...')
+            return 1
 
-        command, *args = command.split()
-
-        if command in EXIT_COMMANDS:
-            break
-
-        try:
-            result = client.run(command, *args)
-        except RequestIdMismatchError:
-            print('Session timed out. Please login again.')
-
+        while True:
             try:
-                passwd = _login(client, passwd)
-            except (EOFError, KeyboardInterrupt):
+                command = input(prompt)
+            except EOFError:
+                break
+            except KeyboardInterrupt:
                 print()
                 continue
+
+            command, *args = command.split()
+
+            if command in EXIT_COMMANDS:
+                break
+
+            try:
+                result = client.run(command, *args)
+            except RequestIdMismatchError:
+                print('Session timed out. Please login again.')
+
+                try:
+                    passwd = _login(client, passwd)
+                except (EOFError, KeyboardInterrupt):
+                    print()
+                    continue
