@@ -97,3 +97,5 @@ def rconcmd(host=None, port=None, passwd=None, *, prompt=PS1):
                     continue
 
             print(result)
+
+    return 0

@@ -1,0 +1,9 @@
+#! /usr/bin/env python3
+"""An interactive RCON console."""
+
+from sys import exit as exit_
+from mcipc.rcon.console import rconcmd
+
+
+if __name__ == '__main__':
+    exit_(rconcmd())
