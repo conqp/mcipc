@@ -36,6 +36,9 @@ def _read(prompt, type_=None, none=False):
 def _login(client, passwd):
     """Performs a login."""
 
+    if passwd is None:
+        passwd = getpass('Password: ')
+
     while not client.login(passwd):
         print('Invalid password.')
         passwd = getpass('Password: ')
@@ -59,8 +62,6 @@ def rconcmd(host=None, port=None, passwd=None, *, prompt=PS1):
         except KeyboardInterrupt:
             print('\Aborted...')
             return 1
-
-    passwd = passwd or ''
 
     with Client(host, port) as client:
         try:
