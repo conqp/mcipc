@@ -56,7 +56,7 @@ def _get_server_info(server):
 
 
 def main(options):
-    """Test the packet stuff."""
+    """Runs the RCON client."""
 
     log_level = DEBUG if options['--debug'] else INFO
     basicConfig(level=log_level, format=_LOG_FORMAT)
