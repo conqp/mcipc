@@ -2,6 +2,7 @@
 
 from getpass import getpass
 
+from mcipc.rcon.proto import RequestIdMismatchError
 from mcipc.rcon.client import Client
 
 __all__ = ['rconcmd']
@@ -48,19 +49,19 @@ def _login(client, passwd):
 
 def rconcmd(host=None, port=None, passwd=None, *, prompt=PS1):
     """Initializes the console."""
-    
+
     if host is None:
         try:
             host = _read('Host: ')
         except KeyboardInterrupt:
-            print('\Aborted...')
+            print('\nAborted...')
             return 1
 
     if port is None:
         try:
             port = _read('Port: ', type_=int)
         except KeyboardInterrupt:
-            print('\Aborted...')
+            print('\nAborted...')
             return 1
 
     with Client(host, port) as client:
