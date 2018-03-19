@@ -49,12 +49,16 @@ def rconcmd(host=None, port=None, passwd=None, *, prompt=PS1):
             host = _read('Host: ')
         except KeyboardInterrupt:
             print('\Aborted...')
+            return 1
 
     if port is None:
         try:
             port = _read('Port: ', type_=int)
         except KeyboardInterrupt:
             print('\Aborted...')
+            return 1
+
+    passwd = passwd or ''
 
     with Client(host, port) as client:
         try:
