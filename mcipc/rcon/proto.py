@@ -71,10 +71,10 @@ class Packet(namedtuple('Packet', ('request_id', 'type', 'payload'))):
     @classmethod
     def from_socket(cls, sock):
         """Reads a packet from the respective socket."""
-        head = sock.read(12)    # 3 * 4 bytes.
+        head = sock.recv(12)    # 3 * 4 bytes.
         length, request_id, type_ = unpack('<iii', head)
-        payload = sock.read(length)
-        tail = sock.read(2)
+        payload = sock.recv(length)
+        tail = sock.recv(2)
         
         if tail != TAIL:
             raise InvalidPacketStructureError('Invalid tail.', tail)
