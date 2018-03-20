@@ -69,14 +69,11 @@ class Packet(namedtuple('Packet', ('request_id', 'type', 'payload'))):
         return pack('<i', len(payload)) + payload
 
     @classmethod
-    def from_socket(cls, sock):
-        """Reads a packet from the respective socket."""
-        header = sock.recv(4)
-        length, = unpack('<i', header)  # Unpack 1-tuple.
-        body = sock.recv(length)
-        request_id, type_ = unpack('<ii', body[:8])
-        payload = body[8:-2]
-        tail = body[-2:]
+    def from_bytes(cls, bytes_):
+        """Creates a packet from the respective bytes."""
+        request_id, type_ = unpack('<ii', bytes_[:8])
+        payload = bytes_[8:-2]
+        tail = bytes_[-2:]
 
         if tail != TAIL:
             raise InvalidPacketStructureError('Invalid tail.', tail)
@@ -144,7 +141,9 @@ class RawClient:
         if self._socket is None:
             raise NotConnectedError()
 
-        return Packet.from_socket(self._socket)
+        length, = unpack('<i', self._socket.recv(4))
+        payload = self._socket.recv(length)
+        return Packet.from_bytes(payload)
 
     def login(self, passwd):
         """Performs a login."""
