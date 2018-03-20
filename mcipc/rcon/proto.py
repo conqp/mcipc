@@ -6,7 +6,7 @@ from itertools import chain
 from logging import getLogger
 from random import randint
 from socket import socket
-from struct import pack, unpack_from
+from struct import pack, unpack
 
 
 __all__ = [
