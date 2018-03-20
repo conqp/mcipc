@@ -50,13 +50,14 @@ class Client(RawClient):
 
     def say(self, message):
         """Broadcast a message to all players."""
+        LOGGER.debug('Sending text: "%s".', message)
         return self.run('say', _fix_text(message))
 
     def tell(self, player, message):
         """Whispers a message to the respective player."""
         return self.run('tell', player, _fix_text(message))
 
-    def op(self, player):
+    def mkop(self, player):
         """Makes the respective player an operator."""
         return self.run('op', player)
 
@@ -68,7 +69,7 @@ class Client(RawClient):
         """Kicks the respective player."""
         return self.run('kick', player, *reasons)
 
-    def tp(self, target_player, dst_player_or_coordinates, yaw_pitch=None):
+    def teleport(self, target_player, dst_player_or_coordinates, yaw_pitch=None):
         """Teleports players."""
         args = [str(target_player)]
 
@@ -106,9 +107,8 @@ class Client(RawClient):
 
         return False
 
-    def datetime(self, format='%c'):
+    def datetime(self, frmt='%c'):
         """Tells all players the current datetime."""
         setlocale(LC_TIME, getdefaultlocale())  # Fix loacale.
-        text = datetime.now().strftime(format)
-        LOGGER.debug('Sending text: "%s".', text)
+        text = datetime.now().strftime(frmt)
         return self.say(text)
