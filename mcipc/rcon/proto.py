@@ -23,7 +23,7 @@ TAIL = b'\0\0'
 
 class InvalidPacketStructureError(Exception):
     """Indicates an invalid packet structure."""
-    
+
     pass
 
 
@@ -67,7 +67,7 @@ class Packet(namedtuple('Packet', ('request_id', 'type', 'payload'))):
         payload += self.payload.encode()
         payload += TAIL
         return pack('<i', len(payload)) + payload
-    
+
     @classmethod
     def from_socket(cls, sock):
         """Reads a packet from the respective socket."""
@@ -77,10 +77,10 @@ class Packet(namedtuple('Packet', ('request_id', 'type', 'payload'))):
         request_id, type_ = unpack('<ii', body[:8])
         payload = body[8:-2]
         tail = body[-2:]
-        
+
         if tail != TAIL:
             raise InvalidPacketStructureError('Invalid tail.', tail)
-        
+
         return cls(request_id, type_, payload.decode())
 
     @classmethod
