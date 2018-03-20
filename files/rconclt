@@ -21,7 +21,6 @@ from sys import exit as exit_
 
 from docopt import docopt
 
-from mcipc.config import servers
 from mcipc.rcon.client import Client
 from mcipc.rcon.credentials import InvalidCredentialsError, Credentials
 
@@ -35,12 +34,12 @@ def main(options):
 
     log_level = DEBUG if options['--debug'] else INFO
     basicConfig(level=log_level, format=_LOG_FORMAT)
-    
+
     try:
         host, port, passwd = Credentials.from_string(options['<server>'])
     except InvalidCredentialsError as error:
         LOGGER.error(error)
-        exit_(2) 
+        exit_(2)
 
     if passwd is None:
         passwd = options['--passwd'] or ''
