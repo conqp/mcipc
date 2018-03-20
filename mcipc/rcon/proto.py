@@ -72,7 +72,7 @@ class Packet(namedtuple('Packet', ('request_id', 'type', 'payload'))):
     def from_socket(cls, sock):
         """Reads a packet from the respective socket."""
         header = sock.recv(4)
-        length = unpack('<i', header)
+        length, = unpack('<i', header)  # Unpack 1-tuple.
         body = sock.recv(length)
         request_id, type_ = unpack('<ii', body[:8])
         payload = body[8:-2]
