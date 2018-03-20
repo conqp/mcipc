@@ -68,7 +68,7 @@ def main(options):
     with Client(host, port) as client:
         if client.login(passwd):
             if options['datetime']:
-                result = client.datetime(format=options['--format'])
+                result = client.datetime(frmt=options['--format'])
             elif options['fortune']:
                 result = client.fortune(
                     short=not options['--long'],
