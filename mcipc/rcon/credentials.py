@@ -2,6 +2,8 @@
 
 from collections import namedtuple
 
+from mcipc.config import servers
+
 __all__ = ['InvalidCredentialsError', 'Credentials']
 
 
