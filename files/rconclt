@@ -23,36 +23,11 @@ from docopt import docopt
 
 from mcipc.config import servers
 from mcipc.rcon.client import Client
+from mcipc.rcon.credentials import InvalidCredentialsError, Credentials
 
 
 LOGGER = getLogger(__file__)
 _LOG_FORMAT = '[%(levelname)s] %(name)s: %(message)s'
-
-
-def _get_server_info(server):
-    """Returns host, port and password of the RCON server."""
-
-    try:
-        host, port = server.split(':')
-    except ValueError:
-        try:
-            return servers()[server]
-        except KeyError:
-            LOGGER.error('No such server: %s.', server)
-            exit_(3)
-
-    try:
-        port = int(port)
-    except ValueError:
-        LOGGER.error('Not an integer: %s.', port)
-        exit_(2)
-
-    try:
-        passwd, host = host.split('@')
-    except ValueError:
-        passwd = None
-
-    return (host, port, passwd)
 
 
 def main(options):
@@ -60,7 +35,12 @@ def main(options):
 
     log_level = DEBUG if options['--debug'] else INFO
     basicConfig(level=log_level, format=_LOG_FORMAT)
-    host, port, passwd = _get_server_info(options['<server>'])
+    
+    try:
+        host, port, passwd = Credentials.from_string(options['<server>'])
+    except InvalidCredentialsError as error:
+        LOGGER.error(error)
+        exit_(2) 
 
     if passwd is None:
         passwd = options['--passwd'] or ''
