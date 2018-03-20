@@ -18,6 +18,13 @@ __all__ = [
 
 
 LOGGER = getLogger(__file__)
+TAIL = b'\0\0'
+
+
+class InvalidPacketStructureError(Exception):
+    """Indicates an invalid packet structure."""
+    
+    pass
 
 
 class NotConnectedError(Exception):
@@ -58,20 +65,26 @@ class Packet(namedtuple('Packet', ('request_id', 'type', 'payload'))):
         payload = pack('<i', self.request_id)
         payload += pack('<i', self.type)
         payload += self.payload.encode()
-        payload += b'\0\0'
+        payload += TAIL
         return pack('<i', len(payload)) + payload
+    
+    @classmethod
+    def from_socket(cls, sock):
+        """Reads a packet from the respective socket."""
+        head = sock.read(12)    # 3 * 4 bytes.
+        length, request_id, type_ = unpack('<iii', head)
+        payload = sock.read(length)
+        tail = sock.read(2)
+        
+        if tail != TAIL:
+            raise InvalidPacketStructureError('Invalid tail.', tail)
+        
+        return cls(request_id, type_, payload.decode())
 
     @classmethod
     def from_command(cls, command):
         """Creates a command packet."""
         return cls(_rand_int32(), PacketType.COMMAND.value, command)
-
-    @classmethod
-    def from_response(cls, bytes_):
-        """Creates a packet from command response bytes."""
-        request_id, type_ = unpack_from('<ii', bytes_, offset=4)
-        playload = bytes_[12:-2]
-        return cls(request_id, type_, playload.decode())
 
     @classmethod
     def from_login(cls, passwd):
@@ -124,14 +137,12 @@ class RawClient:
         LOGGER.debug('Sent %i bytes.', len(bytes_))
         return self._socket.send(bytes_)
 
-    def receive(self, bufsize=4096):
+    def receive(self):
         """Receives a packet."""
         if self._socket is None:
             raise NotConnectedError()
 
-        bytes_ = self._socket.recv(bufsize)
-        LOGGER.debug('Received %i bytes.', len(bytes_))
-        return Packet.from_response(bytes_)
+        return Packet.from_socket(self._socket)
 
     def login(self, passwd):
         """Performs a login."""
