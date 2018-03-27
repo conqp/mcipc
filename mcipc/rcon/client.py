@@ -11,6 +11,7 @@ from mcipc.rcon.proto import RequestIdMismatchError, RawClient
 
 
 LOGGER = getLogger(__file__)
+_PLAYER_OR_COORDS = TypeError('Must specify either dst_player or coords.')
 
 
 def _fix_text(text):
@@ -69,17 +70,23 @@ class Client(RawClient):
         """Kicks the respective player."""
         return self.run('kick', player, *reasons)
 
-    def teleport(self, target_player, dst_player_or_coordinates, yaw_pitch=None):
+    def teleport(self, player, dst_player=None, coords=None, yaw_pitch=None):
         """Teleports players."""
-        args = [str(target_player)]
+        args = [str(player)]
 
-        if isinstance(dst_player_or_coordinates, (tuple, list)):
-            args += [str(coord) for coord in dst_player_or_coordinates]
+        if dst_player is not None and coords is not None:
+            raise _PLAYER_OR_COORDS
+        elif dst_player is not None:
+            args.append(str(dst_player))
+        elif coords is not None:
+            coord_x, coord_y, coord_z = coords
+            args += [str(coord_x), str(coord_y), str(coord_z)]
         else:
-            args += [str(dst_player_or_coordinates)]
+            raise _PLAYER_OR_COORDS
 
         if yaw_pitch is not None:
-            args += [str(item) for item in yaw_pitch]
+            yaw, pitch = yaw_pitch
+            args += [str(yaw), str(pitch)]
 
         return self.run('tp', *args)
 
