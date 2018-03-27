@@ -18,7 +18,7 @@ class Credentials(namedtuple('Credentials', ('host', 'port', 'passwd'))):
 
     @classmethod
     def from_string(cls, string):
-        """Returns host, port and password of the RCON server."""
+        """Reads the credentials from the given string."""
 
         try:
             host, port = string.split(':')
