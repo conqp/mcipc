@@ -12,16 +12,13 @@ PS1 = 'RCON> '
 EXIT_COMMANDS = ('exit', 'quit')
 
 
-def _read(prompt, type_=None, none=False):
-    """Reads a string."""
+def _read(prompt, type_=None):
+    """Reads input and converts it to the respective type."""
 
     while True:
         try:
             raw = input(prompt)
         except EOFError:
-            if none:
-                return None
-
             continue
 
         if type_ is not None:
