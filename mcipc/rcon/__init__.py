@@ -1,14 +1,12 @@
 """RCON client library."""
 
-from mcipc.rcon.proto import NotConnectedError, RequestIdMismatchError, \
-    PacketType, Packet, RawClient
 from mcipc.rcon.client import Client
 from mcipc.rcon.console import rconcmd
+from mcipc.rcon.proto import RequestIdMismatch, PacketType, Packet, RawClient
 
 
 __all__ = [
-    'NotConnectedError',
-    'RequestIdMismatchError',
+    'RequestIdMismatch',
     'rconcmd',
     'PacketType',
     'Packet',

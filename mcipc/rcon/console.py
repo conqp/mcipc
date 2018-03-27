@@ -2,7 +2,7 @@
 
 from getpass import getpass
 
-from mcipc.rcon.proto import RequestIdMismatchError
+from mcipc.rcon.proto import RequestIdMismatch
 from mcipc.rcon.client import Client
 
 __all__ = ['rconcmd']
@@ -85,7 +85,7 @@ def rconcmd(host=None, port=None, passwd=None, *, prompt=PS1):
 
             try:
                 result = client.run(command, *args)
-            except RequestIdMismatchError:
+            except RequestIdMismatch:
                 print('Session timed out. Please login again.')
 
                 try:

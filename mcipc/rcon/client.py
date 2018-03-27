@@ -7,7 +7,7 @@ from logging import getLogger
 from subprocess import PIPE, CalledProcessError, check_output
 
 from mcipc.config import FORTUNE
-from mcipc.rcon.proto import RequestIdMismatchError, RawClient
+from mcipc.rcon.proto import RequestIdMismatch, RawClient
 
 
 LOGGER = getLogger(__file__)
@@ -46,7 +46,7 @@ class Client(RawClient):
         """Performs a login, returning False on failure."""
         try:
             return super().login(passwd)
-        except RequestIdMismatchError:
+        except RequestIdMismatch:
             return False
 
     def say(self, message):

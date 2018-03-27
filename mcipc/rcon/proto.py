@@ -10,7 +10,7 @@ from struct import pack, unpack
 
 
 __all__ = [
-    'RequestIdMismatchError',
+    'RequestIdMismatch',
     'PacketType',
     'Packet',
     'RawClient']
@@ -26,7 +26,7 @@ class InvalidPacketStructureError(Exception):
     pass
 
 
-class RequestIdMismatchError(Exception):
+class RequestIdMismatch(Exception):
     """Indicates that the sent and received request IDs do not match."""
 
     def __init__(self, sent_request_id, received_request_id):
@@ -132,7 +132,7 @@ class RawClient(socket):
         if response.request_id == login_packet.request_id:
             return True
 
-        raise RequestIdMismatchError(
+        raise RequestIdMismatch(
             login_packet.request_id, response.request_id)
 
     def run(self, command, *arguments):
@@ -145,5 +145,5 @@ class RawClient(socket):
         if response.request_id == command_packet.request_id:
             return response.payload
 
-        raise RequestIdMismatchError(
+        raise RequestIdMismatch(
             command_packet.request_id, response.request_id)
