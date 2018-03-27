@@ -10,7 +10,6 @@ from struct import pack, unpack
 
 
 __all__ = [
-    'NotConnectedError',
     'RequestIdMismatchError',
     'PacketType',
     'Packet',
@@ -23,12 +22,6 @@ TAIL = b'\0\0'
 
 class InvalidPacketStructureError(Exception):
     """Indicates an invalid packet structure."""
-
-    pass
-
-
-class NotConnectedError(Exception):
-    """Indicates that the client is not connected."""
 
     pass
 
@@ -91,65 +84,50 @@ class Packet(namedtuple('Packet', ('request_id', 'type', 'payload'))):
         return cls(_rand_int32(), PacketType.LOGIN.value, passwd)
 
 
-class RawClient:
+class RawClient(socket):
     """An RCON client."""
 
     def __init__(self, host, port):
         """Sets host an port."""
+        super().__init__()
         self.host = host
         self.port = port
-        self._socket = None
 
     def __enter__(self):
         """Sets up and conntects the socket."""
-        if self._socket is None:
-            sock = socket()
-            self._socket = sock.__enter__()
-            socket_ = self.socket
-            LOGGER.debug('Connecting to socket %s.', socket_)
-            self._socket.connect(socket_)
-
+        super().__enter__()
+        sock = self.socket
+        LOGGER.debug('Connecting to socket %s.', sock)
+        self.connect(sock)
         return self
 
     def __exit__(self, *args):
         """Disconnects the socket."""
-        if self._socket is not None:
-            LOGGER.debug(
-                'Disconnecting from socket %s.', self._socket.getsockname())
-            result = self._socket.__exit__(*args)
-            self._socket = None
-            return result
-
-        return None
+        LOGGER.debug('Disconnecting from socket %s.', self.getsockname())
+        return super().__exit__(*args)
 
     @property
     def socket(self):
         """Returns the respective socket."""
         return (self.host, self.port)
 
-    def send(self, packet):
+    def sendpacket(self, packet):
         """Sends an Packet."""
-        if self._socket is None:
-            raise NotConnectedError()
-
         bytes_ = bytes(packet)
-        LOGGER.debug('Sent %i bytes.', len(bytes_))
-        return self._socket.send(bytes_)
+        LOGGER.debug('Sending %i bytes.', len(bytes_))
+        return self.send(bytes_)
 
-    def receive(self):
+    def recvpacket(self):
         """Receives a packet."""
-        if self._socket is None:
-            raise NotConnectedError()
-
-        length, = unpack('<i', self._socket.recv(4))
-        payload = self._socket.recv(length)
+        length, = unpack('<i', self.recv(4))
+        payload = self.recv(length)
         return Packet.from_bytes(payload)
 
     def login(self, passwd):
         """Performs a login."""
         login_packet = Packet.from_login(passwd)
-        self.send(login_packet)
-        response = self.receive()
+        self.sendpacket(login_packet)
+        response = self.recvpacket()
 
         if response.request_id == login_packet.request_id:
             return True
@@ -161,8 +139,8 @@ class RawClient:
         """Runs a command."""
         command = ' '.join(chain((command,), arguments))
         command_packet = Packet.from_command(command)
-        self.send(command_packet)
-        response = self.receive()
+        self.sendpacket(command_packet)
+        response = self.recvpacket()
 
         if response.request_id == command_packet.request_id:
             return response.payload
