@@ -34,8 +34,10 @@ class Credentials(namedtuple('Credentials', ('host', 'port', 'passwd'))):
             InvalidCredentialsError(f'Not an integer: {port}.')
 
         try:
-            passwd, host = host.split('@')
+            *passwd, host = host.split('@')
         except ValueError:
             passwd = None
+        else:
+            passwd = '@'.join(passwd)
 
         return cls(host, port, passwd)
