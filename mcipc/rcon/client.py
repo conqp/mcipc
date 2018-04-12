@@ -26,9 +26,8 @@ class OnlinePlayers(namedtuple('OnlinePlayers', ('online', 'max', 'players'))):
     @classmethod
     def from_string(cls, string):
         """Creates the players information from the server response string."""
-        header, *players = string.split(':')
-        players = ':'.join(players).split(', ')
-        players = [player for player in players if player]
+        header, players = string.split(':', maxsplit=1)
+        players = [player for player in players.split(', ') if player]
         _, _, amount, _, _ = header.split()
         online, max_ = amount.split('/')
         return cls(int(online), int(max_), players)
