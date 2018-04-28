@@ -4,3 +4,4 @@ build
 *~
 .installed_files.txt
 test
+.buildconfig
