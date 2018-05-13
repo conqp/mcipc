@@ -49,6 +49,9 @@ class PacketType(Enum):
     COMMAND = 2
     COMMAND_RESPONSE = 0
 
+    def __int__(self):
+        return self.value
+
 
 class Packet(namedtuple('Packet', ('request_id', 'type', 'payload'))):
     """An RCON packet."""
@@ -56,7 +59,7 @@ class Packet(namedtuple('Packet', ('request_id', 'type', 'payload'))):
     def __bytes__(self):
         """Returns the packet as bytes."""
         payload = pack('<i', self.request_id)
-        payload += pack('<i', self.type)
+        payload += pack('<i', int(self.type))
         payload += self.payload.encode()
         payload += TAIL
         return pack('<i', len(payload)) + payload
@@ -76,12 +79,12 @@ class Packet(namedtuple('Packet', ('request_id', 'type', 'payload'))):
     @classmethod
     def from_command(cls, command):
         """Creates a command packet."""
-        return cls(_rand_int32(), PacketType.COMMAND.value, command)
+        return cls(_rand_int32(), PacketType.COMMAND, command)
 
     @classmethod
     def from_login(cls, passwd):
         """Creates a login packet."""
-        return cls(_rand_int32(), PacketType.LOGIN.value, passwd)
+        return cls(_rand_int32(), PacketType.LOGIN, passwd)
 
 
 class RawClient(socket):
