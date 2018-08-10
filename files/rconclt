@@ -21,8 +21,8 @@ from sys import exit as exit_
 
 from docopt import docopt
 
+from mcipc.config import InvalidCredentialsError, Credentials
 from mcipc.rcon.client import Client
-from mcipc.rcon.credentials import InvalidCredentialsError, Credentials
 
 
 LOGGER = getLogger(__file__)

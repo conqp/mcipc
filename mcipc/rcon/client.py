@@ -23,6 +23,8 @@ def _fix_text(text):
 class OnlinePlayers(namedtuple('OnlinePlayers', ('online', 'max', 'players'))):
     """Online players information."""
 
+    __slots__ = ()
+
     @classmethod
     def from_string(cls, string):
         """Creates the players information from the server response string."""

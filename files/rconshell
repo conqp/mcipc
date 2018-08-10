@@ -1,5 +1,5 @@
 #! /usr/bin/env python3
-"""An interactive RCON console."""
+"""An interactive RCON shell."""
 
 from sys import exit as exit_
 from mcipc.rcon.console import rconcmd
