@@ -10,17 +10,20 @@ from mcipc.config import FORTUNE
 from mcipc.rcon.proto import RequestIdMismatch, RawClient
 
 
-LOGGER = getLogger(__file__)
+__all__ = ['Client']
+
+
+_LOGGER = getLogger(__file__)
 _PLAYER_OR_COORDS = TypeError('Must specify either dst_player or coords.')
 
 
-def _fix_text(text):
-    """Fixes text for ascii compliance."""
+def _tab_to_spaces(text):
+    """Fixes text for better ingame chat console display."""
 
     return text.replace('\t', '        ')
 
 
-class OnlinePlayers(namedtuple('OnlinePlayers', ('online', 'max', 'players'))):
+class _Players(namedtuple('Players', ('online', 'slots', 'names'))):
     """Online players information."""
 
     __slots__ = ()
@@ -28,11 +31,11 @@ class OnlinePlayers(namedtuple('OnlinePlayers', ('online', 'max', 'players'))):
     @classmethod
     def from_string(cls, string):
         """Creates the players information from the server response string."""
-        header, players = string.split(':', maxsplit=1)
-        players = [player for player in players.split(', ') if player]
+        header, names = string.split(':', maxsplit=1)
+        names = [name for name in names.split(', ') if name]
         _, _, amount, _, _ = header.split()
-        online, max_ = amount.split('/')
-        return cls(int(online), int(max_), players)
+        online, slots = amount.split('/')
+        return cls(int(online), int(slots), names)
 
 
 class Client(RawClient):
@@ -41,7 +44,7 @@ class Client(RawClient):
     @property
     def players(self):
         """Returns the players."""
-        return OnlinePlayers.from_string(self.run('list'))
+        return _Players.from_string(self.run('list'))
 
     def login(self, passwd):
         """Performs a login, returning False on failure."""
@@ -52,12 +55,12 @@ class Client(RawClient):
 
     def say(self, message):
         """Broadcast a message to all players."""
-        LOGGER.debug('Sending text: "%s".', message)
-        return self.run('say', _fix_text(message))
+        _LOGGER.debug('Sending text: "%s".', message)
+        return self.run('say', _tab_to_spaces(message))
 
     def tell(self, player, message):
         """Whispers a message to the respective player."""
-        return self.run('tell', player, _fix_text(message))
+        return self.run('tell', player, _tab_to_spaces(message))
 
     def mkop(self, player):
         """Makes the respective player an operator."""
@@ -104,13 +107,13 @@ class Client(RawClient):
         try:
             text = check_output([FORTUNE] + args, stderr=PIPE)
         except FileNotFoundError:
-            LOGGER.error('%s is not available.', FORTUNE)
+            _LOGGER.error('%s is not available.', FORTUNE)
         except CalledProcessError as called_process_error:
-            LOGGER.error('Error running %s.', FORTUNE)
-            LOGGER.debug(called_process_error.stderr.decode())
+            _LOGGER.error('Error running %s.', FORTUNE)
+            _LOGGER.debug(called_process_error.stderr.decode())
         else:
             text = text.decode()
-            LOGGER.debug('Fortune text:\n%s', text)
+            _LOGGER.debug('Fortune text:\n%s', text)
             return self.say(text)
 
         return False

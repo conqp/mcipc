@@ -5,6 +5,7 @@ from getpass import getpass
 from mcipc.rcon.proto import RequestIdMismatch
 from mcipc.rcon.client import Client
 
+
 __all__ = ['rconcmd']
 
 

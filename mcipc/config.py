@@ -2,19 +2,18 @@
 
 from collections import namedtuple
 from configparser import ConfigParser
+from contextlib import suppress
 from pathlib import Path
 
 
 __all__ = [
-    'SERVERS_INI',
+    'LOG_FORMAT',
     'FORTUNE',
     'InvalidCredentialsError',
-    'servers',
-    'Credentials']
+    'CredentialsConfig']
 
 
-_SERVERS = ConfigParser()
-SERVERS_INI = Path('/etc/mcipc.d/servers.conf')
+LOG_FORMAT = '[%(levelname)s] %(name)s: %(message)s'
 FORTUNE = Path('/usr/bin/fortune')
 
 
@@ -24,20 +23,21 @@ class InvalidCredentialsError(ValueError):
     pass
 
 
-def servers(name=None):
-    """Yields the respective servers."""
+class CredentialsConfig(ConfigParser):
+    """Parses the RCON config file."""
 
-    _SERVERS.read(str(SERVERS_INI))
+    def __init__(self, filename):
+        """Sets the file name."""
+        super().__init__()
+        self.filename = filename
 
-    servers_ = {
-        section: (_SERVERS[section]['host'], int(_SERVERS[section]['port']),
-                  _SERVERS[section].get('passwd'))
-        for section in _SERVERS.sections()}
-
-    if name is None:
-        return servers_
-
-    return servers_[name]
+    @property
+    def servers(self):
+        """Returns a dictionary of servers."""
+        self.read(self.filename)
+        return {
+            section: Credentials.from_config_section(self[section])
+            for section in self.sections()}
 
 
 class Credentials(namedtuple('Credentials', ('host', 'port', 'passwd'))):
@@ -46,16 +46,18 @@ class Credentials(namedtuple('Credentials', ('host', 'port', 'passwd'))):
     __slots__ = ()
 
     @classmethod
-    def from_string(cls, string):
+    def from_string(cls, string, config=None):
         """Reads the credentials from the given string."""
 
         try:
             host, port = string.split(':')
         except ValueError:
-            try:
-                return servers(string)
-            except KeyError:
-                raise InvalidCredentialsError(f'No such server: {string}.')
+            # Try to get credentials by server name.
+            if config is not None:
+                with suppress(KeyError):
+                    return config.servers[string]
+
+            raise InvalidCredentialsError(f'Invalid socket string: {string}.')
 
         try:
             port = int(port)

@@ -21,22 +21,23 @@ from sys import exit as exit_
 
 from docopt import docopt
 
-from mcipc.config import InvalidCredentialsError, Credentials
+from mcipc.config import LOG_FORMAT, InvalidCredentialsError, Credentials
 from mcipc.rcon.client import Client
+from mcipc.rcon.config import CONFIG
 
 
 LOGGER = getLogger(__file__)
-_LOG_FORMAT = '[%(levelname)s] %(name)s: %(message)s'
 
 
 def main(options):
     """Runs the RCON client."""
 
     log_level = DEBUG if options['--debug'] else INFO
-    basicConfig(level=log_level, format=_LOG_FORMAT)
+    basicConfig(level=log_level, format=LOG_FORMAT)
 
     try:
-        host, port, passwd = Credentials.from_string(options['<server>'])
+        host, port, passwd = Credentials.from_string(
+            options['<server>'], config=CONFIG)
     except InvalidCredentialsError as error:
         LOGGER.error(error)
         exit_(2)
