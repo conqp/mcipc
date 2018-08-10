@@ -1,4 +1,4 @@
-"""Server configuration parser."""
+"""RCON server configuration."""
 
 from mcipc.config import CredentialsConfig
 
@@ -6,4 +6,4 @@ from mcipc.config import CredentialsConfig
 __all__ = ['CONFIG']
 
 
-CONFIG = CredentialsConfig('/etc/rcon.conf')
+CONFIG = CredentialsConfig('/etc/mcipc.d/rcon.conf')
