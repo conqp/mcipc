@@ -29,11 +29,11 @@ class InvalidPacketStructureError(Exception):
 class RequestIdMismatch(Exception):
     """Indicates that the sent and received request IDs do not match."""
 
-    def __init__(self, sent_request_id, received_request_id):
+    def __init__(self, sent, received):
         """Sets the sent and received request IDs."""
-        super().__init__(sent_request_id, received_request_id)
-        self.sent_request_id = sent_request_id
-        self.received_request_id = received_request_id
+        super().__init__(sent, received)
+        self.sent = sent
+        self.received = received
 
 
 def _rand_int32():
@@ -49,9 +49,6 @@ class PacketType(Enum):
     COMMAND = 2
     COMMAND_RESPONSE = 0
 
-    def __int__(self):
-        return self.value
-
 
 class Packet(namedtuple('Packet', ('request_id', 'type', 'payload'))):
     """An RCON packet."""
@@ -59,8 +56,8 @@ class Packet(namedtuple('Packet', ('request_id', 'type', 'payload'))):
     def __bytes__(self):
         """Returns the packet as bytes."""
         payload = pack('<i', self.request_id)
-        payload += pack('<i', int(self.type))
-        payload += self.payload.encode()
+        payload += pack('<i', self.type.value)
+        payload += self.payload
         payload += TAIL
         return pack('<i', len(payload)) + payload
 
@@ -74,17 +71,22 @@ class Packet(namedtuple('Packet', ('request_id', 'type', 'payload'))):
         if tail != TAIL:
             raise InvalidPacketStructureError('Invalid tail.', tail)
 
-        return cls(request_id, type_, payload.decode())
+        return cls(request_id, PacketType(type_), payload)
 
     @classmethod
     def from_command(cls, command):
         """Creates a command packet."""
-        return cls(_rand_int32(), PacketType.COMMAND, command)
+        return cls(_rand_int32(), PacketType.COMMAND, command.encode())
 
     @classmethod
     def from_login(cls, passwd):
         """Creates a login packet."""
-        return cls(_rand_int32(), PacketType.LOGIN, passwd)
+        return cls(_rand_int32(), PacketType.LOGIN, passwd.encode())
+
+    @property
+    def text(self):
+        """Returns the payload as text."""
+        return self.payload.decode()
 
 
 class RawClient(socket):
@@ -128,25 +130,23 @@ class RawClient(socket):
 
     def login(self, passwd):
         """Performs a login."""
-        login_packet = Packet.from_login(passwd)
-        self.sendpacket(login_packet)
+        packet = Packet.from_login(passwd)
+        self.sendpacket(packet)
         response = self.recvpacket()
 
-        if response.request_id == login_packet.request_id:
+        if response.request_id == packet.request_id:
             return True
 
-        raise RequestIdMismatch(
-            login_packet.request_id, response.request_id)
+        raise RequestIdMismatch(packet.request_id, response.request_id)
 
     def run(self, command, *arguments):
         """Runs a command."""
         command = ' '.join(chain((command,), arguments))
-        command_packet = Packet.from_command(command)
-        self.sendpacket(command_packet)
+        packet = Packet.from_command(command)
+        self.sendpacket(packet)
         response = self.recvpacket()
 
-        if response.request_id == command_packet.request_id:
-            return response.payload
+        if response.request_id == packet.request_id:
+            return response.text
 
-        raise RequestIdMismatch(
-            command_packet.request_id, response.request_id)
+        raise RequestIdMismatch(packet.request_id, response.request_id)
