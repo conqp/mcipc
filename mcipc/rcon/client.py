@@ -23,7 +23,7 @@ def _tab_to_spaces(text):
     return text.replace('\t', '        ')
 
 
-class _Players(namedtuple('Players', ('online', 'slots', 'names'))):
+class _Players(namedtuple('Players', ('online', 'max', 'names'))):
     """Online players information."""
 
     __slots__ = ()
@@ -33,9 +33,8 @@ class _Players(namedtuple('Players', ('online', 'slots', 'names'))):
         """Creates the players information from the server response string."""
         header, names = string.split(':', maxsplit=1)
         names = [name for name in names.split(', ') if name]
-        _, _, amount, _, _ = header.split()
-        online, slots = amount.split('/')
-        return cls(int(online), int(slots), names)
+        _, _, online, _, _, _, max_, _, _ = header.split()
+        return cls(int(online), int(max_), names)
 
 
 class Client(RawClient):
