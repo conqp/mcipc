@@ -2,7 +2,6 @@
 
 from collections import namedtuple
 from configparser import ConfigParser
-from contextlib import suppress
 from pathlib import Path
 
 
@@ -54,8 +53,10 @@ class Credentials(namedtuple('Credentials', ('host', 'port', 'passwd'))):
         except ValueError:
             # Try to get credentials by server name.
             if config is not None:
-                with suppress(KeyError):
+                try:
                     return config.servers[string]
+                except KeyError:
+                    InvalidCredentialsError(f'No such server: {string}.')
 
             raise InvalidCredentialsError(f'Invalid socket string: {string}.')
 
