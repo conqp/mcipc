@@ -45,19 +45,12 @@ class Credentials(namedtuple('Credentials', ('host', 'port', 'passwd'))):
     __slots__ = ()
 
     @classmethod
-    def from_string(cls, string, config=None):
+    def from_string(cls, string):
         """Reads the credentials from the given string."""
 
         try:
             host, port = string.split(':')
         except ValueError:
-            # Try to get credentials by server name.
-            if config is not None:
-                try:
-                    return config.servers[string]
-                except KeyError:
-                    InvalidCredentialsError(f'No such server: {string}.')
-
             raise InvalidCredentialsError(f'Invalid socket string: {string}.')
 
         try:

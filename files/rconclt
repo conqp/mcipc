@@ -34,13 +34,16 @@ def main(options):
 
     log_level = DEBUG if options['--debug'] else INFO
     basicConfig(level=log_level, format=LOG_FORMAT)
+    server = options['<server>']
 
     try:
-        host, port, passwd = Credentials.from_string(
-            options['<server>'], config=CONFIG)
-    except InvalidCredentialsError as error:
-        LOGGER.error(error)
-        exit_(2)
+        host, port, passwd = Credentials.from_string(server)
+    except InvalidCredentialsError:
+        try:
+            host, port, passwd = CONFIG.servers[server]
+        except KeyError:
+            LOGGER.error('No such server: %s.', server)
+            exit_(2)
 
     if passwd is None:
         passwd = options['--passwd'] or ''
