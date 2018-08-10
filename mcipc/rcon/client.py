@@ -23,7 +23,7 @@ def _tab_to_spaces(text):
     return text.replace('\t', '        ')
 
 
-class _Players(namedtuple('Players', ('online', 'max', 'names'))):
+class Players(namedtuple('Players', ('online', 'max', 'names'))):
     """Online players information."""
 
     __slots__ = ()
@@ -43,7 +43,7 @@ class Client(RawClient):
     @property
     def players(self):
         """Returns the players."""
-        return _Players.from_string(self.run('list'))
+        return Players.from_string(self.run('list'))
 
     def login(self, passwd):
         """Performs a login, returning False on failure."""
