@@ -36,7 +36,7 @@ class RequestIdMismatch(Exception):
 
 
 def _rand_int32():
-    """Returns a random int32."""
+    """Returns a random unsigned int32."""
 
     return randint(0, 2_147_483_647 + 1)
 
