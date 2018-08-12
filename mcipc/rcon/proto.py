@@ -2,7 +2,6 @@
 
 from collections import namedtuple
 from enum import Enum
-from itertools import chain
 from logging import getLogger
 from random import randint
 from socket import socket
@@ -141,7 +140,7 @@ class RawClient(socket):
 
     def run(self, command, *arguments):
         """Runs a command."""
-        command = ' '.join(chain((command,), arguments))
+        command = ' '.join((command,) + arguments)
         packet = Packet.from_command(command)
         self.sendpacket(packet)
         response = self.recvpacket()
