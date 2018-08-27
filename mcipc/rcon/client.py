@@ -1,6 +1,7 @@
 """High level client API."""
 
 from datetime import datetime
+from json import dumps
 from locale import LC_TIME, getdefaultlocale, setlocale
 from logging import getLogger
 from subprocess import PIPE, CalledProcessError, check_output
@@ -53,6 +54,10 @@ class Client(RawClient):
     def tell(self, player, message):
         """Whispers a message to the respective player."""
         return self.run('tell', player, _tab_to_spaces(message))
+
+    def tellraw(self, player, obj):
+        """Sends a message represented by a JSON-ish object."""
+        return self.run('tellraw', player, dumps(obj))
 
     def mkop(self, player):
         """Makes the respective player an operator."""
