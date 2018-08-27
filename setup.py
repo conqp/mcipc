@@ -6,7 +6,11 @@ setup(
     name='mcipc',
     author='Richard Neumann',
     author_email='<mail at richard dash neumann dot de>',
-    packages=['mcipc', 'mcipc.rcon', 'mcipc.query'],
+    packages=[
+        'mcipc',
+        'mcipc.query',
+        'mcipc.rcon',
+        'mcipc.rcon.datastructures'],
     scripts=['files/rconclt', 'files/rconshell'],
     url='https://github.com/conqp/mcipc',
     license='GPLv3',

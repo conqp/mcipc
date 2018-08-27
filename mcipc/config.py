@@ -22,7 +22,7 @@ class InvalidCredentialsError(ValueError):
     pass
 
 
-class CredentialsConfig(ConfigParser):
+class CredentialsConfig(ConfigParser):  # pylint: disable=R0901
     """Parses the RCON config file."""
 
     def __init__(self, filename):

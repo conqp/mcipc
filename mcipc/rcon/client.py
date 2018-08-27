@@ -1,6 +1,5 @@
 """High level client API."""
 
-from collections import namedtuple
 from datetime import datetime
 from locale import LC_TIME, getdefaultlocale, setlocale
 from logging import getLogger
@@ -8,6 +7,7 @@ from subprocess import PIPE, CalledProcessError, check_output
 
 from mcipc.config import FORTUNE
 from mcipc.rcon.proto import RequestIdMismatch, RawClient
+from mcipc.rcon.datastructures import Location, Players, Seed
 
 
 __all__ = ['Client']
@@ -23,27 +23,20 @@ def _tab_to_spaces(text):
     return text.replace('\t', '        ')
 
 
-class Players(namedtuple('Players', ('online', 'max', 'names'))):
-    """Online players information."""
-
-    __slots__ = ()
-
-    @classmethod
-    def from_string(cls, string):
-        """Creates the players information from the server response string."""
-        header, names = string.split(':', maxsplit=1)
-        names = [name.strip() for name in names.split(', ') if name.strip()]
-        _, _, online, _, _, _, max_, _, _ = header.split()
-        return cls(int(online), int(max_), names)
-
-
 class Client(RawClient):
     """A high-level RCON client."""
 
     @property
     def players(self):
         """Returns the players."""
-        return Players.from_string(self.run('list'))
+        response = self.run('list')
+        return Players.from_response(response)
+
+    @property
+    def seed(self):
+        """Returns the server seed."""
+        response = self.run('seed')
+        return Seed.from_response(response)
 
     def login(self, passwd):
         """Performs a login, returning False on failure."""
@@ -92,6 +85,15 @@ class Client(RawClient):
             args += [str(yaw), str(pitch)]
 
         return self.run('tp', *args)
+
+    def locate(self, structure):
+        """Locates the respective structure."""
+        response = self.run('locate', str(structure))
+        return Location.from_response(response)
+
+
+class ExtendedClient(Client):
+    """Client with some more extras."""
 
     def fortune(self, short=True, offensive=False):
         """Sends a fortune to all players."""
