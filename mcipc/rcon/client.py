@@ -10,7 +10,7 @@ from mcipc.rcon.proto import RequestIdMismatch, RawClient
 from mcipc.rcon.datastructures import Location, Players, Seed
 
 
-__all__ = ['Client']
+__all__ = ['Client', 'ExtendedClient']
 
 
 _LOGGER = getLogger(__file__)
