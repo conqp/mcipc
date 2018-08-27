@@ -12,7 +12,7 @@ __all__ = [
     'RequestIdMismatch',
     'PacketType',
     'Packet',
-    'RawClient']
+    'Client']
 
 
 LOGGER = getLogger(__file__)
@@ -52,6 +52,8 @@ class PacketType(Enum):
 class Packet(namedtuple('Packet', ('request_id', 'type', 'payload'))):
     """An RCON packet."""
 
+    __slots__ = ()
+
     def __bytes__(self):
         """Returns the packet as bytes."""
         payload = pack('<i', self.request_id)
@@ -88,7 +90,7 @@ class Packet(namedtuple('Packet', ('request_id', 'type', 'payload'))):
         return self.payload.decode()
 
 
-class RawClient(socket):
+class Client(socket):
     """An RCON client."""
 
     def __init__(self, host, port):

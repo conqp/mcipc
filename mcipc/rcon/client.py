@@ -7,7 +7,7 @@ from logging import getLogger
 from subprocess import PIPE, CalledProcessError, check_output
 
 from mcipc.config import FORTUNE
-from mcipc.rcon.proto import RequestIdMismatch, RawClient
+from mcipc.rcon.proto import RequestIdMismatch, Client as _Client
 from mcipc.rcon.datastructures import Location, Players, Seed
 
 
@@ -18,13 +18,7 @@ _LOGGER = getLogger(__file__)
 _PLAYER_OR_COORDS = TypeError('Must specify either dst_player or coords.')
 
 
-def _tab_to_spaces(text):
-    """Fixes text for better ingame chat console display."""
-
-    return text.replace('\t', '        ')
-
-
-class Client(RawClient):
+class Client(_Client):
     """A high-level RCON client."""
 
     @property
@@ -49,11 +43,11 @@ class Client(RawClient):
     def say(self, message):
         """Broadcast a message to all players."""
         _LOGGER.debug('Sending text: "%s".', message)
-        return self.run('say', _tab_to_spaces(message))
+        return self.run('say', str(message))
 
     def tell(self, player, message):
         """Whispers a message to the respective player."""
-        return self.run('tell', player, _tab_to_spaces(message))
+        return self.run('tell', player, str(message))
 
     def tellraw(self, player, obj):
         """Sends a message represented by a JSON-ish object."""
@@ -71,7 +65,7 @@ class Client(RawClient):
         """Kicks the respective player."""
         return self.run('kick', player, *reasons)
 
-    def teleport(self, player, dst_player=None, coords=None, yaw_pitch=None):
+    def teleport(self, player, *, dst_player=None, coords=None, yaw_pitch=None):
         """Teleports players."""
         args = [str(player)]
 
