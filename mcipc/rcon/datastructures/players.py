@@ -1,7 +1,7 @@
 """Information about online players."""
 
-from collections import namedtuple
 from re import compile  # pylint: disable=W0622
+from typing import NamedTuple
 
 
 __all__ = ['Players']
@@ -10,10 +10,12 @@ __all__ = ['Players']
 REGEX = compile('.+ (\\d+) .+ (\\d+) .+: (.*)')
 
 
-class Players(namedtuple('Players', ('online', 'max', 'names'))):
+class Players(NamedTuple):
     """Online players information."""
 
-    __slots__ = ()
+    online: int
+    max: int
+    names: tuple
 
     @classmethod
     def from_response(cls, text):

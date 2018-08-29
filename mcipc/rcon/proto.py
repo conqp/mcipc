@@ -1,11 +1,11 @@
 """Low-level protocol stuff."""
 
-from collections import namedtuple
 from enum import Enum
 from logging import getLogger
 from random import randint
 from socket import socket
 from struct import pack, unpack
+from typing import NamedTuple
 
 
 __all__ = [
@@ -49,10 +49,12 @@ class PacketType(Enum):
     COMMAND_RESPONSE = 0
 
 
-class Packet(namedtuple('Packet', ('request_id', 'type', 'payload'))):
+class Packet(NamedTuple):
     """An RCON packet."""
 
-    __slots__ = ()
+    request_id: int
+    type: PacketType
+    payload: bytes
 
     def __bytes__(self):
         """Returns the packet as bytes."""

@@ -1,7 +1,7 @@
 """Locations."""
 
-from collections import namedtuple
 from re import compile  # pylint: disable=W0622
+from typing import NamedTuple
 
 
 __all__ = ['Location']
@@ -21,10 +21,12 @@ def _int_or_none(string):
     return int(string)
 
 
-class Location(namedtuple('Location', ('x', 'y', 'z'))):
+class Location(NamedTuple):
     """A 3D location."""
 
-    __slots__ = ()
+    x: int
+    y: int
+    z: int
 
     @classmethod
     def from_response(cls, text):
