@@ -102,13 +102,14 @@ class Client:
         self.port = port
 
     def __enter__(self):
-        """Sets up and conntects the socket."""
+        """Conntects the socket."""
         self._socket.__enter__()
         self._socket.connect()
         return self
 
     def __exit__(self, typ, value, traceback):
-        """Disconnects the socket."""
+        """Delegates to the underlying socket's exit method."""
+        self.close()
         return self._socket().__exit__(typ, value, traceback)
 
     @property
@@ -117,8 +118,12 @@ class Client:
         return (self.host, self.port)
 
     def connect(self):
-        """Returns the respective socket."""
+        """Connects to the underlying socket."""
         return self._socket.connect(self.socket)
+
+    def close(self):
+        """Disconnects the underlying socket."""
+        return self._socket.close()
 
     def send(self, packet):
         """Sends an Packet."""
