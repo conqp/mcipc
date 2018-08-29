@@ -92,25 +92,24 @@ class Packet(NamedTuple):
         return self.payload.decode()
 
 
-class Client(socket):
+class Client:
     """An RCON client."""
 
     def __init__(self, host, port):
         """Sets host an port."""
-        super().__init__()
+        self._socket = socket()
         self.host = host
         self.port = port
 
     def __enter__(self):
         """Sets up and conntects the socket."""
-        super().__enter__()
-        self.connect()
+        self._socket.__enter__()
+        self._socket.connect()
         return self
 
-    def __exit__(self, *args):
+    def __exit__(self, typ, value, traceback):
         """Disconnects the socket."""
-        LOGGER.debug('Disconnecting from socket %s.', self.getsockname())
-        return super().__exit__(*args)
+        return self._socket().__exit__(typ, value, traceback)
 
     @property
     def socket(self):
@@ -119,25 +118,23 @@ class Client(socket):
 
     def connect(self):
         """Returns the respective socket."""
-        return super().connect(self.socket)
+        return self._socket.connect(self.socket)
 
-    def sendpacket(self, packet):
+    def send(self, packet):
         """Sends an Packet."""
-        bytes_ = bytes(packet)
-        LOGGER.debug('Sending %i bytes.', len(bytes_))
-        return self.send(bytes_)
+        return self._socket.send(bytes(packet))
 
-    def recvpacket(self):
+    def recv(self):
         """Receives a packet."""
-        length, = unpack('<i', self.recv(4))
-        payload = self.recv(length)
+        length, = unpack('<i', self._socket.recv(4))
+        payload = self._socket.recv(length)
         return Packet.from_bytes(payload)
 
     def login(self, passwd):
         """Performs a login."""
         packet = Packet.from_login(passwd)
-        self.sendpacket(packet)
-        response = self.recvpacket()
+        self.send(packet)
+        response = self.recv()
 
         if response.request_id == packet.request_id:
             return True
@@ -148,8 +145,8 @@ class Client(socket):
         """Runs a command."""
         command = ' '.join((command,) + arguments)
         packet = Packet.from_command(command)
-        self.sendpacket(packet)
-        response = self.recvpacket()
+        self.send(packet)
+        response = self.recv()
 
         if response.request_id == packet.request_id:
             return response.text
