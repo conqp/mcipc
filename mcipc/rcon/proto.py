@@ -104,9 +104,7 @@ class Client(socket):
     def __enter__(self):
         """Sets up and conntects the socket."""
         super().__enter__()
-        sock = self.socket
-        LOGGER.debug('Connecting to socket %s.', sock)
-        self.connect(sock)
+        self.connect()
         return self
 
     def __exit__(self, *args):
@@ -116,8 +114,12 @@ class Client(socket):
 
     @property
     def socket(self):
-        """Returns the respective socket."""
+        """Returns a tuple of host and port."""
         return (self.host, self.port)
+
+    def connect(self):
+        """Returns the respective socket."""
+        return super().connect(self.socket)
 
     def sendpacket(self, packet):
         """Sends an Packet."""
