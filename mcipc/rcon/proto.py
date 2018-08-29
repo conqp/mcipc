@@ -118,11 +118,11 @@ class Client:
         return (self.host, self.port)
 
     def connect(self):
-        """Connects to the underlying socket."""
+        """Conntects to the RCON server."""
         return self._socket.connect(self.socket)
 
     def close(self):
-        """Disconnects the underlying socket."""
+        """Disconnects from the RCON server."""
         return self._socket.close()
 
     def send(self, packet):
