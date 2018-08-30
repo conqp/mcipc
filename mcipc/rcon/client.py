@@ -33,36 +33,36 @@ class Client(_Client):
         response = self.run('seed')
         return Seed.from_response(response)
 
-    def deop(self, player):
+    def deop(self, player: str):
         """Revokes operator status from the respective player."""
         return self.run('deop', player)
 
-    def kick(self, player, *reasons):
+    def kick(self, player: str, *reasons):
         """Kicks the respective player."""
         return self.run('kick', player, *reasons)
 
-    def locate(self, structure) -> Location:
+    def locate(self, structure: str) -> Location:
         """Locates the respective structure."""
         response = self.run('locate', str(structure))
         return Location.from_response(response)
 
-    def login(self, passwd) -> bool:
+    def login(self, passwd: str) -> bool:
         """Performs a login, returning False on failure."""
         try:
             return super().login(passwd)
         except RequestIdMismatch:
             return False
 
-    def mkop(self, player):
+    def mkop(self, player: str):
         """Makes the respective player an operator."""
         return self.run('op', player)
 
-    def say(self, message):
+    def say(self, message: str):
         """Broadcast a message to all players."""
         _LOGGER.debug('Sending text: "%s".', message)
         return self.run('say', str(message))
 
-    def send_url(self, player, url, text=None):
+    def send_url(self, player: str, url: str, text: str = None):
         """Sends a URL to the specified player.
         If text is None, it will default to the original URL.
         """
@@ -74,7 +74,8 @@ class Client(_Client):
 
         return self.tellraw(player, json)
 
-    def teleport(self, player, *, dst_player=None, coords=None, yaw_pitch=None):
+    def teleport(self, player: str, *, dst_player: str = None,
+                 coords: tuple = None, yaw_pitch: tuple = None):
         """Teleports players."""
         args = [str(player)]
 
@@ -94,11 +95,11 @@ class Client(_Client):
 
         return self.run('tp', *args)
 
-    def tell(self, player, message):
+    def tell(self, player: str, message: str):
         """Whispers a message to the respective player."""
         return self.run('tell', player, str(message))
 
-    def tellraw(self, player, obj):
+    def tellraw(self, player: str, obj: dict):
         """Sends a message represented by a JSON-ish object."""
         return self.run('tellraw', player, dumps(obj))
 
