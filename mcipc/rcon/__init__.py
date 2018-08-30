@@ -1,6 +1,6 @@
 """RCON client library."""
 
-from mcipc.rcon.client import Client, ExtendedClient
+from mcipc.rcon.client import Client
 
 
-__all__ = ['Client', 'ExtendedClient']
+__all__ = ['Client']
