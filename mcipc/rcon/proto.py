@@ -104,7 +104,7 @@ class Client:
     def __enter__(self):
         """Conntects the socket."""
         self._socket.__enter__()
-        self._socket.connect()
+        self._socket.connect(self.socket)
         return self
 
     def __exit__(self, typ, value, traceback):
