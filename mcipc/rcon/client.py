@@ -33,30 +33,6 @@ class Client(_Client):
         response = self.run('seed')
         return Seed.from_response(response)
 
-    def login(self, passwd) -> bool:
-        """Performs a login, returning False on failure."""
-        try:
-            return super().login(passwd)
-        except RequestIdMismatch:
-            return False
-
-    def say(self, message):
-        """Broadcast a message to all players."""
-        _LOGGER.debug('Sending text: "%s".', message)
-        return self.run('say', str(message))
-
-    def tell(self, player, message):
-        """Whispers a message to the respective player."""
-        return self.run('tell', player, str(message))
-
-    def tellraw(self, player, obj):
-        """Sends a message represented by a JSON-ish object."""
-        return self.run('tellraw', player, dumps(obj))
-
-    def mkop(self, player):
-        """Makes the respective player an operator."""
-        return self.run('op', player)
-
     def deop(self, player):
         """Revokes operator status from the respective player."""
         return self.run('deop', player)
@@ -64,6 +40,39 @@ class Client(_Client):
     def kick(self, player, *reasons):
         """Kicks the respective player."""
         return self.run('kick', player, *reasons)
+
+    def locate(self, structure) -> Location:
+        """Locates the respective structure."""
+        response = self.run('locate', str(structure))
+        return Location.from_response(response)
+
+    def login(self, passwd) -> bool:
+        """Performs a login, returning False on failure."""
+        try:
+            return super().login(passwd)
+        except RequestIdMismatch:
+            return False
+
+    def mkop(self, player):
+        """Makes the respective player an operator."""
+        return self.run('op', player)
+
+    def say(self, message):
+        """Broadcast a message to all players."""
+        _LOGGER.debug('Sending text: "%s".', message)
+        return self.run('say', str(message))
+
+    def send_url(self, player, url, text=None):
+        """Sends a URL to the specified player.
+        If text is None, it will default to the original URL.
+        """
+        if text is None:
+            text = url
+
+        json = {'text': text, 'clickEvent': {
+            'action': 'open_url', 'value': url}}
+
+        return self.tellraw(player, json)
 
     def teleport(self, player, *, dst_player=None, coords=None, yaw_pitch=None):
         """Teleports players."""
@@ -85,10 +94,13 @@ class Client(_Client):
 
         return self.run('tp', *args)
 
-    def locate(self, structure) -> Location:
-        """Locates the respective structure."""
-        response = self.run('locate', str(structure))
-        return Location.from_response(response)
+    def tell(self, player, message):
+        """Whispers a message to the respective player."""
+        return self.run('tell', player, str(message))
+
+    def tellraw(self, player, obj):
+        """Sends a message represented by a JSON-ish object."""
+        return self.run('tellraw', player, dumps(obj))
 
 
 class ExtendedClient(Client):
