@@ -110,7 +110,7 @@ class Client:
     def __exit__(self, typ, value, traceback):
         """Delegates to the underlying socket's exit method."""
         self.close()
-        return self._socket().__exit__(typ, value, traceback)
+        return self._socket.__exit__(typ, value, traceback)
 
     @property
     def socket(self) -> tuple:
