@@ -22,18 +22,18 @@ class Client(_Client):
     """A high-level RCON client."""
 
     @property
-    def players(self):
+    def players(self) -> Players:
         """Returns the players."""
         response = self.run('list')
         return Players.from_response(response)
 
     @property
-    def seed(self):
+    def seed(self) -> Seed:
         """Returns the server seed."""
         response = self.run('seed')
         return Seed.from_response(response)
 
-    def login(self, passwd):
+    def login(self, passwd) -> bool:
         """Performs a login, returning False on failure."""
         try:
             return super().login(passwd)
@@ -85,7 +85,7 @@ class Client(_Client):
 
         return self.run('tp', *args)
 
-    def locate(self, structure):
+    def locate(self, structure) -> Location:
         """Locates the respective structure."""
         response = self.run('locate', str(structure))
         return Location.from_response(response)

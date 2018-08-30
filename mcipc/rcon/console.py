@@ -13,7 +13,7 @@ PS1 = 'RCON> '
 EXIT_COMMANDS = ('exit', 'quit')
 
 
-def _read(prompt, type_=None):
+def _read(prompt: str, type_=None):
     """Reads input and converts it to the respective type."""
 
     while True:
@@ -32,7 +32,7 @@ def _read(prompt, type_=None):
         return raw
 
 
-def _login(client, passwd):
+def _login(client: Client, passwd: str):
     """Performs a login."""
 
     if passwd is None:
@@ -45,7 +45,8 @@ def _login(client, passwd):
     return passwd
 
 
-def rconcmd(host=None, port=None, passwd=None, *, prompt=PS1):
+def rconcmd(host: str = None, port: int = None, passwd: str = None, *,
+            prompt: str = PS1) -> int:
     """Initializes the console."""
 
     if host is None:
