@@ -1,20 +1,14 @@
 """High level client API."""
 
-from datetime import datetime
 from json import dumps
-from locale import LC_TIME, getdefaultlocale, setlocale
-from logging import getLogger
-from subprocess import PIPE, CalledProcessError, check_output
 
-from mcipc.config import FORTUNE
 from mcipc.rcon.proto import RequestIdMismatch, Client as _Client
 from mcipc.rcon.datastructures import Location, Players, Seed
 
 
-__all__ = ['Client', 'ExtendedClient']
+__all__ = ['Client']
 
 
-_LOGGER = getLogger(__file__)
 _PLAYER_OR_COORDS = TypeError('Must specify either dst_player or coords.')
 
 
@@ -59,8 +53,7 @@ class Client(_Client):
 
     def say(self, message: str):
         """Broadcast a message to all players."""
-        _LOGGER.debug('Sending text: "%s".', message)
-        return self.run('say', str(message))
+        return self.run('say', message)
 
     def send_url(self, player: str, url: str, text: str = None):
         """Sends a URL to the specified player.
@@ -102,37 +95,3 @@ class Client(_Client):
     def tellraw(self, player: str, obj: dict):
         """Sends a message represented by a JSON-ish object."""
         return self.run('tellraw', player, dumps(obj))
-
-
-class ExtendedClient(Client):
-    """Client with some more extras."""
-
-    def fortune(self, short=True, offensive=False):
-        """Sends a fortune to all players."""
-        args = []
-
-        if short:
-            args.append('-s')
-
-        if offensive:
-            args.append('-o')
-
-        try:
-            text = check_output([FORTUNE] + args, stderr=PIPE)
-        except FileNotFoundError:
-            _LOGGER.error('%s is not available.', FORTUNE)
-        except CalledProcessError as called_process_error:
-            _LOGGER.error('Error running %s.', FORTUNE)
-            _LOGGER.debug(called_process_error.stderr.decode())
-        else:
-            text = text.decode()
-            _LOGGER.debug('Fortune text:\n%s', text)
-            return self.say(text)
-
-        return False
-
-    def datetime(self, frmt='%c'):
-        """Tells all players the current datetime."""
-        setlocale(LC_TIME, getdefaultlocale())  # Fix loacale.
-        text = datetime.now().strftime(frmt)
-        return self.say(text)

@@ -22,8 +22,8 @@ from sys import exit as exit_
 from docopt import docopt
 
 from mcipc.config import LOG_FORMAT, InvalidCredentialsError, Credentials
-from mcipc.rcon.client import ExtendedClient
 from mcipc.rcon.config import CONFIG
+from mcipc.rcon.playground import Client
 
 
 LOGGER = getLogger(__file__)
@@ -48,7 +48,7 @@ def main(options):
     if passwd is None:
         passwd = options['--passwd'] or ''
 
-    with ExtendedClient(host, port) as client:
+    with Client(host, port) as client:
         if client.login(passwd):
             if options['datetime']:
                 result = client.datetime(frmt=options['--format'])
