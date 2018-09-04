@@ -9,7 +9,7 @@ from typing import NamedTuple
 
 __all__ = [
     'RequestIdMismatch',
-    'PacketType',
+    'Type',
     'Packet',
     'Client']
 
@@ -40,12 +40,12 @@ def _rand_uint32() -> int:
     return randint(0, 4_294_967_295 + 1)
 
 
-class PacketType(Enum):
+class Type(Enum):
     """Available packet types."""
 
     LOGIN = 3
     COMMAND = 2
-    COMMAND_RESPONSE = 0
+    RESPONSE = 0
 
     def __bytes__(self):
         """Returns the integer value as little endian."""
@@ -56,7 +56,7 @@ class Packet(NamedTuple):
     """An RCON packet."""
 
     request_id: int
-    type: PacketType
+    type: Type
     payload: bytes
 
     def __bytes__(self):
@@ -79,17 +79,17 @@ class Packet(NamedTuple):
         if tail != TAIL:
             raise InvalidPacketStructureError('Invalid tail.', tail)
 
-        return cls(request_id, PacketType(type_), payload)
+        return cls(request_id, Type(type_), payload)
 
     @classmethod
     def from_command(cls, command: str):
         """Creates a command packet."""
-        return cls(_rand_uint32(), PacketType.COMMAND, command.encode())
+        return cls(_rand_uint32(), Type.COMMAND, command.encode())
 
     @classmethod
     def from_login(cls, passwd: str):
         """Creates a login packet."""
-        return cls(_rand_uint32(), PacketType.LOGIN, passwd.encode())
+        return cls(_rand_uint32(), Type.LOGIN, passwd.encode())
 
     @property
     def text(self) -> str:
