@@ -15,7 +15,7 @@ class Request(NamedTuple):
     type: Type
     session_id: int
 
-    def __bytes__(self, session_id=None):
+    def __bytes__(self):
         """Converts the packet to bytes."""
         payload = self.magic
         payload += bytes(self.type)
