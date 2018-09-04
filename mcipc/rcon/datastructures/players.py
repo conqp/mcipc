@@ -1,7 +1,7 @@
 """Information about online players."""
 
 from re import compile  # pylint: disable=W0622
-from typing import NamedTuple
+from typing import NamedTuple, Tuple
 
 
 __all__ = ['Players']
@@ -15,7 +15,7 @@ class Players(NamedTuple):
 
     online: int
     max: int
-    names: tuple
+    names: Tuple[str]
 
     @classmethod
     def from_response(cls, text):
