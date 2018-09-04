@@ -47,6 +47,10 @@ class PacketType(Enum):
     COMMAND = 2
     COMMAND_RESPONSE = 0
 
+    def __bytes__(self):
+        """Returns the integer value as little endian."""
+        return self.value.to_bytes(4, 'little')     # pylint: disable=E1101
+
 
 class Packet(NamedTuple):
     """An RCON packet."""
@@ -58,7 +62,7 @@ class Packet(NamedTuple):
     def __bytes__(self):
         """Returns the packet as bytes."""
         payload = self.request_id.to_bytes(4, 'little')
-        payload += self.type.to_bytes(4, 'little')
+        payload += bytes(self.type)
         payload += self.payload
         payload += TAIL
         size = len(payload).to_bytes(4, 'little')
