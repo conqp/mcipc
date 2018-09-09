@@ -10,7 +10,7 @@ __all__ = ['Client']
 class Client(BaseClient):
     """A Query client."""
 
-    def __init__(self, host, port):
+    def __init__(self, host: str, port: int):
         """Sets the challenge token."""
         super().__init__(host, port)
         self._challenge_token = None
@@ -24,7 +24,7 @@ class Client(BaseClient):
 
         return self
 
-    def _recv_all(self, buffer=4096):
+    def _recv_all(self, buffer: int = 4096):
         """Recevies all bytes."""
         bytes_ = b''
 
@@ -37,10 +37,10 @@ class Client(BaseClient):
 
         return bytes_
 
-    def communicate(self, packet, response_type=None):
+    def communicate(self, packet, response_type=None, *, buffer: int = 4096):
         """Sends and receives a packet."""
         self._socket.send(bytes(packet))
-        response = self._recv_all()
+        response = self._recv_all(buffer=buffer)
 
         if response_type is not None:
             return response_type.from_bytes(response)
