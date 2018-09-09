@@ -17,9 +17,7 @@ Options:
     --help, -h          Shows this page.
 """
 from logging import DEBUG, INFO, basicConfig, getLogger
-from sys import exit as exit_
-
-from docopt import docopt
+from sys import exit as exit_, stderr
 
 from mcipc.config import LOG_FORMAT, InvalidCredentialsError, Credentials
 from mcipc.rcon.config import CONFIG
@@ -29,9 +27,16 @@ from mcipc.rcon.playground import Client
 LOGGER = getLogger(__file__)
 
 
-def main(options):
+def main():
     """Runs the RCON client."""
 
+    try:
+        from docopt import docopt
+    except ImportError:
+        print('docopt not installed. CLI not available.', file=stderr)
+        exit_(3)
+
+    options = docopt(__doc__)
     log_level = DEBUG if options['--debug'] else INFO
     basicConfig(level=log_level, format=LOG_FORMAT)
     server = options['<server>']
@@ -67,4 +72,4 @@ def main(options):
 
 
 if __name__ == '__main__':
-    main(docopt(__doc__))
+    main()
