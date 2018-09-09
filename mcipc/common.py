@@ -1,6 +1,6 @@
 """Stuff, common to Query and RCON."""
 
-from socket import socket
+from socket import SOCK_STREAM, socket
 
 
 __all__ = ['BaseClient']
@@ -9,9 +9,9 @@ __all__ = ['BaseClient']
 class BaseClient:
     """A basic client."""
 
-    def __init__(self, host: str, port: int):
+    def __init__(self, host: str, port: int, type=SOCK_STREAM):
         """Sets host an port."""
-        self._socket = socket()
+        self._socket = socket(type=type)
         self.host = host
         self.port = port
 

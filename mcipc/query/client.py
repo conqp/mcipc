@@ -1,5 +1,7 @@
 """Query client library."""
 
+from socket import SOCK_DGRAM
+
 from mcipc.common import BaseClient
 from mcipc.query.proto import basic_stats, full_stats, handshake
 
@@ -12,7 +14,7 @@ class Client(BaseClient):
 
     def __init__(self, host: str, port: int):
         """Sets the challenge token."""
-        super().__init__(host, port)
+        super().__init__(host, port, type=SOCK_DGRAM)
         self._challenge_token = None
 
     def __enter__(self):
