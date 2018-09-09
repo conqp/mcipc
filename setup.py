@@ -9,6 +9,7 @@ setup(
     packages=[
         'mcipc',
         'mcipc.query',
+        'mcipc.query.proto',
         'mcipc.rcon',
         'mcipc.rcon.datastructures'],
     scripts=['files/rconclt', 'files/rconshell'],
