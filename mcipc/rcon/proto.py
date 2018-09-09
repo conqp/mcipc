@@ -83,7 +83,7 @@ class Packet(NamedTuple):
 class Client(BaseClient):
     """An RCON client."""
 
-    def communicate(self, packet: packet) -> Packet:
+    def communicate(self, packet: Packet) -> Packet:
         """Sends and receives a packet."""
         self._socket.send(bytes(packet))
         header = self._socket.recv(4)
