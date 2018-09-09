@@ -6,7 +6,7 @@ from typing import NamedTuple
 from mcipc.query.proto.common import MAGIC, random_session_id, Type
 
 
-__all__ = ['Request', 'Response']
+__all__ = ['Request', 'BasicStats']
 
 
 class Request(NamedTuple):
@@ -36,7 +36,7 @@ class Request(NamedTuple):
         return cls(MAGIC, Type.STAT, session_id, challenge_token)
 
 
-class Response(NamedTuple):
+class BasicStats(NamedTuple):
     """Basic statistics response packet."""
 
     type: Type
