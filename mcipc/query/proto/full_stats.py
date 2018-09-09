@@ -78,16 +78,16 @@ def plugins_to_dict(string):
 def stats_from_dict(dictionary):
     """Yields statistics options from the provided dictionary."""
 
-    yield dictionary['hostname']
-    yield dictionary['gametype']
-    yield dictionary['game_id']
-    yield dictionary['version']
-    yield plugins_to_dict(dictionary['plugins'])
-    yield dictionary['map']
-    yield int(dictionary['numplayers'])
-    yield int(dictionary['maxplayers'])
-    yield int(dictionary['hostport'])
-    yield IPv4Address(dictionary['hostip'])
+    yield dictionary['hostname'].decode('latin-1')
+    yield dictionary['gametype'].decode()
+    yield dictionary['game_id'].decode()
+    yield dictionary['version'].decode()
+    yield plugins_to_dict(dictionary['plugins'].decode('latin-1'))
+    yield dictionary['map'].decode()
+    yield int(dictionary['numplayers'].decode())
+    yield int(dictionary['maxplayers'].decode())
+    yield int(dictionary['hostport'].decode())
+    yield IPv4Address(dictionary['hostip'].decode())
 
 
 class Request(NamedTuple):
@@ -142,9 +142,8 @@ class FullStats(NamedTuple):
         type_ = int.from_bytes(bytes_[0:1], 'big')
         session_id = int.from_bytes(bytes_[1:5], 'big')
         index = 16  # Discard padding.
-        index, values = get_dict(bytes_[index:])
+        index, stats = get_dict(bytes_[index:])
         index += 16 + 1     # Discard additional null byte.
-        stats = {key.decode(): value.decode() for key, value in values.items()}
         index += 10     # Discard padding.
         players = tuple(player.decode() for player in items(bytes_[index:]))
         return cls(type_, session_id, *stats_from_dict(stats), players)
