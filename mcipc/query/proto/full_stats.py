@@ -6,12 +6,11 @@ from typing import NamedTuple
 from mcipc.query.proto.common import MAGIC, random_session_id, Type
 
 
-__all__ = ['Request', 'FullStats']
+__all__ = ['Request', 'Response']
 
 
 PADDING = 0
 ZERO = b'\0'
-DOUBLE_ZERO = ZERO + ZERO
 
 
 def get_dict(bytes_):
@@ -76,6 +75,21 @@ def plugins_to_dict(string):
     return {mod: tuple(plugins)}
 
 
+def stats_from_dict(dictionary):
+    """Yields statistics options from the provided dictionary."""
+
+    yield dictionary['hostname']
+    yield dictionary['gametype']
+    yield dictionary['game_id']
+    yield dictionary['version']
+    yield plugins_to_dict(dictionary['plugins'])
+    yield dictionary['map']
+    yield int(dictionary['numplayers'])
+    yield int(dictionary['maxplayers'])
+    yield int(dictionary['hostport'])
+    yield IPv4Address(dictionary['hostip'])
+
+
 class Request(NamedTuple):
     """Basic statistics request packet."""
 
@@ -105,8 +119,8 @@ class Request(NamedTuple):
         return cls(MAGIC, Type.STAT, session_id, challenge_token, PADDING)
 
 
-class FullStats(NamedTuple):
-    """Server information."""
+class Response(NamedTuple):
+    """Full statistics response."""
 
     type: Type
     session_id: int
@@ -131,23 +145,6 @@ class FullStats(NamedTuple):
         index, values = get_dict(bytes_[index:])
         index += 16 + 1     # Discard additional null byte.
         stats = {key.decode(): value.decode() for key, value in values.items()}
-        host_name = stats['hostname']
-        game_type = stats['gametype']
-        game_id = stats['game_id']
-        version = stats['version']
-        plugins = stats['plugins']
-        plugins = plugins_to_dict(plugins)
-        map_ = stats['map']
-        num_players = stats['numplayers']
-        num_players = int(num_players)
-        max_players = stats['maxplayers']
-        max_players = int(max_players)
-        host_port = stats['hostport']
-        host_port = int(host_port)
-        host_ip = stats['hostip']
-        host_ip = IPv4Address(host_ip)
         index += 10     # Discard padding.
         players = tuple(player.decode() for player in items(bytes_[index:]))
-        return cls(
-            type_, session_id, host_name, game_type, game_id, version, plugins,
-            map_, num_players, max_players, host_port, host_ip, players)
+        return cls(type_, session_id, *stats_from_dict(stats), players)
