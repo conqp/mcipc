@@ -78,16 +78,16 @@ def plugins_to_dict(string):
 def stats_from_dict(dictionary):
     """Yields statistics options from the provided dictionary."""
 
-    yield dictionary['hostname'].decode('latin-1')
-    yield dictionary['gametype'].decode()
-    yield dictionary['game_id'].decode()
-    yield dictionary['version'].decode()
-    yield plugins_to_dict(dictionary['plugins'].decode('latin-1'))
-    yield dictionary['map'].decode()
-    yield int(dictionary['numplayers'].decode())
-    yield int(dictionary['maxplayers'].decode())
-    yield int(dictionary['hostport'].decode())
-    yield IPv4Address(dictionary['hostip'].decode())
+    yield dictionary[b'hostname'].decode('latin-1')
+    yield dictionary[b'gametype'].decode()
+    yield dictionary[b'game_id'].decode()
+    yield dictionary[b'version'].decode()
+    yield plugins_to_dict(dictionary[b'plugins'].decode('latin-1'))
+    yield dictionary[b'map'].decode()
+    yield int(dictionary[b'numplayers'].decode())
+    yield int(dictionary[b'maxplayers'].decode())
+    yield int(dictionary[b'hostport'].decode())
+    yield IPv4Address(dictionary[b'hostip'].decode())
 
 
 class Request(NamedTuple):
