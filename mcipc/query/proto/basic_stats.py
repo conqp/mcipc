@@ -56,14 +56,15 @@ class BasicStats(NamedTuple):
         session_id = int.from_bytes(bytes_[1:5], 'big')
 
         try:
-            *blocks, port_ip, _ = bytes_[5:].split(b'\0')
+            motd, *blocks, port_ip, _ = bytes_[5:].split(b'\0')
         except ValueError:
             raise ValueError('Unexpected amount of Null terminated strings.')
 
+        motd = motd.decode('latin-1')
         strings = [block.decode() for block in blocks]
 
         try:
-            motd, game_type, map_, num_players, max_players = strings
+            game_type, map_, num_players, max_players = strings
         except ValueError:
             raise ValueError('Unexpected amount of string fields.')
 
