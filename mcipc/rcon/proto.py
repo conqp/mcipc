@@ -28,7 +28,7 @@ class Type(Enum):
 
     LOGIN = 3
     COMMAND = 2
-    COMMAND_RESPONSE = 0
+    RESPONSE = 0
 
     def __bytes__(self):
         """Returns the integer value as little endian."""
