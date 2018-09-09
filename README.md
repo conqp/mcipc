@@ -101,6 +101,12 @@ The type of `mansion` is `Location` which describes the x-y-z location of the ne
 
 *HINT:* The y-component of a location may be `None`, which represents the special Minectaft vector component `'~'`.
 
+## Scripts
+This library also ships a couple of scripts intended as a proof-of-concept.
+
+* `rconclt`: An `RCON` client.
+* `rconshell`: An interactive `RCON` shell.
+
 ## License
 Copyright (C) 2018 Richard Neumann <mail at richard dash neumann period de>
 
