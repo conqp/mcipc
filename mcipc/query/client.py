@@ -57,11 +57,11 @@ class Client(BaseClient):
     @property
     def basic_stats(self):
         """Returns basic stats"""
-        request = basic_stats.Request(self._challenge_token)
+        request = basic_stats.Request.create(self._challenge_token)
         return self.communicate(request, basic_stats.BasicStats)
 
     @property
     def full_stats(self):
         """Returns full stats"""
-        request = full_stats.Request(self._challenge_token)
+        request = full_stats.Request.create(self._challenge_token)
         return self.communicate(request, full_stats.FullStats)
