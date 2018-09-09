@@ -24,10 +24,23 @@ class Client(BaseClient):
 
         return self
 
+    def _recv_all(self, buffer=4096):
+        """Recevies all bytes."""
+        bytes_ = b''
+
+        while True:
+            chunk = self._socket.recv(buffer)
+            bytes_ += chunk
+
+            if len(chunk) < buffer:
+                break
+
+        return bytes_
+
     def communicate(self, packet, response_type=None):
         """Sends and receives a packet."""
         self._socket.send(bytes(packet))
-        response = self._socket.recv()
+        response = self._recv_all()
 
         if response_type is not None:
             return response_type.from_bytes(response)
