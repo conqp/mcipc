@@ -2,8 +2,9 @@
 
 from getpass import getpass
 
-from mcipc.rcon.proto import RequestIdMismatch
 from mcipc.rcon.client import Client
+from mcipc.rcon.exceptions import RequestIdMismatchError, \
+    InvalidCredentialsError
 
 
 __all__ = ['rconcmd']
@@ -38,9 +39,14 @@ def _login(client: Client, passwd: str):
     if passwd is None:
         passwd = getpass('Password: ')
 
-    while not client.login(passwd):
-        print('Invalid password.')
-        passwd = getpass('Password: ')
+    logged_in = False
+
+    while not logged_in:
+        try:
+            logged_in = client.login(passwd)
+        except InvalidCredentialsError:
+            print('Invalid password.')
+            passwd = getpass('Password: ')
 
     return passwd
 
@@ -87,7 +93,7 @@ def rconcmd(host: str = None, port: int = None, passwd: str = None, *,
 
             try:
                 result = client.run(command, *args)
-            except RequestIdMismatch:
+            except RequestIdMismatchError:
                 print('Session timed out. Please login again.')
 
                 try:

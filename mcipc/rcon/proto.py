@@ -3,35 +3,18 @@
 from enum import Enum
 from logging import getLogger
 from random import randint
-from socket import socket
 from typing import NamedTuple
 
+from mcipc.common import BaseClient
+from mcipc.rcon.exceptions import InvalidPacketStructureError, \
+    RequestIdMismatchError, InvalidCredentialsError
 
-__all__ = [
-    'RequestIdMismatch',
-    'PacketType',
-    'Packet',
-    'Client']
+
+__all__ = ['Type', 'Packet', 'Client']
 
 
 LOGGER = getLogger(__file__)
 TAIL = b'\0\0'
-
-
-class InvalidPacketStructureError(Exception):
-    """Indicates an invalid packet structure."""
-
-    pass
-
-
-class RequestIdMismatch(Exception):
-    """Indicates that the sent and received request IDs do not match."""
-
-    def __init__(self, sent, received):
-        """Sets the sent and received request IDs."""
-        super().__init__(sent, received)
-        self.sent = sent
-        self.received = received
 
 
 def _rand_uint32() -> int:
@@ -40,7 +23,7 @@ def _rand_uint32() -> int:
     return randint(0, 4_294_967_295 + 1)
 
 
-class PacketType(Enum):
+class Type(Enum):
     """Available packet types."""
 
     LOGIN = 3
@@ -56,7 +39,7 @@ class Packet(NamedTuple):
     """An RCON packet."""
 
     request_id: int
-    type: PacketType
+    type: Type
     payload: bytes
 
     def __bytes__(self):
@@ -79,17 +62,17 @@ class Packet(NamedTuple):
         if tail != TAIL:
             raise InvalidPacketStructureError('Invalid tail.', tail)
 
-        return cls(request_id, PacketType(type_), payload)
+        return cls(request_id, Type(type_), payload)
 
     @classmethod
     def from_command(cls, command: str):
         """Creates a command packet."""
-        return cls(_rand_uint32(), PacketType.COMMAND, command.encode())
+        return cls(_rand_uint32(), Type.COMMAND, command.encode())
 
     @classmethod
     def from_login(cls, passwd: str):
         """Creates a login packet."""
-        return cls(_rand_uint32(), PacketType.LOGIN, passwd.encode())
+        return cls(_rand_uint32(), Type.LOGIN, passwd.encode())
 
     @property
     def text(self) -> str:
@@ -97,69 +80,36 @@ class Packet(NamedTuple):
         return self.payload.decode()
 
 
-class Client:
+class Client(BaseClient):
     """An RCON client."""
 
-    def __init__(self, host: str, port: int):
-        """Sets host an port."""
-        self._socket = socket()
-        self.host = host
-        self.port = port
-
-    def __enter__(self):
-        """Conntects the socket."""
-        self._socket.__enter__()
-        self._socket.connect(self.socket)
-        return self
-
-    def __exit__(self, typ, value, traceback):
-        """Delegates to the underlying socket's exit method."""
-        self.close()
-        return self._socket.__exit__(typ, value, traceback)
-
-    @property
-    def socket(self) -> tuple:
-        """Returns a tuple of host and port."""
-        return (self.host, self.port)
-
-    def connect(self):
-        """Conntects to the RCON server."""
-        return self._socket.connect(self.socket)
-
-    def close(self):
-        """Disconnects from the RCON server."""
-        return self._socket.close()
-
-    def send(self, packet: Packet):
-        """Sends an Packet."""
-        return self._socket.send(bytes(packet))
-
-    def recv(self) -> Packet:
-        """Receives a packet."""
+    def communicate(self, packet: packet) -> Packet:
+        """Sends and receives a packet."""
+        self._socket.send(bytes(packet))
         header = self._socket.recv(4)
         length = int.from_bytes(header, 'little')
         payload = self._socket.recv(length)
-        return Packet.from_bytes(payload)
+        response = Packet.from_bytes(payload)
+
+        if response.request_id == packet.request_id:
+            return response
+
+        raise RequestIdMismatchError(packet.request_id, response.request_id)
 
     def login(self, passwd: str) -> bool:
         """Performs a login."""
         packet = Packet.from_login(passwd)
-        self.send(packet)
-        response = self.recv()
 
-        if response.request_id == packet.request_id:
-            return True
+        try:
+            self.communicate(packet)
+        except RequestIdMismatchError:
+            raise InvalidCredentialsError()
 
-        raise RequestIdMismatch(packet.request_id, response.request_id)
+        return True
 
     def run(self, command: str, *arguments: str) -> str:
         """Runs a command."""
         command = ' '.join((command,) + arguments)
         packet = Packet.from_command(command)
-        self.send(packet)
-        response = self.recv()
-
-        if response.request_id == packet.request_id:
-            return response.text
-
-        raise RequestIdMismatch(packet.request_id, response.request_id)
+        response = self.communicate(packet)
+        return response.text

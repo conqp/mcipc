@@ -2,8 +2,8 @@
 
 from json import dumps
 
-from mcipc.rcon.proto import RequestIdMismatch, Client as _Client
 from mcipc.rcon.datastructures import Location, Players, Seed
+from mcipc.rcon.proto import Client as _Client
 
 
 __all__ = ['Client']
@@ -39,13 +39,6 @@ class Client(_Client):
         """Locates the respective structure."""
         response = self.run('locate', str(structure))
         return Location.from_response(response)
-
-    def login(self, passwd: str) -> bool:
-        """Performs a login, returning False on failure."""
-        try:
-            return super().login(passwd)
-        except RequestIdMismatch:
-            return False
 
     def mkop(self, player: str):
         """Makes the respective player an operator."""
