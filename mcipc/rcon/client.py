@@ -28,7 +28,7 @@ class AdminMixin:
         return self.run('op', player)
 
     def teleport(self, player: str, *, dst_player: str = None,
-                 coords: tuple = None, yaw_pitch: tuple = None) -> str:
+                 coords: tuple = None, orientation: tuple = None) -> str:
         """Teleports players."""
         args = [str(player)]
 
@@ -42,8 +42,8 @@ class AdminMixin:
         else:
             raise _PLAYER_OR_COORDS
 
-        if yaw_pitch is not None:
-            yaw, pitch = yaw_pitch
+        if orientation is not None:
+            yaw, pitch = orientation
             args += [str(yaw), str(pitch)]
 
         return self.run('tp', *args)
