@@ -12,56 +12,23 @@ __all__ = ['Client']
 _PLAYER_OR_COORDS = TypeError('Must specify either dst_player or coords.')
 
 
-class Client(_Client):
-    """A high-level RCON client."""
+class AdminMixin:
+    """Administrative methods."""
 
-    @property
-    def players(self) -> Players:
-        """Returns the players."""
-        response = self.run('list')
-        return Players.from_response(response)
-
-    @property
-    def seed(self) -> Seed:
-        """Returns the server seed."""
-        response = self.run('seed')
-        return Seed.from_response(response)
-
-    def deop(self, player: str):
+    def deop(self, player: str) -> str:
         """Revokes operator status from the respective player."""
         return self.run('deop', player)
 
-    def kick(self, player: str, *reasons):
+    def kick(self, player: str, *reasons) -> str:
         """Kicks the respective player."""
         return self.run('kick', player, *reasons)
 
-    def locate(self, structure: str) -> Location:
-        """Locates the respective structure."""
-        response = self.run('locate', str(structure))
-        return Location.from_response(response)
-
-    def mkop(self, player: str):
+    def mkop(self, player: str) -> str:
         """Makes the respective player an operator."""
         return self.run('op', player)
 
-    def say(self, message: str):
-        """Broadcast a message to all players."""
-        return self.run('say', message)
-
-    def send_url(self, player: str, url: str, text: str = None):
-        """Sends a URL to the specified player.
-        If text is None, it will default to the original URL.
-        """
-        if text is None:
-            text = url
-
-        json = {'text': text, 'clickEvent': {
-            'action': 'open_url', 'value': url}}
-
-        return self.tellraw(player, json)
-
     def teleport(self, player: str, *, dst_player: str = None,
-                 coords: tuple = None, yaw_pitch: tuple = None):
+                 coords: tuple = None, yaw_pitch: tuple = None) -> str:
         """Teleports players."""
         args = [str(player)]
 
@@ -81,10 +48,63 @@ class Client(_Client):
 
         return self.run('tp', *args)
 
-    def tell(self, player: str, message: str):
+
+class ChatMixin:
+    """Mixin provinding chat-related methods."""
+
+    def me(self, message: str) -> str:  # pylint: disable=C0103
+        """Sends a message from RCON in first-person perspective."""
+        return self.run('me', message)
+
+    def msg(self, player: str, message: str) -> str:
         """Whispers a message to the respective player."""
         return self.run('tell', player, str(message))
 
-    def tellraw(self, player: str, obj: dict):
+    w = tell = msg  # Aliases.
+
+    def say(self, message: str) -> str:
+        """Broadcast a message to all players."""
+        return self.run('say', message)
+
+    def send_url(self, player: str, url: str, text: str = None) -> str:
+        """Sends a URL to the specified player.
+        If text is None, it will default to the original URL.
+        """
+        if text is None:
+            text = url
+
+        json = {'text': text, 'clickEvent': {
+            'action': 'open_url', 'value': url}}
+
+        return self.tellraw(player, json)
+
+    def tellraw(self, player: str, obj: dict) -> str:
         """Sends a message represented by a JSON-ish object."""
         return self.run('tellraw', player, dumps(obj))
+
+
+class InfoMixin:
+    """Server information mixin."""
+
+    @property
+    def players(self) -> Players:
+        """Returns the players."""
+        response = self.run('list')
+        return Players.from_response(response)
+
+    @property
+    def seed(self) -> Seed:
+        """Returns the server seed."""
+        response = self.run('seed')
+        return Seed.from_response(response)
+
+    def locate(self, structure: str) -> Location:
+        """Locates the respective structure."""
+        response = self.run('locate', str(structure))
+        return Location.from_response(response)
+
+
+class Client(_Client, AdminMixin, ChatMixin, InfoMixin):
+    """A high-level RCON client."""
+
+    pass
