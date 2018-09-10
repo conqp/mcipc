@@ -5,9 +5,9 @@ from queue import Empty, Queue
 from re import compile  # pylint: disable=W0622
 
 from mcipc.srvwrap.common import Daemon
+from mcipc.srvwrap.events import MsgCancel
 from mcipc.srvwrap.ipc.errors import IPCError
 from mcipc.srvwrap.ipc.messages import IPCCommand, IPCResponse
-from mcipc.srvwrap.messages import MsgCancel
 from mcipc.srvwrap.zmq import ZMQServer
 
 

@@ -2,7 +2,7 @@
 
 from subprocess import PIPE, Popen
 
-from mcipc.srvwrap.event_processor import EventProcessor
+from mcipc.srvwrap.events import EventProcessor
 from mcipc.srvwrap.ipc import IPCServer
 
 

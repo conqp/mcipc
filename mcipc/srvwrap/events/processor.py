@@ -4,8 +4,8 @@ from logging import getLogger
 from threading import Lock
 
 from mcipc.srvwrap.common import Daemon
+from mcipc.srvwrap.events.messages import MsgCancel
 from mcipc.srvwrap.exceptions import CallbackExistsError
-from mcipc.srvwrap.messages import MsgCancel
 
 
 __all__ = ['EventProcessor']
