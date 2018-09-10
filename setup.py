@@ -13,6 +13,7 @@ setup(
         'mcipc.rcon',
         'mcipc.rcon.datastructures',
         'mcipc.srvwrap',
+        'mcipc.srvwrap.events',
         'mcipc.srvwrap.ipc'],
     scripts=['files/rconclt', 'files/rconshell', 'files/srvwrap-test'],
     url='https://github.com/conqp/mcipc',
