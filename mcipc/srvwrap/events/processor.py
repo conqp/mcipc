@@ -18,10 +18,10 @@ DICT_LOCK = Lock()
 class _RegisteredCallback:
     """Temporarily registers a callback."""
 
-    def __init__(self, name, event_processor):
-        """Sets callback and event processor."""
-        self.name = name
+    def __init__(self, event_processor, name):
+        """Sets event processor and callback."""
         self.event_processor = event_processor
+        self.name = name
 
     def __enter__(self):
         """Registers the callback."""
@@ -79,7 +79,7 @@ class EventProcessor(Daemon):
         with DICT_LOCK:
             self._callbacks[name] = callback
 
-        return _RegisteredCallback(name, self)
+        return _RegisteredCallback(self, name)
 
     def cancel(self, callback_or_name):
         """Cancels the callback or name."""
