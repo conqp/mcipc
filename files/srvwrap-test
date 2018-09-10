@@ -1,0 +1,42 @@
+#! /usr/bin/env python3
+"""Server wrapper test."""
+
+from ipaddress import IPv4Address
+from re import compile
+from time import sleep
+
+from mcipc.srvwrap.wrapper import spawn
+from mcipc.srvwrap.messages import MsgCancel
+from mcipc.srvwrap.zmq import ZMQClient
+
+
+PLAYERS = compile('.+ (\\d+) .+ (\\d+) .+: (.*)')
+
+
+def log_event(log):
+
+    def inner(event):
+
+        text = event.decode()
+        log.write(text)
+        log.flush()
+
+    return inner
+
+
+def main():
+
+    command = ('/usr/bin/java', '-jar', 'server.jar', 'nogui')
+    host = IPv4Address('127.0.0.1')
+    port = 5000
+    cwd = '/home/rne/Downloads/minecraft_server'
+    event_processor = spawn(command, host, port, cwd=cwd)
+    logfile = '/home/rne/Downloads/minecraft_server/events.log'
+
+    with open(logfile, 'w') as tmp:
+        event_processor.register(log_event(tmp))
+        event_processor.subprocess.wait()
+
+
+if __name__ == '__main__':
+    main()
