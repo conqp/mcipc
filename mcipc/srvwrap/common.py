@@ -15,6 +15,15 @@ class Daemon:
         self._thread = None
         self._terminate = False
 
+    def __enter__(self):
+        """Starts the daemon."""
+        self.start()
+        return self
+
+    def __exit__(self, *_):
+        """Stops the daemon."""
+        self.stop()
+
     @property
     def status(self):
         """Returns True iff the daemon is running else False."""
@@ -34,10 +43,9 @@ class Daemon:
 
         return False
 
-    def stop(self, wait=False):
+    def stop(self):
         """Stops the server."""
         self._terminate = True
 
-        if wait:
-            with suppress(AttributeError):
-                self._thread.join()
+        with suppress(AttributeError):
+            self._thread.join()

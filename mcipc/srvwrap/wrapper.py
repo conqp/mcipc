@@ -13,11 +13,7 @@ def spawn(command, host, port, cwd=None):
     """Spawns a server wrapper."""
 
     server = Popen(command, cwd=cwd, stdin=PIPE, stdout=PIPE)
-    event_processor = EventProcessor(server)
-    event_processor.start()
-    ipc_server = IPCServer(host, port, server, event_processor)
-    ipc_server.start()
-    result = server.wait()
-    ipc_server.stop()
-    event_processor.stop()
-    return result
+
+    with EventProcessor(server) as event_processor:
+        with IPCServer(host, port, server, event_processor):
+            return server.wait()
