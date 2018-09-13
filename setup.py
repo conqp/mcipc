@@ -16,6 +16,6 @@ setup(
         'mcipc.srvwrap.events',
         'mcipc.srvwrap.ipc'],
     scripts=['files/rconclt', 'files/rconshell', 'files/srvwrap-test'],
-    url='https://github.com/conqp/mcipc',
+    url='https://gitlab.com/coNQP/mcipc',
     license='GPLv3',
     description='A Minecraft server inter-process communication library.')
