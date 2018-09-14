@@ -16,10 +16,8 @@ The following example assumes a server running on `127.0.0.1` and on the default
 
     from mcipc.query import Client
 
-
     with Client('127.0.0.1', 25565) as client:
         basic_stats = client.basic_stats
-
 
     print(basic_stats)
 
@@ -40,10 +38,8 @@ For retrieving full stats of a server, the same premises apply.
 
     from mcipc.query import Client
 
-
     with Client('127.0.0.1', 25565) as client:
         full_stats = client.full_stats
-
 
     print(full_stats)
 
@@ -74,13 +70,11 @@ The following example assumes a server running on `127.0.0.1` and on the RCON po
 
     from mcipc.rcon import Client
 
-
     with Client('127.0.0.1', 5000) as client:
         client.login('mysecretpassword')    # Perform initial login.
         seed = client.seed                  # Get the server's seed.
         players = client.players            # Get the server's players info.
         mansion = client.locate('Mansion')  # Get the next mansion's location.
-
 
     print(seed)
     print(players)
