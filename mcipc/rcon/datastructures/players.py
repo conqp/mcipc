@@ -22,5 +22,5 @@ class Players(NamedTuple):
         """Creates the players information from a server response."""
         match = REGEX.fullmatch(text)
         online, max_, names = match.groups()
-        names = [name.strip() for name in names.split(', ') if name.strip()]
+        names = filter(None, map(lambda name: name.strip(), names.split(', ')))
         return cls(int(online), int(max_), tuple(names))
