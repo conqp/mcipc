@@ -70,12 +70,13 @@ To enable `RCON` on a Minecraft server, you must set `enable-rcon = true` in the
 server's `server.properties` file.
 Furthermore, you need to specify a port for the RCON server by setting `rcon.port = <port>`
 and a password by setting `rcon.password = <password>` in the same file.  
-The following example assumes a server running on `127.0.0.1` and on the RCON port `5000`:
+The following example assumes a server running on `127.0.0.1` and on the RCON port `5000` with password `'mysecretpassword'`:
 
     from mcipc.rcon import Client
 
 
     with Client('127.0.0.1', 5000) as client:
+        client.login('mysecretpassword')    # Perform initial login.
         seed = client.seed                  # Get the server's seed.
         players = client.players            # Get the server's players info.
         mansion = client.locate('Mansion')  # Get the next mansion's location.
