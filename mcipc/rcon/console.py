@@ -3,8 +3,8 @@
 from getpass import getpass
 
 from mcipc.rcon.client import Client
-from mcipc.rcon.exceptions import RequestIdMismatchError, \
-    InvalidCredentialsError
+from mcipc.rcon.exceptions import InvalidCredentialsError
+from mcipc.rcon.exceptions import RequestIdMismatchError
 
 
 __all__ = ['rconcmd']

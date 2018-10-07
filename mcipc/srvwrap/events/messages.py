@@ -1,5 +1,6 @@
 """Exceptions that are internal messages."""
 
+
 __all__ = ['MsgCancel']
 
 

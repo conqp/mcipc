@@ -6,8 +6,9 @@ from random import randint
 from typing import NamedTuple
 
 from mcipc.common import BaseClient
-from mcipc.rcon.exceptions import InvalidPacketStructureError, \
-    RequestIdMismatchError, InvalidCredentialsError
+from mcipc.rcon.exceptions import InvalidCredentialsError
+from mcipc.rcon.exceptions import InvalidPacketStructureError
+from mcipc.rcon.exceptions import RequestIdMismatchError
 
 
 __all__ = ['Type', 'Packet', 'Client']
