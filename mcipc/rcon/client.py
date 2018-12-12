@@ -75,13 +75,12 @@ class ChatMixin:
         if text is None:
             text = url
 
-        json = {'text': text, 'clickEvent': {
-            'action': 'open_url', 'value': url}}
-
+        click_event = {'action': 'open_url', 'value': url}
+        json = {'text': text, 'clickEvent': click_event}
         return self.tellraw(player, json)
 
     def tellraw(self, player: str, obj: dict) -> str:
-        """Sends a message represented by a JSON-ish object."""
+        """Sends a message represented by a JSON-ish dict."""
         return self.run('tellraw', player, dumps(obj))
 
 
