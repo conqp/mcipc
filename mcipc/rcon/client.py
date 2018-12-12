@@ -48,6 +48,8 @@ class AdminMixin:
 
         return self.run('tp', *args)
 
+    tp = teleport   # Alias.
+
 
 class ChatMixin:
     """Mixin provinding chat-related methods."""
