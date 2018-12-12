@@ -103,8 +103,18 @@ class InfoMixin:
         response = self.run('locate', str(structure))
         return Location.from_response(response)
 
+    def help(self, command: str = None) -> tuple:
+        """Returns help about commands."""
+        if command is None:
+            text = self.run('help')
+        else:
+            text = self.run('help', command)
+
+        items = filter(None, text.split('/'))
+        return tuple(items)
+
 
 class Client(_Client, AdminMixin, ChatMixin, InfoMixin):
     """A high-level RCON client."""
 
-    pass
+    pass    # pylint: disable=W0107
