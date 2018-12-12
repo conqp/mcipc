@@ -108,9 +108,13 @@ class Client(BaseClient):
 
         return True
 
-    def run(self, command: str, *arguments: str) -> str:
+    def run(self, command: str, *arguments: str, raw: bool = False) -> str:
         """Runs a command."""
         command = ' '.join((command,) + arguments)
         packet = Packet.from_command(command)
         response = self.communicate(packet)
+        
+        if raw:
+            return response
+
         return response.text
