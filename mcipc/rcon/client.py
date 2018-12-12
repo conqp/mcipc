@@ -100,11 +100,6 @@ class InfoMixin:
         response = self.run('seed')
         return Seed.from_response(response)
 
-    def locate(self, structure: str) -> Location:
-        """Locates the respective structure."""
-        response = self.run('locate', str(structure))
-        return Location.from_response(response)
-
     def help(self, command: str = None) -> tuple:
         """Returns help about commands."""
         if command is None:
@@ -114,6 +109,11 @@ class InfoMixin:
 
         items = filter(None, text.split('/'))
         return tuple(items)
+
+    def locate(self, structure: str) -> Location:
+        """Locates the respective structure."""
+        response = self.run('locate', str(structure))
+        return Location.from_response(response)
 
 
 class Client(_Client, AdminMixin, ChatMixin, InfoMixin):
