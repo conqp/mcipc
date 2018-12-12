@@ -113,8 +113,4 @@ class Client(BaseClient):
         command = ' '.join((command,) + arguments)
         packet = Packet.from_command(command)
         response = self.communicate(packet)
-
-        if raw:
-            return response
-
-        return response.text
+        return response if raw else response.text
