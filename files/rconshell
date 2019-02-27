@@ -49,7 +49,8 @@ def main():
 
     host = options['--host'] or host
     port = int(options['--port']) if options['--port'] else port
-    rconcmd(host, port, passwd, prompt)
+    exit_code = rconcmd(host, port, passwd, prompt)
+    exit(exit_code)
 
 
 if __name__ == '__main__':
