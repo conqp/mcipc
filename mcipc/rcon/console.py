@@ -17,6 +17,7 @@ MSG_ABORTED = '\nAborted...'
 MSG_LOGIN_ABORTED = '\nLogin aborted. Bye.'
 MSG_EXIT = 'Bye.'
 MSG_SESSION_TIMEOUT = 'Session timed out. Please login again.'
+MSG_EXIT_USAGE = 'Usage: {} [<exit_code>].'
 
 
 def _read(prompt: str, typ=None):
@@ -98,6 +99,19 @@ def _read_args(host: str, port: int, passwd: str, prompt: str) -> tuple:
     return (host, port, passwd, prompt)
 
 
+def _exit(command, exit_code=0):
+    """Exits the interactive shell via exit command."""
+
+    try:
+        exit_code = int(exit_code)
+    except ValueError:
+        print(MSG_EXIT_USAGE.format(command))
+        raise TypeError()
+
+    print(MSG_EXIT)
+    return exit_code
+
+
 def rconcmd(host: str, port: int, passwd: str, prompt: str = PS1) -> int:
     """Initializes the console."""
 
@@ -120,11 +134,16 @@ def rconcmd(host: str, port: int, passwd: str, prompt: str = PS1) -> int:
                 print()
                 continue
 
-            command, *args = command.split()
+            try:
+                command, *args = command.split()
+            except ValueError:
+                continue
 
             if command in EXIT_COMMANDS:
-                print(MSG_EXIT)
-                break
+                try:
+                    return _exit(command, *args)
+                except TypeError:
+                    continue
 
             try:
                 result = client.run(command, *args)
