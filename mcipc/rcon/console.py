@@ -11,7 +11,7 @@ __all__ = ['rconcmd']
 
 
 PS1 = 'RCON> '
-EXIT_COMMANDS = ('exit', 'quit')
+EXIT_COMMANDS = {'exit', 'quit'}
 
 
 def _read(prompt: str, type_=None):
