@@ -48,7 +48,7 @@ def main():
             exit(4)
 
     host = options['--host'] or host
-    port = int(options['--port'] or port)
+    port = int(options['--port']) if options['--port'] else port
     rconcmd(host, port, passwd, prompt)
 
 
