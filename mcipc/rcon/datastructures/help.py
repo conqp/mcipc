@@ -12,12 +12,9 @@ class Help(dict):
     @property
     def usage(self):
         """Returns a docopt-compliant usage string."""
-        string = 'Usage:\n'
-
-        for command, arguments in self.items():
-            string += f'    {command} {arguments}\n'
-
-        return string
+        header = 'Usage:\n'
+        options = '\n'.join(f'    {cmd} {args}' for cmd, args in self.items())
+        return header + options
 
     @property
     def pattern(self):
