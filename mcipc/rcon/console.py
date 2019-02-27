@@ -105,7 +105,6 @@ def _exit(command, exit_code=0):
     try:
         exit_code = int(exit_code)
     except ValueError:
-        print(MSG_EXIT_USAGE.format(command))
         raise TypeError()
 
     print(MSG_EXIT)
@@ -143,6 +142,7 @@ def rconcmd(host: str, port: int, passwd: str, prompt: str = PS1) -> int:
                 try:
                     return _exit(command, *args)
                 except TypeError:
+                    print(MSG_EXIT_USAGE.format(command))
                     continue
 
             try:
