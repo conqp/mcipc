@@ -11,11 +11,8 @@ setup(
         'mcipc.query',
         'mcipc.query.proto',
         'mcipc.rcon',
-        'mcipc.rcon.datastructures',
-        'mcipc.srvwrap',
-        'mcipc.srvwrap.events',
-        'mcipc.srvwrap.ipc'],
-    scripts=['files/rconclt', 'files/rconshell', 'files/srvwrap-test'],
+        'mcipc.rcon.datastructures'],
+    scripts=['files/rconclt', 'files/rconshell'],
     url='https://github.com/conqp/mcipc',
     license='GPLv3',
     description='A Minecraft server inter-process communication library.')
