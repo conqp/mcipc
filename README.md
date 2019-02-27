@@ -103,8 +103,7 @@ This library also ships a couple of scripts intended as a proof-of-concept.
 * `rconshell`: An interactive `RCON` shell.
 
 ### `rconclt`
-The script `rconclt` is an RCON client script to communicate with minecraft servers using the shell.
-
+The script `rconclt` is an RCON client script to communicate with minecraft servers using the shell.  
 To invoke a pre-defined server configuration (see below):
 
     rconclt my_server <command> [<args>...] [options]
