@@ -18,7 +18,7 @@ class Help(dict):
 
     @property
     def pattern(self):
-        """Returns a docopt pattern."""
+        """Returns a docopt match pattern."""
         try:
             from docopt import printable_usage
             from docopt import parse_defaults
