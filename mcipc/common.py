@@ -1,6 +1,6 @@
 """Stuff, common to Query and RCON."""
 
-from socket import SOCK_STREAM, socket
+from socket import SOCK_STREAM, socket, SocketKind  # pylint: disable=E0611
 
 
 __all__ = ['BaseClient']
@@ -9,16 +9,16 @@ __all__ = ['BaseClient']
 class BaseClient:
     """A basic client."""
 
-    def __init__(self, host: str, port: int, type=SOCK_STREAM):
+    def __init__(self, host: str, port: int, typ: SocketKind = SOCK_STREAM):
         """Sets host an port."""
-        self._socket = socket(type=type)
+        self._socket = socket(type=typ)
         self.host = host
         self.port = port
 
     def __enter__(self):
         """Conntects the socket."""
         self._socket.__enter__()
-        self._socket.connect(self.socket)
+        self.connect()
         return self
 
     def __exit__(self, typ, value, traceback):

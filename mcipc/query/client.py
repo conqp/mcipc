@@ -14,7 +14,7 @@ class Client(BaseClient):
 
     def __init__(self, host: str, port: int):
         """Sets the challenge token."""
-        super().__init__(host, port, type=SOCK_DGRAM)
+        super().__init__(host, port, typ=SOCK_DGRAM)
         self._challenge_token = None
 
     def __enter__(self):
