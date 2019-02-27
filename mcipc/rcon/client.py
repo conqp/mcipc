@@ -108,7 +108,7 @@ class InfoMixin:
 
         items = filter(None, text.split('/'))
         command_args = (item.split(maxsplit=1) for item in items)
-        return Help(command_args)
+        return Help.from_sequence(command_args)
 
     def locate(self, structure: str) -> Location:
         """Locates the respective structure."""

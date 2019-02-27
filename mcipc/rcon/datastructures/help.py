@@ -1,34 +1,64 @@
 """Datastructures to represent help on commands."""
 
 from logging import getLogger
+from typing import NamedTuple
 
 
 LOGGER = getLogger(__file__)
 
 
-class Help(dict):
-    """command: arguments key pairs."""
+class Command(NamedTuple):
+    """Represents a command / arguments tuple."""
+
+    command: str
+    arguments: str
+
+    @classmethod
+    def from_tuple(cls, tpl):
+        """Creates the command from a tuple."""
+        try:
+            command, arguments, *superfluous = tpl
+        except ValueError:
+            command, = tpl
+            arguments = None
+            superfluous = None
+
+        if superfluous:
+            items = len(superfluous) + 2
+            raise ValueError(f'Expected one or two items. Got {items}.')
+
+        return cls(command, arguments)
 
     @property
-    def usage(self):
+    def usage(self) -> str:
         """Returns a docopt-compliant usage string."""
-        header = 'Usage:\n'
-        options = '\n'.join(f'    {cmd} {args}' for cmd, args in self.items())
-        return header + options
+        usage = f'Usage: {self.command}'
+
+        if self.arguments:
+            usage += f' {self.arguments}'
+
+        return usage
 
     @property
     def pattern(self):
         """Returns a docopt match pattern."""
         try:
-            from docopt import printable_usage
-            from docopt import parse_defaults
-            from docopt import formal_usage
-            from docopt import parse_pattern
+            from docopt import parse_defaults, formal_usage, parse_pattern
         except ImportError:
             LOGGER.warning('docopt not installed.')
             LOGGER.warning('Command help pattern generation unavailable.')
             return None
 
-        usage = printable_usage(self.usage)
-        options = parse_defaults(self.usage)
+        usage = self.usage
+        options = parse_defaults(usage)
         return parse_pattern(formal_usage(usage), options)
+
+
+class Help(dict):
+    """command: arguments key pairs."""
+
+    @classmethod
+    def from_sequence(cls, sequence):
+        """Creates the help from the respective sequence."""
+        commands = (Command.from_tuple(item) for item in sequence)
+        return cls((command.command, command) for command in commands)
