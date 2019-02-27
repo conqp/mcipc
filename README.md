@@ -102,6 +102,24 @@ This library also ships a couple of scripts intended as a proof-of-concept.
 * `rconclt`: An `RCON` client.
 * `rconshell`: An interactive `RCON` shell.
 
+### `rconclt`
+The script `rconclt` is an RCON client script to communicate with minecraft servers using the shell.  
+`rconclt` can be configured INI-style in `/etc/mcipc.d/rcon.conf`:
+
+To invoke a pre-defined server configuration (see below):
+
+    rconclt my_server <command> [<args>...] [options]
+
+## Configuration
+Both scripts can be configured in `/etc/mcipc.d/rcon.conf` and `/etc/mcipc.d/query.conf` respectively:
+
+    [my_server]
+    host = 127.0.0.1
+    port = 5000
+    passwd = mysecretpassword
+
+The `passwd` entry is optional.
+
 ## License
 Copyright (C) 2018 Richard Neumann <mail at richard dash neumann period de>
 
