@@ -146,4 +146,4 @@ class FullStats(NamedTuple):
         index += 16 + 1     # Discard additional null byte.
         index += 10     # Discard padding.
         players = tuple(player.decode() for player in items(bytes_[index:]))
-        return cls(type_, session_id, *stats_from_dict(stats), players)
+        return cls(Type(type_), session_id, *stats_from_dict(stats), players)

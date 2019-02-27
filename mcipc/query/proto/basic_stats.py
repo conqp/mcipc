@@ -73,5 +73,5 @@ class BasicStats(NamedTuple):
         host_port = int.from_bytes(port_ip[0:2], 'little')
         host_ip = IPv4Address(port_ip[2:].decode())
         return cls(
-            type_, session_id, motd, game_type, map_, num_players, max_players,
-            host_port, host_ip)
+            Type(type_), session_id, motd, game_type, map_, num_players,
+            max_players, host_port, host_ip)
