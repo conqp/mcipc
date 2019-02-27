@@ -13,7 +13,7 @@ Options:
     --help, -h          Show this page.
 """
 from logging import INFO, basicConfig, getLogger
-from sys import exit, stderr    # pylint: disable=W0622
+from sys import exit    # pylint: disable=W0622
 
 from mcipc.config import LOG_FORMAT
 from mcipc.rcon.config import CONFIG
@@ -26,29 +26,32 @@ LOGGER = getLogger(__file__)
 def main():
     """Runs the RCON shell."""
 
-    try:
-        from docopt import docopt
-    except ModuleNotFoundError:
-        print('docopt not installed. CLI not available.', file=stderr)
-        exit(3)
-
-    options = docopt(__doc__)
     basicConfig(level=INFO, format=LOG_FORMAT)
-    server = options['<server>']
     host = None
     port = None
     passwd = None
-    prompt = options['--prompt'] or PS1
 
-    if server:
-        try:
-            host, port, passwd = CONFIG.servers[server]
-        except KeyError:
-            LOGGER.error('No such server: %s.', server)
-            exit(4)
+    try:
+        from docopt import docopt
+    except ModuleNotFoundError:
+        LOGGER.warning('Package docopt is not installed.')
+        LOGGER.info('Argument parsing not available.')
+        prompt = PS1
+    else:
+        options = docopt(__doc__)
+        server = options['<server>']
+        prompt = options['--prompt'] or PS1
 
-    host = options['--host'] or host
-    port = int(options['--port']) if options['--port'] else port
+        if server:
+            try:
+                host, port, passwd = CONFIG.servers[server]
+            except KeyError:
+                LOGGER.error('No such server: %s.', server)
+                exit(4)
+
+        host = options['--host'] or host
+        port = int(options['--port']) if options['--port'] else port
+
     exit_code = rconcmd(host, port, passwd, prompt)
     exit(exit_code)
 
