@@ -32,4 +32,5 @@ class Location(NamedTuple):
     def from_response(cls, text):
         """Creates a location from a server response."""
         match = REGEX.fullmatch(text)
-        return cls(*(_int_or_none(item) for item in match.groups()))
+        coordinates = (_int_or_none(item) for item in match.groups())
+        return cls(*coordinates)
