@@ -30,17 +30,17 @@ def main():
     host = None
     port = None
     passwd = None
+    prompt = PS1
 
     try:
         from docopt import docopt
     except ModuleNotFoundError:
         LOGGER.warning('Package docopt is not installed.')
         LOGGER.info('Argument parsing not available.')
-        prompt = PS1
     else:
         options = docopt(__doc__)
         server = options['<server>']
-        prompt = options['--prompt'] or PS1
+        prompt = options['--prompt'] or prompt
 
         if server:
             try:
