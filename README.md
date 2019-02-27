@@ -118,7 +118,7 @@ Both scripts can be configured in `/etc/mcipc.d/rcon.conf` and `/etc/mcipc.d/que
     port = 5000
     passwd = mysecretpassword
 
-The `passwd` entry is optional.
+The `passwd` entry is optional for `RCON` and unnecessary for `Query`.
 
 ## License
 Copyright (C) 2018 Richard Neumann <mail at richard dash neumann period de>
