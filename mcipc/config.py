@@ -1,8 +1,8 @@
 """Server configuration parser."""
 
-from collections import namedtuple
 from configparser import ConfigParser
 from pathlib import Path
+from typing import NamedTuple
 
 
 __all__ = [
@@ -18,8 +18,6 @@ FORTUNE = Path('/usr/bin/fortune')
 
 class InvalidCredentialsError(ValueError):
     """Indicates invalid credentials."""
-
-    pass
 
 
 class CredentialsConfig(ConfigParser):  # pylint: disable=R0901
@@ -39,10 +37,12 @@ class CredentialsConfig(ConfigParser):  # pylint: disable=R0901
             for section in self.sections()}
 
 
-class Credentials(namedtuple('Credentials', ('host', 'port', 'passwd'))):
+class Credentials(NamedTuple):
     """Represents server credentials."""
 
-    __slots__ = ()
+    host: str
+    port: int
+    passwd: str
 
     @classmethod
     def from_string(cls, string):
@@ -70,5 +70,7 @@ class Credentials(namedtuple('Credentials', ('host', 'port', 'passwd'))):
         """Creates a credentials tuple from
         the respective config section.
         """
-        return cls(
-            section['host'], int(section['port']), section.get('passwd'))
+        host = section['host']
+        port = int(section['port'])
+        passwd = section.get('passwd')
+        return cls(host, port, passwd)
