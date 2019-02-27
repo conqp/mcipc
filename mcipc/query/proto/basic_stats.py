@@ -50,7 +50,7 @@ class BasicStats(NamedTuple):
     host_ip: IPv4Address
 
     @classmethod
-    def from_bytes(cls, bytes_):
+    def from_bytes(cls, bytes_):    # pylint: disable=R0914
         """Creates the packet from the respective bytes."""
         type_ = int.from_bytes(bytes_[0:1], 'big')
         session_id = int.from_bytes(bytes_[1:5], 'big')
