@@ -99,7 +99,7 @@ def _read_args(host: str, port: int, passwd: str, prompt: str) -> tuple:
     return (host, port, passwd, prompt)
 
 
-def _exit(command, exit_code=0):
+def _exit(exit_code=0):
     """Exits the interactive shell via exit command."""
 
     try:
@@ -140,7 +140,7 @@ def rconcmd(host: str, port: int, passwd: str, prompt: str = PS1) -> int:
 
             if command in EXIT_COMMANDS:
                 try:
-                    return _exit(command, *args)
+                    return _exit(*args)
                 except TypeError:
                     print(MSG_EXIT_USAGE.format(command))
                     continue
