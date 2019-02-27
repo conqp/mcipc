@@ -10,8 +10,6 @@ __all__ = [
 class InvalidPacketStructureError(Exception):
     """Indicates an invalid packet structure."""
 
-    pass
-
 
 class RequestIdMismatchError(Exception):
     """Indicates that the sent and received request IDs do not match."""
@@ -25,5 +23,3 @@ class RequestIdMismatchError(Exception):
 
 class InvalidCredentialsError(Exception):
     """Indicates invalid RCON password."""
-
-    pass
