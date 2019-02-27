@@ -107,7 +107,8 @@ class InfoMixin:
             text = self.run('help', command)
 
         items = filter(None, text.split('/'))
-        return tuple(items)
+        command_args = (item.split(maxsplit=1) for item in items)
+        return {command: arguments for command, arguments in command_args}
 
     def locate(self, structure: str) -> Location:
         """Locates the respective structure."""
