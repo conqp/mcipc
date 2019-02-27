@@ -2,7 +2,7 @@
 
 from json import dumps
 
-from mcipc.rcon.datastructures import Location, Players, Seed
+from mcipc.rcon.datastructures import Help, Location, Players, Seed
 from mcipc.rcon.proto import Client as _Client
 
 
@@ -108,7 +108,7 @@ class InfoMixin:
 
         items = filter(None, text.split('/'))
         command_args = (item.split(maxsplit=1) for item in items)
-        return {command: arguments for command, arguments in command_args}
+        return Help(command_args)
 
     def locate(self, structure: str) -> Location:
         """Locates the respective structure."""
@@ -118,5 +118,3 @@ class InfoMixin:
 
 class Client(_Client, AdminMixin, ChatMixin, InfoMixin):
     """A high-level RCON client."""
-
-    pass    # pylint: disable=W0107
