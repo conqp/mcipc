@@ -12,25 +12,37 @@ __all__ = ['rconcmd']
 
 PS1 = 'RCON> '
 EXIT_COMMANDS = {'exit', 'quit'}
+MSG_QUERY_LATER = '\nOkay, I will ask again later.'
+MSG_ABORTED = '\nAborted...'
+MSG_LOGIN_ABORTED = '\nLogin aborted. Bye.'
+MSG_EXIT = 'Bye.'
+MSG_SESSION_TIMEOUT = 'Session timed out. Please login again.'
 
 
-def _read(prompt: str, type_=None):
+def _read(prompt: str, typ=None):
     """Reads input and converts it to the respective type."""
 
     while True:
-        try:
-            raw = input(prompt)
-        except EOFError:
-            continue
+        raw = input(prompt)
 
-        if type_ is not None:
+        if typ is not None:
             try:
-                return type_(raw)
+                return typ(raw)
             except (TypeError, ValueError):
-                print(f'Invalid {type_}: {raw}.')
+                print(f'Invalid {typ}: {raw}.')
                 continue
 
         return raw
+
+
+def _read_or_none(prompt: str, typ=None):
+    """Reads the input and returns None on abort."""
+
+    try:
+        return _read(prompt, typ=typ)
+    except EOFError:
+        print(MSG_QUERY_LATER)
+        return None
 
 
 def _login(client: Client, passwd: str):
@@ -51,36 +63,58 @@ def _login(client: Client, passwd: str):
     return passwd
 
 
-def rconcmd(host: str = None, port: int = None, passwd: str = None, *,
-            prompt: str = PS1) -> int:
+def _read_args(host: str, port: int, passwd: str, prompt: str) -> tuple:
+    """Reads the necessary arguments."""
+
+    while any(item is None for item in (host, port, passwd, prompt)):
+        if host is None:
+            try:
+                host = _read_or_none('Host: ')
+            except KeyboardInterrupt:
+                print(MSG_ABORTED)
+                return 1
+
+        if port is None:
+            try:
+                port = _read_or_none('Port: ', typ=int)
+            except KeyboardInterrupt:
+                print(MSG_ABORTED)
+                return 1
+
+        if passwd is None:
+            try:
+                passwd = _read_or_none('Password: ')
+            except KeyboardInterrupt:
+                print(MSG_ABORTED)
+                return 1
+
+        if prompt is None:
+            try:
+                prompt = _read_or_none('Prompt: ')
+            except KeyboardInterrupt:
+                print(MSG_ABORTED)
+                return 1
+
+    return (host, port, passwd, prompt)
+
+
+def rconcmd(host: str, port: int, passwd: str, prompt: str = PS1) -> int:
     """Initializes the console."""
 
-    if host is None:
-        try:
-            host = _read('Host: ')
-        except KeyboardInterrupt:
-            print('\nAborted...')
-            return 1
-
-    if port is None:
-        try:
-            port = _read('Port: ', type_=int)
-        except KeyboardInterrupt:
-            print('\nAborted...')
-            return 1
+    host, port, passwd, prompt = _read_args(host, port, passwd, prompt)
 
     with Client(host, port) as client:
         try:
             passwd = _login(client, passwd)
         except (EOFError, KeyboardInterrupt):
-            print('\nAborted...')
+            print(MSG_LOGIN_ABORTED)
             return 1
 
         while True:
             try:
                 command = input(prompt)
             except EOFError:
-                print('\nAborted.')
+                print(f'\n{MSG_EXIT}')
                 break
             except KeyboardInterrupt:
                 print()
@@ -89,18 +123,19 @@ def rconcmd(host: str = None, port: int = None, passwd: str = None, *,
             command, *args = command.split()
 
             if command in EXIT_COMMANDS:
+                print(MSG_EXIT)
                 break
 
             try:
                 result = client.run(command, *args)
             except RequestIdMismatchError:
-                print('Session timed out. Please login again.')
+                print(MSG_SESSION_TIMEOUT)
 
                 try:
                     passwd = _login(client, passwd)
                 except (EOFError, KeyboardInterrupt):
-                    print()
-                    continue
+                    print(MSG_LOGIN_ABORTED)
+                    return 2
 
             print(result)
 
