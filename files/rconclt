@@ -17,7 +17,7 @@ Options:
     --help, -h          Shows this page.
 """
 from logging import DEBUG, INFO, basicConfig, getLogger
-from sys import exit as exit_, stderr
+from sys import exit, stderr    # pylint: disable=W0622
 
 from mcipc.config import LOG_FORMAT, InvalidCredentialsError, Credentials
 from mcipc.rcon.config import CONFIG
@@ -32,9 +32,9 @@ def main():
 
     try:
         from docopt import docopt
-    except ImportError:
+    except ModuleNotFoundError:
         print('docopt not installed. CLI not available.', file=stderr)
-        exit_(3)
+        exit(3)
 
     options = docopt(__doc__)
     log_level = DEBUG if options['--debug'] else INFO
@@ -48,7 +48,7 @@ def main():
             host, port, passwd = CONFIG.servers[server]
         except KeyError:
             LOGGER.error('No such server: %s.', server)
-            exit_(2)
+            exit(2)
 
     if passwd is None:
         passwd = options['--passwd'] or ''
@@ -68,7 +68,7 @@ def main():
                 LOGGER.info(result)
         else:
             LOGGER.error('Failed to log in.')
-            exit_(1)
+            exit(1)
 
 
 if __name__ == '__main__':
