@@ -53,6 +53,10 @@ class Command(NamedTuple):
         options = parse_defaults(usage)
         return parse_pattern(formal_usage(usage), options)
 
+    def to_json(self):
+        """Returns a JSON-ish dict."""
+        return {'command': self.command, 'arguments': self.arguments}
+
 
 class Help(dict):
     """command: arguments key pairs."""
@@ -65,4 +69,4 @@ class Help(dict):
 
     def to_json(self):
         """Returns a JSON-ish dict."""
-        return {name: ' '.join(command) for name, command in self.items()}
+        return {name: command.to_json() for name, command in self.items()}
