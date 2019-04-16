@@ -17,3 +17,7 @@ class Seed(int):
         """Returns a seed from a server response."""
         match = REGEX.fullmatch(text)
         return cls(match.group(1))
+
+    def to_json(self):
+        """Returns a JSON-ish dict."""
+        return self     # No conversion necessary.

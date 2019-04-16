@@ -34,3 +34,7 @@ class Location(NamedTuple):
         match = REGEX.fullmatch(text)
         coordinates = (_int_or_none(item) for item in match.groups())
         return cls(*coordinates)
+
+    def to_json(self):
+        """Returns a JSON-ish dict."""
+        return {'x': self.x, 'y': self.y, 'z': self.z}

@@ -24,3 +24,7 @@ class Players(NamedTuple):
         online, max_, names = match.groups()
         names = filter(None, map(lambda name: name.strip(), names.split(', ')))
         return cls(int(online), int(max_), tuple(names))
+
+    def to_json(self):
+        """Returns a JSON-ish dict."""
+        return {'online': self.online, 'max': self.max, 'names': self.names}

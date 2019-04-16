@@ -45,3 +45,9 @@ class Response(NamedTuple):
         session_id = int.from_bytes(bytes_[1:5], 'big')
         challenge_token = bytes_[5:-1].decode()
         return cls(Type(type_), session_id, int(challenge_token))
+
+    def to_json(self):
+        """Returns a JSON-ish dict."""
+        return {
+            'type': self.type.value, 'session_id': self.session_id,
+            'challenge_token': self.challenge_token}

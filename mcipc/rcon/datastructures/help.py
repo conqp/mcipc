@@ -62,3 +62,7 @@ class Help(dict):
         """Creates the help from the respective sequence."""
         commands = (Command.from_tuple(item) for item in sequence)
         return cls((command.command, command) for command in commands)
+
+    def to_json(self):
+        """Returns a JSON-ish dict."""
+        return {name: ' '.join(command) for name, command in self.items()}
