@@ -9,7 +9,7 @@ setuptools.setup(
     long_description=open('README.md').read(),
     long_description_content_type="text/markdown",
     author='Richard Neumann',
-    author_email='<mail at richard dash neumann dot de>',
+    author_email='r.neumann@homeinfo.de',
     maintainer='Richard Neumann',
     maintainer_email='r.neumann@homeinfo.de',
     packages=[
