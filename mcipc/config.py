@@ -40,9 +40,9 @@ class CredentialsConfig(ConfigParser):  # pylint: disable=R0901
 class Credentials(NamedTuple):
     """Represents server credentials."""
 
-    host: str
-    port: int
-    passwd: str
+    host = None
+    port = None
+    passwd = None
 
     @classmethod
     def from_string(cls, string):

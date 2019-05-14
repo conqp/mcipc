@@ -1,0 +1,7 @@
+# !/usr/bin/env bash
+# -*-: coding: utf-8 -*-
+
+git push origin master
+rm -rf ./dist/*
+python setup.py release
+twine upload ./dist/*

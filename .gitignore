@@ -5,3 +5,5 @@ build
 .installed_files.txt
 test
 .buildconfig
+py3/
+*.egg-info
