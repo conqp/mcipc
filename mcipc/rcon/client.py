@@ -34,7 +34,8 @@ class AdminMixin:
 
         if dst_player is not None and coords is not None:
             raise _PLAYER_OR_COORDS
-        elif dst_player is not None:
+
+        if dst_player is not None:
             args.append(str(dst_player))
         elif coords is not None:
             coord_x, coord_y, coord_z = coords
