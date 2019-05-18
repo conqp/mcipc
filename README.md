@@ -109,14 +109,14 @@ To invoke a pre-defined server configuration (see below):
     rconclt my_server <command> [<args>...] [options]
 
 ## Configuration
-Both scripts can be configured in `/etc/mcipc.d/rcon.conf` and `/etc/mcipc.d/query.conf` respectively:
+`rconclt` can be configured in `/etc/mcipc.d/rcon.conf`:
 
     [my_server]
     host = 127.0.0.1
     port = 5000
     passwd = mysecretpassword
 
-The `passwd` entry is optional for `RCON` and unnecessary for `Query`.
+The `passwd` entry is optional.
 
 ## License
 Copyright (C) 2018 Richard Neumann <mail at richard dash neumann period de>
