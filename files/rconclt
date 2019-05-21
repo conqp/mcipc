@@ -1,23 +1,10 @@
 #! /usr/bin/env python3
-"""rconclt.
+"""A Minecraft RCON client."""
 
-A Minecraft RCON client.
-
-Usage:
-    rconclt <server> datetime [--format=<format>] [options]
-    rconclt <server> fortune [--long] [--offensive] [options]
-    rconclt <server> <command> [<args>...] [options]
-
-Options:
-    --passwd=<passwd>   Specifies the respective RCON password.
-    --format=<format>   Specifies the datetime format [default: %c].
-    --long              Also generate long fortunes.
-    --offensive         Only genenrate offensive fortunes.
-    --debug             Enters debug mode.
-    --help, -h          Shows this page.
-"""
+from argparse import ArgumentParser
+from getpass import getpass
 from logging import DEBUG, INFO, basicConfig, getLogger
-from sys import exit, stderr    # pylint: disable=W0622
+from sys import exit    # pylint: disable=W0622
 
 from mcipc.config import LOG_FORMAT, InvalidCredentialsError, Credentials
 from mcipc.rcon.config import CONFIG
@@ -27,19 +14,42 @@ from mcipc.rcon.playground import Client
 LOGGER = getLogger(__file__)
 
 
+def get_args():
+    """Parses and returns the CLI arguments."""
+
+    parser = ArgumentParser(description='A Minecraft RCON client.')
+    parser.add_argument('server', help="the server's name")
+    subparsers = parser.add_subparsers(dest='action')
+    command_parser = subparsers.add_parser(
+        'exec', help='execute commands on the server')
+    command_parser.add_argument(
+        'command', help='command to execute on the server')
+    command_parser.add_argument(
+        'argument', nargs='*', default=(), help='arguments for the command')
+    fortune_parser = subparsers.add_parser(
+        'fortune', help='send a fortune to the players on the server')
+    fortune_parser.add_argument(
+        '-l', '--long', action='store_true', help='generate ling fortunes')
+    fortune_parser.add_argument(
+        '-o', '--offensive', action='store_true',
+        help='generate offensive fortunes')
+    datetime_parser = subparsers.add_parser(
+        'datetime',
+        help='sends the current date and time to the players on the server')
+    datetime_parser.add_argument(
+        '-f', '--format', default='%c', help='the datetime format')
+    parser.add_argument(
+        '-d', '--debug', help='print additional debug information')
+    return parser.parse_args()
+
+
 def main():
     """Runs the RCON client."""
 
-    try:
-        from docopt import docopt
-    except ModuleNotFoundError:
-        print('docopt not installed. CLI not available.', file=stderr)
-        exit(3)
-
-    options = docopt(__doc__)
-    log_level = DEBUG if options['--debug'] else INFO
+    args = get_args()
+    log_level = DEBUG if args.debug else INFO
     basicConfig(level=log_level, format=LOG_FORMAT)
-    server = options['<server>']
+    server = args.server
 
     try:
         host, port, passwd = Credentials.from_string(server)
@@ -51,18 +61,22 @@ def main():
             exit(2)
 
     if passwd is None:
-        passwd = options['--passwd'] or ''
+        try:
+            passwd = getpass('Password: ')
+        except (KeyboardInterrupt, EOFError):
+            print()
+            LOGGER.error('Aborted by user.')
+            exit(3)
 
     with Client(host, port) as client:
         if client.login(passwd):
-            if options['datetime']:
-                result = client.datetime(frmt=options['--format'])
-            elif options['fortune']:
+            if args.action == 'datetime':
+                result = client.datetime(frmt=args.format)
+            elif args.action == 'fortune':
                 result = client.fortune(
-                    short=not options['--long'],
-                    offensive=options['--offensive'])
-            else:
-                result = client.run(options['<command>'], *options['<args>'])
+                    short=not args.long, offensive=args.offensive)
+            elif args.action == 'exec':
+                result = client.run(args.command, *args.argument)
 
             if result:
                 LOGGER.info(result)
