@@ -69,32 +69,16 @@ def _read_args(host: str, port: int, passwd: str, prompt: str) -> tuple:
 
     while any(item is None for item in (host, port, passwd, prompt)):
         if host is None:
-            try:
-                host = _read_or_none('Host: ')
-            except KeyboardInterrupt:
-                print(MSG_ABORTED)
-                return 1
+            host = _read_or_none('Host: ')
 
         if port is None:
-            try:
-                port = _read_or_none('Port: ', typ=int)
-            except KeyboardInterrupt:
-                print(MSG_ABORTED)
-                return 1
+            port = _read_or_none('Port: ', typ=int)
 
         if passwd is None:
-            try:
-                passwd = _read_or_none('Password: ')
-            except KeyboardInterrupt:
-                print(MSG_ABORTED)
-                return 1
+            passwd = _read_or_none('Password: ')
 
         if prompt is None:
-            try:
-                prompt = _read_or_none('Prompt: ')
-            except KeyboardInterrupt:
-                print(MSG_ABORTED)
-                return 1
+            prompt = _read_or_none('Prompt: ')
 
     return (host, port, passwd, prompt)
 
@@ -110,7 +94,11 @@ def _exit(exit_code=0):
 def rconcmd(host: str, port: int, passwd: str, prompt: str = PS1) -> int:
     """Initializes the console."""
 
-    host, port, passwd, prompt = _read_args(host, port, passwd, prompt)
+    try:
+        host, port, passwd, prompt = _read_args(host, port, passwd, prompt)
+    except KeyboardInterrupt:
+        print(MSG_ABORTED)
+        return 1
 
     with Client(host, port) as client:
         try:
