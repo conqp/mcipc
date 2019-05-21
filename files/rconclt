@@ -39,7 +39,8 @@ def get_args():
     datetime_parser.add_argument(
         '-f', '--format', default='%c', help='the datetime format')
     parser.add_argument(
-        '-d', '--debug', help='print additional debug information')
+        '-d', '--debug', action='store_true',
+        help='print additional debug information')
     return parser.parse_args()
 
 
