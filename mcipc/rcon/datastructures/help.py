@@ -39,20 +39,6 @@ class Command(NamedTuple):
 
         return usage
 
-    @property
-    def pattern(self):
-        """Returns a docopt match pattern."""
-        try:
-            from docopt import parse_defaults, formal_usage, parse_pattern
-        except ImportError:
-            LOGGER.warning('docopt not installed.')
-            LOGGER.warning('Command help pattern generation unavailable.')
-            return None
-
-        usage = self.usage
-        options = parse_defaults(usage)
-        return parse_pattern(formal_usage(usage), options)
-
     def to_json(self):
         """Returns a JSON-ish dict."""
         return {'command': self.command, 'arguments': self.arguments}
