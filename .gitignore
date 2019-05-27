@@ -5,3 +5,6 @@ build
 .installed_files.txt
 test
 .buildconfig
+.eggs
+dist/
+*.egg-info

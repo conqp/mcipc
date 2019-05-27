@@ -1,11 +1,14 @@
 #! /usr/bin/env python
 
-from distutils.core import setup
+from setuptools import setup
 
 setup(
     name='mcipc',
+    version_format='{tag}',
+    setup_requires=['setuptools-git-version'],
     author='Richard Neumann',
     author_email='<mail at richard dash neumann dot de>',
+    python_requires='>=3.6',
     packages=[
         'mcipc',
         'mcipc.query',
