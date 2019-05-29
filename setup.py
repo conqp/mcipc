@@ -12,6 +12,9 @@ setuptools.setup(
     author_email='mail@richard-neumann.de',
     maintainer='Richard Neumann',
     maintainer_email='mail@richard-neumann.de',
+    version_format='{tag}',
+    setup_requires=['setuptools-git-version'],
+    python_requires='>=3.6',
     packages=[
         'mcipc',
         'mcipc.query',
@@ -23,17 +26,12 @@ setuptools.setup(
     keywords='minecraft python server rcon query',
     license='GPLv3',
         classifiers=(
-        "Programming Language :: Python :: 3.2",
-        "Programming Language :: Python :: 3.3",
-        "Programming Language :: Python :: 3.4",
-        "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "License :: OSI Approved :: Apache Software License",
         "Operating System :: MacOS",
         "Operating System :: POSIX :: Linux"
     ),
-    python_requires='>=3.2',
     install_requires=[
         'docopt',
         'twine'

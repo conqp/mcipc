@@ -17,16 +17,15 @@ class Client(_Client):
 
     def fortune(self, short: bool = True, offensive: bool = False):
         """Sends a fortune to all players."""
-        args = []
+        command = [FORTUNE]
 
         if short:
-            args.append('-s')
+            command.append('-s')
 
         if offensive:
-            args.append('-o')
+            command.append('-o')
 
-        response = check_output([FORTUNE] + args, stderr=PIPE)
-        text = response.decode()
+        text = check_output(command, stderr=PIPE, text=True)
         return self.say(text)
 
     def datetime(self, frmt: str = '%c'):
