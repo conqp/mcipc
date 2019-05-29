@@ -4,14 +4,14 @@ import setuptools
 
 setuptools.setup(
     name='mcipc',
-    version='0.0.1',
+    version='0.0.2',
     description="A Minecraft server inter-process communication library.",
     long_description=open('README.md').read(),
     long_description_content_type="text/markdown",
     author='Richard Neumann',
-    author_email='r.neumann@homeinfo.de',
+    author_email='mail@richard-neumann.de',
     maintainer='Richard Neumann',
-    maintainer_email='r.neumann@homeinfo.de',
+    maintainer_email='mail@richard-neumann.de',
     packages=[
         'mcipc',
         'mcipc.query',
