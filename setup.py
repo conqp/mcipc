@@ -7,7 +7,7 @@ setup(
     version_format='{tag}',
     setup_requires=['setuptools-git-version'],
     author='Richard Neumann',
-    author_email='<mail at richard dash neumann dot de>',
+    author_email='mail@richard-neumann-de',
     python_requires='>=3.6',
     packages=[
         'mcipc',
@@ -18,4 +18,8 @@ setup(
     scripts=['files/rconclt', 'files/rconshell'],
     url='https://github.com/conqp/mcipc',
     license='GPLv3',
-    description='A Minecraft server inter-process communication library.')
+    description='A Minecraft server inter-process communication library.',
+    long_description=open('README.md').read(),
+    long_description_content_type="text/markdown",
+    keywords='minecraft python server rcon query',
+    install_requires=['docopt'])
