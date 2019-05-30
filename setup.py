@@ -13,6 +13,7 @@ setup(
         'mcipc',
         'mcipc.query',
         'mcipc.query.proto',
+        'mcipc.rcon',
         'mcipc.rcon.datastructures'],
     scripts=['files/rconclt', 'files/rconshell'],
     url='https://github.com/conqp/mcipc',
