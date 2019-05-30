@@ -41,13 +41,13 @@ class Packet(NamedTuple):
 
     request_id: int
     type: Type
-    payload: bytes
+    payload: str
 
     def __bytes__(self):
         """Returns the packet as bytes."""
         payload = self.request_id.to_bytes(4, 'little')
         payload += bytes(self.type)
-        payload += self.payload
+        payload += self.payload.encode()
         payload += TAIL
         size = len(payload).to_bytes(4, 'little')
         return size + payload
@@ -63,22 +63,17 @@ class Packet(NamedTuple):
         if tail != TAIL:
             raise InvalidPacketStructureError('Invalid tail.', tail)
 
-        return cls(request_id, Type(type_), payload)
+        return cls(request_id, Type(type_), payload.decode())
 
     @classmethod
     def from_command(cls, command: str):
         """Creates a command packet."""
-        return cls(_rand_uint32(), Type.COMMAND, command.encode())
+        return cls(_rand_uint32(), Type.COMMAND, command)
 
     @classmethod
     def from_login(cls, passwd: str):
         """Creates a login packet."""
-        return cls(_rand_uint32(), Type.LOGIN, passwd.encode())
-
-    @property
-    def text(self) -> str:
-        """Returns the payload as text."""
-        return self.payload.decode()
+        return cls(_rand_uint32(), Type.LOGIN, passwd)
 
 
 class Client(BaseClient):
@@ -113,4 +108,4 @@ class Client(BaseClient):
         command = ' '.join((command,) + arguments)
         packet = Packet.from_command(command)
         response = self.communicate(packet)
-        return response if raw else response.text
+        return response if raw else response.payload
