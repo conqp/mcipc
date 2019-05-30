@@ -13,7 +13,6 @@ setup(
         'mcipc',
         'mcipc.query',
         'mcipc.query.proto',
-        'mcipc.rcon',
         'mcipc.rcon.datastructures'],
     scripts=['files/rconclt', 'files/rconshell'],
     url='https://github.com/conqp/mcipc',
@@ -21,5 +20,4 @@ setup(
     description='A Minecraft server inter-process communication library.',
     long_description=open('README.md').read(),
     long_description_content_type="text/markdown",
-    keywords='minecraft python server rcon query',
-    install_requires=['docopt'])
+    keywords='minecraft python server rcon query')
