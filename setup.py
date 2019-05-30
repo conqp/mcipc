@@ -7,7 +7,7 @@ setup(
     version_format='{tag}',
     setup_requires=['setuptools-git-version'],
     author='Richard Neumann',
-    author_email='mail@richard-neumann-de',
+    author_email='mail@richard-neumann.de',
     python_requires='>=3.6',
     packages=[
         'mcipc',
