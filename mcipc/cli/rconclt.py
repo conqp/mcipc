@@ -68,7 +68,7 @@ def _idle_shutdown(client, args):
         return False
 
     LOGGER.info('Server is idle.')
-    unit = args.unit.format(args.server)
+    unit = args.unit.format(server=args.server)
     command = ('/usr/bin/systemctl', 'stop', unit)
 
     try:
