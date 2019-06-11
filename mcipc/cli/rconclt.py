@@ -58,10 +58,8 @@ def get_args():
     return parser.parse_args()
 
 
-def _idle_shutdown(client, args):
+def idle_shutdown(players, args):
     """Shuts down the server if it is idle."""
-
-    players = client.players
 
     if players.online:
         LOGGER.info('Server is in use.')
@@ -105,9 +103,6 @@ def run_action(client, args):
         else:
             LOGGER.warning('There are no players online.')
             exit(1)
-    elif args.action == 'idle-shutdown':
-        if not _idle_shutdown(client, args):
-            exit(1)
 
     if result:
         LOGGER.info(result)
@@ -121,9 +116,17 @@ def main():
     basicConfig(level=log_level, format=LOG_FORMAT)
     host, port, passwd = get_creadentials(args.server, logger=LOGGER)
 
-    with Client(host, port) as client:
-        if not client.login(passwd):
-            LOGGER.error('Failed to log in.')
-            exit(4)
 
-        run_action(client, args)
+    if args.action == 'idle-shutdown':
+        with Client(host, port) as client:
+            players = client.players
+
+        if not idle_shutdown(players, args):
+            exit(1)
+    else:
+        with Client(host, port) as client:
+            if not client.login(passwd):
+                LOGGER.error('Failed to log in.')
+                exit(4)
+
+            run_action(client, args)
