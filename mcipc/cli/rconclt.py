@@ -116,17 +116,16 @@ def main():
     basicConfig(level=log_level, format=LOG_FORMAT)
     host, port, passwd = get_creadentials(args.server, logger=LOGGER)
 
+    with Client(host, port) as client:
+        if not client.login(passwd):
+            LOGGER.error('Failed to log in.')
+            exit(4)
+
+        if args.action == 'idle-shutdown':
+            players = client.players
+        else:
+            run_action(client, args)
 
     if args.action == 'idle-shutdown':
-        with Client(host, port) as client:
-            players = client.players
-
         if not idle_shutdown(players, args):
             exit(1)
-    else:
-        with Client(host, port) as client:
-            if not client.login(passwd):
-                LOGGER.error('Failed to log in.')
-                exit(4)
-
-            run_action(client, args)
