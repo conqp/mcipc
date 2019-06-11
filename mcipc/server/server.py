@@ -53,9 +53,11 @@ class StubServer:
 
     def _perform_status(self, connection):
         """Handles status requests."""
-        _ = connection.recv(1)  # Discard packet ID.
-        response = bytes(self.slp_response)
-        connection.send(response)
+        packet_id = connection.recv(1)
+        LOGGER.debug('Got packet id: %s', packet_id)
+        slp_response = bytes(self.slp_response)
+        LOGGER.debug('Sending SLP response: %s', slp_response)
+        connection.send(slp_response)
 
     def _process(self, connection):
         """Runs the connection processing."""
