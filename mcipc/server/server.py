@@ -79,15 +79,14 @@ class StubServer:
 
     def _process(self, connection, state=State.HANDSHAKE):
         """Runs the connection processing."""
+        LOGGER.debug('Current state: %s', state)
+
         if state == State.HANDSHAKE:
-            LOGGER.debug('HANDSHAKE')
             state = self._perform_handshake(connection)
             self._process(connection, state=state)
         elif state == State.STATUS:
-            LOGGER.debug('STATUS')
             self._perform_status(connection)
         elif state == State.LOGIN:
-            LOGGER.debug('LOGIN')
             self._handle_login(connection)
 
     def spawn(self, address, port):
