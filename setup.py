@@ -11,6 +11,7 @@ setup(
     python_requires='>=3.6',
     packages=[
         'mcipc',
+        'mcipc.cli',
         'mcipc.query',
         'mcipc.query.proto',
         'mcipc.rcon',
