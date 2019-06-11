@@ -50,29 +50,45 @@ class StubServer:
         payload = connection.recv(size)
         handshake = Handshake.from_bytes(payload)
         LOGGER.debug('Got handshake: %s', handshake)
+        return handshake.next_state
 
     def _perform_status(self, connection):
         """Handles status requests."""
         packet_id = connection.recv(1)
-        LOGGER.debug('Got packet id: %s', packet_id)
-        slp_response = bytes(self.slp_response)
-        LOGGER.debug('Sending SLP response: %s', slp_response)
-        connection.send(slp_response)
 
-    def _process(self, connection):
+        if packet_id == b'\x01':
+            LOGGER.debug('Got packet id: %s', packet_id)
+            slp_response = bytes(self.slp_response)
+            LOGGER.debug('Sending SLP response: %s', slp_response)
+            connection.send(slp_response)
+
+    def _perform_login(self, connection):
+        """Handles the login response."""
+        raise NotImplementedError()
+
+    def _handle_login(self, connection):
+        """Performs a login."""
+        header = connection.recv(1)
+        size = VarInt.from_bytes(header)
+        payload = connection.recv(size)
+        packet_id = VarInt.from_bytes(payload[0:1])
+        LOGGER.debug('Got packet ID: %s', packet_id)
+        user_name = payload[2:].decode('latin-1')
+        LOGGER.debug('User "%s" logged in.', user_name)
+        self._perform_login(connection)
+
+    def _process(self, connection, state=State.HANDSHAKE):
         """Runs the connection processing."""
-        state = State.HANDSHAKE
-
-        with connection:
-            if state == State.HANDSHAKE:
-                LOGGER.debug('HANDSHAKE')
-                self._perform_handshake(connection)
-                self._perform_status(connection)
-                state = State.STATUS
-            elif state == State.STATUS:
-                LOGGER.debug('STATUS')
-                payload = connection.recv(1024)
-                LOGGER.debug('Payload: %s', payload)
+        if state == State.HANDSHAKE:
+            LOGGER.debug('HANDSHAKE')
+            state = self._perform_handshake(connection)
+            self._process(connection, state=state)
+        elif state == State.STATUS:
+            LOGGER.debug('STATUS')
+            self._perform_status(connection)
+        elif state == State.LOGIN:
+            LOGGER.debug('LOGIN')
+            self._handle_login(connection)
 
     def spawn(self, address, port):
         """Spawns the server on the respective socket."""
@@ -82,5 +98,7 @@ class StubServer:
 
             while True:
                 connection, address = sock.accept()
-                LOGGER.debug('New connection from: %s', address)
-                self._process(connection)
+
+                with connection:
+                    LOGGER.debug('New connection from: %s', address)
+                    self._process(connection)
