@@ -14,7 +14,7 @@ from mcipc.rcon.playground import Client
 LOGGER = getLogger(__file__)
 
 
-def get_args():
+def _get_args():
     """Parses and returns the CLI arguments."""
 
     parser = ArgumentParser(description='A Minecraft RCON client.')
@@ -26,6 +26,9 @@ def get_args():
         'command', help='command to execute on the server')
     command_parser.add_argument(
         'argument', nargs='*', default=(), help='arguments for the command')
+    say_parser = subparsers.add_parser(
+        'say', help='broadcast a message on the server')
+    say_parser.add_argument('message', help='the message to broadcast')
     fortune_parser = subparsers.add_parser(
         'fortune', help='send a fortune to the players on the server')
     fortune_parser.add_argument(
@@ -38,16 +41,45 @@ def get_args():
         help='sends the current date and time to the players on the server')
     datetime_parser.add_argument(
         '-f', '--format', default='%c', help='the datetime format')
+    subparsers.add_parser('in-use', help='checks whether the server is in use')
     parser.add_argument(
         '-d', '--debug', action='store_true',
         help='print additional debug information')
     return parser.parse_args()
 
 
+def _run_action(client, args):
+    """Runs the respective actions."""
+
+    result = None
+
+    if args.action == 'exec':
+        result = client.run(args.command, *args.argument)
+    elif args.action == 'say':
+        result = client.say(args.message)
+    elif args.action == 'fortune':
+        result = client.fortune(
+            short=not args.long, offensive=args.offensive)
+    elif args.action == 'datetime':
+        result = client.datetime(frmt=args.format)
+    elif args.action == 'in-use':
+        players = client.players
+
+        if players.online:
+            LOGGER.info('There are %i players online:', players.online)
+            LOGGER.info(', '.join(players.names))
+        else:
+            LOGGER.warning('There are no players online.')
+            exit(1)
+
+    if result:
+        LOGGER.info(result)
+
+
 def main():
     """Runs the RCON client."""
 
-    args = get_args()
+    args = _get_args()
     log_level = DEBUG if args.debug else INFO
     basicConfig(level=log_level, format=LOG_FORMAT)
     server = args.server
@@ -70,20 +102,11 @@ def main():
             exit(3)
 
     with Client(host, port) as client:
-        if client.login(passwd):
-            if args.action == 'datetime':
-                result = client.datetime(frmt=args.format)
-            elif args.action == 'fortune':
-                result = client.fortune(
-                    short=not args.long, offensive=args.offensive)
-            elif args.action == 'exec':
-                result = client.run(args.command, *args.argument)
-
-            if result:
-                LOGGER.info(result)
-        else:
+        if not client.login(passwd):
             LOGGER.error('Failed to log in.')
-            exit(1)
+            exit(4)
+
+        _run_action(client, args)
 
 
 if __name__ == '__main__':
