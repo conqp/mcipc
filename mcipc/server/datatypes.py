@@ -34,7 +34,7 @@ class VarInt(int):
     @classmethod
     def from_bytes(cls, bytes_):
         """Reads a VarInt from the respective bytes."""
-        if len(bytes) > 5:
+        if len(bytes_) > 5:
             raise ValueError('VarInt is too big.')
 
         result = 0

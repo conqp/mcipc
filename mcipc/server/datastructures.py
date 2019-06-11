@@ -29,7 +29,7 @@ class Handshake(NamedTuple):
 
 
 
-class SLPResponse(NamedTuple):
+class SLPResponse(dict):
     """A server list ping response."""
 
     def __bytes__(self):
