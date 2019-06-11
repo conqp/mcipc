@@ -2,6 +2,7 @@
 
 from argparse import ArgumentParser
 from logging import DEBUG, INFO, basicConfig, getLogger
+from subprocess import CalledProcessError, check_call
 from sys import exit    # pylint: disable=W0622
 
 from mcipc.cli.common import get_creadentials
@@ -43,10 +44,42 @@ def get_args():
     datetime_parser.add_argument(
         '-f', '--format', default='%c', help='the datetime format')
     subparsers.add_parser('in-use', help='checks whether the server is in use')
+    shutdown_parser = subparsers.add_parser(
+        'idle-shutdown', help='shuts down the server if it is not in use')
+    shutdown_parser.add_argument(
+        '-s', '--sudo', action='store_true',
+        help='invoke the shutdown command using sudo')
+    shutdown_parser.add_argument(
+        '-u', '--unit', default='minecraft@{server}.service',
+        help='the systemd unit template')
     parser.add_argument(
         '-d', '--debug', action='store_true',
         help='print additional debug information')
     return parser.parse_args()
+
+
+def _idle_shutdown(client, args):
+    """Shuts down the server if it is idle."""
+
+    players = client.players
+
+    if players.online:
+        LOGGER.info('Server is in use.')
+        return False
+
+    LOGGER.info('Server is idle.')
+    unit = args.unit.format(args.server)
+    command = ('/usr/bin/systemctl', 'stop', unit)
+
+    try:
+        check_call(command)
+    except CalledProcessError as error:
+        LOGGER.error('Could not shutdown the server.')
+        LOGGER.debug(error)
+        return False
+
+    LOGGER.info('Server %s has been shut down.', unit)
+    return True
 
 
 def run_action(client, args):
@@ -71,6 +104,9 @@ def run_action(client, args):
             LOGGER.info(', '.join(players.names))
         else:
             LOGGER.warning('There are no players online.')
+            exit(1)
+    elif args.action == 'idle-shutdown':
+        if not _idle_shutdown(client, args):
             exit(1)
 
     if result:
