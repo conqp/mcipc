@@ -38,6 +38,9 @@ class VarInt(int):
         result = 0
 
         while True:
+            if bytec > 4:   # Compensate for start index 0.
+                raise ValueError('VarInt is too big.')
+
             byte = connection.recv(1)
             read = int.from_bytes(byte, 'little')
             value = read & 0b01111111
