@@ -32,17 +32,18 @@ class VarInt(int):
         return bytes_
 
     @classmethod
-    def from_bytes(cls, bytes_):
+    def from_connection(cls, connection):
         """Reads a VarInt from the respective bytes."""
-        if len(bytes_) > 5:
-            raise ValueError('VarInt is too big.')
-
+        bytec = 0
         result = 0
 
-        for index, byte in enumerate(bytes_):
+        while True:
+            byte = connection.recv(1)
+            byte = int.from_bytes(1, 'little')
             value = byte & 0b01111111
-            shift = 7 * index
+            shift = 7 * bytec
             result |= value << shift
+            bytec += 1
 
             if (byte & 0b10000000) == 0:
                 break
