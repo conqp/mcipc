@@ -39,13 +39,13 @@ class VarInt(int):
 
         while True:
             byte = connection.recv(1)
-            byte = int.from_bytes(1, 'little')
-            value = byte & 0b01111111
+            read = int.from_bytes(byte, 'little')
+            value = read & 0b01111111
             shift = 7 * bytec
             result |= value << shift
             bytec += 1
 
-            if (byte & 0b10000000) == 0:
+            if (read & 0b10000000) == 0:
                 break
 
         return cls(result)
