@@ -44,9 +44,7 @@ class StubServer:
     @staticmethod
     def _perform_handshake(connection):
         """Handle handshake requests."""
-        size = VarInt.from_connection(connection)
-        LOGGER.debug('Read size: %s', size)
-        handshake = Handshake.from_connection(connection, size)
+        handshake = Handshake.from_connection(connection)
         LOGGER.debug('Got handshake: %s', handshake)
         return handshake.next_state
 

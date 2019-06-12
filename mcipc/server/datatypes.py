@@ -1,9 +1,14 @@
 """Data types for the server protocol."""
 
+from logging import getLogger
+
 from mcipc.server.functions import rshift
 
 
 __all__ = ['VarInt']
+
+
+LOGGER = getLogger(__file__)
 
 
 class VarInt(int):
@@ -51,4 +56,5 @@ class VarInt(int):
             if (read & 0b10000000) == 0:
                 break
 
+        LOGGER.debug('Read %i bytes of VarInt.', read_bytes)
         return cls(result)
