@@ -39,16 +39,14 @@ class StubServer:
                 'text': self.description
             }
         }
-        return SLPResponse(json)
+        return SLPResponse(VarInt(0), json)
 
     @staticmethod
     def _perform_handshake(connection):
         """Handle handshake requests."""
-        header = connection.recv(1)
-        size = VarInt.from_bytes(header)
+        size = VarInt.from_connection(connection)
         LOGGER.debug('Read size: %s', size)
-        payload = connection.recv(size)
-        handshake = Handshake.from_bytes(payload)
+        handshake = Handshake.from_connection(connection, size)
         LOGGER.debug('Got handshake: %s', handshake)
         return handshake.next_state
 
@@ -68,10 +66,10 @@ class StubServer:
 
     def _handle_login(self, connection):
         """Performs a login."""
-        header = connection.recv(1)
-        size = VarInt.from_bytes(header)
-        payload = connection.recv(size)
-        packet_id = VarInt.from_bytes(payload[0:1])
+        size = VarInt.from_connection(connection)
+        packet_id = VarInt.from_connection(connection)
+        packet_id_length = len(bytes(packet_id))
+        payload = connection.recv(size - packet_id_length)
         LOGGER.debug('Got packet ID: %s', packet_id)
         user_name = payload[2:].decode('latin-1')
         LOGGER.debug('User "%s" logged in.', user_name)
