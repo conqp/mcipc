@@ -23,19 +23,19 @@ class Handshake(NamedTuple):
     next_state: State
 
     @classmethod
-    def from_connection(cls, connection):
+    def read(cls, readfunc):
         """Creates a handshake object from the respective bytes."""
-        size = VarInt.from_connection(connection)
+        size = VarInt.read(readfunc)
         LOGGER.debug('Read size: %s', size)
-        version = VarInt.from_connection(connection)
+        version = VarInt.read(readfunc)
         LOGGER.debug('Read version: %s', version)
         version_length = len(bytes(version))
         payload_size = size - version_length - 1    # Do not read next state.
-        payload = connection.recv(payload_size)
+        payload = readfunc(payload_size)
         LOGGER.debug('Read payload: %s', payload)
         address = payload[4:-2].decode()
         port = int.from_bytes(payload[-2:], 'little')
-        next_state = State.from_connection(connection)
+        next_state = State.read(readfunc)
         return cls(version, address, port, next_state)
 
 
@@ -60,15 +60,15 @@ class SLPResponse(NamedTuple):
         return payload_size + payload
 
     @classmethod
-    def from_connection(cls, connection):
+    def read(cls, readfunc):
         """Creates the SLP response from the respective payload."""
-        total_size = VarInt.from_connection(connection)
+        total_size = VarInt.read(readfunc)
         LOGGER.debug('Read total size: %s', total_size)
-        packet_id = VarInt.from_connection(connection)
+        packet_id = VarInt.read(readfunc)
         LOGGER.debug('Read packet ID: %s', packet_id)
-        json_size = VarInt.from_connection(connection)
+        json_size = VarInt.read(readfunc)
         LOGGER.debug('Read JSON size: %s', json_size)
-        json_bytes = connection.recv(json_size)
+        json_bytes = readfunc(json_size)
         LOGGER.debug('Read JSON bytes: %s', json_bytes)
         string = json_bytes.decode('latin-1')
         json = loads(string)

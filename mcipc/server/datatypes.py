@@ -37,24 +37,24 @@ class VarInt(int):
         return bytes_
 
     @classmethod
-    def from_connection(cls, connection):
+    def read(cls, readfunc):
         """Reads a VarInt from the respective bytes."""
-        read_bytes = 0
+        bytes_count = 0
         result = 0
 
         while True:
-            if read_bytes > 4:  # Compensate for start index 0.
+            if bytes_count > 4:  # Compensate for start index 0.
                 raise ValueError('VarInt is too big.')
 
-            byte = connection.recv(1)
+            byte = readfunc(1)
             read = int.from_bytes(byte, 'little')
             value = read & 0b01111111
-            shift = 7 * read_bytes
+            shift = 7 * bytes_count
             result |= value << shift
-            read_bytes += 1
+            bytes_count += 1
 
             if (read & 0b10000000) == 0:
                 break
 
-        LOGGER.debug('Read %i bytes of VarInt.', read_bytes)
+        LOGGER.debug('Read %i bytes of VarInt.', bytes_count)
         return cls(result)

@@ -16,7 +16,6 @@ class State(Enum):
     LOGIN = VarInt(2)
 
     @classmethod
-    def from_connection(cls, connection):
+    def read(cls, readfunc):
         """Reads the state from the respective connection."""
-        var_int = VarInt.from_connection(connection)
-        return cls(var_int)
+        return cls(VarInt.read(readfunc))
