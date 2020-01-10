@@ -9,7 +9,8 @@ __all__ = [
     'LOG_FORMAT',
     'FORTUNE',
     'InvalidCredentialsError',
-    'CredentialsConfig']
+    'CredentialsConfig'
+]
 
 
 LOG_FORMAT = '[%(levelname)s] %(name)s: %(message)s'
@@ -47,7 +48,6 @@ class Credentials(NamedTuple):
     @classmethod
     def from_string(cls, string):
         """Reads the credentials from the given string."""
-
         try:
             host, port = string.split(':')
         except ValueError:
@@ -71,6 +71,6 @@ class Credentials(NamedTuple):
         the respective config section.
         """
         host = section['host']
-        port = int(section['port'])
+        port = section.getint('port')
         passwd = section.get('passwd')
         return cls(host, port, passwd)

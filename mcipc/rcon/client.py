@@ -9,9 +9,6 @@ from mcipc.rcon.proto import Client as _Client
 __all__ = ['Client']
 
 
-_PLAYER_OR_COORDS = TypeError('Must specify either dst_player or coords.')
-
-
 class AdminMixin:
     """Administrative methods."""
 
@@ -32,16 +29,14 @@ class AdminMixin:
         """Teleports players."""
         args = [str(player)]
 
-        if dst_player is not None and coords is not None:
-            raise _PLAYER_OR_COORDS
+        if sum(item is None for item in (dst_player, coords)) != 1:
+            raise TypeError('Must specify either dst_player or coords.')
 
         if dst_player is not None:
             args.append(str(dst_player))
         elif coords is not None:
             coord_x, coord_y, coord_z = coords
             args += [str(coord_x), str(coord_y), str(coord_z)]
-        else:
-            raise _PLAYER_OR_COORDS
 
         if orientation is not None:
             yaw, pitch = orientation

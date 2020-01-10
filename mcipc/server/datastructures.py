@@ -39,7 +39,6 @@ class Handshake(NamedTuple):
         return cls(version, address, port, next_state)
 
 
-
 class SLPResponse(NamedTuple):
     """A server list ping response."""
 

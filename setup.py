@@ -8,7 +8,7 @@ setup(
     setup_requires=['setuptools-git-version'],
     author='Richard Neumann',
     author_email='mail@richard-neumann.de',
-    python_requires='>=3.6',
+    python_requires='>=3.8',
     packages=[
         'mcipc',
         'mcipc.cli',
@@ -23,4 +23,5 @@ setup(
     description='A Minecraft server inter-process communication library.',
     long_description=open('README.md').read(),
     long_description_content_type="text/markdown",
-    keywords='minecraft python server rcon query')
+    keywords='minecraft python server rcon query'
+)

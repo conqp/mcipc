@@ -31,9 +31,8 @@ def main():
 
     args = get_args()
     basicConfig(level=INFO, format=LOG_FORMAT)
-    server = args.server
 
-    if server:
+    if server := args.server:
         try:
             host, port, passwd = CONFIG.servers[server]
         except KeyError:

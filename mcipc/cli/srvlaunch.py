@@ -65,4 +65,5 @@ class ServerLauncher(StubServer):
             response = get_response('Server has been started.')
         else:
             response = get_response('Server could not be started.')
+
         connection.send(response)
