@@ -3,6 +3,7 @@
 from enum import Enum
 from logging import getLogger
 from random import randint
+from socket import SOCK_STREAM
 from typing import NamedTuple
 
 from mcipc.common import BaseClient
@@ -78,6 +79,10 @@ class Packet(NamedTuple):
 
 class Client(BaseClient):
     """An RCON client."""
+
+    def __init__(self, host: str, port: int, timeout: float = None):
+        """Initializes the base client with the SOCK_STREAM socket type."""
+        super().__init__(SOCK_STREAM, host, port, timeout=timeout)
 
     def communicate(self, packet: Packet) -> Packet:
         """Sends and receives a packet."""

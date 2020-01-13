@@ -1,6 +1,6 @@
 """Stuff, common to Query and RCON."""
 
-from socket import SOCK_STREAM, socket, SocketKind  # pylint: disable=E0611
+from socket import socket, SocketKind   # pylint: disable=E0611
 
 
 __all__ = ['BaseClient']
@@ -9,11 +9,13 @@ __all__ = ['BaseClient']
 class BaseClient:
     """A basic client."""
 
-    def __init__(self, host: str, port: int, typ: SocketKind = SOCK_STREAM):
+    def __init__(self, typ: SocketKind, host: str, port: int,
+                 timeout: float = None):
         """Sets host an port."""
         self._socket = socket(type=typ)
         self.host = host
         self.port = port
+        self.timeout = timeout
 
     def __enter__(self):
         """Conntects the socket."""
@@ -33,6 +35,7 @@ class BaseClient:
 
     def connect(self):
         """Conntects to the RCON server."""
+        self._socket.settimeout(self.timeout)
         return self._socket.connect(self.socket)
 
     def close(self):

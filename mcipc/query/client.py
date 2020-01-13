@@ -12,9 +12,11 @@ __all__ = ['Client']
 class Client(BaseClient):
     """A Query client."""
 
-    def __init__(self, host: str, port: int):
-        """Sets the challenge token."""
-        super().__init__(host, port, typ=SOCK_DGRAM)
+    def __init__(self, host: str, port: int, timeout: float = None):
+        """Initializes the base client with the socket
+        type SOCK_DGRAM and sets the challenge token.
+        """
+        super().__init__(SOCK_DGRAM, host, port, timeout=timeout)
         self._challenge_token = None
 
     def __enter__(self):
