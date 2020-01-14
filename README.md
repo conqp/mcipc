@@ -99,6 +99,17 @@ The type of `mansion` is `Location` which describes the x-y-z location of the ne
 
 *HINT:* The y-component of a location may be `None`, which represents the special Minectaft vector component `'~'`.
 
+### Handling connection timeouts.
+Since version 1.2.1, you can specify an optional `timeout=<sec>` parameter on both `Query` and `RCON` clients.  
+If a timout is reached during a connection attempt, it will raise a `socket.timeout` exception.  
+The following example will raise a connection timeout after 1.5 seconds:
+
+    try:
+        with Client('127.0.0.1', 5000, timeout=1.5) as client:
+            <do_stuff>
+    except socket.timeout as timeout:
+        <handle_connection_timeout>
+
 ## Scripts
 This library also ships a couple of scripts intended as a proof-of-concept.
 
