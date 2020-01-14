@@ -91,7 +91,7 @@ def basic_stats(client, args):  # pylint: disable=R0911
     """Handles basic stats queries."""
 
     if not args.field:
-        return dumps(client.basic_stats.to_json(), intent=args.indent)
+        return dumps(client.basic_stats.to_json(), indent=args.indent)
 
     if args.field == 'motd':
         return client.basic_stats.motd
@@ -121,7 +121,7 @@ def full_stats(client, args):   # pylint: disable=R0911
     """Handles full stats queries."""
 
     if not args.field:
-        return dumps(client.full_stats.to_json(), intent=args.indent)
+        return dumps(client.full_stats.to_json(), indent=args.indent)
 
     if args.field == 'host-name':
         return client.full_stats.host_name
@@ -136,7 +136,7 @@ def full_stats(client, args):   # pylint: disable=R0911
         return client.full_stats.version
 
     if args.action == 'plugins':
-        return dumps(client.full_stats.plugins, intent=args.indent)
+        return dumps(client.full_stats.plugins, indent=args.indent)
 
     if args.action == 'map':
         return client.full_stats.map
