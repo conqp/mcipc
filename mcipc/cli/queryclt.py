@@ -96,22 +96,22 @@ def basic_stats(client, args):  # pylint: disable=R0911
     if args.field == 'motd':
         return client.basic_stats.motd
 
-    if args.action == 'game-type':
+    if args.field == 'game-type':
         return client.basic_stats.game_type
 
-    if args.action == 'map':
+    if args.field == 'map':
         return client.basic_stats.map
 
-    if args.action == 'num-players':
+    if args.field == 'num-players':
         return client.basic_stats.num_players
 
-    if args.action == 'max-players':
+    if args.field == 'max-players':
         return client.basic_stats.max_players
 
-    if args.action == 'host-port':
+    if args.field == 'host-port':
         return client.basic_stats.host_port
 
-    if args.action == 'host-ip':
+    if args.field == 'host-ip':
         return client.basic_stats.host_ip
 
     raise ValueError('Invalid action.')
@@ -123,37 +123,37 @@ def full_stats(client, args):   # pylint: disable=R0911
     if not args.field:
         return dumps(client.full_stats.to_json(), indent=args.indent)
 
-    if args.field == 'host-name':
+    if args.field == 'hostname':
         return client.full_stats.host_name
 
-    if args.action == 'game-type':
+    if args.field == 'game-type':
         return client.full_stats.game_type
 
-    if args.action == 'game-id':
+    if args.field == 'game-id':
         return client.full_stats.game_id
 
-    if args.action == 'version':
+    if args.field == 'version':
         return client.full_stats.version
 
-    if args.action == 'plugins':
+    if args.field == 'plugins':
         return dumps(client.full_stats.plugins, indent=args.indent)
 
-    if args.action == 'map':
+    if args.field == 'map':
         return client.full_stats.map
 
-    if args.action == 'num-players':
+    if args.field == 'num-players':
         return client.full_stats.num_players
 
-    if args.action == 'max-players':
+    if args.field == 'max-players':
         return client.full_stats.max_players
 
-    if args.action == 'host-port':
+    if args.field == 'host-port':
         return client.full_stats.host_port
 
-    if args.action == 'host-ip':
+    if args.field == 'host-ip':
         return client.full_stats.host_ip
 
-    if args.action == 'players':
+    if args.field == 'players':
         return client.full_stats.players
 
     raise ValueError('Invalid action.')
