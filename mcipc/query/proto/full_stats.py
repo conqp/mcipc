@@ -18,7 +18,7 @@ def get_dict(bytes_):
     of zero-separated key-value pairs.
     """
 
-    item = b''
+    item = ''
     dictionary = {}
     key = None
     is_key = True
@@ -38,9 +38,9 @@ def get_dict(bytes_):
                 key = None
                 is_key = True
 
-            item = b''
+            item = ''
         else:
-            item += byte
+            item += byte.decode('latin-1')
 
     raise ValueError('Bytes string not properly terminated.', bytes_)
 
@@ -48,7 +48,7 @@ def get_dict(bytes_):
 def items(bytes_):
     """Yields zero-byte-separated items."""
 
-    item = b''
+    item = ''
 
     for integer in bytes_:
         byte = bytes([integer])
@@ -58,9 +58,9 @@ def items(bytes_):
                 return
 
             yield item
-            item = b''
+            item = ''
         else:
-            item += byte
+            item += byte.decode('latin-1')
 
 
 def plugins_to_dict(string):
@@ -78,16 +78,16 @@ def plugins_to_dict(string):
 def stats_from_dict(dictionary):
     """Yields statistics options from the provided dictionary."""
 
-    yield dictionary[b'hostname'].decode('latin-1')
-    yield dictionary[b'gametype'].decode()
-    yield dictionary[b'game_id'].decode()
-    yield dictionary[b'version'].decode()
-    yield plugins_to_dict(dictionary[b'plugins'].decode('latin-1'))
-    yield dictionary[b'map'].decode()
-    yield int(dictionary[b'numplayers'].decode())
-    yield int(dictionary[b'maxplayers'].decode())
-    yield int(dictionary[b'hostport'].decode())
-    yield ip_address(dictionary[b'hostip'].decode())
+    yield dictionary['hostname']
+    yield dictionary['gametype']
+    yield dictionary['game_id']
+    yield dictionary['version']
+    yield plugins_to_dict(dictionary['plugins'])
+    yield dictionary['map']
+    yield int(dictionary['numplayers'])
+    yield int(dictionary['maxplayers'])
+    yield int(dictionary['hostport'])
+    yield ip_address(dictionary['hostip'])
 
 
 class Request(NamedTuple):
@@ -145,7 +145,7 @@ class FullStats(NamedTuple):
         index, stats = get_dict(bytes_[index:])
         index += 16 + 1     # Discard additional null byte.
         index += 10     # Discard padding.
-        players = tuple(player.decode() for player in items(bytes_[index:]))
+        players = tuple(items(bytes_[index:]))
         return cls(type_, session_id, *stats_from_dict(stats), players)
 
     def to_json(self, ip_type=str):
