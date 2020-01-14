@@ -61,7 +61,7 @@ class BasicStats(NamedTuple):
             raise ValueError('Unexpected amount of Null terminated strings.')
 
         motd = motd.decode('latin-1')
-        strings = [block.decode() for block in blocks]
+        strings = [block.decode('latin-1') for block in blocks]
 
         try:
             game_type, map_, num_players, max_players = strings
