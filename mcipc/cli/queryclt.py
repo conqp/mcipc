@@ -6,9 +6,9 @@ from logging import DEBUG, INFO, basicConfig, getLogger
 from socket import timeout
 from sys import exit    # pylint: disable=W0622
 
-from mcipc.cli.common import get_credentials
-from mcipc.config import LOG_FORMAT
-from mcipc.query import Client
+from mcipc.config import LOG_FORMAT, InvalidCredentialsError, Credentials
+from mcipc.query.client import Client
+from mcipc.query.config import CONFIG
 
 
 __all__ = ['main']
@@ -69,7 +69,25 @@ def get_args():
     return parser.parse_args()
 
 
-def basic_stats(client, args):
+def get_credentials(server):
+    """Get the credentials for a server from the respective server name."""
+
+    try:
+        host, port, passwd = Credentials.from_string(server)
+    except InvalidCredentialsError:
+        try:
+            host, port, passwd = CONFIG.servers[server]
+        except KeyError:
+            LOGGER.error('No such server: %s.', server)
+            exit(2)
+
+    if passwd is not None:
+        LOGGER.warning('Query protocol does not require a password.')
+
+    return (host, port)
+
+
+def basic_stats(client, args):  # pylint: disable=R0911
     """Handles basic stats queries."""
 
     if not args.field:
@@ -99,7 +117,7 @@ def basic_stats(client, args):
     raise ValueError('Invalid action.')
 
 
-def full_stats(client, args):
+def full_stats(client, args):   # pylint: disable=R0911
     """Handles full stats queries."""
 
     if not args.field:
@@ -147,8 +165,7 @@ def main():
     args = get_args()
     log_level = DEBUG if args.debug else INFO
     basicConfig(level=log_level, format=LOG_FORMAT)
-    host, port, _ = get_credentials(
-        args.server, require_password=False, logger=LOGGER)
+    host, port = get_credentials(args.server)
 
     try:
         with Client(host, port, timeout=args.timeout) as client:

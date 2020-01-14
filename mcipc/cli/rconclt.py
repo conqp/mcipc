@@ -1,13 +1,14 @@
 """RCON client CLI."""
 
 from argparse import ArgumentParser
+from getpass import getpass
 from logging import DEBUG, INFO, basicConfig, getLogger
 from socket import timeout
 from subprocess import CalledProcessError, check_call
 from sys import exit    # pylint: disable=W0622
 
-from mcipc.cli.common import get_credentials
-from mcipc.config import LOG_FORMAT
+from mcipc.config import LOG_FORMAT, InvalidCredentialsError, Credentials
+from mcipc.rcon.config import CONFIG
 from mcipc.rcon.playground import Client
 
 
@@ -59,6 +60,29 @@ def get_args():
         '-u', '--unit', default='minecraft@{server}.service',
         help='the systemd unit template')
     return parser.parse_args()
+
+
+def get_credentials(server):
+    """Get the credentials for a server from the respective server name."""
+
+    try:
+        host, port, passwd = Credentials.from_string(server)
+    except InvalidCredentialsError:
+        try:
+            host, port, passwd = CONFIG.servers[server]
+        except KeyError:
+            LOGGER.error('No such server: %s.', server)
+            exit(2)
+
+    if passwd is None:
+        try:
+            passwd = getpass('Password: ')
+        except (KeyboardInterrupt, EOFError):
+            print()
+            LOGGER.error('Aborted by user.')
+            exit(3)
+
+    return (host, port, passwd)
 
 
 def idle_shutdown(players, args):
@@ -117,8 +141,7 @@ def main():
     args = get_args()
     log_level = DEBUG if args.debug else INFO
     basicConfig(level=log_level, format=LOG_FORMAT)
-    host, port, passwd = get_credentials(
-        args.server, require_password=True, logger=LOGGER)
+    host, port, passwd = get_credentials(args.server)
 
     try:
         with Client(host, port, timeout=args.timeout) as client:
