@@ -14,7 +14,7 @@ from mcipc.query.config import CONFIG
 __all__ = ['main']
 
 
-LOGGER = getLogger('rconclt')
+LOGGER = getLogger('queryclt')
 
 
 def get_args():
