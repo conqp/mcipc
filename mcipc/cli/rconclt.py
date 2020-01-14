@@ -12,7 +12,7 @@ from mcipc.rcon.config import CONFIG
 from mcipc.rcon.playground import Client
 
 
-__all__ = ['main']
+__all__ = ['get_credentials', 'main']
 
 
 LOGGER = getLogger('rconclt')

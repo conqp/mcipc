@@ -113,24 +113,38 @@ The following example will raise a connection timeout after 1.5 seconds:
 ## Scripts
 This library also ships a couple of scripts intended as a proof-of-concept.
 
+* `queryclt`: A `Query` client.
 * `rconclt`: An `RCON` client.
 * `rconshell`: An interactive `RCON` shell.
 
-### `rconclt`
-The script `rconclt` is an RCON client script to communicate with minecraft servers using the shell.  
-To invoke a pre-defined server configuration (see below):
+### `queryclt`
+`queryclt` is a Query client script to communicate with minecraft servers via the Query protocol using the shell.  
+To communicate with a server, run:
 
-    rconclt my_server <command> [<args>...] [options]
+    queryclt <server> <stats_type> [<args>...] [options]
+
+The placeholder `<server>` can either be a pre-defined server's name (see [below](#Configuration)) or server socket identified by `<host>:<port>`.
+
+### `rconclt`
+`rconclt` is an RCON client script to communicate with minecraft servers via the RCON protocol using the shell.  
+To communicate with a server, run:
+
+    rconclt <server> <command> [<args>...] [options]
+    
+The placeholder `<server>` can either be a pre-defined server's name (see [below](#Configuration)) or server socket identified by `[<password>@]<host>:<port>`.\
+If no password was specified in either the pre-defined server entry or the server socket, the script will interactively ask for the server's password.
 
 ## Configuration
-`rconclt` can be configured in `/etc/mcipc.d/rcon.conf`:
+`queryclt` servers can be configured in `/etc/mcipc.d/query.conf`.\
+`rconclt` servers can be configured in `/etc/mcipc.d/rcon.conf`.\
+The configuration file format is:
 
-    [my_server]
-    host = 127.0.0.1
-    port = 5000
-    passwd = mysecretpassword
+    [<server_name>]
+    host = <hostname_or_ip_address>
+    port = <port>
+    passwd = <password>
 
-The `passwd` entry is optional.
+The `passwd` entry is optional for `rcon.conf` and unnecessary for `query.conf`.
 
 ## License
 Copyright (C) 2018 Richard Neumann <mail at richard dash neumann period de>
