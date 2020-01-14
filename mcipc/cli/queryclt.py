@@ -153,9 +153,9 @@ def main():
     try:
         with Client(host, port, timeout=args.timeout) as client:
             if args.action == 'basic-stats':
-                print(basic_stats(client, args))
+                print(basic_stats(client, args), flush=True)
             elif args.action == 'full-stats':
-                print(full_stats(client, args))
+                print(full_stats(client, args), flush=True)
     except timeout:
         LOGGER.error('Connection timeout.')
         exit(3)
