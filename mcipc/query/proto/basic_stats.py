@@ -1,6 +1,6 @@
 """Basic statistics protocol."""
 
-from ipaddress import IPv4Address
+from ipaddress import ip_address, IPv4Address
 from typing import NamedTuple
 
 from mcipc.query.proto.common import MAGIC, random_session_id, Type
@@ -52,7 +52,7 @@ class BasicStats(NamedTuple):
     @classmethod
     def from_bytes(cls, bytes_):    # pylint: disable=R0914
         """Creates the packet from the respective bytes."""
-        type_ = int.from_bytes(bytes_[0:1], 'big')
+        type_ = Type.from_bytes(bytes_[0:1])
         session_id = int.from_bytes(bytes_[1:5], 'big')
 
         try:
@@ -71,10 +71,10 @@ class BasicStats(NamedTuple):
         num_players = int(num_players)
         max_players = int(max_players)
         host_port = int.from_bytes(port_ip[0:2], 'little')
-        host_ip = IPv4Address(port_ip[2:].decode())
+        host_ip = ip_address(port_ip[2:].decode())
         return cls(
-            Type(type_), session_id, motd, game_type, map_, num_players,
-            max_players, host_port, host_ip)
+            type_, session_id, motd, game_type, map_, num_players, max_players,
+            host_port, host_ip)
 
     def to_json(self, ip_type=str):
         """Returns a JSON-ish dict."""

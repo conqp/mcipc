@@ -1,6 +1,6 @@
 """Full statistics protocol."""
 
-from ipaddress import IPv4Address
+from ipaddress import ip_address, IPv4Address
 from typing import NamedTuple
 
 from mcipc.query.proto.common import MAGIC, random_session_id, Type
@@ -87,7 +87,7 @@ def stats_from_dict(dictionary):
     yield int(dictionary[b'numplayers'].decode())
     yield int(dictionary[b'maxplayers'].decode())
     yield int(dictionary[b'hostport'].decode())
-    yield IPv4Address(dictionary[b'hostip'].decode())
+    yield ip_address(dictionary[b'hostip'].decode())
 
 
 class Request(NamedTuple):
@@ -139,14 +139,14 @@ class FullStats(NamedTuple):
     @classmethod
     def from_bytes(cls, bytes_):
         """Creates the full stats object from the respective bytes."""
-        type_ = int.from_bytes(bytes_[0:1], 'big')
+        type_ = Type.from_bytes(bytes_[0:1])
         session_id = int.from_bytes(bytes_[1:5], 'big')
         index = 16  # Discard padding.
         index, stats = get_dict(bytes_[index:])
         index += 16 + 1     # Discard additional null byte.
         index += 10     # Discard padding.
         players = tuple(player.decode() for player in items(bytes_[index:]))
-        return cls(Type(type_), session_id, *stats_from_dict(stats), players)
+        return cls(type_, session_id, *stats_from_dict(stats), players)
 
     def to_json(self, ip_type=str):
         """Returns a JSON-ish dict."""

@@ -25,3 +25,8 @@ class Type(Enum):
     def __bytes__(self):
         """Reuturns the integer value as big endian."""
         return self.value.to_bytes(1, 'big')    # pylint: disable=E1101
+
+    @classmethod
+    def from_bytes(cls, bytes_):
+        """Returns the type from the respective bytes."""
+        return cls(int.from_bytes(bytes_, 'big'))

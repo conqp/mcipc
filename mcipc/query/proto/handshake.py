@@ -41,10 +41,10 @@ class Response(NamedTuple):
     @classmethod
     def from_bytes(cls, bytes_):
         """Creates the packet from bytes."""
-        type_ = int.from_bytes(bytes_[0:1], 'big')
+        type_ = Type.from_bytes(bytes_[0:1])
         session_id = int.from_bytes(bytes_[1:5], 'big')
         challenge_token = bytes_[5:-1].decode()
-        return cls(Type(type_), session_id, int(challenge_token))
+        return cls(type_, session_id, int(challenge_token))
 
     def to_json(self):
         """Returns a JSON-ish dict."""
