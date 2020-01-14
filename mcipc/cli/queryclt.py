@@ -21,7 +21,7 @@ def get_args():
     """Parses and returns the CLI arguments."""
 
     parser = ArgumentParser(description='A Minecraft Query client.')
-    parser.add_argument('server', help="the server's name")
+    parser.add_argument('server', help='the server to connect to')
     parser.add_argument(
         '-i', '--indent', type=int, default=2, help='indentation for JSON')
     parser.add_argument(

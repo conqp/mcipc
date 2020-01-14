@@ -19,7 +19,7 @@ def get_args():
     """Parses and returns the CLI arguments."""
 
     parser = ArgumentParser(description='An interactive RCON shell.')
-    parser.add_argument('server', nargs='?', help="the server's name")
+    parser.add_argument('server', nargs='?', help='the server to connect to')
     parser.add_argument('-p', '--prompt', default=PS1, help='the shell prompt')
     return parser.parse_args()
 

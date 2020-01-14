@@ -22,7 +22,7 @@ def get_args():
     """Parses and returns the CLI arguments."""
 
     parser = ArgumentParser(description='A Minecraft RCON client.')
-    parser.add_argument('server', help="the server's name")
+    parser.add_argument('server', help='the server to connect to')
     parser.add_argument(
         '-t', '--timeout', type=float, help='connection timeout in seconds')
     parser.add_argument(
