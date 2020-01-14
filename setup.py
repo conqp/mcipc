@@ -17,7 +17,7 @@ setup(
         'mcipc.rcon',
         'mcipc.rcon.datastructures',
         'mcipc.server'],
-    scripts=['files/rconclt', 'files/rconshell'],
+    scripts=['files/queryclt', 'files/rconclt', 'files/rconshell'],
     url='https://github.com/conqp/mcipc',
     license='GPLv3',
     description='A Minecraft server inter-process communication library.',

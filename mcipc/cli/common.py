@@ -8,13 +8,13 @@ from mcipc.config import InvalidCredentialsError, Credentials
 from mcipc.rcon.config import CONFIG
 
 
-__all__ = ['get_creadentials']
+__all__ = ['get_credentials']
 
 
 LOGGER = getLogger(__file__)
 
 
-def get_creadentials(server, logger=LOGGER):
+def get_credentials(server, require_password=False, logger=LOGGER):
     """Get the credentials for a server from the respective server name."""
 
     try:
@@ -26,7 +26,7 @@ def get_creadentials(server, logger=LOGGER):
             logger.error('No such server: %s.', server)
             exit(2)
 
-    if passwd is None:
+    if passwd is None and require_password:
         try:
             passwd = getpass('Password: ')
         except (KeyboardInterrupt, EOFError):

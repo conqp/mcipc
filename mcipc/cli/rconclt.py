@@ -2,15 +2,16 @@
 
 from argparse import ArgumentParser
 from logging import DEBUG, INFO, basicConfig, getLogger
+from socket import timeout
 from subprocess import CalledProcessError, check_call
 from sys import exit    # pylint: disable=W0622
 
-from mcipc.cli.common import get_creadentials
+from mcipc.cli.common import get_credentials
 from mcipc.config import LOG_FORMAT
 from mcipc.rcon.playground import Client
 
 
-__all__ = ['get_args', 'run_action', 'main']
+__all__ = ['main']
 
 
 LOGGER = getLogger('rconclt')
@@ -21,6 +22,11 @@ def get_args():
 
     parser = ArgumentParser(description='A Minecraft RCON client.')
     parser.add_argument('server', help="the server's name")
+    parser.add_argument(
+        '-t', '--timeout', type=float, help='connection timeout in seconds')
+    parser.add_argument(
+        '-d', '--debug', action='store_true',
+        help='print additional debug information')
     subparsers = parser.add_subparsers(dest='action')
     command_parser = subparsers.add_parser(
         'exec', help='execute commands on the server')
@@ -52,9 +58,6 @@ def get_args():
     shutdown_parser.add_argument(
         '-u', '--unit', default='minecraft@{server}.service',
         help='the systemd unit template')
-    parser.add_argument(
-        '-d', '--debug', action='store_true',
-        help='print additional debug information')
     return parser.parse_args()
 
 
@@ -114,17 +117,22 @@ def main():
     args = get_args()
     log_level = DEBUG if args.debug else INFO
     basicConfig(level=log_level, format=LOG_FORMAT)
-    host, port, passwd = get_creadentials(args.server, logger=LOGGER)
+    host, port, passwd = get_credentials(
+        args.server, require_password=True, logger=LOGGER)
 
-    with Client(host, port) as client:
-        if not client.login(passwd):
-            LOGGER.error('Failed to log in.')
-            exit(4)
+    try:
+        with Client(host, port, timeout=args.timeout) as client:
+            if not client.login(passwd):
+                LOGGER.error('Failed to log in.')
+                exit(4)
 
-        if args.action == 'idle-shutdown':
-            players = client.players
-        else:
-            run_action(client, args)
+            if args.action == 'idle-shutdown':
+                players = client.players
+            else:
+                run_action(client, args)
+    except timeout:
+        LOGGER.error('Connection timeout.')
+        exit(3)
 
     if args.action == 'idle-shutdown':
         if not idle_shutdown(players, args):
