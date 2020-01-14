@@ -154,7 +154,7 @@ def full_stats(client, args):   # pylint: disable=R0911
         return client.full_stats.host_ip
 
     if args.field == 'players':
-        return client.full_stats.players
+        return dumps(client.full_stats.players, indent=args.indent)
 
     raise ValueError('Invalid action.')
 
