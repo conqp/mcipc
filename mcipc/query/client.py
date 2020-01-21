@@ -1,6 +1,7 @@
 """Query client library."""
 
 from socket import SOCK_DGRAM
+from typing import Generator
 
 from mcipc.common import BaseClient
 from mcipc.query.proto.basic_stats import BasicStatsMixin
@@ -30,18 +31,17 @@ class Client(BaseClient, HandshakeMixin, BasicStatsMixin, FullStatsMixin):
 
         return self
 
-    def _recv_all(self, buffer: int = 4096) -> bytes:
-        """Recevies all bytes."""
-        bytes_ = b''
-
-        while True:
-            chunk = self._socket.recv(buffer)
-            bytes_ += chunk
+    def _recv_chunks(self, buffer: int = 4096) -> Generator[bytes, None, None]:
+        """Yields chunks of bytes from the socket."""
+        while chunk := self._socket.recv(buffer):
+            yield chunk
 
             if len(chunk) < buffer:
                 break
 
-        return bytes_
+    def _recv_all(self, buffer: int = 4096) -> bytes:
+        """Receives all bytes from the socket."""
+        return b''.join(self._recv_chunks(buffer=buffer))
 
     def communicate(self, packet, response_type=None, *, buffer: int = 4096):
         """Sends and receives a packet."""
