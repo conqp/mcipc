@@ -37,7 +37,7 @@ class Client(BaseClient, HandshakeMixin, BasicStatsMixin, FullStatsMixin):
             yield chunk
 
             if len(chunk) < buffer:
-                break
+                return
 
     def _recv_all(self, buffer: int = 4096) -> bytes:
         """Receives all bytes from the socket."""
