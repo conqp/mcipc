@@ -6,7 +6,7 @@ from typing import NamedTuple
 from mcipc.query.proto.common import MAGIC, random_session_id, Type
 
 
-__all__ = ['Request', 'FullStats']
+__all__ = ['Request', 'FullStats', 'FullStatsMixin']
 
 
 PADDING = 0
@@ -159,3 +159,13 @@ class FullStats(NamedTuple):
             'num_players': self.num_players, 'max_players': self.max_players,
             'host_port': self.host_port, 'host_ip': host_ip,
             'players': self.players}
+
+
+class FullStatsMixin:   # pylint: disable=R0903
+    """Query client mixin for full stats."""
+
+    @property
+    def full_stats(self) -> FullStats:
+        """Returns full stats"""
+        request = Request.create(self._challenge_token)
+        return self.communicate(request, FullStats)

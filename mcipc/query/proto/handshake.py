@@ -5,7 +5,7 @@ from typing import NamedTuple
 from mcipc.query.proto.common import MAGIC, random_session_id, Type
 
 
-__all__ = ['Request', 'Response']
+__all__ = ['Request', 'Response', 'HandshakeMixin']
 
 
 class Request(NamedTuple):
@@ -51,3 +51,12 @@ class Response(NamedTuple):
         return {
             'type': self.type.value, 'session_id': self.session_id,
             'challenge_token': self.challenge_token}
+
+
+class HandshakeMixin:   # pylint: disable=R0903
+    """Query client mixin for performing handshakes."""
+
+    def handshake(self) -> Response:
+        """Performs a handshake."""
+        request = Request.create()
+        return self.communicate(request, Response)

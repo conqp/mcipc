@@ -3,15 +3,15 @@
 from socket import SOCK_DGRAM
 
 from mcipc.common import BaseClient
-from mcipc.query.proto import handshake
-from mcipc.query.proto.basic_stats import BasicStats, Request as BasicRequest
-from mcipc.query.proto.full_stats import FullStats, Request as FullRequest
+from mcipc.query.proto.basic_stats import BasicStatsMixin
+from mcipc.query.proto.full_stats import FullStatsMixin
+from mcipc.query.proto.handshake import HandshakeMixin
 
 
 __all__ = ['Client']
 
 
-class Client(BaseClient):
+class Client(BaseClient, HandshakeMixin, BasicStatsMixin, FullStatsMixin):
     """A Query client."""
 
     def __init__(self, host: str, port: int, timeout: float = None):
@@ -52,20 +52,3 @@ class Client(BaseClient):
             return response
 
         return response_type.from_bytes(response)
-
-    def handshake(self):
-        """Performs a handshake."""
-        request = handshake.Request.create()
-        return self.communicate(request, handshake.Response)
-
-    @property
-    def basic_stats(self) -> BasicStats:
-        """Returns basic stats"""
-        request = BasicRequest.create(self._challenge_token)
-        return self.communicate(request, BasicStats)
-
-    @property
-    def full_stats(self) -> FullStats:
-        """Returns full stats"""
-        request = FullRequest.create(self._challenge_token)
-        return self.communicate(request, FullStats)
