@@ -18,6 +18,6 @@ class Seed(int):
         match = REGEX.fullmatch(text)
         return cls(match.group(1))
 
-    def to_json(self):
+    def to_json(self) -> int:
         """Returns a JSON-ish dict."""
-        return self     # No conversion necessary.
+        return int(self)

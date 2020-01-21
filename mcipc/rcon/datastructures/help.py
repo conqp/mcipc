@@ -1,7 +1,7 @@
 """Datastructures to represent help on commands."""
 
 from logging import getLogger
-from typing import NamedTuple
+from typing import Iterable, NamedTuple, Tuple
 
 
 LOGGER = getLogger(__file__)
@@ -14,7 +14,7 @@ class Command(NamedTuple):
     arguments: str
 
     @classmethod
-    def from_tuple(cls, tpl):
+    def from_tuple(cls, tpl: Tuple[str]):
         """Creates the command from a tuple."""
         try:
             command, arguments, *superfluous = tpl
@@ -39,7 +39,7 @@ class Command(NamedTuple):
 
         return usage
 
-    def to_json(self):
+    def to_json(self) -> dict:
         """Returns a JSON-ish dict."""
         return {'command': self.command, 'arguments': self.arguments}
 
@@ -48,11 +48,11 @@ class Help(dict):
     """command: arguments key pairs."""
 
     @classmethod
-    def from_sequence(cls, sequence):
+    def from_sequence(cls, sequence: Iterable):
         """Creates the help from the respective sequence."""
         commands = (Command.from_tuple(item) for item in sequence)
         return cls((command.command, command) for command in commands)
 
-    def to_json(self):
+    def to_json(self) -> dict:
         """Returns a JSON-ish dict."""
         return {name: command.to_json() for name, command in self.items()}

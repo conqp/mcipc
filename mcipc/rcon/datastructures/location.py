@@ -10,7 +10,7 @@ __all__ = ['Location']
 REGEX = compile('.*\\[(-?\\d+), (~|-?\\d+), (-?\\d+)\\].*')
 
 
-def _int_or_none(string):
+def _int_or_none(string: str) -> int or None:
     """Returns None iff coordinate is special "~"
     character or else the respective integer value.
     """
@@ -29,12 +29,12 @@ class Location(NamedTuple):
     z: int
 
     @classmethod
-    def from_response(cls, text):
+    def from_response(cls, text: str):
         """Creates a location from a server response."""
         match = REGEX.fullmatch(text)
         coordinates = (_int_or_none(item) for item in match.groups())
         return cls(*coordinates)
 
-    def to_json(self):
+    def to_json(self) -> dict:
         """Returns a JSON-ish dict."""
         return {'x': self.x, 'y': self.y, 'z': self.z}
