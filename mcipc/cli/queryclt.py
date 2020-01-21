@@ -25,7 +25,7 @@ def get_args():
     parser.add_argument('server', help='the server to connect to')
     parser.add_argument(
         '-i', '--indent', type=int, default=DEFAULT_INDENT,
-        help='indentation for JSON')
+        help='indentation for JSON output')
     parser.add_argument(
         '-t', '--timeout', type=float, help='connection timeout in seconds')
     parser.add_argument(
