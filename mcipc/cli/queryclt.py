@@ -14,7 +14,7 @@ from mcipc.query.config import CONFIG
 __all__ = ['main']
 
 
-DEFAULT_IDENT = 2 if stdout.isatty() else None
+DEFAULT_INDENT = 2 if stdout.isatty() else None
 LOGGER = getLogger('queryclt')
 
 
@@ -24,7 +24,7 @@ def get_args():
     parser = ArgumentParser(description='A Minecraft Query client.')
     parser.add_argument('server', help='the server to connect to')
     parser.add_argument(
-        '-i', '--indent', type=int, default=DEFAULT_IDENT,
+        '-i', '--indent', type=int, default=DEFAULT_INDENT,
         help='indentation for JSON')
     parser.add_argument(
         '-t', '--timeout', type=float, help='connection timeout in seconds')
