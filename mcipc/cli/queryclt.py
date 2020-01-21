@@ -4,7 +4,7 @@ from argparse import ArgumentParser
 from json import dumps
 from logging import DEBUG, INFO, basicConfig, getLogger
 from socket import timeout
-from sys import exit    # pylint: disable=W0622
+from sys import exit, stdout    # pylint: disable=W0622
 
 from mcipc.config import LOG_FORMAT, InvalidCredentialsError, Credentials
 from mcipc.query.client import Client
@@ -14,6 +14,7 @@ from mcipc.query.config import CONFIG
 __all__ = ['main']
 
 
+DEFAULT_IDENT = 2 if stdout.isatty() else None
 LOGGER = getLogger('queryclt')
 
 
@@ -23,7 +24,8 @@ def get_args():
     parser = ArgumentParser(description='A Minecraft Query client.')
     parser.add_argument('server', help='the server to connect to')
     parser.add_argument(
-        '-i', '--indent', type=int, default=2, help='indentation for JSON')
+        '-i', '--indent', type=int, default=DEFAULT_IDENT,
+        help='indentation for JSON')
     parser.add_argument(
         '-t', '--timeout', type=float, help='connection timeout in seconds')
     parser.add_argument(
