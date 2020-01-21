@@ -5,14 +5,13 @@ from locale import LC_TIME, getdefaultlocale, setlocale
 from subprocess import PIPE, check_output
 
 from mcipc.config import FORTUNE
-
-from mcipc.rcon.client import Client as _Client
+from mcipc.rcon import client
 
 
 __all__ = ['Client']
 
 
-class Client(_Client):
+class Client(client.Client):
     """Client with some more extras."""
 
     def fortune(self, short: bool = True, offensive: bool = False):
@@ -25,6 +24,7 @@ class Client(_Client):
         if offensive:
             command.append('-o')
 
+        # pylint: disable=E1123
         text = check_output(command, stderr=PIPE, text=True)
         return self.say(text)
 

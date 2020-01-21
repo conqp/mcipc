@@ -1,18 +1,14 @@
 """RCON exceptions."""
 
 
-__all__ = [
-    'InvalidPacketStructureError',
-    'RequestIdMismatchError',
-    'InvalidCredentialsError'
-]
+__all__ = ['InvalidPacketStructure', 'RequestIdMismatch', 'InvalidCredentials']
 
 
-class InvalidPacketStructureError(Exception):
+class InvalidPacketStructure(Exception):
     """Indicates an invalid packet structure."""
 
 
-class RequestIdMismatchError(Exception):
+class RequestIdMismatch(Exception):
     """Indicates that the sent and received request IDs do not match."""
 
     def __init__(self, sent, received):
@@ -22,5 +18,5 @@ class RequestIdMismatchError(Exception):
         self.received = received
 
 
-class InvalidCredentialsError(Exception):
+class InvalidCredentials(Exception):
     """Indicates invalid RCON password."""

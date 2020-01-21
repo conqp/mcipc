@@ -7,9 +7,9 @@ from socket import SOCK_STREAM
 from typing import NamedTuple
 
 from mcipc.common import BaseClient
-from mcipc.rcon.exceptions import InvalidCredentialsError
-from mcipc.rcon.exceptions import InvalidPacketStructureError
-from mcipc.rcon.exceptions import RequestIdMismatchError
+from mcipc.rcon.exceptions import InvalidCredentials
+from mcipc.rcon.exceptions import InvalidPacketStructure
+from mcipc.rcon.exceptions import RequestIdMismatch
 
 
 __all__ = ['Type', 'Packet', 'Client']
@@ -32,9 +32,13 @@ class Type(Enum):
     COMMAND = 2
     RESPONSE = 0
 
+    def __int__(self):
+        """Returns the actual integer value."""
+        return self.value
+
     def __bytes__(self):
         """Returns the integer value as little endian."""
-        return self.value.to_bytes(4, 'little')     # pylint: disable=E1101
+        return int(self).to_bytes(4, 'little')
 
 
 class Packet(NamedTuple):
@@ -62,7 +66,7 @@ class Packet(NamedTuple):
         tail = bytes_[-2:]
 
         if tail != TAIL:
-            raise InvalidPacketStructureError('Invalid tail.', tail)
+            raise InvalidPacketStructure('Invalid tail.', tail)
 
         return cls(request_id, Type(type_), payload.decode())
 
@@ -95,7 +99,7 @@ class Client(BaseClient):
         if response.request_id == packet.request_id:
             return response
 
-        raise RequestIdMismatchError(packet.request_id, response.request_id)
+        raise RequestIdMismatch(packet.request_id, response.request_id)
 
     def login(self, passwd: str) -> bool:
         """Performs a login."""
@@ -103,8 +107,8 @@ class Client(BaseClient):
 
         try:
             self.communicate(packet)
-        except RequestIdMismatchError:
-            raise InvalidCredentialsError()
+        except RequestIdMismatch:
+            raise InvalidCredentials()
 
         return True
 
