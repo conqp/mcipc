@@ -7,7 +7,7 @@ from socket import timeout
 from subprocess import CalledProcessError, check_call
 from sys import exit    # pylint: disable=W0622
 
-from mcipc.config import LOG_FORMAT, InvalidCredentialsError, Credentials
+from mcipc.config import LOG_FORMAT, InvalidCredentials, Credentials
 from mcipc.rcon.config import CONFIG
 from mcipc.rcon.playground import Client
 
@@ -67,7 +67,7 @@ def get_credentials(server):
 
     try:
         host, port, passwd = Credentials.from_string(server)
-    except InvalidCredentialsError:
+    except InvalidCredentials:
         try:
             host, port, passwd = CONFIG.servers[server]
         except KeyError:

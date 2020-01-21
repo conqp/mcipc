@@ -6,7 +6,7 @@ from logging import DEBUG, INFO, basicConfig, getLogger
 from socket import timeout
 from sys import exit, stdout    # pylint: disable=W0622
 
-from mcipc.config import LOG_FORMAT, InvalidCredentialsError, Credentials
+from mcipc.config import LOG_FORMAT, InvalidCredentials, Credentials
 from mcipc.query.client import Client
 from mcipc.query.config import CONFIG
 
@@ -76,7 +76,7 @@ def get_credentials(server):
 
     try:
         host, port, passwd = Credentials.from_string(server)
-    except InvalidCredentialsError:
+    except InvalidCredentials:
         try:
             host, port, passwd = CONFIG.servers[server]
         except KeyError:

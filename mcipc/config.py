@@ -8,7 +8,7 @@ from typing import NamedTuple
 __all__ = [
     'LOG_FORMAT',
     'FORTUNE',
-    'InvalidCredentialsError',
+    'InvalidCredentials',
     'CredentialsConfig'
 ]
 
@@ -17,7 +17,7 @@ LOG_FORMAT = '[%(levelname)s] %(name)s: %(message)s'
 FORTUNE = Path('/usr/bin/fortune')
 
 
-class InvalidCredentialsError(ValueError):
+class InvalidCredentials(ValueError):
     """Indicates invalid credentials."""
 
 
@@ -51,12 +51,12 @@ class Credentials(NamedTuple):
         try:
             host, port = string.split(':')
         except ValueError:
-            raise InvalidCredentialsError(f'Invalid socket string: {string}.')
+            raise InvalidCredentials(f'Invalid socket string: {string}.')
 
         try:
             port = int(port)
         except ValueError:
-            raise InvalidCredentialsError(f'Not an integer: {port}.')
+            raise InvalidCredentials(f'Not an integer: {port}.')
 
         try:
             passwd, host = host.rsplit('@', maxsplit=1)
