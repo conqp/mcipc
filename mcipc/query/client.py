@@ -3,7 +3,9 @@
 from socket import SOCK_DGRAM
 
 from mcipc.common import BaseClient
-from mcipc.query.proto import basic_stats, full_stats, handshake
+from mcipc.query.proto import handshake
+from mcipc.query.proto.basic_stats import BasicStats, Request as BasicRequest
+from mcipc.query.proto.full_stats import FullStats, Request as FullRequest
 
 
 __all__ = ['Client']
@@ -28,7 +30,7 @@ class Client(BaseClient):
 
         return self
 
-    def _recv_all(self, buffer: int = 4096):
+    def _recv_all(self, buffer: int = 4096) -> bytes:
         """Recevies all bytes."""
         bytes_ = b''
 
@@ -46,10 +48,10 @@ class Client(BaseClient):
         self._socket.send(bytes(packet))
         response = self._recv_all(buffer=buffer)
 
-        if response_type is not None:
-            return response_type.from_bytes(response)
+        if response_type is None:
+            return response
 
-        return response
+        return response_type.from_bytes(response)
 
     def handshake(self):
         """Performs a handshake."""
@@ -57,13 +59,13 @@ class Client(BaseClient):
         return self.communicate(request, handshake.Response)
 
     @property
-    def basic_stats(self):
+    def basic_stats(self) -> BasicStats:
         """Returns basic stats"""
-        request = basic_stats.Request.create(self._challenge_token)
-        return self.communicate(request, basic_stats.BasicStats)
+        request = BasicRequest.create(self._challenge_token)
+        return self.communicate(request, BasicStats)
 
     @property
-    def full_stats(self):
+    def full_stats(self) -> FullStats:
         """Returns full stats"""
-        request = full_stats.Request.create(self._challenge_token)
-        return self.communicate(request, full_stats.FullStats)
+        request = FullRequest.create(self._challenge_token)
+        return self.communicate(request, FullStats)
