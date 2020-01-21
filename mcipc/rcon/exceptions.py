@@ -4,7 +4,8 @@
 __all__ = [
     'InvalidPacketStructureError',
     'RequestIdMismatchError',
-    'InvalidCredentialsError']
+    'InvalidCredentialsError'
+]
 
 
 class InvalidPacketStructureError(Exception):
