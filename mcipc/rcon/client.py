@@ -54,11 +54,11 @@ class ChatMixin:
         """Sends a message from RCON in first-person perspective."""
         return self.run('me', message)
 
-    def msg(self, player: str, message: str) -> str:
+    def tell(self, player: str, message: str) -> str:
         """Whispers a message to the respective player."""
         return self.run('tell', player, str(message))
 
-    w = tell = msg  # Aliases.
+    w = msg = tell  # Aliases.
 
     def say(self, message: str) -> str:
         """Broadcast a message to all players."""
