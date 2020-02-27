@@ -78,12 +78,17 @@ class BasicStats(NamedTuple):
 
     def to_json(self, ip_type=str):
         """Returns a JSON-ish dict."""
-        host_ip = ip_type(self.host_ip)
         return {
-            'type': self.type.value, 'session_id': self.session_id,
-            'motd': self.motd, 'game_type': self.game_type, 'map': self.map,
-            'num_players': self.num_players, 'max_players': self.max_players,
-            'host_port': self.host_port, 'host_ip': host_ip}
+            'type': self.type.value,
+            'session_id': self.session_id,
+            'motd': self.motd,
+            'game_type': self.game_type,
+            'map': self.map,
+            'num_players': self.num_players,
+            'max_players': self.max_players,
+            'host_port': self.host_port,
+            'host_ip': ip_type(self.host_ip)
+        }
 
 
 class BasicStatsMixin:  # pylint: disable=R0903
