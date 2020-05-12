@@ -2,7 +2,7 @@
 
 from typing import NamedTuple
 
-from mcipc.query.proto.common import MAGIC, random_int32, Type
+from mcipc.query.proto.common import MAGIC, random_session_id, Type
 
 
 __all__ = ['Request', 'Response', 'HandshakeMixin']
@@ -19,14 +19,14 @@ class Request(NamedTuple):
         """Converts the packet to bytes."""
         payload = self.magic
         payload += bytes(self.type)
-        payload += self.session_id.to_bytes(4, 'big', signed=True)
+        payload += self.session_id.to_bytes(4, 'big')
         return payload
 
     @classmethod
     def create(cls, session_id=None):
         """Returns a handshake request packet with a random session ID."""
         if session_id is None:
-            session_id = random_int32()
+            session_id = random_session_id()
 
         return cls(MAGIC, Type.HANDSHAKE, session_id)
 
@@ -42,7 +42,7 @@ class Response(NamedTuple):
     def from_bytes(cls, bytes_):
         """Creates the packet from bytes."""
         type_ = Type.from_bytes(bytes_[0:1])
-        session_id = int.from_bytes(bytes_[1:5], 'big', signed=True)
+        session_id = int.from_bytes(bytes_[1:5], 'big')
         challenge_token = bytes_[5:-1].decode()
         return cls(type_, session_id, int(challenge_token))
 

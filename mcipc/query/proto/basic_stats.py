@@ -3,7 +3,7 @@
 from ipaddress import ip_address, IPv4Address, IPv6Address
 from typing import NamedTuple
 
-from mcipc.query.proto.common import MAGIC, random_int32, Type
+from mcipc.query.proto.common import MAGIC, random_session_id, Type
 
 
 __all__ = ['Request', 'BasicStats', 'BasicStatsMixin']
@@ -21,8 +21,8 @@ class Request(NamedTuple):
         """Returns the packet as bytes."""
         payload = self.magic
         payload += bytes(self.type)
-        payload += self.session_id.to_bytes(4, 'big', signed=True)
-        payload += self.challenge_token.to_bytes(4, 'big', signed=True)
+        payload += self.session_id.to_bytes(4, 'big')
+        payload += self.challenge_token.to_bytes(4, 'big')
         return payload
 
     @classmethod
@@ -31,7 +31,7 @@ class Request(NamedTuple):
         token and the specified or a random session ID.
         """
         if session_id is None:
-            session_id = random_int32()
+            session_id = random_session_id()
 
         return cls(MAGIC, Type.STAT, session_id, challenge_token)
 
@@ -53,7 +53,7 @@ class BasicStats(NamedTuple):
     def from_bytes(cls, bytes_):    # pylint: disable=R0914
         """Creates the packet from the respective bytes."""
         type_ = Type.from_bytes(bytes_[0:1])
-        session_id = int.from_bytes(bytes_[1:5], 'big', signed=True)
+        session_id = int.from_bytes(bytes_[1:5], 'big')
 
         try:
             motd, *blocks, port_ip, _ = bytes_[5:].split(b'\0')
