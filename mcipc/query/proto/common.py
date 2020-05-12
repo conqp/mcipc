@@ -4,16 +4,16 @@ from enum import Enum
 from random import randint
 
 
-__all__ = ['MAGIC', 'random_session_id', 'Type']
+__all__ = ['MAGIC', 'random_int32', 'Type']
 
 
 MAGIC = b'\xfe\xfd'
 
 
-def random_session_id():
-    """Returns a random session ID."""
+def random_int32() -> int:
+    """Returns a random int32."""
 
-    return randint(0, 32)
+    return randint(-2147483648, 2147483647 + 1)
 
 
 class Type(Enum):
