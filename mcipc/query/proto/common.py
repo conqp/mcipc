@@ -11,7 +11,7 @@ MAGIC = b'\xfe\xfd'
 SESSION_ID_MASK = 0x0F0F0F0F
 
 
-def random_session_id():
+def random_session_id() -> int:
     """Returns a random session ID.
     See: https://wiki.vg/Query#Generating_a_Session_ID
     """

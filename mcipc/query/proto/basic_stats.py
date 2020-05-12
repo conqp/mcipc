@@ -76,7 +76,7 @@ class BasicStats(NamedTuple):
             type_, session_id, motd, game_type, map_, num_players, max_players,
             host_port, host_ip)
 
-    def to_json(self, ip_type=str):
+    def to_json(self, ip_type=str) -> dict:
         """Returns a JSON-ish dict."""
         return {
             'type': self.type.value,

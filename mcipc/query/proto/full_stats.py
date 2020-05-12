@@ -1,7 +1,7 @@
 """Full statistics protocol."""
 
 from ipaddress import ip_address, IPv4Address, IPv6Address
-from typing import NamedTuple
+from typing import Generator, NamedTuple, Tuple
 
 from mcipc.query.proto.common import MAGIC, random_session_id, Type
 
@@ -13,7 +13,7 @@ PADDING = 0
 ZERO = b'\0'
 
 
-def get_dict(bytes_):
+def get_dict(bytes_) -> Tuple[int, dict]:
     """Returns the end index and a dictionary
     of zero-separated key-value pairs.
     """
@@ -45,7 +45,7 @@ def get_dict(bytes_):
     raise ValueError('Bytes string not properly terminated.', bytes_)
 
 
-def items(bytes_):
+def items(bytes_) -> Generator[str, None, None]:
     """Yields zero-byte-separated items."""
 
     item = ''
@@ -63,7 +63,7 @@ def items(bytes_):
             item += byte.decode('latin-1')
 
 
-def plugins_to_dict(string):
+def plugins_to_dict(string) -> dict:
     """Convers a plugins string into a dictionary."""
 
     try:
@@ -71,8 +71,7 @@ def plugins_to_dict(string):
     except ValueError:  # No plugins.
         return {}
 
-    plugins = plugins.split('; ')
-    return {mod: tuple(plugins)}
+    return {mod: plugins.split('; ')}
 
 
 def stats_from_dict(dictionary):
@@ -148,7 +147,7 @@ class FullStats(NamedTuple):
         players = tuple(items(bytes_[index:]))
         return cls(type_, session_id, *stats_from_dict(stats), players)
 
-    def to_json(self, ip_type=str):
+    def to_json(self, ip_type=str) -> dict:
         """Returns a JSON-ish dict."""
         return {
             'type': self.type.value,
