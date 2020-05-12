@@ -42,8 +42,8 @@ class Response(NamedTuple):
     def from_bytes(cls, bytes_):
         """Creates the packet from bytes."""
         type_ = Type.from_bytes(bytes_[0:1])
-        session_id = int.from_bytes(bytes_[1:5], 'big')
-        challenge_token = bytes_[5:-1].decode()
+        session_id = int.from_bytes(bytes_[1:5], 'big', signed=True)
+        challenge_token = int.from_bytes(bytes_[5:-1], 'big', signed=True)
         return cls(type_, session_id, int(challenge_token))
 
     def to_json(self):

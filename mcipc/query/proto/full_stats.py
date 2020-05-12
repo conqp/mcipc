@@ -140,7 +140,7 @@ class FullStats(NamedTuple):
     def from_bytes(cls, bytes_):
         """Creates the full stats object from the respective bytes."""
         type_ = Type.from_bytes(bytes_[0:1])
-        session_id = int.from_bytes(bytes_[1:5], 'big')
+        session_id = int.from_bytes(bytes_[1:5], 'big', signed=True)
         index = 16  # Discard padding.
         index, stats = get_dict(bytes_[index:])
         index += 16 + 1     # Discard additional null byte.
