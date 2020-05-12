@@ -19,10 +19,10 @@ LOGGER = getLogger(__file__)
 TAIL = b'\0\0'
 
 
-def _rand_uint32() -> int:
-    """Returns a random unsigned int32."""
+def random_request_id() -> int:
+    """Returns a random, positive int32."""
 
-    return randint(0, 4_294_967_295 + 1)
+    return randint(0, 2147483647 + 1)
 
 
 class Type(Enum):
@@ -50,7 +50,7 @@ class Packet(NamedTuple):
 
     def __bytes__(self):
         """Returns the packet as bytes."""
-        payload = self.request_id.to_bytes(4, 'little')
+        payload = self.request_id.to_bytes(4, 'little', signed=True)
         payload += bytes(self.type)
         payload += self.payload.encode()
         payload += TAIL
@@ -60,7 +60,7 @@ class Packet(NamedTuple):
     @classmethod
     def from_bytes(cls, bytes_: bytes):
         """Creates a packet from the respective bytes."""
-        request_id = int.from_bytes(bytes_[:4], 'little')
+        request_id = int.from_bytes(bytes_[:4], 'little', signed=True)
         type_ = int.from_bytes(bytes_[4:8], 'little')
         payload = bytes_[8:-2]
         tail = bytes_[-2:]
@@ -73,12 +73,12 @@ class Packet(NamedTuple):
     @classmethod
     def from_command(cls, command: str):
         """Creates a command packet."""
-        return cls(_rand_uint32(), Type.COMMAND, command)
+        return cls(random_request_id(), Type.COMMAND, command)
 
     @classmethod
     def from_login(cls, passwd: str):
         """Creates a login packet."""
-        return cls(_rand_uint32(), Type.LOGIN, passwd)
+        return cls(random_request_id(), Type.LOGIN, passwd)
 
 
 class Client(BaseClient):
