@@ -10,7 +10,7 @@ __all__ = ['Request', 'FullStats', 'FullStatsMixin']
 
 
 PADDING = 0
-ZERO = b'\0'
+NULL = b'\0'
 
 
 def get_dict(bytes_) -> Tuple[int, dict]:
@@ -26,7 +26,7 @@ def get_dict(bytes_) -> Tuple[int, dict]:
     for index, integer in enumerate(bytes_):
         byte = bytes([integer])
 
-        if byte == ZERO:
+        if byte == NULL:
             if not item and is_key:
                 return (index, dictionary)
 
@@ -53,7 +53,7 @@ def items(bytes_) -> Generator[str, None, None]:
     for integer in bytes_:
         byte = bytes([integer])
 
-        if byte == ZERO:
+        if byte == NULL:
             if not item:
                 return
 
