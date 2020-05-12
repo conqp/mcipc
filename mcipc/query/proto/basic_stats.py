@@ -22,7 +22,7 @@ class Request(NamedTuple):
         payload = self.magic
         payload += bytes(self.type)
         payload += self.session_id.to_bytes(4, 'big')
-        payload += self.challenge_token.to_bytes(4, 'big')
+        payload += self.challenge_token.to_bytes(4, 'big', signed=True)
         return payload
 
     @classmethod
