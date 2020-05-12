@@ -49,8 +49,10 @@ class Response(NamedTuple):
     def to_json(self):
         """Returns a JSON-ish dict."""
         return {
-            'type': self.type.value, 'session_id': self.session_id,
-            'challenge_token': self.challenge_token}
+            'type': self.type.value,
+            'session_id': self.session_id,
+            'challenge_token': self.challenge_token
+        }
 
 
 class HandshakeMixin:   # pylint: disable=R0903
