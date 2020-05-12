@@ -103,7 +103,7 @@ class Request(NamedTuple):
         """Returns the packet as bytes."""
         payload = self.magic
         payload += bytes(self.type)
-        payload += self.session_id.to_bytes(4, 'big')
+        payload += self.session_id.to_bytes(4, 'big', signed=True)
         payload += self.challenge_token.to_bytes(4, 'big', signed=True)
         payload += self.padding.to_bytes(4, 'big')
         return payload
@@ -140,7 +140,7 @@ class FullStats(NamedTuple):
     def from_bytes(cls, bytes_):
         """Creates the full stats object from the respective bytes."""
         type_ = Type.from_bytes(bytes_[0:1])
-        session_id = int.from_bytes(bytes_[1:5], 'big')
+        session_id = int.from_bytes(bytes_[1:5], 'big', signed=True)
         index = 16  # Discard padding.
         index, stats = get_dict(bytes_[index:])
         index += 16 + 1     # Discard additional null byte.

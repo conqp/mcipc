@@ -21,7 +21,7 @@ class Request(NamedTuple):
         """Returns the packet as bytes."""
         payload = self.magic
         payload += bytes(self.type)
-        payload += self.session_id.to_bytes(4, 'big')
+        payload += self.session_id.to_bytes(4, 'big', signed=True)
         payload += self.challenge_token.to_bytes(4, 'big', signed=True)
         return payload
 
@@ -53,7 +53,7 @@ class BasicStats(NamedTuple):
     def from_bytes(cls, bytes_):    # pylint: disable=R0914
         """Creates the packet from the respective bytes."""
         type_ = Type.from_bytes(bytes_[0:1])
-        session_id = int.from_bytes(bytes_[1:5], 'big')
+        session_id = int.from_bytes(bytes_[1:5], 'big', signed=True)
 
         try:
             motd, *blocks, port_ip, _ = bytes_[5:].split(b'\0')

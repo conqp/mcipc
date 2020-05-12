@@ -19,7 +19,7 @@ class Request(NamedTuple):
         """Converts the packet to bytes."""
         payload = self.magic
         payload += bytes(self.type)
-        payload += self.session_id.to_bytes(4, 'big')
+        payload += self.session_id.to_bytes(4, 'big', signed=True)
         return payload
 
     @classmethod
@@ -42,7 +42,7 @@ class Response(NamedTuple):
     def from_bytes(cls, bytes_):
         """Creates the packet from bytes."""
         type_ = Type.from_bytes(bytes_[0:1])
-        session_id = int.from_bytes(bytes_[1:5], 'big')
+        session_id = int.from_bytes(bytes_[1:5], 'big', signed=True)
         challenge_token = bytes_[5:-1].decode()
         return cls(type_, session_id, int(challenge_token))
 

@@ -8,12 +8,15 @@ __all__ = ['MAGIC', 'random_session_id', 'Type']
 
 
 MAGIC = b'\xfe\xfd'
+SESSION_ID_MASK = 0x0F0F0F0F
 
 
 def random_session_id():
-    """Returns a random session ID."""
+    """Returns a random session ID.
+    See: https://wiki.vg/Query#Generating_a_Session_ID
+    """
 
-    return randint(0, 32)
+    return randint(-2147483648, 2147483647 + 1) & SESSION_ID_MASK
 
 
 class Type(Enum):
