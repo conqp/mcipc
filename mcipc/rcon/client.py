@@ -27,13 +27,13 @@ class AdminMixin:
     def teleport(self, player: str, *, dst_player: str = None,
                  coords: tuple = None, orientation: tuple = None) -> str:
         """Teleports players."""
-        args = [str(player)]
+        args = [player]
 
         if sum(item is None for item in (dst_player, coords)) != 1:
             raise TypeError('Must specify either dst_player or coords.')
 
         if dst_player is not None:
-            args.append(str(dst_player))
+            args.append(dst_player)
         elif coords is not None:
             coord_x, coord_y, coord_z = coords
             args += [str(coord_x), str(coord_y), str(coord_z)]
@@ -56,7 +56,7 @@ class ChatMixin:
 
     def tell(self, player: str, message: str) -> str:
         """Whispers a message to the respective player."""
-        return self.run('tell', player, str(message))
+        return self.run('tell', player, message)
 
     w = msg = tell  # Aliases.
 
@@ -108,7 +108,7 @@ class InfoMixin:
 
     def locate(self, structure: str) -> Location:
         """Locates the respective structure."""
-        response = self.run('locate', str(structure))
+        response = self.run('locate', structure)
         return Location.from_response(response)
 
 
