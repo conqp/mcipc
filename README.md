@@ -154,7 +154,7 @@ The configuration file format is:
 The `passwd` entry is optional for `rcon.conf` and unnecessary for `query.conf`.
 
 ## License
-Copyright (C) 2018 Richard Neumann <mail at richard dash neumann period de>
+Copyright (C) 2018-2020 Richard Neumann <mail at richard dash neumann period de>
 
 mcipc is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
