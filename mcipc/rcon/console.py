@@ -19,7 +19,7 @@ MSG_EXIT_USAGE = 'Usage: {} [<exit_code>].'
 PS1 = 'RCON> '
 
 
-def _read(prompt: str, typ=None):
+def _read(prompt: str, typ: type = None):
     """Reads input and converts it to the respective type."""
 
     while True:
@@ -35,7 +35,7 @@ def _read(prompt: str, typ=None):
         return raw
 
 
-def _read_or_none(prompt: str, typ=None):
+def _read_or_none(prompt: str, typ: type = None):
     """Reads the input and returns None on abort."""
 
     try:
