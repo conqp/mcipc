@@ -14,7 +14,7 @@ __all__ = ['Client']
 class Client(client.Client):
     """Client with some more extras."""
 
-    def fortune(self, short: bool = True, offensive: bool = False):
+    def fortune(self, short: bool = True, offensive: bool = False) -> str:
         """Sends a fortune to all players."""
         command = [FORTUNE]
 
@@ -28,7 +28,7 @@ class Client(client.Client):
         text = check_output(command, stderr=PIPE, text=True)
         return self.say(text)
 
-    def datetime(self, frmt: str = '%c'):
+    def datetime(self, frmt: str = '%c') -> str:
         """Tells all players the current datetime."""
         setlocale(LC_TIME, getdefaultlocale())  # Fix loacale.
         text = datetime.now().strftime(frmt)
