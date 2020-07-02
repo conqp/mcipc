@@ -2,7 +2,7 @@
 
 from json import dumps, loads
 from logging import getLogger
-from typing import NamedTuple
+from typing import Callable, NamedTuple
 
 from mcipc.server.datatypes import VarInt
 from mcipc.server.enumerations import State
@@ -23,7 +23,7 @@ class Handshake(NamedTuple):
     next_state: State
 
     @classmethod
-    def read(cls, readfunc):
+    def read(cls, readfunc: Callable):
         """Creates a handshake object from the respective bytes."""
         size = VarInt.read(readfunc)
         LOGGER.debug('Read size: %s', size)
@@ -59,7 +59,7 @@ class SLPResponse(NamedTuple):
         return payload_size + payload
 
     @classmethod
-    def read(cls, readfunc):
+    def read(cls, readfunc: Callable):
         """Creates the SLP response from the respective payload."""
         total_size = VarInt.read(readfunc)
         LOGGER.debug('Read total size: %s', total_size)

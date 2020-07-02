@@ -1,6 +1,7 @@
 """Common enumerations."""
 
 from enum import Enum
+from typing import Callable
 
 from mcipc.server.datatypes import VarInt
 
@@ -16,6 +17,6 @@ class State(Enum):
     LOGIN = VarInt(2)
 
     @classmethod
-    def read(cls, readfunc):
+    def read(cls, readfunc: Callable):
         """Reads the state from the respective connection."""
         return cls(VarInt.read(readfunc))

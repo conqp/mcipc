@@ -4,7 +4,7 @@
 __all__ = ['rshift']
 
 
-def rshift(integer, shift):
+def rshift(integer: int, shift: int) -> int:
     """Logical right binary shift."""
 
     if integer >= 0:

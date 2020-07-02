@@ -1,6 +1,7 @@
 """Data types for the server protocol."""
 
 from logging import getLogger
+from typing import Callable
 
 from mcipc.server.functions import rshift
 
@@ -37,7 +38,7 @@ class VarInt(int):
         return bytes_
 
     @classmethod
-    def read(cls, readfunc):
+    def read(cls, readfunc: Callable):
         """Reads a VarInt from the respective bytes."""
         bytes_count = 0
         result = 0
