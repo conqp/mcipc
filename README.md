@@ -99,6 +99,13 @@ The type of `mansion` is `Location` which describes the x-y-z location of the ne
 
 *HINT:* The y-component of a location may be `None`, which represents the special Minectaft vector component `'~'`.
 
+## Available client commands
+For a full documentation of available client commands, please refer to
+
+    help(Client)
+    
+within an interactive python shell.
+
 ### Handling connection timeouts.
 Since version 1.2.1, you can specify an optional `timeout=<sec>` parameter on both `Query` and `RCON` clients.  
 If a timeout is reached during a connection attempt, it will raise a `socket.timeout` exception.  
