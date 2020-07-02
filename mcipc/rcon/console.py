@@ -4,7 +4,7 @@ from enum import Enum
 from getpass import getpass
 
 from mcipc.rcon.client import Client
-from mcipc.rcon.exceptions import InvalidCredentials, RequestIdMismatch
+from mcipc.rcon.exceptions import RequestIdMismatch, WrongPassword
 
 
 __all__ = ['rconcmd']
@@ -70,7 +70,7 @@ def _login(client: Client, passwd: str):
     while not logged_in:
         try:
             logged_in = client.login(passwd)
-        except InvalidCredentials:
+        except WrongPassword:
             print('Invalid password.')
             passwd = getpass('Password: ')
 

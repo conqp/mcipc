@@ -1,7 +1,7 @@
 """RCON exceptions."""
 
 
-__all__ = ['InvalidPacketStructure', 'RequestIdMismatch', 'InvalidCredentials']
+__all__ = ['InvalidPacketStructure', 'RequestIdMismatch', 'WrongPassword']
 
 
 class InvalidPacketStructure(Exception):
@@ -18,5 +18,5 @@ class RequestIdMismatch(Exception):
         self.received = received
 
 
-class InvalidCredentials(Exception):
-    """Indicates invalid RCON password."""
+class WrongPassword(Exception):
+    """Indicates a wrong RCON password."""

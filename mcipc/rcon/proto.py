@@ -7,9 +7,9 @@ from socket import SOCK_STREAM
 from typing import NamedTuple
 
 from mcipc.common import BaseClient
-from mcipc.rcon.exceptions import InvalidCredentials
 from mcipc.rcon.exceptions import InvalidPacketStructure
 from mcipc.rcon.exceptions import RequestIdMismatch
+from mcipc.rcon.exceptions import WrongPassword
 
 
 __all__ = ['Type', 'Packet', 'Client']
@@ -108,7 +108,7 @@ class Client(BaseClient):
         try:
             self.communicate(packet)
         except RequestIdMismatch:
-            raise InvalidCredentials()
+            raise WrongPassword()
 
         return True
 
