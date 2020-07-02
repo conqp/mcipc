@@ -99,7 +99,7 @@ The type of `mansion` is `Location` which describes the x-y-z location of the ne
 
 *HINT:* The y-component of a location may be `None`, which represents the special Minectaft vector component `'~'`.
 
-## Available client commands
+### Available client commands
 For a full documentation of available client commands, please refer to
 
     help(Client)
