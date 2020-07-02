@@ -71,9 +71,9 @@ class Packet(NamedTuple):
         return cls(request_id, Type(type_), payload.decode())
 
     @classmethod
-    def from_command(cls, command: str):
+    def from_args(cls, *args: str):
         """Creates a command packet."""
-        return cls(random_request_id(), Type.COMMAND, command)
+        return cls(random_request_id(), Type.COMMAND, ' '.join(args))
 
     @classmethod
     def from_login(cls, passwd: str):
@@ -114,7 +114,6 @@ class Client(BaseClient):
 
     def run(self, command: str, *arguments: str, raw: bool = False) -> str:
         """Runs a command."""
-        command = ' '.join((command,) + arguments)
-        packet = Packet.from_command(command)
+        packet = Packet.from_args(command, *arguments)
         response = self.communicate(packet)
         return response if raw else response.payload
