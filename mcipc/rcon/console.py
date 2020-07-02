@@ -1,6 +1,5 @@
 """An interactive console."""
 
-from enum import Enum
 from getpass import getpass
 
 from mcipc.rcon.client import Client
@@ -10,27 +9,14 @@ from mcipc.rcon.exceptions import RequestIdMismatch, WrongPassword
 __all__ = ['rconcmd']
 
 
-PS1 = 'RCON> '
 EXIT_COMMANDS = {'exit', 'quit'}
-
-
-class Message(Enum):
-    """Command line interface messages."""
-
-    QUERY_LATER = '\nOkay, I will ask again later.'
-    ABORTED = '\nAborted...'
-    LOGIN_ABORTED = '\nLogin aborted. Bye.'
-    EXIT = 'Bye.'
-    SESSION_TIMEOUT = 'Session timed out. Please login again.'
-    EXIT_USAGE = 'Usage: {} [<exit_code>].'
-
-    def __str__(self):
-        """Returns the string value."""
-        return self.value
-
-    def format(self, *args, **kwargs):
-        """Formats a message."""
-        return str(self).format(*args, **kwargs)
+MSG_QUERY_LATER = '\nOkay, I will ask again later.'
+MSG_ABORTED = '\nAborted...'
+MSG_LOGIN_ABORTED = '\nLogin aborted. Bye.'
+MSG_EXIT = 'Bye.'
+MSG_SESSION_TIMEOUT = 'Session timed out. Please login again.'
+MSG_EXIT_USAGE = 'Usage: {} [<exit_code>].'
+PS1 = 'RCON> '
 
 
 def _read(prompt: str, typ=None):
@@ -55,7 +41,7 @@ def _read_or_none(prompt: str, typ=None):
     try:
         return _read(prompt, typ=typ)
     except EOFError:
-        print(Message.QUERY_LATER)
+        print(MSG_QUERY_LATER)
         return None
 
 
@@ -100,7 +86,7 @@ def _exit(exit_code=0):
     """Exits the interactive shell via exit command."""
 
     exit_code = int(exit_code)
-    print(Message.EXIT)
+    print(MSG_EXIT)
     return exit_code
 
 
@@ -110,21 +96,21 @@ def rconcmd(host: str, port: int, passwd: str, prompt: str = PS1) -> int:
     try:
         host, port, passwd, prompt = _read_args(host, port, passwd, prompt)
     except KeyboardInterrupt:
-        print(Message.ABORTED)
+        print(MSG_ABORTED)
         return 1
 
     with Client(host, port) as client:
         try:
             passwd = _login(client, passwd)
         except (EOFError, KeyboardInterrupt):
-            print(Message.LOGIN_ABORTED)
+            print(MSG_LOGIN_ABORTED)
             return 1
 
         while True:
             try:
                 command = input(prompt)
             except EOFError:
-                print(f'\n{Message.EXIT}')
+                print(f'\n{MSG_EXIT}')
                 break
             except KeyboardInterrupt:
                 print()
@@ -139,18 +125,18 @@ def rconcmd(host: str, port: int, passwd: str, prompt: str = PS1) -> int:
                 try:
                     return _exit(*args)
                 except (TypeError, ValueError):
-                    print(Message.EXIT_USAGE.format(command))
+                    print(MSG_EXIT_USAGE.format(command))
                     continue
 
             try:
                 result = client.run(command, *args)
             except RequestIdMismatch:
-                print(Message.SESSION_TIMEOUT)
+                print(MSG_SESSION_TIMEOUT)
 
                 try:
                     passwd = _login(client, passwd)
                 except (EOFError, KeyboardInterrupt):
-                    print(Message.LOGIN_ABORTED)
+                    print(MSG_LOGIN_ABORTED)
                     return 2
 
             print(result)
