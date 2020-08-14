@@ -34,7 +34,7 @@ The type of `basic_stats` is a named tuple with the following properties:
 * `num_players`: The amount of online players (`int`).
 * `max_players`: The amount of maximally allowed players (`int`).
 * `host_port`: The server's port (`int`).
-* `host_ip`: The server's IP address (`ipaddress.IPv4Address` or `ipaddress.IPv6Address`).
+* `host_ip`: The server's IP address or hostname (`ipaddress.IPv4Address` or `ipaddress.IPv6Address` or `str`).
 
 #### Full stats
 For retrieving full stats of a server, the same premises apply.
@@ -59,7 +59,7 @@ The type of `full_stats` is a named tuple with the following properties:
 * `num_players`: The amount of online players (`int`).
 * `max_players`: The amount of maximally allowed players (`int`).
 * `host_port`: The server's port (`int`).
-* `host_ip`: The server's IP address (`ipaddress.IPv4Address` or `ipaddress.IPv6Address`).
+* `host_ip`: The server's IP address or hostname (`ipaddress.IPv4Address` or `ipaddress.IPv6Address` or `str`).
 * `players`: The names of online players (`tuple` of `str`).
 
 ### RCON protocol

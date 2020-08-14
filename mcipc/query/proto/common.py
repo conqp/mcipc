@@ -1,10 +1,11 @@
 """Common protocol stuff."""
 
 from enum import Enum
+from ipaddress import ip_address, IPv4Address, IPv6Address
 from random import randint
 
 
-__all__ = ['MAGIC', 'random_session_id', 'Type']
+__all__ = ['MAGIC', 'random_session_id', 'ip_or_hostname', 'Type']
 
 
 MAGIC = b'\xfe\xfd'
@@ -17,6 +18,15 @@ def random_session_id() -> int:
     """
 
     return randint(-2147483648, 2147483647 + 1) & SESSION_ID_MASK
+
+
+def ip_or_hostname(string) -> IPv4Address or IPv6Address or str:
+    """Returns an IPv4 or IPv6 address if applicable, else a string."""
+
+    try:
+        return ip_address(string)
+    except ValueError:
+        return string
 
 
 class Type(Enum):

@@ -1,9 +1,12 @@
 """Full statistics protocol."""
 
-from ipaddress import ip_address, IPv4Address, IPv6Address
+from ipaddress import IPv4Address, IPv6Address
 from typing import Generator, NamedTuple, Tuple
 
-from mcipc.query.proto.common import MAGIC, random_session_id, Type
+from mcipc.query.proto.common import MAGIC
+from mcipc.query.proto.common import random_session_id
+from mcipc.query.proto.common import ip_or_hostname
+from mcipc.query.proto.common import Type
 
 
 __all__ = ['Request', 'FullStats', 'FullStatsMixin']
@@ -86,7 +89,7 @@ def stats_from_dict(dictionary):
     yield int(dictionary['numplayers'])
     yield int(dictionary['maxplayers'])
     yield int(dictionary['hostport'])
-    yield ip_address(dictionary['hostip'])
+    yield ip_or_hostname(dictionary['hostip'])
 
 
 class Request(NamedTuple):
@@ -132,7 +135,7 @@ class FullStats(NamedTuple):
     num_players: int
     max_players: int
     host_port: int
-    host_ip: IPv4Address or IPv6Address
+    host_ip: IPv4Address or IPv6Address or str
     players: tuple
 
     @classmethod

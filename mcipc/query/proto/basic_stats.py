@@ -1,9 +1,12 @@
 """Basic statistics protocol."""
 
-from ipaddress import ip_address, IPv4Address, IPv6Address
+from ipaddress import IPv4Address, IPv6Address
 from typing import NamedTuple
 
-from mcipc.query.proto.common import MAGIC, random_session_id, Type
+from mcipc.query.proto.common import MAGIC
+from mcipc.query.proto.common import random_session_id
+from mcipc.query.proto.common import ip_or_hostname
+from mcipc.query.proto.common import Type
 
 
 __all__ = ['Request', 'BasicStats', 'BasicStatsMixin']
@@ -47,7 +50,7 @@ class BasicStats(NamedTuple):
     num_players: int
     max_players: int
     host_port: int
-    host_ip: IPv4Address or IPv6Address
+    host_ip: IPv4Address or IPv6Address or str
 
     @classmethod
     def from_bytes(cls, bytes_):    # pylint: disable=R0914
@@ -71,7 +74,7 @@ class BasicStats(NamedTuple):
         num_players = int(num_players)
         max_players = int(max_players)
         host_port = int.from_bytes(port_ip[0:2], 'little')
-        host_ip = ip_address(port_ip[2:].decode())
+        host_ip = ip_or_hostname(port_ip[2:].decode())
         return cls(
             type_, session_id, motd, game_type, map_, num_players, max_players,
             host_port, host_ip)
