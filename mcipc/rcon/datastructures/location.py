@@ -1,7 +1,7 @@
 """Locations."""
 
 from re import compile  # pylint: disable=W0622
-from typing import NamedTuple
+from typing import NamedTuple, Union
 
 
 __all__ = ['Location']
@@ -10,7 +10,7 @@ __all__ = ['Location']
 REGEX = compile('.*\\[(-?\\d+), (~|-?\\d+), (-?\\d+)\\].*')
 
 
-def _int_or_none(string: str) -> int or None:
+def _int_or_none(string: str) -> Union[int, None]:
     """Returns None iff coordinate is special "~"
     character or else the respective integer value.
     """

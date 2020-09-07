@@ -1,7 +1,7 @@
 """Basic statistics protocol."""
 
 from ipaddress import IPv4Address, IPv6Address
-from typing import NamedTuple
+from typing import NamedTuple, Union
 
 from mcipc.query.proto.common import MAGIC
 from mcipc.query.proto.common import random_session_id
@@ -50,7 +50,7 @@ class BasicStats(NamedTuple):
     num_players: int
     max_players: int
     host_port: int
-    host_ip: IPv4Address or IPv6Address or str
+    host_ip: Union[IPv4Address, IPv6Address, str]
 
     @classmethod
     def from_bytes(cls, bytes_):    # pylint: disable=R0914

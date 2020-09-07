@@ -1,7 +1,7 @@
 """Full statistics protocol."""
 
 from ipaddress import IPv4Address, IPv6Address
-from typing import Generator, NamedTuple, Tuple
+from typing import Generator, NamedTuple, Tuple, Union
 
 from mcipc.query.proto.common import MAGIC
 from mcipc.query.proto.common import random_session_id
@@ -135,7 +135,7 @@ class FullStats(NamedTuple):
     num_players: int
     max_players: int
     host_port: int
-    host_ip: IPv4Address or IPv6Address or str
+    host_ip: Union[IPv4Address, IPv6Address, str]
     players: tuple
 
     @classmethod
