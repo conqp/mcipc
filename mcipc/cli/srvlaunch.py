@@ -2,6 +2,7 @@
 
 from json import dumps
 from logging import getLogger
+from socket import socket
 from subprocess import CalledProcessError, check_call
 
 from mcipc.server.datatypes import VarInt
@@ -14,7 +15,7 @@ __all__ = ['ServerLauncher']
 LOGGER = getLogger(__file__)
 
 
-def get_response(text):
+def get_response(text: str) -> bytes:
     """Returns the response text message."""
 
     json = {'text': text}
@@ -34,8 +35,9 @@ def get_response(text):
 class ServerLauncher(StubServer):
     """Server that launches the actual server."""
 
-    def __init__(self, name, description, max_players=20, protocol=485,
-                 template='minecraft@{}.server'):
+    def __init__(self, name: str, description: str,     # pylint: disable=R0913
+                 max_players: int = 20, protocol: int = 485,
+                 template: str = 'minecraft@{}.server'):
         """Sets server meta data."""
         super().__init__(
             description, max_players=max_players, protocol=protocol)
@@ -43,11 +45,11 @@ class ServerLauncher(StubServer):
         self.template = template
 
     @property
-    def unit(self):
+    def unit(self) -> str:
         """Returns the system unit to start."""
         return self.template.format(self.name)
 
-    def _start_server(self):
+    def _start_server(self) -> bool:
         """Starts the server."""
         command = ('/usr/bin/systemctl', 'start', self.unit)
 
@@ -59,7 +61,7 @@ class ServerLauncher(StubServer):
 
         return True
 
-    def _perform_login(self, connection):
+    def _perform_login(self, connection: socket):
         """Performs a login."""
         if self._start_server():
             response = get_response('Server has been started.')
