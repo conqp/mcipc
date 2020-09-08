@@ -34,7 +34,7 @@ class InvalidStructure(ValueError):
     """Indicates that the given Minecraft structure is not valid."""
 
     def __init__(self, structure):
-        """Sets the invalud structure's name."""
+        """Sets the invalid structure's name."""
         super().__init__(structure)
         self.structure = structure
 
