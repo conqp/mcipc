@@ -43,7 +43,8 @@ class Client(BaseClient, HandshakeMixin, BasicStatsMixin, FullStatsMixin):
         """Receives all bytes from the socket."""
         return b''.join(self._recv_chunks(buffer=buffer))
 
-    def communicate(self, packet, response_type=None, *, buffer: int = 4096):
+    def communicate(self, packet, response_type: type = None, *,
+                    buffer: int = 4096):
         """Sends and receives a packet."""
         self._socket.send(bytes(packet))
         response = self._recv_all(buffer=buffer)
