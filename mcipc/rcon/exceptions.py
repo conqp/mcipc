@@ -10,7 +10,7 @@ __all__ = [
 ]
 
 
-class InvalidPacketStructure(Exception):
+class InvalidPacketStructure(ValueError):
     """Indicates an invalid packet structure."""
 
 
