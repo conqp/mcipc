@@ -31,7 +31,7 @@ class InvalidPacketStructure(ValueError):
 
 
 class InvalidStructure(ValueError):
-    """Indicates that the given Minecraft structure is not valid."""
+    """Indicates that the given structure is not valid."""
 
     def __init__(self, structure):
         """Sets the invalid structure's name."""
