@@ -1,11 +1,25 @@
 """RCON exceptions."""
 
 
-__all__ = ['InvalidPacketStructure', 'RequestIdMismatch', 'WrongPassword']
+__all__ = [
+    'InvalidPacketStructure',
+    'InvalidStructure',
+    'NotALocation',
+    'RequestIdMismatch',
+    'WrongPassword'
+]
 
 
 class InvalidPacketStructure(Exception):
     """Indicates an invalid packet structure."""
+
+
+class InvalidStructure(ValueError):
+    """Indicates that the given Minecraft structure is not valid."""
+
+
+class NotALocation(ValueError):
+    """Indicates that the given text is not a valid location value."""
 
 
 class RequestIdMismatch(Exception):

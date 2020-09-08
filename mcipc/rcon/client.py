@@ -3,6 +3,7 @@
 from json import dumps
 
 from mcipc.rcon.datastructures import Help, Location, Players, Seed
+from mcipc.rcon.exceptions import InvalidStructure, NotALocation
 from mcipc.rcon.proto import Client as _Client
 
 
@@ -113,7 +114,11 @@ class InfoMixin:
     def locate(self, structure: str) -> Location:
         """Locates the respective structure."""
         response = self.run('locate', structure)
-        return Location.from_response(response)
+
+        try:
+            return Location.from_response(response)
+        except NotALocation:
+            raise InvalidStructure(structure)
 
 
 class Client(_Client, AdminMixin, ChatMixin, InfoMixin):

@@ -3,6 +3,8 @@
 from re import compile  # pylint: disable=W0622
 from typing import NamedTuple, Union
 
+from mcipc.rcon.exceptions import NotALocation
+
 
 __all__ = ['Location']
 
@@ -34,7 +36,7 @@ class Location(NamedTuple):
         match = REGEX.fullmatch(text)
 
         if match is None:
-            raise ValueError(text)
+            raise NotALocation(text)
 
         coordinates = (_int_or_none(item) for item in match.groups())
         return cls(*coordinates)
