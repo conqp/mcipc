@@ -66,25 +66,22 @@ class ChatMixin:
         """Broadcast a message to all players."""
         return self.run('say', message)
 
+    def tellraw(self, player: str, obj: dict) -> str:
+        """Sends a message represented by a JSON-ish dict."""
+        return self.run('tellraw', player, dumps(obj))
+
     def send_url(self, player: str, url: str, text: str = None) -> str:
         """Sends a URL to the specified player.
         If text is None, it will default to the original URL.
         """
-        if text is None:
-            text = url
-
         json = {
-            'text': text,
+            'text': text or url,
             'clickEvent': {
                 'action': 'open_url',
                 'value': url
             }
         }
         return self.tellraw(player, json)
-
-    def tellraw(self, player: str, obj: dict) -> str:
-        """Sends a message represented by a JSON-ish dict."""
-        return self.run('tellraw', player, dumps(obj))
 
 
 class InfoMixin:
