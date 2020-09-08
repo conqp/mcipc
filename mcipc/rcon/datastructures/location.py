@@ -27,7 +27,7 @@ class Location(NamedTuple):
     """A 3D location."""
 
     x: int
-    y: int
+    y: Union[int, None]
     z: int
 
     @classmethod
@@ -38,8 +38,8 @@ class Location(NamedTuple):
         if match is None:
             raise NotALocation(text)
 
-        coordinates = (_int_or_none(item) for item in match.groups())
-        return cls(*coordinates)
+        coord_x, coord_y, coord_z = match.groups()
+        return cls(int(coord_x), _int_or_none(coord_y), int(coord_z))
 
     def to_json(self) -> dict:
         """Returns a JSON-ish dict."""
