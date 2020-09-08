@@ -26,7 +26,9 @@ class AdminMixin:
 
     def teleport(self, player: str, *, dst_player: str = None,
                  coords: tuple = None, orientation: tuple = None) -> str:
-        """Teleports players."""
+        """Teleports the player to either another
+        player or a set of coordinates.
+        """
         args = [player]
 
         if sum(item is None for item in (dst_player, coords)) != 1:
