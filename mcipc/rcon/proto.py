@@ -66,7 +66,7 @@ class Packet(NamedTuple):
         tail = bytes_[-2:]
 
         if tail != TAIL:
-            raise InvalidPacketStructure('Invalid tail.', tail)
+            raise InvalidPacketStructure('Invalid tail.', tail, TAIL)
 
         return cls(request_id, Type(type_), payload.decode())
 
