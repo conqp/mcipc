@@ -1,4 +1,4 @@
-"""Mineicraft server protocol."""
+"""Minecraft server protocol."""
 
 from mcipc.server.datastructures import Handshake, SLPResponse
 from mcipc.server.datatypes import VarInt
