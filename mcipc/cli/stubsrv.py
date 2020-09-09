@@ -97,7 +97,7 @@ def main():
         protocol=args.protocol, template=args.template)
 
     try:
-        server.spawn((host, port))
+        server.spawn(host, port)
     except OSError as error:
         LOGGER.error(str(error))
         exit(3)
