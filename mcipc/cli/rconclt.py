@@ -1,14 +1,16 @@
 """RCON client CLI."""
 
-from argparse import ArgumentParser
+from argparse import ArgumentParser, Namespace
 from getpass import getpass
 from logging import DEBUG, INFO, basicConfig, getLogger
 from socket import timeout
 from subprocess import CalledProcessError, check_call
 from sys import exit    # pylint: disable=W0622
+from typing import Tuple
 
 from mcipc.config import LOG_FORMAT, InvalidCredentials, Credentials
 from mcipc.rcon.config import CONFIG
+from mcipc.rcon.datastructures import Players
 from mcipc.rcon.playground import Client
 
 
@@ -18,7 +20,7 @@ __all__ = ['get_credentials', 'main']
 LOGGER = getLogger('rconclt')
 
 
-def get_args():
+def get_args() -> Namespace:
     """Parses and returns the CLI arguments."""
 
     parser = ArgumentParser(description='A Minecraft RCON client.')
@@ -62,7 +64,7 @@ def get_args():
     return parser.parse_args()
 
 
-def get_credentials(server):
+def get_credentials(server: str) -> Tuple[str, int, str]:
     """Get the credentials for a server from the respective server name."""
 
     try:
@@ -85,7 +87,7 @@ def get_credentials(server):
     return (host, port, passwd)
 
 
-def idle_shutdown(players, args):
+def idle_shutdown(players: Players, args: Namespace) -> bool:
     """Shuts down the server if it is idle."""
 
     if players.online:
@@ -107,7 +109,7 @@ def idle_shutdown(players, args):
     return True
 
 
-def run_action(client, args):
+def run_action(client: Client, args: Namespace):
     """Runs the respective actions."""
 
     result = None

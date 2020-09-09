@@ -1,11 +1,11 @@
 """Basic statistics protocol."""
 
-from ipaddress import IPv4Address, IPv6Address
-from typing import NamedTuple, Union
+from typing import NamedTuple
 
 from mcipc.query.proto.common import MAGIC
 from mcipc.query.proto.common import random_session_id
 from mcipc.query.proto.common import ip_or_hostname
+from mcipc.query.proto.common import IPAddressOrHostname
 from mcipc.query.proto.common import Type
 
 
@@ -29,7 +29,7 @@ class Request(NamedTuple):
         return payload
 
     @classmethod
-    def create(cls, challenge_token, session_id=None):
+    def create(cls, challenge_token: int, session_id: int = None):
         """Creates a new request with the specified challenge
         token and the specified or a random session ID.
         """
@@ -50,10 +50,10 @@ class BasicStats(NamedTuple):
     num_players: int
     max_players: int
     host_port: int
-    host_ip: Union[IPv4Address, IPv6Address, str]
+    host_ip: IPAddressOrHostname
 
     @classmethod
-    def from_bytes(cls, bytes_):    # pylint: disable=R0914
+    def from_bytes(cls, bytes_: bytes):    # pylint: disable=R0914
         """Creates the packet from the respective bytes."""
         type_ = Type.from_bytes(bytes_[0:1])
         session_id = int.from_bytes(bytes_[1:5], 'big', signed=True)
@@ -79,7 +79,7 @@ class BasicStats(NamedTuple):
             type_, session_id, motd, game_type, map_, num_players, max_players,
             host_port, host_ip)
 
-    def to_json(self, ip_type=str) -> dict:
+    def to_json(self) -> dict:
         """Returns a JSON-ish dict."""
         return {
             'type': self.type.value,
@@ -90,7 +90,7 @@ class BasicStats(NamedTuple):
             'num_players': self.num_players,
             'max_players': self.max_players,
             'host_port': self.host_port,
-            'host_ip': ip_type(self.host_ip)
+            'host_ip': str(self.host_ip)
         }
 
 

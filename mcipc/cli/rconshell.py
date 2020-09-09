@@ -1,6 +1,6 @@
 """An interactive RCON shell."""
 
-from argparse import ArgumentParser
+from argparse import ArgumentParser, Namespace
 from logging import INFO, basicConfig, getLogger
 from sys import exit    # pylint: disable=W0622
 
@@ -15,7 +15,7 @@ __all__ = ['get_args', 'main']
 LOGGER = getLogger('rconshell')
 
 
-def get_args():
+def get_args() -> Namespace:
     """Parses and returns the CLI arguments."""
 
     parser = ArgumentParser(description='An interactive RCON shell.')

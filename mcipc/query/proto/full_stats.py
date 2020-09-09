@@ -1,11 +1,11 @@
 """Full statistics protocol."""
 
-from ipaddress import IPv4Address, IPv6Address
-from typing import Generator, NamedTuple, Tuple, Union
+from typing import Generator, NamedTuple, Tuple
 
 from mcipc.query.proto.common import MAGIC
 from mcipc.query.proto.common import random_session_id
 from mcipc.query.proto.common import ip_or_hostname
+from mcipc.query.proto.common import IPAddressOrHostname
 from mcipc.query.proto.common import Type
 
 
@@ -16,7 +16,7 @@ PADDING = 0
 NULL = b'\0'
 
 
-def get_dict(bytes_) -> Tuple[int, dict]:
+def get_dict(bytes_: bytes) -> Tuple[int, dict]:
     """Returns the end index and a dictionary
     of zero-separated key-value pairs.
     """
@@ -48,7 +48,7 @@ def get_dict(bytes_) -> Tuple[int, dict]:
     raise ValueError('Bytes string not properly terminated.', bytes_)
 
 
-def items(bytes_) -> Generator[str, None, None]:
+def items(bytes_: bytes) -> Generator[str, None, None]:
     """Yields zero-byte-separated items."""
 
     item = ''
@@ -66,7 +66,7 @@ def items(bytes_) -> Generator[str, None, None]:
             item += byte.decode('latin-1')
 
 
-def plugins_to_dict(string) -> dict:
+def plugins_to_dict(string: str) -> dict:
     """Convers a plugins string into a dictionary."""
 
     try:
@@ -77,7 +77,7 @@ def plugins_to_dict(string) -> dict:
     return {mod: plugins.split('; ')}
 
 
-def stats_from_dict(dictionary):
+def stats_from_dict(dictionary: dict):
     """Yields statistics options from the provided dictionary."""
 
     yield dictionary['hostname']
@@ -135,11 +135,11 @@ class FullStats(NamedTuple):
     num_players: int
     max_players: int
     host_port: int
-    host_ip: Union[IPv4Address, IPv6Address, str]
+    host_ip: IPAddressOrHostname
     players: tuple
 
     @classmethod
-    def from_bytes(cls, bytes_):
+    def from_bytes(cls, bytes_: bytes):
         """Creates the full stats object from the respective bytes."""
         type_ = Type.from_bytes(bytes_[0:1])
         session_id = int.from_bytes(bytes_[1:5], 'big', signed=True)
@@ -150,7 +150,7 @@ class FullStats(NamedTuple):
         players = tuple(items(bytes_[index:]))
         return cls(type_, session_id, *stats_from_dict(stats), players)
 
-    def to_json(self, ip_type=str) -> dict:
+    def to_json(self) -> dict:
         """Returns a JSON-ish dict."""
         return {
             'type': self.type.value,
@@ -164,7 +164,7 @@ class FullStats(NamedTuple):
             'num_players': self.num_players,
             'max_players': self.max_players,
             'host_port': self.host_port,
-            'host_ip': ip_type(self.host_ip),
+            'host_ip': str(self.host_ip),
             'players': self.players
         }
 

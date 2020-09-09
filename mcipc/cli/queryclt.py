@@ -1,10 +1,11 @@
 """Query client CLI."""
 
-from argparse import ArgumentParser
+from argparse import ArgumentParser, Namespace
 from json import dumps
 from logging import DEBUG, INFO, basicConfig, getLogger
 from socket import timeout
 from sys import exit, stdout    # pylint: disable=W0622
+from typing import Tuple
 
 from mcipc.config import LOG_FORMAT, InvalidCredentials, Credentials
 from mcipc.query.client import Client
@@ -18,7 +19,7 @@ DEFAULT_INDENT = 2 if stdout.isatty() else None
 LOGGER = getLogger('queryclt')
 
 
-def get_args():
+def get_args() -> Namespace:
     """Parses and returns the CLI arguments."""
 
     parser = ArgumentParser(description='A Minecraft Query client.')
@@ -71,7 +72,7 @@ def get_args():
     return parser.parse_args()
 
 
-def get_credentials(server):
+def get_credentials(server: str) -> Tuple[str, int]:
     """Get the credentials for a server from the respective server name."""
 
     try:
@@ -89,7 +90,7 @@ def get_credentials(server):
     return (host, port)
 
 
-def basic_stats(client, args):  # pylint: disable=R0911
+def basic_stats(client: Client, args: Namespace):   # pylint: disable=R0911
     """Handles basic stats queries."""
 
     if not args.field:
@@ -119,7 +120,7 @@ def basic_stats(client, args):  # pylint: disable=R0911
     raise ValueError('Invalid action.')
 
 
-def full_stats(client, args):   # pylint: disable=R0911
+def full_stats(client: Client, args: Namespace):    # pylint: disable=R0911
     """Handles full stats queries."""
 
     if not args.field:
