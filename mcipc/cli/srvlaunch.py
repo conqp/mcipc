@@ -21,14 +21,9 @@ def get_response(text: str) -> bytes:
     json = {'text': text}
     string = dumps(json)
     payload = string.encode('latin-1')
-    payload_length = len(payload)
-    payload_length = VarInt(payload_length)
-    payload_length = bytes(payload_length)
-    payload = payload_length + payload
-    payload = bytes(VarInt(0)) + payload
-    payload_length = len(payload)
-    payload_length = VarInt(payload_length)
-    payload_length = bytes(payload_length)
+    payload_length = bytes(VarInt(len(payload)))
+    payload = bytes(VarInt(0)) + payload_length + payload
+    payload_length = bytes(VarInt(len(payload)))
     return payload_length + payload
 
 
