@@ -1,5 +1,6 @@
 """The actual server."""
 
+from json import dumps
 from logging import getLogger
 from socket import socket
 
@@ -8,10 +9,20 @@ from mcipc.server.datatypes import VarInt
 from mcipc.server.enumerations import State
 
 
-__all__ = ['StubServer']
+__all__ = ['get_response', 'StubServer']
 
 
 LOGGER = getLogger(__file__)
+
+
+def get_response(text: str) -> bytes:
+    """Returns the response text message."""
+
+    payload = dumps({'text': text}).encode('latin-1')
+    payload_length = bytes(VarInt(len(payload)))
+    payload = bytes(VarInt(0)) + payload_length + payload
+    payload_length = bytes(VarInt(len(payload)))
+    return payload_length + payload
 
 
 class StubServer:

@@ -1,4 +1,5 @@
 #! /usr/bin/env python
+"""Installation script."""
 
 from setuptools import setup
 
@@ -16,8 +17,14 @@ setup(
         'mcipc.query.proto',
         'mcipc.rcon',
         'mcipc.rcon.datastructures',
-        'mcipc.server'],
-    scripts=['files/queryclt', 'files/rconclt', 'files/rconshell'],
+        'mcipc.server'
+    ],
+    scripts=[
+        'files/mcstubsrv',
+        'files/queryclt',
+        'files/rconclt',
+        'files/rconshell'
+    ],
     url='https://github.com/conqp/mcipc',
     license='GPLv3',
     description='A Minecraft server inter-process communication library.',
