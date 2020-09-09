@@ -101,3 +101,5 @@ def main():
     except OSError as error:
         LOGGER.error(str(error))
         exit(3)
+    except KeyboardInterrupt:
+        LOGGER.info('Shutting down...')
