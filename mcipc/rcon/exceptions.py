@@ -13,7 +13,7 @@ __all__ = [
 class InvalidPacketStructure(ValueError):
     """Indicates an invalid packet structure."""
 
-    def __init__(self, message, value, expected):
+    def __init__(self, message: str, value, expected):
         """Sets an error message, the actual value and the expected value."""
         super().__init__(message, value, expected)
         self.message = message
@@ -21,7 +21,7 @@ class InvalidPacketStructure(ValueError):
         self.expected = expected
 
     @property
-    def description(self):
+    def description(self) -> str:
         """Returns an additional error description."""
         return f'Expected "{self.expected}", but got "{self.value}".'
 
@@ -46,7 +46,7 @@ class NotALocation(ValueError):
 class RequestIdMismatch(Exception):
     """Indicates that the sent and received request IDs do not match."""
 
-    def __init__(self, sent, received):
+    def __init__(self, sent: int, received: int):
         """Sets the sent and received request IDs."""
         super().__init__(sent, received)
         self.sent = sent

@@ -1,5 +1,6 @@
 """Basic statistics protocol."""
 
+from __future__ import annotations
 from typing import NamedTuple
 
 from mcipc.query.proto.common import MAGIC
@@ -29,7 +30,7 @@ class Request(NamedTuple):
         return payload
 
     @classmethod
-    def create(cls, challenge_token: int, session_id: int = None):
+    def create(cls, challenge_token: int, session_id: int = None) -> Request:
         """Creates a new request with the specified challenge
         token and the specified or a random session ID.
         """
@@ -53,7 +54,7 @@ class BasicStats(NamedTuple):
     host_ip: IPAddressOrHostname
 
     @classmethod
-    def from_bytes(cls, bytes_: bytes):    # pylint: disable=R0914
+    def from_bytes(cls, bytes_: bytes) -> BasicStats:   # pylint: disable=R0914
         """Creates the packet from the respective bytes."""
         type_ = Type.from_bytes(bytes_[0:1])
         session_id = int.from_bytes(bytes_[1:5], 'big', signed=True)

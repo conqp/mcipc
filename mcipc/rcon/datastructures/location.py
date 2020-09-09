@@ -1,5 +1,6 @@
 """Locations."""
 
+from __future__ import annotations
 from re import compile  # pylint: disable=W0622
 from typing import NamedTuple, Union
 
@@ -31,7 +32,7 @@ class Location(NamedTuple):
     z: int
 
     @classmethod
-    def from_response(cls, text: str):
+    def from_response(cls, text: str) -> Location:
         """Creates a location from a server response."""
         match = REGEX.fullmatch(text)
 

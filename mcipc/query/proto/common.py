@@ -1,5 +1,6 @@
 """Common protocol stuff."""
 
+from __future__ import annotations
 from enum import Enum
 from ipaddress import ip_address, IPv4Address, IPv6Address
 from random import randint
@@ -48,6 +49,6 @@ class Type(Enum):
         return self.value.to_bytes(1, 'big')    # pylint: disable=E1101
 
     @classmethod
-    def from_bytes(cls, bytes_: bytes):
+    def from_bytes(cls, bytes_: bytes) -> Type:
         """Returns the type from the respective bytes."""
         return cls(int.from_bytes(bytes_, 'big'))

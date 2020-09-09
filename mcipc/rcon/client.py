@@ -1,6 +1,7 @@
 """High level client API."""
 
 from json import dumps
+from typing import Tuple
 
 from mcipc.rcon.datastructures import Help, Location, Players, Seed
 from mcipc.rcon.exceptions import InvalidStructure, NotALocation
@@ -10,6 +11,10 @@ from mcipc.rcon.proto import Client as _Client
 __all__ = ['Client']
 
 
+Coords = Tuple[float, float, float]
+Orientation = Tuple[float, float]
+
+
 class AdminMixin:
     """Administrative methods."""
 
@@ -17,7 +22,7 @@ class AdminMixin:
         """Revokes operator status from the respective player."""
         return self.run('deop', player)
 
-    def kick(self, player: str, *reasons) -> str:
+    def kick(self, player: str, *reasons: str) -> str:
         """Kicks the respective player."""
         return self.run('kick', player, *reasons)
 
@@ -25,8 +30,10 @@ class AdminMixin:
         """Makes the respective player an operator."""
         return self.run('op', player)
 
-    def teleport(self, player: str, *, dst_player: str = None,
-                 coords: tuple = None, orientation: tuple = None) -> str:
+    def teleport(self, player: str, *,
+                 dst_player: str = None,
+                 coords: Coords = None,
+                 orientation: Orientation = None) -> str:
         """Teleports the player to either another
         player or a set of coordinates.
         """
@@ -100,7 +107,7 @@ class InfoMixin:
         response = self.run('seed')
         return Seed.from_response(response)
 
-    def help(self, command: str = None) -> tuple:
+    def help(self, command: str = None) -> Help:
         """Returns help about commands."""
         if command is None:
             text = self.run('help')

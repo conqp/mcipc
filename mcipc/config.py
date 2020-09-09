@@ -1,5 +1,6 @@
 """Server configuration parser."""
 
+from __future__ import annotations
 from configparser import ConfigParser
 from pathlib import Path
 from typing import NamedTuple
@@ -30,7 +31,7 @@ class CredentialsConfig(ConfigParser):  # pylint: disable=R0901
         self.filename = filename
 
     @property
-    def servers(self):
+    def servers(self) -> dict:
         """Returns a dictionary of servers."""
         self.read(self.filename)
         return {
@@ -46,7 +47,7 @@ class Credentials(NamedTuple):
     passwd: str
 
     @classmethod
-    def from_string(cls, string):
+    def from_string(cls, string) -> Credentials:
         """Reads the credentials from the given string."""
         try:
             host, port = string.split(':')
@@ -66,7 +67,7 @@ class Credentials(NamedTuple):
         return cls(host, port, passwd)
 
     @classmethod
-    def from_config_section(cls, section):
+    def from_config_section(cls, section) -> Credentials:
         """Creates a credentials tuple from
         the respective config section.
         """

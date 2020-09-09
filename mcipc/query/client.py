@@ -4,9 +4,10 @@ from socket import SOCK_DGRAM
 from typing import Generator
 
 from mcipc.common import BaseClient
-from mcipc.query.proto.basic_stats import BasicStatsMixin
-from mcipc.query.proto.full_stats import FullStatsMixin
-from mcipc.query.proto.handshake import HandshakeMixin
+from mcipc.query.proto import BasicStatsMixin
+from mcipc.query.proto import FullStatsMixin
+from mcipc.query.proto import HandshakeMixin
+from mcipc.query.proto import Packet
 
 
 __all__ = ['Client']
@@ -43,7 +44,7 @@ class Client(BaseClient, HandshakeMixin, BasicStatsMixin, FullStatsMixin):
         """Receives all bytes from the socket."""
         return b''.join(self._recv_chunks(buffer=buffer))
 
-    def communicate(self, packet, response_type: type = None, *,
+    def communicate(self, packet: Packet, response_type: type = None, *,
                     buffer: int = 4096):
         """Sends and receives a packet."""
         self._socket.send(bytes(packet))

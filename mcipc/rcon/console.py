@@ -1,6 +1,7 @@
 """An interactive console."""
 
 from getpass import getpass
+from typing import NamedTuple
 
 from mcipc.rcon.client import Client
 from mcipc.rcon.exceptions import RequestIdMismatch, WrongPassword
@@ -17,6 +18,15 @@ MSG_EXIT = 'Bye.'
 MSG_SESSION_TIMEOUT = 'Session timed out. Please login again.'
 MSG_EXIT_USAGE = 'Usage: {} [<exit_code>].'
 PS1 = 'RCON> '
+
+
+class Config(NamedTuple):
+    """RCON CLI configuration."""
+
+    host: str
+    port: int
+    passwd: str
+    prompt: str
 
 
 def _read(prompt: str, typ: type = None):
@@ -36,7 +46,7 @@ def _read(prompt: str, typ: type = None):
 
 
 def _read_or_none(prompt: str, typ: type = None):
-    """Reads the input and returns None on abort."""
+    """Reads the input and returns None on EOFError."""
 
     try:
         return _read(prompt, typ=typ)
@@ -45,7 +55,7 @@ def _read_or_none(prompt: str, typ: type = None):
         return None
 
 
-def _login(client: Client, passwd: str):
+def _login(client: Client, passwd: str) -> str:
     """Performs a login."""
 
     if passwd is None:
@@ -63,7 +73,7 @@ def _login(client: Client, passwd: str):
     return passwd
 
 
-def _read_args(host: str, port: int, passwd: str, prompt: str) -> tuple:
+def _get_config(host: str, port: int, passwd: str, prompt: str) -> Config:
     """Reads the necessary arguments."""
 
     while any(item is None for item in (host, port, passwd, prompt)):
@@ -79,7 +89,7 @@ def _read_args(host: str, port: int, passwd: str, prompt: str) -> tuple:
         if prompt is None:
             prompt = _read_or_none('Prompt: ')
 
-    return (host, port, passwd, prompt)
+    return Config(host, port, passwd, prompt)
 
 
 def _exit(exit_code=0):
@@ -94,21 +104,21 @@ def rconcmd(host: str, port: int, passwd: str, prompt: str = PS1) -> int:
     """Initializes the console."""
 
     try:
-        host, port, passwd, prompt = _read_args(host, port, passwd, prompt)
+        config = _get_config(host, port, passwd, prompt)
     except KeyboardInterrupt:
         print(MSG_ABORTED)
         return 1
 
-    with Client(host, port) as client:
+    with Client(config.host, config.port) as client:
         try:
-            passwd = _login(client, passwd)
+            passwd = _login(client, config.passwd)
         except (EOFError, KeyboardInterrupt):
             print(MSG_LOGIN_ABORTED)
             return 1
 
         while True:
             try:
-                command = input(prompt)
+                command = input(config.prompt)
             except EOFError:
                 print(f'\n{MSG_EXIT}')
                 break

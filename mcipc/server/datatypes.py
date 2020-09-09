@@ -1,5 +1,6 @@
 """Data types for the server protocol."""
 
+from __future__ import annotations
 from logging import getLogger
 from typing import Callable
 
@@ -38,7 +39,7 @@ class VarInt(int):
         return bytes_
 
     @classmethod
-    def read(cls, readfunc: Callable):
+    def read(cls, readfunc: Callable) -> VarInt:
         """Reads a VarInt from the respective bytes."""
         bytes_count = 0
         result = 0

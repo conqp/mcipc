@@ -1,7 +1,8 @@
 """Datastructures to represent help on commands."""
 
+from __future__ import annotations
 from logging import getLogger
-from typing import Iterable, NamedTuple, Tuple
+from typing import Iterable, NamedTuple, Tuple, Union
 
 
 LOGGER = getLogger(__file__)
@@ -14,7 +15,7 @@ class Command(NamedTuple):
     arguments: str
 
     @classmethod
-    def from_tuple(cls, tpl: Tuple[str]):
+    def from_tuple(cls, tpl: Union[Tuple[str, str], Tuple[str]]) -> Command:
         """Creates the command from a tuple."""
         try:
             command, arguments, *superfluous = tpl
@@ -48,7 +49,7 @@ class Help(dict):
     """command: arguments key pairs."""
 
     @classmethod
-    def from_sequence(cls, sequence: Iterable):
+    def from_sequence(cls, sequence: Iterable) -> Help:
         """Creates the help from the respective sequence."""
         commands = (Command.from_tuple(item) for item in sequence)
         return cls((command.command, command) for command in commands)

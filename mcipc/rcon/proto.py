@@ -1,5 +1,6 @@
 """Low-level protocol stuff."""
 
+from __future__ import annotations
 from enum import Enum
 from logging import getLogger
 from random import randint
@@ -58,7 +59,7 @@ class Packet(NamedTuple):
         return size + payload
 
     @classmethod
-    def from_bytes(cls, bytes_: bytes):
+    def from_bytes(cls, bytes_: bytes) -> Packet:
         """Creates a packet from the respective bytes."""
         request_id = int.from_bytes(bytes_[:4], 'little', signed=True)
         type_ = int.from_bytes(bytes_[4:8], 'little')
@@ -71,12 +72,12 @@ class Packet(NamedTuple):
         return cls(request_id, Type(type_), payload.decode())
 
     @classmethod
-    def from_args(cls, *args: str):
+    def from_args(cls, *args: str) -> Packet:
         """Creates a command packet."""
         return cls(random_request_id(), Type.COMMAND, ' '.join(args))
 
     @classmethod
-    def from_login(cls, passwd: str):
+    def from_login(cls, passwd: str) -> Packet:
         """Creates a login packet."""
         return cls(random_request_id(), Type.LOGIN, passwd)
 

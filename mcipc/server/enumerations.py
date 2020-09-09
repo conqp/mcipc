@@ -1,5 +1,6 @@
 """Common enumerations."""
 
+from __future__ import annotations
 from enum import Enum
 from typing import Callable
 
@@ -17,6 +18,6 @@ class State(Enum):
     LOGIN = VarInt(2)
 
     @classmethod
-    def read(cls, readfunc: Callable):
+    def read(cls, readfunc: Callable) -> State:
         """Reads the state from the respective connection."""
         return cls(VarInt.read(readfunc))

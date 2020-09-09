@@ -1,5 +1,6 @@
 """Information about online players."""
 
+from __future__ import annotations
 from re import compile  # pylint: disable=W0622
 from typing import NamedTuple, Tuple
 
@@ -18,7 +19,7 @@ class Players(NamedTuple):
     names: Tuple[str]
 
     @classmethod
-    def from_response(cls, text: str):
+    def from_response(cls, text: str) -> Players:
         """Creates the players information from a server response."""
         match = REGEX.fullmatch(text)
         online, max_, names = match.groups()

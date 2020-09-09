@@ -1,5 +1,6 @@
 """Handshake protocol."""
 
+from __future__ import annotations
 from typing import NamedTuple
 
 from mcipc.query.proto.common import MAGIC, random_session_id, Type
@@ -23,7 +24,7 @@ class Request(NamedTuple):
         return payload
 
     @classmethod
-    def create(cls, session_id=None):
+    def create(cls, session_id: int = None) -> Request:
         """Returns a handshake request packet with a random session ID."""
         if session_id is None:
             session_id = random_session_id()
@@ -39,7 +40,7 @@ class Response(NamedTuple):
     challenge_token: int
 
     @classmethod
-    def from_bytes(cls, bytes_):
+    def from_bytes(cls, bytes_: bytes) -> Response:
         """Creates the packet from bytes."""
         type_ = Type.from_bytes(bytes_[0:1])
         session_id = int.from_bytes(bytes_[1:5], 'big', signed=True)

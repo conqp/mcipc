@@ -1,5 +1,6 @@
 """Full statistics protocol."""
 
+from __future__ import annotations
 from typing import Generator, NamedTuple, Tuple
 
 from mcipc.query.proto.common import MAGIC
@@ -111,7 +112,7 @@ class Request(NamedTuple):
         return payload
 
     @classmethod
-    def create(cls, challenge_token, session_id=None):
+    def create(cls, challenge_token: int, session_id: int = None) -> Request:
         """Creates a new request with the specified challenge
         token and the specified or a random session ID.
         """
@@ -139,7 +140,7 @@ class FullStats(NamedTuple):
     players: tuple
 
     @classmethod
-    def from_bytes(cls, bytes_: bytes):
+    def from_bytes(cls, bytes_: bytes) -> FullStats:
         """Creates the full stats object from the respective bytes."""
         type_ = Type.from_bytes(bytes_[0:1])
         session_id = int.from_bytes(bytes_[1:5], 'big', signed=True)

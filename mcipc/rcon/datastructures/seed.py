@@ -1,5 +1,6 @@
 """Represents a seed."""
 
+from __future__ import annotations
 from re import compile  # pylint: disable=W0622
 
 
@@ -13,7 +14,7 @@ class Seed(int):
     """A seed value."""
 
     @classmethod
-    def from_response(cls, text):
+    def from_response(cls, text: str) -> Seed:
         """Returns a seed from a server response."""
         match = REGEX.fullmatch(text)
         return cls(match.group(1))
