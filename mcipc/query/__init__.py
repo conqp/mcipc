@@ -1,4 +1,4 @@
-"""Query API library."""
+"""Query client library."""
 
 from mcipc.query.client import Client
 
