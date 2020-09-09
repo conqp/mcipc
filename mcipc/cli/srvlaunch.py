@@ -18,9 +18,7 @@ LOGGER = getLogger(__file__)
 def get_response(text: str) -> bytes:
     """Returns the response text message."""
 
-    json = {'text': text}
-    string = dumps(json)
-    payload = string.encode('latin-1')
+    payload = dumps({'text': text}).encode('latin-1')
     payload_length = bytes(VarInt(len(payload)))
     payload = bytes(VarInt(0)) + payload_length + payload
     payload_length = bytes(VarInt(len(payload)))
