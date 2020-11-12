@@ -17,6 +17,10 @@ class Seed(int):
     def from_response(cls, text: str) -> Seed:
         """Returns a seed from a server response."""
         match = REGEX.fullmatch(text)
+
+        if match is None:
+            raise ValueError('Unexpected seed response:', text)
+
         return cls(match.group(1))
 
     def to_json(self) -> int:

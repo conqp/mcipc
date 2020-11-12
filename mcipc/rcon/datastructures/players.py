@@ -22,6 +22,10 @@ class Players(NamedTuple):
     def from_response(cls, text: str) -> Players:
         """Creates the players information from a server response."""
         match = REGEX.fullmatch(text)
+
+        if match is None:
+            raise ValueError('Unexpected players response:', text)
+
         online, max_, names = match.groups()
         names = filter(None, map(lambda name: name.strip(), names.split(', ')))
         return cls(int(online), int(max_), tuple(names))
