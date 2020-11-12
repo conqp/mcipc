@@ -109,7 +109,7 @@ class Client(BaseClient):
         try:
             self.communicate(packet)
         except RequestIdMismatch:
-            raise WrongPassword()
+            raise WrongPassword() from None
 
         return True
 

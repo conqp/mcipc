@@ -4,7 +4,7 @@ from json import dumps
 from typing import Tuple
 
 from mcipc.rcon.datastructures import Help, Location, Players, Seed
-from mcipc.rcon.exceptions import InvalidStructure, NotALocation
+from mcipc.rcon.exceptions import NotALocation, StructureNotFound
 from mcipc.rcon.proto import Client as _Client
 
 
@@ -125,7 +125,7 @@ class InfoMixin:
         try:
             return Location.from_response(response)
         except NotALocation:
-            raise InvalidStructure(structure)
+            raise StructureNotFound(structure) from None
 
 
 class Client(_Client, AdminMixin, ChatMixin, InfoMixin):

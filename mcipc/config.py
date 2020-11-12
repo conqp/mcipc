@@ -36,7 +36,8 @@ class CredentialsConfig(ConfigParser):  # pylint: disable=R0901
         self.read(self.filename)
         return {
             section: Credentials.from_config_section(self[section])
-            for section in self.sections()}
+            for section in self.sections()
+        }
 
 
 class Credentials(NamedTuple):
@@ -52,12 +53,12 @@ class Credentials(NamedTuple):
         try:
             host, port = string.split(':')
         except ValueError:
-            raise InvalidCredentials(f'Invalid socket string: {string}.')
+            raise InvalidCredentials(f'Invalid socket: {string}.') from None
 
         try:
             port = int(port)
         except ValueError:
-            raise InvalidCredentials(f'Not an integer: {port}.')
+            raise InvalidCredentials(f'Not an integer: {port}.') from None
 
         try:
             passwd, host = host.rsplit('@', maxsplit=1)

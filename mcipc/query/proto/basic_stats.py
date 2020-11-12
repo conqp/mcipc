@@ -58,20 +58,10 @@ class BasicStats(NamedTuple):
         """Creates the packet from the respective bytes."""
         type_ = Type.from_bytes(bytes_[0:1])
         session_id = int.from_bytes(bytes_[1:5], 'big', signed=True)
-
-        try:
-            motd, *blocks, port_ip, _ = bytes_[5:].split(b'\0')
-        except ValueError:
-            raise ValueError('Unexpected amount of Null terminated strings.')
-
+        motd, *blocks, port_ip, _ = bytes_[5:].split(b'\0')
         motd = motd.decode('latin-1')
         strings = [block.decode('latin-1') for block in blocks]
-
-        try:
-            game_type, map_, num_players, max_players = strings
-        except ValueError:
-            raise ValueError('Unexpected amount of string fields.')
-
+        game_type, map_, num_players, max_players = strings
         num_players = int(num_players)
         max_players = int(max_players)
         host_port = int.from_bytes(port_ip[0:2], 'little')

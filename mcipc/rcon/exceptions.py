@@ -3,9 +3,9 @@
 
 __all__ = [
     'InvalidPacketStructure',
-    'InvalidStructure',
     'NotALocation',
     'RequestIdMismatch',
+    'StructureNotFound',
     'WrongPassword'
 ]
 
@@ -30,15 +30,6 @@ class InvalidPacketStructure(ValueError):
         return f'{self.message} {self.description}'
 
 
-class InvalidStructure(ValueError):
-    """Indicates that the given structure is not valid."""
-
-    def __init__(self, structure):
-        """Sets the invalid structure's name."""
-        super().__init__(structure)
-        self.structure = structure
-
-
 class NotALocation(ValueError):
     """Indicates that the given text is not a valid location value."""
 
@@ -51,6 +42,15 @@ class RequestIdMismatch(Exception):
         super().__init__(sent, received)
         self.sent = sent
         self.received = received
+
+
+class StructureNotFound(ValueError):
+    """Indicates that the given structure could not be found."""
+
+    def __init__(self, structure):
+        """Sets the invalid structure's name."""
+        super().__init__(structure)
+        self.structure = structure
 
 
 class WrongPassword(Exception):
