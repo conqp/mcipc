@@ -34,9 +34,7 @@ class Location(NamedTuple):
     @classmethod
     def from_response(cls, text: str) -> Location:
         """Creates a location from a server response."""
-        match = REGEX.fullmatch(text)
-
-        if match is None:
+        if (match := REGEX.fullmatch(text)) is None:
             raise NotALocation(text)
 
         coord_x, coord_y, coord_z = match.groups()
