@@ -45,8 +45,8 @@ class AdminMixin:
         if dst_player is not None:
             args.append(dst_player)
         elif coords is not None:
-            coord_x, coord_y, coord_z = coords
-            args += [str(coord_x), str(coord_y), str(coord_z)]
+            x, y, z = coords    # pylint: disable=C0103
+            args += [str(x), str(y), str(z)]
 
         if orientation is not None:
             yaw, pitch = orientation
