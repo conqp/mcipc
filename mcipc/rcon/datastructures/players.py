@@ -16,9 +16,7 @@ REGEX_PAPER_NAME = compile('.+: (?:§4)?(\\w+)(?:§r)?§f')
 def extract_paper_name(name: str) -> Union[str, None]:
     """Extracts names from Paper server output."""
 
-    match = REGEX_PAPER_NAME.fullmatch(name.strip())
-
-    if match is None:
+    if (match := REGEX_PAPER_NAME.fullmatch(name.strip())) is None:
         return None
 
     name, = match.groups()
