@@ -19,8 +19,7 @@ def extract_paper_name(name: str) -> Union[str, None]:
     if (match := REGEX_PAPER_NAME.fullmatch(name.strip())) is None:
         return None
 
-    name, = match.groups()
-    return name
+    return match.group(1)
 
 
 class Players(NamedTuple):
