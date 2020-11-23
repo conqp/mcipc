@@ -1,6 +1,6 @@
 FILE_LIST = ./.installed_files.txt
 
-.PHONY: pull push clean install uninstall
+.PHONY: build clean install publish pull push uninstall
 
 build:
 	@ ./setup.py sdist bdist_wheel
