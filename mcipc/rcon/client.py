@@ -80,7 +80,7 @@ class ChatMixin:
 
     def send_url(self, player: str, url: str, text: str = None) -> str:
         """Sends a URL to the specified player.
-        If text is None, it will default to the original URL.
+        If no text is specified, it will default to the original URL.
         """
         json = {
             'text': text or url,
