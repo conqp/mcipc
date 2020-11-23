@@ -13,17 +13,6 @@ __all__ = ['Location']
 REGEX = compile('.*\\[(-?\\d+), (~|-?\\d+), (-?\\d+)\\].*')
 
 
-def _int_or_none(string: str) -> Union[int, None]:
-    """Returns None iff coordinate is special "~"
-    character or else the respective integer value.
-    """
-
-    if string == '~':
-        return None
-
-    return int(string)
-
-
 class Location(NamedTuple):
     """A 3D location."""
 
@@ -37,8 +26,8 @@ class Location(NamedTuple):
         if (match := REGEX.fullmatch(text)) is None:
             raise NotALocation(text)
 
-        coord_x, coord_y, coord_z = match.groups()
-        return cls(int(coord_x), _int_or_none(coord_y), int(coord_z))
+        x, y, z = match.groups()    # pylint: disable=C0103
+        return cls(int(x), None if y == '~' else int(y), int(z))
 
     def to_json(self) -> dict:
         """Returns a JSON-ish dict."""
