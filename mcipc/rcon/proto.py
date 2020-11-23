@@ -64,9 +64,8 @@ class Packet(NamedTuple):
         request_id = int.from_bytes(bytes_[:4], 'little', signed=True)
         type_ = int.from_bytes(bytes_[4:8], 'little')
         payload = bytes_[8:-2]
-        tail = bytes_[-2:]
 
-        if tail != TAIL:
+        if (tail := bytes_[-2:]) != TAIL:
             raise InvalidPacketStructure('Invalid tail.', tail, TAIL)
 
         return cls(request_id, Type(type_), payload.decode())
