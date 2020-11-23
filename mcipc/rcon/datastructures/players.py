@@ -51,14 +51,10 @@ class Players(NamedTuple):
     @classmethod
     def from_response(cls, text: str) -> Players:
         """Creates the players information from a server response."""
-        match = REGEX_VANILLA.fullmatch(text)
-
-        if match is not None:
+        if (match := REGEX_VANILLA.fullmatch(text)) is not None:
             return cls.from_vanilla(match)
 
-        match = REGEX_PAPER.fullmatch(text)
-
-        if match is not None:
+        if (match := REGEX_PAPER.fullmatch(text)) is not None:
             return cls.from_paper(match)
 
         raise ValueError('Unexpected players response:', text)
