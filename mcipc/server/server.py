@@ -37,9 +37,9 @@ class StubServer:
         self.protocol = protocol
 
     @property
-    def slp_response(self) -> SLPResponse:
-        """Returns an SLP response."""
-        json = {
+    def slp_content(self) -> dict:
+        """Returns the content of an SLP response."""
+        return {
             'version': {
                 'name': self.version,
                 'protocol': self.protocol
@@ -52,7 +52,11 @@ class StubServer:
                 'text': self.description
             }
         }
-        return SLPResponse(VarInt(0), json)
+
+    @property
+    def slp_response(self) -> SLPResponse:
+        """Returns an SLP response."""
+        return SLPResponse(VarInt(0), self.slp_content)
 
     @staticmethod
     def _perform_handshake(connection: socket) -> State:
