@@ -5,9 +5,15 @@ A Minecraft inter-process communication API implementing the [RCON](http://wiki.
 ## Requirements
 `mcipc` requires Python 3.8 or higher.
 
-## Usage
+## Documentation
 
-[![Documentation Status](https://readthedocs.org/projects/mcipc/badge/?version=latest)](https://mcipc.readthedocs.io/en/latest/?badge=latest)
+Documentation is available on readthedocs.io: [![Documentation Status](https://readthedocs.org/projects/mcipc/badge/?version=latest)](https://mcipc.readthedocs.io/en/latest/?badge=latest)
+
+## Quick start
+
+Install mcipc from the [AUR](https://aur.archlinux.org/packages/python-mcipc/) or via:
+
+    pip install mcipc
 
 ### Query protocol
 The `Query` protcol is used to query a Minecraft server for server information.  
@@ -100,60 +106,6 @@ The type of `mansion` is `Location` which describes the x-y-z location of the ne
 * `z`: z-coordinate (`int`).
 
 *HINT:* The y-component of a location may be `None`, which represents the special Minectaft vector component `'~'`.
-
-### Available client commands
-For a full documentation of available client commands, please refer to
-
-    help(Client)
-    
-within an interactive python shell.
-
-### Handling connection timeouts.
-Since version 1.2.1, you can specify an optional `timeout=<sec>` parameter on both `Query` and `RCON` clients.  
-If a timeout is reached during a connection attempt, it will raise a `socket.timeout` exception.  
-The following example will raise a connection timeout after 1.5 seconds:
-
-    try:
-        with Client('127.0.0.1', 5000, timeout=1.5) as client:
-            <do_stuff>
-    except socket.timeout as timeout:
-        <handle_connection_timeout>
-
-## Scripts
-This library also ships a couple of scripts intended as a proof-of-concept.
-
-* `queryclt`: A `Query` client.
-* `rconclt`: An `RCON` client.
-* `rconshell`: An interactive `RCON` shell.
-
-### `queryclt`
-`queryclt` is a Query client script to communicate with minecraft servers via the Query protocol using the shell.  
-To communicate with a server, run:
-
-    queryclt <server> <stats_type> [<args>...] [options]
-
-The placeholder `<server>` can either be a pre-defined server's name (see [below](#Configuration)) or server socket identified by `<host>:<port>`.
-
-### `rconclt`
-`rconclt` is an RCON client script to communicate with minecraft servers via the RCON protocol using the shell.  
-To communicate with a server, run:
-
-    rconclt <server> <command> [<args>...] [options]
-    
-The placeholder `<server>` can either be a pre-defined server's name (see [below](#Configuration)) or server socket identified by `[<password>@]<host>:<port>`.\
-If no password was specified in either the pre-defined server entry or the server socket, the script will interactively ask for the server's password.
-
-## Configuration
-`queryclt` servers can be configured in `/etc/mcipc.d/query.conf`.\
-`rconclt` servers can be configured in `/etc/mcipc.d/rcon.conf`.\
-The configuration file format is:
-
-    [<server_name>]
-    host = <hostname_or_ip_address>
-    port = <port>
-    passwd = <password>
-
-The `passwd` entry is optional for `rcon.conf` and unnecessary for `query.conf`.
 
 ## License
 Copyright (C) 2018-2020 Richard Neumann <mail at richard dash neumann period de>
