@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 from enum import Enum
-from typing import Callable
+from socket import socket
 
 from mcipc.server.datatypes import VarInt
 
@@ -18,6 +18,6 @@ class State(Enum):
     LOGIN = VarInt(2)
 
     @classmethod
-    def read(cls, readfunc: Callable) -> State:
+    def from_socket(cls, sock: socket) -> State:
         """Reads the state from the respective connection."""
-        return cls(VarInt.read(readfunc))
+        return cls(VarInt.from_socket(sock))

@@ -61,7 +61,7 @@ class StubServer:
     @staticmethod
     def _perform_handshake(connection: socket) -> State:
         """Handle handshake requests."""
-        handshake = Handshake.read(connection.recv)
+        handshake = Handshake.from_socket(connection)
         LOGGER.debug('Got handshake: %s', handshake)
         return handshake.next_state
 
@@ -81,8 +81,8 @@ class StubServer:
 
     def _handle_login(self, connection: socket):
         """Performs a login."""
-        size = VarInt.read(connection.recv)
-        packet_id = VarInt.read(connection.recv)
+        size = VarInt.from_socket(connection)
+        packet_id = VarInt.from_socket(connection)
         packet_id_length = len(bytes(packet_id))
         payload = connection.recv(size - packet_id_length)
         LOGGER.debug('Got packet ID: %s', packet_id)

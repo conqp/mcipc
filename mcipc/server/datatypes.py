@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 from logging import getLogger
-from typing import Callable
+from socket import socket
 
 from mcipc.server.functions import rshift
 
@@ -39,7 +39,7 @@ class VarInt(int):
         return bytes_
 
     @classmethod
-    def read(cls, readfunc: Callable) -> VarInt:
+    def from_socket(cls, sock: socket) -> VarInt:
         """Reads a VarInt from the respective bytes."""
         bytes_count = 0
         result = 0
@@ -48,7 +48,7 @@ class VarInt(int):
             if bytes_count > 4:  # Compensate for start index 0.
                 raise ValueError('VarInt is too big.')
 
-            byte = readfunc(1)
+            byte = sock.recv(1)
             read = int.from_bytes(byte, 'little')
             value = read & 0b01111111
             shift = 7 * bytes_count
