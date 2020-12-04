@@ -72,7 +72,7 @@ def get_random_player_name(pool: str = ascii_letters+digits,
     return ''.join(choices(pool, k=length))
 
 
-def get_players_test_cases(count: int =100) -> Generator[Players, None, None]:
+def get_players_test_cases(count: int = 100) -> Generator[Players, None, None]:
     """Yields player strings for a vanilla server."""
 
     for online in range(count):
