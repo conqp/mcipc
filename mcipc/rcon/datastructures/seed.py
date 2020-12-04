@@ -22,5 +22,5 @@ class Seed(int):
         return cls(match.group(1))
 
     def to_json(self) -> int:
-        """Returns a JSON-ish dict."""
+        """Returns the seed as int for JSON serialization."""
         return int(self)
