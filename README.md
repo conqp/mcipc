@@ -7,6 +7,8 @@ A Minecraft inter-process communication API implementing the [RCON](http://wiki.
 
 ## Usage
 
+[![Documentation Status](https://readthedocs.org/projects/mcipc/badge/?version=latest)](https://mcipc.readthedocs.io/en/latest/?badge=latest)
+
 ### Query protocol
 The `Query` protcol is used to query a Minecraft server for server information.  
 The Minecraft query protocol has two query modes: *basic stats* and *full stats*.
