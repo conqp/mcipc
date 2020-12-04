@@ -9,6 +9,8 @@ Furthermore, you need to specify a port for the RCON server by setting `rcon.por
 and a password by setting `rcon.password = <password>` in the same file.
 The following example assumes a server running on `127.0.0.1` and on the RCON port `5000` with password `'mysecretpassword'`:
 
+.. code-block:: python
+
     from mcipc.rcon import Client
 
     with Client('127.0.0.1', 5000) as client:

@@ -12,12 +12,15 @@ You can enable the query protocol on a Minecraft server by setting `enable-query
 To specify a deviating port, you can set `query.port = <port>` in the same file.
 The following example assumes a server running on `127.0.0.1` and on the default query port `25565`:
 
+.. code-block:: python
+
     from mcipc.query import Client
 
     with Client('127.0.0.1', 25565) as client:
         basic_stats = client.basic_stats
 
     print(basic_stats)
+
 
 The type of `basic_stats` is a named tuple with the following properties:
 
@@ -36,12 +39,15 @@ Full stats
 
 For retrieving full stats of a server, the same premises apply.
 
+.. code-block:: python
+
     from mcipc.query import Client
 
     with Client('127.0.0.1', 25565) as client:
         full_stats = client.full_stats
 
     print(full_stats)
+
 
 The type of `full_stats` is a named tuple with the following properties:
 
