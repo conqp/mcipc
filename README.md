@@ -5,7 +5,7 @@ A Minecraft inter-process communication API implementing the [RCON](http://wiki.
 `mcipc` requires Python 3.8 or higher.
 
 ## Documentation
-[![Documentation Status](https://readthedocs.org/projects/mcipc/badge/?version=latest)](https://mcipc.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/mcipc/badge/?version=latest)](https://mcipc.readthedocs.io/en/latest/?badge=latest)  
 Documentation is available on [readthedocs](https://mcipc.readthedocs.io/en/latest).
 
 ## Quick start
