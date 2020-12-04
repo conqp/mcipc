@@ -1,8 +1,11 @@
-"""Tests players parsing."""
+"""Tests players parsing.
+
+For the Paper-related stuff, see: https://github.com/conqp/mcipc/issues/13
+"""
 
 from random import choice, choices, randint
 from string import ascii_letters, digits
-from typing import Iterable, NamedTuple
+from typing import Generator
 
 from unittest import TestCase
 
@@ -18,41 +21,47 @@ PAPER_PLAYER_SUFFIX = '§r'
 PAPER_PREFIXES = ('dev', 'obsidian')
 
 
-class PlayersTestSetting(NamedTuple):
-    """A test setting for a players string."""
+def players_to_vanilla_str(players: Players) -> str:
+    """Returns a string as returned by a vanilla server."""
 
-    online: int
-    max: int
-    names: Iterable[str]
+    return VANILLA_STR.format(
+        online=players.online,
+        max=players.max,
+        names=', '.join(players.names)
+    )
 
-    def to_vanilla_str(self):
-        """Returns a string as returned by a vanilla server."""
-        return VANILLA_STR.format(
-            online=self.online, max=self.max, names=', '.join(self.names))
 
-    def get_paper_players(self):
-        """Yieds player names formatted like on a Paper server."""
-        if not self.names:
-            return
+def get_paper_players(players: Players) -> Generator[str, None, None]:
+    """Yieds player names formatted like on a Paper server."""
 
-        yield ''    # For initial newline.
-        *names, last = self.names
+    if not players.names:
+        return
 
-        for name in names:
-            yield PAPER_PLAYER_TEMPLATE.format(
-                prefix=choice(PAPER_PREFIXES), name=name,
-                suffix=PAPER_PLAYER_SUFFIX
-            )
+    yield ''    # For initial newline.
+    *names, last = players.names
 
+    for name in names:
         yield PAPER_PLAYER_TEMPLATE.format(
-            prefix=choice(PAPER_PREFIXES), name=last, suffix='')
+            prefix=choice(PAPER_PREFIXES),
+            name=name,
+            suffix=PAPER_PLAYER_SUFFIX
+        )
 
-    def to_paper_str(self):
-        """Returns a string as returned by a Paper server.
-        See: https://github.com/conqp/mcipc/issues/13
-        """
-        names = '\n'.join(self.get_paper_players())
-        return PAPER_STR.format(online=self.online, max=self.max, names=names)
+    yield PAPER_PLAYER_TEMPLATE.format(
+        prefix=choice(PAPER_PREFIXES),
+        name=last,
+        suffix=''
+    )
+
+
+def players_to_paper_str(players: Players) -> str:
+    """Returns a string as returned by a Paper server."""
+
+    return PAPER_STR.format(
+        online=players.online,
+        max=players.max,
+        names='\n'.join(get_paper_players(players))
+    )
 
 
 def get_random_player_name(pool=ascii_letters+digits, minlen=1, maxlen=100):
@@ -66,30 +75,30 @@ def get_player_settings(count=100):
     """Yields player strings for a vanilla server."""
 
     for online in range(count):
-        yield PlayersTestSetting(
+        yield Players(
             online,
             randint(online, online*2),
-            [get_random_player_name() for _ in range(online)]
+            tuple(get_random_player_name() for _ in range(online))
         )
 
 
 class TestPlayers(TestCase):
     """Tests players parsing on a vanilla server."""
 
-    def assertPlayersEqual(self, one, other):   # pylint: disable=C0103
+    def check_string(self, string: str, players: Players):
         """Checks whether players tuples are considered equal."""
-        self.assertEqual(one.online, other.online)
-        self.assertEqual(one.max, other.max)
-        self.assertSequenceEqual(one.names, other.names)
+        self.assertEqual(Players.from_response(string), players)
 
-    def test_vanilla(self):
-        """Tests players from a vanilla server."""
-        for test_setting in get_player_settings():
-            players = Players.from_response(test_setting.to_vanilla_str())
-            self.assertPlayersEqual(test_setting, players)
+    def check_vanilla(self, players: Players):
+        """Tests players response parsing from a vanilla server."""
+        self.check_string(players_to_vanilla_str(players), players)
 
-    def test_paper(self):
-        """Tests players from a paper server."""
-        for test_setting in get_player_settings():
-            players = Players.from_response(test_setting.to_paper_str())
-            self.assertPlayersEqual(test_setting, players)
+    def check_paper(self, players: Players):
+        """Tests players response parsing from a paper server."""
+        self.check_string(players_to_paper_str(players), players)
+
+    def test_players(self):
+        """Tests players response parsing."""
+        for players in get_player_settings():
+            self.check_vanilla(players)
+            self.check_paper(players)
