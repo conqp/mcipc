@@ -32,7 +32,7 @@ class RequestID(int):
     @classmethod
     def from_bytes(cls, bytes_: bytes) -> RequestID:
         """Creates a request ID from the given bytes."""
-        return super().from_bytes(bytes_[:4], 'little', signed=True)
+        return super().from_bytes(bytes_, 'little', signed=True)
 
     @classmethod
     def generate(cls) -> RequestID:
