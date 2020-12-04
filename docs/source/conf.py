@@ -1,4 +1,9 @@
+from os.path import abspath
+from sys import path
+
 import sphinx_rtd_theme
+
+path.insert(0, abspath('../../'))
 
 # Configuration file for the Sphinx documentation builder.
 #
@@ -33,7 +38,8 @@ release = '1.4.5'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx_rtd_theme'
+    'sphinx_rtd_theme',
+    'sphinx.ext.autodoc'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
