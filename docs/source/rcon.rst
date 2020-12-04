@@ -23,7 +23,6 @@ The following example assumes a server running on `127.0.0.1` and on the RCON po
     print(players)
     print(mansion)
 
-
 The type of `seed` is `Seed` which is derived from `int` and can be used just like the latter.
 The type of `players` is `Players`, a named tuple:
 

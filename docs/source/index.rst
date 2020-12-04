@@ -13,6 +13,7 @@ There is also work on the Minecraft server protocol in progress, but you should 
    usage
    query
    rcon
+   scripts
    bugs
    license
    contact

@@ -21,7 +21,6 @@ The following example assumes a server running on `127.0.0.1` and on the default
 
     print(basic_stats)
 
-
 The type of `basic_stats` is a named tuple with the following properties:
 
 * `type`: The packet type (`Type`, protocol information).
@@ -47,7 +46,6 @@ For retrieving full stats of a server, the same premises apply.
         full_stats = client.full_stats
 
     print(full_stats)
-
 
 The type of `full_stats` is a named tuple with the following properties:
 
