@@ -13,17 +13,32 @@ from mcipc.rcon.exceptions import RequestIdMismatch
 from mcipc.rcon.exceptions import WrongPassword
 
 
-__all__ = ['Type', 'Packet', 'Client']
+__all__ = ['RequestID', 'Type', 'Packet', 'Client']
 
 
 LOGGER = getLogger(__file__)
 TAIL = b'\0\0'
 
 
-def random_request_id() -> int:
-    """Returns a random, positive int32."""
+class RequestID(int):
+    """A request ID."""
 
-    return randint(0, 2147483647 + 1)
+    MAX = 2**31 - 1     # Maximum for signed int32.
+
+    def __bytes__(self):
+        """Returns the integer as signed little endian."""
+        return self.to_bytes(4, 'little', signed=True)
+
+    @classmethod
+    def from_bytes(cls, bytes_: bytes) -> RequestID:
+        """Creates a request ID from the given bytes."""
+        return super().from_bytes(bytes_[:4], 'little', signed=True)
+
+    @classmethod
+    def generate(cls) -> RequestID:
+        """Generates a random request ID."""
+        # A random non-negative int32.
+        return cls(randint(0, cls.MAX))
 
 
 class Type(Enum):
@@ -39,46 +54,51 @@ class Type(Enum):
 
     def __bytes__(self):
         """Returns the integer value as little endian."""
-        return int(self).to_bytes(4, 'little')
+        return int(self).to_bytes(4, 'little', signed=True)
+
+    @classmethod
+    def from_bytes(cls, bytes_: bytes) -> Type:
+        """Creates a type from the given bytes."""
+        return cls(int.from_bytes(bytes_, 'little', signed=True))
 
 
 class Packet(NamedTuple):
     """An RCON packet."""
 
-    request_id: int
+    request_id: RequestID
     type: Type
     payload: str
 
     def __bytes__(self):
         """Returns the packet as bytes."""
-        payload = self.request_id.to_bytes(4, 'little', signed=True)
+        payload = bytes(self.request_id)
         payload += bytes(self.type)
         payload += self.payload.encode()
         payload += TAIL
-        size = len(payload).to_bytes(4, 'little')
+        size = len(payload).to_bytes(4, 'little', signed=True)
         return size + payload
 
     @classmethod
     def from_bytes(cls, bytes_: bytes) -> Packet:
         """Creates a packet from the respective bytes."""
-        request_id = int.from_bytes(bytes_[:4], 'little', signed=True)
-        type_ = int.from_bytes(bytes_[4:8], 'little')
-        payload = bytes_[8:-2]
+        request_id = RequestID.from_bytes(bytes_[:4])
+        type_ = Type.from_bytes(bytes_[4:8])
+        payload = bytes_[8:-2].decode()
 
         if (tail := bytes_[-2:]) != TAIL:
             raise InvalidPacketStructure('Invalid tail.', tail, TAIL)
 
-        return cls(request_id, Type(type_), payload.decode())
+        return cls(request_id, type_, payload)
 
     @classmethod
     def from_args(cls, *args: str) -> Packet:
         """Creates a command packet."""
-        return cls(random_request_id(), Type.COMMAND, ' '.join(args))
+        return cls(RequestID.generate(), Type.COMMAND, ' '.join(args))
 
     @classmethod
     def from_login(cls, passwd: str) -> Packet:
         """Creates a login packet."""
-        return cls(random_request_id(), Type.LOGIN, passwd)
+        return cls(RequestID.generate(), Type.LOGIN, passwd)
 
 
 class Client(BaseClient):
@@ -107,8 +127,11 @@ class Client(BaseClient):
 
         try:
             self.communicate(packet)
-        except RequestIdMismatch:
-            raise WrongPassword() from None
+        except RequestIdMismatch as mismatch:
+            if mismatch.received == -1:
+                raise WrongPassword() from None
+
+            raise
 
         return True
 
