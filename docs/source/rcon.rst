@@ -43,13 +43,13 @@ The type of `mansion` is `Location` which describes the x-y-z location of the ne
 
 *HINT:* The y-component of a location may be `None`, which represents the special Minectaft vector component `'~'`.
 
-JSON conversion for e.g. web APIs
----------------------------------
+JSON conversion
+---------------
 
-*Seed* and *Players* and *Location* objects provide a *to_json()* method to return their values in a JSON compatible format:
+*Seed*, *Players* and *Location* objects provide a *to_json()* method to return their values in a JSON compatible format:
 
 .. code-block:: python
 
-    seed_as_json = seed.to_json()		# Is a plain *int*.
-    players_as_json = players.to_json() 	# Is a *dict*.
-    mansion_as_json = mansion.to_json() 	# Is a *dict*.
+    seed_as_json = seed.to_json()		# Is of type int.
+    players_as_json = players.to_json() 	# Is of type dict.
+    mansion_as_json = mansion.to_json() 	# Is of type dict.

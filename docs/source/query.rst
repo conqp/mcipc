@@ -67,12 +67,12 @@ The type of `full_stats` is *FullStats*, a named tuple with the following proper
 * `host_ip`: The server's IP address or hostname (`ipaddress.IPv4Address` or `ipaddress.IPv6Address` or `str`).
 * `players`: The names of online players (`tuple` of `str`).
 
-JSON conversion for e.g. web APIs
----------------------------------
+JSON conversion
+---------------
 
 Both *BasicStats* and *FullStats* provide a *to_json()* method to return their values in a JSON compatible dict:
 
 .. code-block:: python
 
-    basic_stats_as_json = basic_stats.to_json()		# Returns a *dict*.
-    full_stats_as_json = full_stats.to_json() 		# Returns a *dict*.
+    basic_stats_as_json = basic_stats.to_json()		# Is of type dict.
+    full_stats_as_json = full_stats.to_json() 		# Is of type dict.
