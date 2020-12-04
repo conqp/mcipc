@@ -72,7 +72,7 @@ def get_random_player_name(pool: str = ascii_letters+digits,
     return ''.join(choices(pool, k=length))
 
 
-def get_player_settings(count: int =100) -> Generator[Players, None, None]:
+def get_players_test_cases(count: int =100) -> Generator[Players, None, None]:
     """Yields player strings for a vanilla server."""
 
     for online in range(count):
@@ -100,6 +100,6 @@ class TestPlayers(TestCase):
 
     def test_players(self):
         """Tests players response parsing."""
-        for players in get_player_settings():
+        for players in get_players_test_cases():
             self.check_vanilla(players)
             self.check_paper(players)
