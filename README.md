@@ -1,12 +1,11 @@
 # mcipc
-
 A Minecraft inter-process communication API implementing the [RCON](http://wiki.vg/RCON) and [Query](http://wiki.vg/Query) protocols.
 
 ## Requirements
 `mcipc` requires Python 3.8 or higher.
 
-## Documentation [![Documentation Status](https://readthedocs.org/projects/mcipc/badge/?version=latest)](https://mcipc.readthedocs.io/en/latest/?badge=latest)
-
+## Documentation
+[![Documentation Status](https://readthedocs.org/projects/mcipc/badge/?version=latest)](https://mcipc.readthedocs.io/en/latest/?badge=latest)
 Documentation is available on [readthedocs](https://mcipc.readthedocs.io/en/latest).
 
 ## Quick start
@@ -58,7 +57,6 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with mcipc.  If not, see <http://www.gnu.org/licenses/>.
-
 
 ## Legal
 Minecraft content and materials are trademarks and copyrights of
