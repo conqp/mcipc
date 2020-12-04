@@ -25,7 +25,7 @@ The following example assumes a server running on `127.0.0.1` and on the default
 
     print(basic_stats)
 
-The type of `basic_stats` is a named tuple with the following properties:
+The type of `basic_stats` is *BasicStats*, a named tuple with the following properties:
 
 * `type`: The packet type (`Type`, protocol information).
 * `session_id`: The query's session ID (`int`, protocol information).
@@ -51,7 +51,7 @@ For retrieving full stats of a server, the same premises apply.
 
     print(full_stats)
 
-The type of `full_stats` is a named tuple with the following properties:
+The type of `full_stats` is *FullStats*, a named tuple with the following properties:
 
 * `type`: The packet type (`Type`, protocol information).
 * `session_id`: The query's session ID (`int`, protocol information).
