@@ -68,8 +68,7 @@ def get_random_player_name(pool: str = ascii_letters+digits,
                            minlen: int = 1, maxlen: int = 100) -> str:
     """Returns a random player name."""
 
-    length = randint(minlen, maxlen)
-    return ''.join(choices(pool, k=length))
+    return ''.join(choices(pool, k=randint(minlen, maxlen)))
 
 
 def get_players_test_cases(count: int = 100) -> Generator[Players, None, None]:
