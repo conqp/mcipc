@@ -16,7 +16,6 @@ There is also work on the Minecraft server protocol in progress, but you should 
    scripts
    bugs
    license
-   contact
 
 
 Indices and tables
