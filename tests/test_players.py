@@ -64,14 +64,15 @@ def players_to_paper_str(players: Players) -> str:
     )
 
 
-def get_random_player_name(pool=ascii_letters+digits, minlen=1, maxlen=100):
+def get_random_player_name(pool: str = ascii_letters+digits,
+                           minlen: int = 1, maxlen: int = 100) -> str:
     """Returns a random player name."""
 
     length = randint(minlen, maxlen)
     return ''.join(choices(pool, k=length))
 
 
-def get_player_settings(count=100):
+def get_player_settings(count: int =100) -> Generator[Players, None, None]:
     """Yields player strings for a vanilla server."""
 
     for online in range(count):
