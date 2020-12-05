@@ -27,11 +27,11 @@ def get_args() -> Namespace:
     parser.add_argument('name', help='the server name')
     parser.add_argument('description', help='server description')
     parser.add_argument('-p', '--players', type=int, default=DEFAULT_PLAYERS,
-                        help='amount of player slots')
+                        metavar='count', help='amount of player slots')
     parser.add_argument('-P', '--protocol', type=int, default=DEFAULT_PROTO,
-                        help='protocol version')
+                        metavar='version', help='protocol version')
     parser.add_argument('-t', '--template', default=DEFAULT_UNIT_TEMPLATE,
-                        help='systemd unit template')
+                        metavar='unit', help='systemd unit template')
     return parser.parse_args()
 
 

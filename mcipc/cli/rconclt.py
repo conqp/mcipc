@@ -26,7 +26,8 @@ def get_args() -> Namespace:
     parser = ArgumentParser(description='A Minecraft RCON client.')
     parser.add_argument('server', help='the server to connect to')
     parser.add_argument(
-        '-t', '--timeout', type=float, help='connection timeout in seconds')
+        '-t', '--timeout', type=float, metavar='seconds',
+        help='connection timeout in seconds')
     parser.add_argument(
         '-d', '--debug', action='store_true',
         help='print additional debug information')
@@ -51,7 +52,8 @@ def get_args() -> Namespace:
         'datetime',
         help='sends the current date and time to the players on the server')
     datetime_parser.add_argument(
-        '-f', '--format', default='%c', help='the datetime format')
+        '-f', '--format', default='%c', metavar='format_string',
+        help='the datetime format')
     subparsers.add_parser('in-use', help='checks whether the server is in use')
     shutdown_parser = subparsers.add_parser(
         'idle-shutdown', help='shuts down the server if it is not in use')
@@ -59,7 +61,7 @@ def get_args() -> Namespace:
         '-s', '--sudo', action='store_true',
         help='invoke the shutdown command using sudo')
     shutdown_parser.add_argument(
-        '-u', '--unit', default='minecraft@{server}.service',
+        '-u', '--unit', default='minecraft@{server}.service', metavar='unit',
         help='the systemd unit template')
     return parser.parse_args()
 

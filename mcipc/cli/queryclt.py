@@ -25,10 +25,11 @@ def get_args() -> Namespace:
     parser = ArgumentParser(description='A Minecraft Query client.')
     parser.add_argument('server', help='the server to connect to')
     parser.add_argument(
-        '-i', '--indent', type=int, default=DEFAULT_INDENT,
+        '-i', '--indent', type=int, default=DEFAULT_INDENT, metavar='int',
         help='indentation for JSON output')
     parser.add_argument(
-        '-t', '--timeout', type=float, help='connection timeout in seconds')
+        '-t', '--timeout', type=float, metavar='seconds',
+        help='connection timeout in seconds')
     parser.add_argument(
         '-d', '--debug', action='store_true',
         help='print additional debug information')
