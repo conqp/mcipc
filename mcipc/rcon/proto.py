@@ -13,32 +13,32 @@ from mcipc.rcon.exceptions import RequestIdMismatch
 from mcipc.rcon.exceptions import WrongPassword
 
 
-__all__ = ['RequestID', 'Type', 'Packet', 'Client']
+__all__ = ['LittleEndianSignedInt32', 'Type', 'Packet', 'Client']
 
 
 LOGGER = getLogger(__file__)
 TAIL = b'\0\0'
 
 
-class RequestID(int):
-    """A request ID."""
+class LittleEndianSignedInt32(int):
+    """A little-endian, signed int32."""
 
-    MAX = 2**31 - 1     # Maximum for signed int32.
+    MIN = -2_147_483_648
+    MAX = 2_147_483_647
 
     def __bytes__(self):
         """Returns the integer as signed little endian."""
         return self.to_bytes(4, 'little', signed=True)
 
     @classmethod
-    def from_bytes(cls, bytes_: bytes) -> RequestID:
-        """Creates a request ID from the given bytes."""
+    def from_bytes(cls, bytes_: bytes) -> LittleEndianSignedInt32:
+        """Creates the integer from the given bytes."""
         return super().from_bytes(bytes_, 'little', signed=True)
 
     @classmethod
-    def generate(cls) -> RequestID:
+    def random_request_id(cls) -> LittleEndianSignedInt32:
         """Generates a random request ID."""
-        # A random non-negative int32.
-        return cls(randint(0, cls.MAX))
+        return cls(randint(0, cls.MAX))     # A random non-negative int32.
 
 
 class Type(Enum):
@@ -65,7 +65,7 @@ class Type(Enum):
 class Packet(NamedTuple):
     """An RCON packet."""
 
-    request_id: RequestID
+    request_id: LittleEndianSignedInt32
     type: Type
     payload: str
 
@@ -81,7 +81,7 @@ class Packet(NamedTuple):
     @classmethod
     def from_bytes(cls, bytes_: bytes) -> Packet:
         """Creates a packet from the respective bytes."""
-        request_id = RequestID.from_bytes(bytes_[:4])
+        request_id = LittleEndianSignedInt32.from_bytes(bytes_[:4])
         type_ = Type.from_bytes(bytes_[4:8])
         payload = bytes_[8:-2].decode()
 
@@ -93,12 +93,14 @@ class Packet(NamedTuple):
     @classmethod
     def from_args(cls, *args: str) -> Packet:
         """Creates a command packet."""
-        return cls(RequestID.generate(), Type.COMMAND, ' '.join(args))
+        request_id = LittleEndianSignedInt32.random_request_id()
+        return cls(request_id, Type.COMMAND, ' '.join(args))
 
     @classmethod
     def from_login(cls, passwd: str) -> Packet:
         """Creates a login packet."""
-        return cls(RequestID.generate(), Type.LOGIN, passwd)
+        request_id = LittleEndianSignedInt32.random_request_id()
+        return cls(request_id, Type.LOGIN, passwd)
 
 
 class Client(BaseClient):
