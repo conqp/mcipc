@@ -19,6 +19,7 @@ mcipc.rcon.client module
    :members:
    :undoc-members:
    :show-inheritance:
+   :inherited-members:
 
 mcipc.rcon.config module
 ------------------------
@@ -51,6 +52,7 @@ mcipc.rcon.playground module
    :members:
    :undoc-members:
    :show-inheritance:
+   :inherited-members:
 
 mcipc.rcon.proto module
 -----------------------

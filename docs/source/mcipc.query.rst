@@ -19,6 +19,7 @@ mcipc.query.client module
    :members:
    :undoc-members:
    :show-inheritance:
+   :inherited-members:
 
 mcipc.query.config module
 -------------------------
