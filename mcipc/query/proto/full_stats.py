@@ -6,6 +6,7 @@ from typing import Generator, NamedTuple, Tuple
 from mcipc.query.proto.common import MAGIC
 from mcipc.query.proto.common import ip_or_hostname
 from mcipc.query.proto.common import BigEndianSignedInt32
+from mcipc.query.proto.common import ChallengeToken
 from mcipc.query.proto.common import IPAddressOrHostname
 from mcipc.query.proto.common import Type
 
@@ -99,7 +100,7 @@ class Request(NamedTuple):
     magic: bytes
     type: Type
     session_id: BigEndianSignedInt32
-    challenge_token: BigEndianSignedInt32
+    challenge_token: ChallengeToken
     padding: int
 
     def __bytes__(self):
@@ -112,7 +113,7 @@ class Request(NamedTuple):
         return payload
 
     @classmethod
-    def create(cls, challenge_token: BigEndianSignedInt32,
+    def create(cls, challenge_token: ChallengeToken,
                session_id: BigEndianSignedInt32 = None) -> Request:
         """Creates a new request with the specified challenge
         token and the specified or a random session ID.

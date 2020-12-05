@@ -13,6 +13,7 @@ __all__ = [
     'decodeall',
     'ip_or_hostname',
     'BigEndianSignedInt32',
+    'ChallengeToken',
     'IPAddressOrHostname',
     'Type'
 ]
@@ -59,6 +60,17 @@ class BigEndianSignedInt32(int):
         See: https://wiki.vg/Query#Generating_a_Session_ID
         """
         return cls(randint(cls.MIN, cls.MAX) & SESSION_ID_MASK)
+
+
+class ChallengeToken(BigEndianSignedInt32):
+    """A Query challenge token."""
+
+    @classmethod
+    def from_handshake(cls, bytes_: bytes):
+        """Returns the challenge token from a handshake response.
+        See: https://wiki.vg/Query#Handshake
+        """
+        return cls(bytes_[:-1].decode())
 
 
 class Type(Enum):

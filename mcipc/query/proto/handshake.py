@@ -3,7 +3,10 @@
 from __future__ import annotations
 from typing import NamedTuple
 
-from mcipc.query.proto.common import MAGIC, BigEndianSignedInt32, Type
+from mcipc.query.proto.common import MAGIC
+from mcipc.query.proto.common import BigEndianSignedInt32
+from mcipc.query.proto.common import ChallengeToken
+from mcipc.query.proto.common import Type
 
 
 __all__ = ['Request', 'Response', 'HandshakeMixin']
@@ -36,16 +39,16 @@ class Response(NamedTuple):
     """A server → client handshake response packet."""
 
     type: bytes
-    session_id: int
-    challenge_token: int
+    session_id: BigEndianSignedInt32
+    challenge_token: ChallengeToken
 
     @classmethod
     def from_bytes(cls, bytes_: bytes) -> Response:
         """Creates the packet from bytes."""
         type_ = Type.from_bytes(bytes_[0:1])
         session_id = BigEndianSignedInt32.from_bytes(bytes_[1:5])
-        challenge_token = bytes_[5:-1].decode()
-        return cls(type_, session_id, int(challenge_token))
+        challenge_token = ChallengeToken.from_handshake(bytes_[5:])
+        return cls(type_, session_id, challenge_token)
 
     def to_json(self) -> dict:
         """Returns a JSON-ish dict."""
