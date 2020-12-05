@@ -11,6 +11,7 @@ from typing import Tuple
 from mcipc.config import LOG_FORMAT, InvalidCredentials, Credentials
 from mcipc.rcon.config import CONFIG
 from mcipc.rcon.datastructures import Players
+from mcipc.rcon.exceptions import RequestIdMismatch, WrongPassword
 from mcipc.rcon.playground import Client
 
 
@@ -149,18 +150,19 @@ def main():
 
     try:
         with Client(host, port, timeout=args.timeout) as client:
-            if not client.login(passwd):
-                LOGGER.error('Failed to log in.')
-                exit(4)
+            client.login(passwd)
 
             if args.action == 'idle-shutdown':
-                players = client.players
+                if not idle_shutdown(client.players, args):
+                    exit(1)
             else:
                 run_action(client, args)
     except timeout:
         LOGGER.error('Connection timeout.')
-        exit(3)
-
-    if args.action == 'idle-shutdown':
-        if not idle_shutdown(players, args):
-            exit(1)
+        exit(4)
+    except RequestIdMismatch:
+        LOGGER.error('Unexpected request ID mismatch.')
+        exit(5)
+    except WrongPassword:
+        LOGGER.error('Wrong password.')
+        exit(6)
