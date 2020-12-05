@@ -25,18 +25,6 @@ The following example assumes a server running on `127.0.0.1` and on the default
 
     print(basic_stats)
 
-The type of `basic_stats` is *BasicStats*, a named tuple with the following properties:
-
-* `type`: The packet type (`Type`, protocol information).
-* `session_id`: The query's session ID (`int`, protocol information).
-* `motd`: The server's message of the day (`str`).
-* `game_type`: The game type (`str`).
-* `map`: The current map (`str`).
-* `num_players`: The amount of online players (`int`).
-* `max_players`: The amount of maximally allowed players (`int`).
-* `host_port`: The server's port (`int`).
-* `host_ip`: The server's IP address or hostname (`ipaddress.IPv4Address` or `ipaddress.IPv6Address` or `str`).
-
 Full stats
 ----------
 
@@ -51,26 +39,14 @@ For retrieving full stats of a server, the same premises apply.
 
     print(full_stats)
 
-The type of `full_stats` is *FullStats*, a named tuple with the following properties:
+.. seealso::
 
-* `type`: The packet type (`Type`, protocol information).
-* `session_id`: The query's session ID (`int`, protocol information).
-* `host_name`: The server's message of the day (`str`, same as BasicStats.motd).
-* `game_type`: The game type (`str`).
-* `game_id`: The game ID (`str`).
-* `version`: The game version (`str`).
-* `plugins`: The used plugins (`dict`).
-* `map`: The current map (`str`).
-* `num_players`: The amount of online players (`int`).
-* `max_players`: The amount of maximally allowed players (`int`).
-* `host_port`: The server's port (`int`).
-* `host_ip`: The server's IP address or hostname (`ipaddress.IPv4Address` or `ipaddress.IPv6Address` or `str`).
-* `players`: The names of online players (`tuple` of `str`).
+    :py:class:`mcipc.query.client.Client`
 
 JSON conversion
 ---------------
 
-Both *BasicStats* and *FullStats* provide a *to_json()* method to return their values in a JSON compatible dict:
+Both :py:class:`mcipc.query.proto.basic_stats.BasicStats` and :py:class:`mcipc.query.proto.full_stats.FullStats` provide a *to_json()* method to return their values in a JSON compatible dict:
 
 .. code-block:: python
 

@@ -28,25 +28,14 @@ The following example assumes a server running on `127.0.0.1` and on the RCON po
     print(players)
     print(mansion)
 
-The type of `seed` is `Seed` which is derived from `int` and can be used just like the latter.
-The type of `players` is `Players`, a named tuple:
+.. seealso::
 
-* `online`: The amount of online players (`int`).
-* `max`: The amount of maximally allowed players (`int`).
-* `names`: The names of online players (`tuple` of `str`).
-
-The type of `mansion` is `Location` which describes the x-y-z location of the next located object.
-
-* `x`: x-coordinate (`int`).
-* `y`: y-coordinate (`int` or `None`).
-* `z`: z-coordinate (`int`).
-
-*HINT:* The y-component of a location may be `None`, which represents the special Minectaft vector component `'~'`.
+    :py:class:`mcipc.rcon.client.Client`
 
 JSON conversion
 ---------------
 
-*Seed*, *Players* and *Location* objects provide a *to_json()* method to return their values in a JSON compatible format:
+:py:class:`mcipc.rcon.datastructures.seed.Seed`, :py:class:`mcipc.rcon.datastructures.players.Players` and :py:class:`mcipc.rcon.datastructures.location.Location` objects provide a *to_json()* method to return their values in a JSON compatible format:
 
 .. code-block:: python
 
