@@ -3,7 +3,7 @@
 from __future__ import annotations
 from typing import NamedTuple
 
-from mcipc.query.proto.common import MAGIC, random_session_id, Type
+from mcipc.query.proto.common import MAGIC, BigEndianSignedInt32, Type
 
 
 __all__ = ['Request', 'Response', 'HandshakeMixin']
@@ -14,20 +14,20 @@ class Request(NamedTuple):
 
     magic: bytes
     type: Type
-    session_id: int
+    session_id: BigEndianSignedInt32
 
     def __bytes__(self):
         """Converts the packet to bytes."""
         payload = self.magic
         payload += bytes(self.type)
-        payload += self.session_id.to_bytes(4, 'big', signed=True)
+        payload += bytes(self.session_id)
         return payload
 
     @classmethod
-    def create(cls, session_id: int = None) -> Request:
+    def create(cls, session_id: BigEndianSignedInt32 = None) -> Request:
         """Returns a handshake request packet with a random session ID."""
         if session_id is None:
-            session_id = random_session_id()
+            session_id = BigEndianSignedInt32.random_session_id()
 
         return cls(MAGIC, Type.HANDSHAKE, session_id)
 
@@ -43,7 +43,7 @@ class Response(NamedTuple):
     def from_bytes(cls, bytes_: bytes) -> Response:
         """Creates the packet from bytes."""
         type_ = Type.from_bytes(bytes_[0:1])
-        session_id = int.from_bytes(bytes_[1:5], 'big', signed=True)
+        session_id = BigEndianSignedInt32.from_bytes(bytes_[1:5])
         challenge_token = bytes_[5:-1].decode()
         return cls(type_, session_id, int(challenge_token))
 

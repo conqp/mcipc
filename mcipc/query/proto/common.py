@@ -11,8 +11,8 @@ from typing import Iterable, Iterator, Union
 __all__ = [
     'MAGIC',
     'decodeall',
-    'random_session_id',
     'ip_or_hostname',
+    'BigEndianSignedInt32',
     'IPAddressOrHostname',
     'Type'
 ]
@@ -29,14 +29,6 @@ def decodeall(blocks: Iterable[bytes], encoding='latin-1') -> Iterator[str]:
     return map(partial(bytes.decode, encoding=encoding), blocks)
 
 
-def random_session_id() -> int:
-    """Returns a random session ID.
-    See: https://wiki.vg/Query#Generating_a_Session_ID
-    """
-
-    return randint(-2147483648, 2147483647 + 1) & SESSION_ID_MASK
-
-
 def ip_or_hostname(string: str) -> IPAddressOrHostname:
     """Returns an IPv4 or IPv6 address if applicable, else a string."""
 
@@ -44,6 +36,29 @@ def ip_or_hostname(string: str) -> IPAddressOrHostname:
         return ip_address(string)
     except ValueError:
         return string
+
+
+class BigEndianSignedInt32(int):
+    """A big-endian, signed int32."""
+
+    MIN = -2_147_483_648
+    MAX = 2_147_483_647
+
+    def __bytes__(self):
+        """Returns the int as bytes."""
+        return self.to_bytes(4, 'big', signed=True)
+
+    @classmethod
+    def from_bytes(cls, bytes_: bytes) -> BigEndianSignedInt32:
+        """Reutns the int from the given bytes."""
+        return super().from_bytes(bytes_, 'big', signed=True)
+
+    @classmethod
+    def random_session_id(cls) -> BigEndianSignedInt32:
+        """Returns a random session ID.
+        See: https://wiki.vg/Query#Generating_a_Session_ID
+        """
+        return cls(randint(cls.MIN, cls.MAX) & SESSION_ID_MASK)
 
 
 class Type(Enum):

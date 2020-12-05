@@ -4,8 +4,8 @@ from __future__ import annotations
 from typing import Generator, NamedTuple, Tuple
 
 from mcipc.query.proto.common import MAGIC
-from mcipc.query.proto.common import random_session_id
 from mcipc.query.proto.common import ip_or_hostname
+from mcipc.query.proto.common import BigEndianSignedInt32
 from mcipc.query.proto.common import IPAddressOrHostname
 from mcipc.query.proto.common import Type
 
@@ -98,26 +98,27 @@ class Request(NamedTuple):
 
     magic: bytes
     type: Type
-    session_id: int
-    challenge_token: int
+    session_id: BigEndianSignedInt32
+    challenge_token: BigEndianSignedInt32
     padding: int
 
     def __bytes__(self):
         """Returns the packet as bytes."""
         payload = self.magic
         payload += bytes(self.type)
-        payload += self.session_id.to_bytes(4, 'big', signed=True)
-        payload += self.challenge_token.to_bytes(4, 'big', signed=True)
+        payload += bytes(self.session_id)
+        payload += bytes(self.challenge_token)
         payload += self.padding.to_bytes(4, 'big')
         return payload
 
     @classmethod
-    def create(cls, challenge_token: int, session_id: int = None) -> Request:
+    def create(cls, challenge_token: BigEndianSignedInt32,
+               session_id: BigEndianSignedInt32 = None) -> Request:
         """Creates a new request with the specified challenge
         token and the specified or a random session ID.
         """
         if session_id is None:
-            session_id = random_session_id()
+            session_id = BigEndianSignedInt32.random_session_id()
 
         return cls(MAGIC, Type.STAT, session_id, challenge_token, PADDING)
 
@@ -126,7 +127,7 @@ class FullStats(NamedTuple):
     """Full statistics response."""
 
     type: Type
-    session_id: int
+    session_id: BigEndianSignedInt32
     host_name: str
     game_type: str
     game_id: str
@@ -143,7 +144,7 @@ class FullStats(NamedTuple):
     def from_bytes(cls, bytes_: bytes) -> FullStats:
         """Creates the full stats object from the respective bytes."""
         type_ = Type.from_bytes(bytes_[0:1])
-        session_id = int.from_bytes(bytes_[1:5], 'big', signed=True)
+        session_id = BigEndianSignedInt32.from_bytes(bytes_[1:5])
         index = 16  # Discard padding.
         index, stats = get_dict(bytes_[index:])
         index += 16 + 1     # Discard additional null byte.
