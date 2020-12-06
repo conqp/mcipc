@@ -15,6 +15,18 @@ Coords = Tuple[float, float, float]
 Orientation = Tuple[float, float]
 
 
+def genurl(url: str, text: str) -> dict:
+    """Returns a URL message as a JSON-ish dict."""
+
+    return {
+        'text': text or url,
+        'clickEvent': {
+            'action': 'open_url',
+            'value': url
+        }
+    }
+
+
 class AdminMixin:
     """Administrative methods."""
 
@@ -82,14 +94,7 @@ class ChatMixin:
         """Sends a URL to the specified player.
         If no text is specified, it will default to the original URL.
         """
-        json = {
-            'text': text or url,
-            'clickEvent': {
-                'action': 'open_url',
-                'value': url
-            }
-        }
-        return self.tellraw(player, json)
+        return self.tellraw(player, genurl(url, text))
 
 
 class InfoMixin:
