@@ -57,12 +57,10 @@ class AdminMixin:
         if dst_player is not None:
             args.append(dst_player)
         elif coords is not None:
-            x, y, z = coords    # pylint: disable=C0103
-            args += [str(x), str(y), str(z)]
+            args += list(map(str, coords))
 
         if orientation is not None:
-            yaw, pitch = orientation
-            args += [str(yaw), str(pitch)]
+            args += list(map(str, orientation))
 
         return self.run('tp', *args)
 
@@ -103,14 +101,12 @@ class InfoMixin:
     @property
     def players(self) -> Players:
         """Returns the players."""
-        response = self.run('list')
-        return Players.from_response(response)
+        return Players.from_response(self.run('list'))
 
     @property
     def seed(self) -> Seed:
         """Returns the server seed."""
-        response = self.run('seed')
-        return Seed.from_response(response)
+        return Seed.from_response(self.run('seed'))
 
     def help(self, command: str = None) -> Help:
         """Returns help about commands."""
