@@ -6,7 +6,11 @@ from socket import socket
 from subprocess import CalledProcessError, check_call
 from sys import exit    # pylint: disable=W0622
 
-from mcipc.server import get_response, StubServer
+from mcipc.server import MAX_PLAYERS
+from mcipc.server import PROTOCOL
+from mcipc.server import VERSION
+from mcipc.server import get_response
+from mcipc.server import StubServer
 
 
 __all__ = ['main']
@@ -14,8 +18,6 @@ __all__ = ['main']
 
 DESCRIPTION = 'Starts a stub server'
 LOGGER = getLogger(__file__)
-DEFAULT_PLAYERS = 20
-DEFAULT_PROTO = 485
 DEFAULT_UNIT_TEMPLATE = 'minecraft@{}.server'
 
 
@@ -26,12 +28,14 @@ def get_args() -> Namespace:
     parser.add_argument('socket', help='the socket to listen on')
     parser.add_argument('name', help='the server name')
     parser.add_argument('description', help='server description')
-    parser.add_argument('-p', '--players', type=int, default=DEFAULT_PLAYERS,
+    parser.add_argument('-m', '--max-players', type=int, default=MAX_PLAYERS,
                         metavar='count', help='amount of player slots')
-    parser.add_argument('-P', '--protocol', type=int, default=DEFAULT_PROTO,
+    parser.add_argument('-p', '--protocol', type=int, default=PROTOCOL,
                         metavar='version', help='protocol version')
     parser.add_argument('-t', '--template', default=DEFAULT_UNIT_TEMPLATE,
                         metavar='unit', help='systemd unit template')
+    parser.add_argument('-v', '--version', default=VERSION, metavar='version',
+                        help='Minecraft server version')
     return parser.parse_args()
 
 
@@ -39,12 +43,14 @@ class ServerLauncher(StubServer):
     """Server that launches the actual server."""
 
     def __init__(self, name: str, description: str,     # pylint: disable=R0913
-                 max_players: int = DEFAULT_PLAYERS,
-                 protocol: int = DEFAULT_PROTO,
-                 template: str = DEFAULT_UNIT_TEMPLATE):
+                 max_players: int = MAX_PLAYERS,
+                 protocol: int = PROTOCOL,
+                 template: str = DEFAULT_UNIT_TEMPLATE,
+                 version: str = VERSION):
         """Sets server meta data."""
         super().__init__(
-            description, max_players=max_players, protocol=protocol)
+            description, max_players=max_players, protocol=protocol,
+            version=version)
         self.name = name
         self.template = template
 
@@ -93,8 +99,8 @@ def main():
         exit(2)
 
     server = ServerLauncher(
-        args.name, args.description, max_players=args.players,
-        protocol=args.protocol, template=args.template)
+        args.name, args.description, max_players=args.max_players,
+        protocol=args.protocol, template=args.template, version=args.version)
 
     try:
         server.spawn(host, port)

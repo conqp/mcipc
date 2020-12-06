@@ -9,10 +9,12 @@ from mcipc.server.datatypes import VarInt
 from mcipc.server.enumerations import State
 
 
-__all__ = ['get_response', 'StubServer']
+__all__ = ['MAX_PLAYERS', 'PROTOCOL', 'VERSION', 'get_response', 'StubServer']
 
 
 LOGGER = getLogger(__file__)
+MAX_PLAYERS = 20
+PROTOCOL = 485
 VERSION = '1.16.4'
 
 
@@ -30,7 +32,7 @@ class StubServer:
     """A stub minecraft server."""
 
     def __init__(self, description: str, *, version: str = VERSION,
-                 max_players: int = 20, protocol: int = 485):
+                 max_players: int = MAX_PLAYERS, protocol: int = PROTOCOL):
         """Description, max players and protocol information."""
         self.description = description
         self.version = version
