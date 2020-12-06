@@ -6,7 +6,7 @@ The following is applicable to both, `RCON` and `Query` clients.
 Handling connection timeouts.
 -----------------------------
 Since version 1.2.1, you can specify an optional :code:`timeout=<sec>` parameter on both `Query` and `RCON` clients.
-If a timeout is reached during a connection attempt, it will raise a :py:class:`socket.timeout` exception.
+If a timeout is reached during a connection attempt, it will raise a `socket.timeout <https://docs.python.org/3/library/socket.html#socket.timeout>`_ exception.
 The following example will raise a connection timeout after 1.5 seconds:
 
 .. code-block:: python
