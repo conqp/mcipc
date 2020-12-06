@@ -19,6 +19,7 @@ Install mcipc from the [AUR](https://aur.archlinux.org/packages/python-mcipc/) o
 The `Query` protcol is used to query a Minecraft server for server information.  
 The Minecraft query protocol has two query modes: *basic stats* and *full stats*.
 
+```python
     from mcipc.query import Client
 
     with Client('127.0.0.1', 25565) as client:
@@ -26,11 +27,13 @@ The Minecraft query protocol has two query modes: *basic stats* and *full stats*
 
     print(basic_stats)  # Get basic stats.
     print(full_stats)   # Get full stats.
+```
 
 ### RCON protocol
 The `RCON` protocol is used to remotely control a Minecraft server, i.e. execute
 commands on a Minecraft server and receive the respective results.
 
+```python
     from mcipc.rcon import Client
 
     with Client('127.0.0.1', 5000) as client:
@@ -42,6 +45,7 @@ commands on a Minecraft server and receive the respective results.
     print(seed)
     print(players)
     print(mansion)
+```
 
 ## License
 Copyright (C) 2018-2020 Richard Neumann <mail at richard dash neumann period de>
