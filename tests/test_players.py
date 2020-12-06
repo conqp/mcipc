@@ -64,8 +64,8 @@ def players_to_paper_str(players: Players) -> str:
     )
 
 
-def get_random_player_name(pool: str = ascii_letters+digits,
-                           minlen: int = 1, maxlen: int = 100) -> str:
+def get_random_player_name(pool: str = ascii_letters+digits, minlen: int = 1,
+                           maxlen: int = 100) -> str:
     """Returns a random player name."""
 
     return ''.join(choices(pool, k=randint(minlen, maxlen)))
