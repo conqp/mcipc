@@ -1,7 +1,7 @@
 """Server configuration parser."""
 
 from __future__ import annotations
-from configparser import ConfigParser
+from configparser import ConfigParser, SectionProxy
 from pathlib import Path
 from typing import NamedTuple
 
@@ -25,7 +25,7 @@ class InvalidCredentials(ValueError):
 class CredentialsConfig(ConfigParser):  # pylint: disable=R0901
     """Parses the RCON config file."""
 
-    def __init__(self, filename):
+    def __init__(self, filename: str):
         """Sets the file name."""
         super().__init__()
         self.filename = filename
@@ -48,7 +48,7 @@ class Credentials(NamedTuple):
     passwd: str
 
     @classmethod
-    def from_string(cls, string) -> Credentials:
+    def from_string(cls, string: str) -> Credentials:
         """Reads the credentials from the given string."""
         try:
             host, port = string.split(':')
@@ -68,7 +68,7 @@ class Credentials(NamedTuple):
         return cls(host, port, passwd)
 
     @classmethod
-    def from_config_section(cls, section) -> Credentials:
+    def from_config_section(cls, section: SectionProxy) -> Credentials:
         """Creates a credentials tuple from
         the respective config section.
         """
