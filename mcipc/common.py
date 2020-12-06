@@ -1,6 +1,7 @@
 """Stuff, common to Query and RCON."""
 
 from socket import socket, SocketKind   # pylint: disable=E0611
+from typing import Tuple
 
 
 __all__ = ['BaseClient']
@@ -29,7 +30,7 @@ class BaseClient:
         return self._socket.__exit__(typ, value, traceback)
 
     @property
-    def socket(self) -> tuple:
+    def socket(self) -> Tuple[str, int]:
         """Returns a tuple of host and port."""
         return (self.host, self.port)
 
