@@ -20,13 +20,13 @@ The `Query` protcol is used to query a Minecraft server for server information.
 The Minecraft query protocol has two query modes: *basic stats* and *full stats*.
 
 ```python
-    from mcipc.query import Client
+from mcipc.query import Client
 
-    with Client('127.0.0.1', 25565) as client:
-        basic_stats = client.basic_stats
+with Client('127.0.0.1', 25565) as client:
+    basic_stats = client.basic_stats
 
-    print(basic_stats)  # Get basic stats.
-    print(full_stats)   # Get full stats.
+print(basic_stats)  # Get basic stats.
+print(full_stats)   # Get full stats.
 ```
 
 ### RCON protocol
@@ -34,17 +34,17 @@ The `RCON` protocol is used to remotely control a Minecraft server, i.e. execute
 commands on a Minecraft server and receive the respective results.
 
 ```python
-    from mcipc.rcon import Client
+from mcipc.rcon import Client
 
-    with Client('127.0.0.1', 5000) as client:
-        client.login('mysecretpassword')    # Perform initial login.
-        seed = client.seed                  # Get the server's seed.
-        players = client.players            # Get the server's players info.
-        mansion = client.locate('Mansion')  # Get the next mansion's location.
+with Client('127.0.0.1', 5000) as client:
+    client.login('mysecretpassword')    # Perform initial login.
+    seed = client.seed                  # Get the server's seed.
+    players = client.players            # Get the server's players info.
+    mansion = client.locate('Mansion')  # Get the next mansion's location.
 
-    print(seed)
-    print(players)
-    print(mansion)
+print(seed)
+print(players)
+print(mansion)
 ```
 
 ## License
