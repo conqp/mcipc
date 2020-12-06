@@ -38,7 +38,7 @@ class Players(NamedTuple):
 
     @classmethod
     def from_paper(cls, match: Match) -> Players:
-        """Creates the players information from a Paper server response.
+        """Creates the players information from a Paper server match.
         https://github.com/conqp/mcipc/issues/13#issuecomment-726145034
         """
         online, max_, names = match.groups()
