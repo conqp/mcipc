@@ -1,7 +1,7 @@
 """An interactive console."""
 
 from getpass import getpass
-from typing import NamedTuple
+from typing import NamedTuple, Union
 
 from mcipc.rcon.client import Client
 from mcipc.rcon.exceptions import RequestIdMismatch, WrongPassword
@@ -29,7 +29,7 @@ class Config(NamedTuple):
     prompt: str
 
 
-def _read(prompt: str, typ: type = None):
+def read(prompt: str, typ: type = None) -> type:
     """Reads input and converts it to the respective type."""
 
     while True:
@@ -45,17 +45,17 @@ def _read(prompt: str, typ: type = None):
         return raw
 
 
-def _read_or_none(prompt: str, typ: type = None):
+def read_or_none(prompt: str, typ: type = None) -> type:
     """Reads the input and returns None on EOFError."""
 
     try:
-        return _read(prompt, typ=typ)
+        return read(prompt, typ=typ)
     except EOFError:
         print(MSG_QUERY_LATER)
         return None
 
 
-def _login(client: Client, passwd: str) -> str:
+def login(client: Client, passwd: str) -> str:
     """Performs a login."""
 
     if passwd is None:
@@ -73,45 +73,44 @@ def _login(client: Client, passwd: str) -> str:
     return passwd
 
 
-def _get_config(host: str, port: int, passwd: str, prompt: str) -> Config:
+def get_config(host: str, port: int, passwd: str, prompt: str) -> Config:
     """Reads the necessary arguments."""
 
     while any(item is None for item in (host, port, passwd, prompt)):
         if host is None:
-            host = _read_or_none('Host: ')
+            host = read_or_none('Host: ')
 
         if port is None:
-            port = _read_or_none('Port: ', typ=int)
+            port = read_or_none('Port: ', typ=int)
 
         if passwd is None:
-            passwd = _read_or_none('Password: ')
+            passwd = read_or_none('Password: ')
 
         if prompt is None:
-            prompt = _read_or_none('Prompt: ')
+            prompt = read_or_none('Prompt: ')
 
     return Config(host, port, passwd, prompt)
 
 
-def _exit(exit_code=0):
+def exit(exit_code: Union[int, str] = 0) -> int:    # pylint: disable=W0622
     """Exits the interactive shell via exit command."""
 
-    exit_code = int(exit_code)
     print(MSG_EXIT)
-    return exit_code
+    return int(exit_code)
 
 
 def rconcmd(host: str, port: int, passwd: str, prompt: str = PS1) -> int:
     """Initializes the console."""
 
     try:
-        config = _get_config(host, port, passwd, prompt)
+        config = get_config(host, port, passwd, prompt)
     except KeyboardInterrupt:
         print(MSG_ABORTED)
         return 1
 
     with Client(config.host, config.port) as client:
         try:
-            passwd = _login(client, config.passwd)
+            passwd = login(client, config.passwd)
         except (EOFError, KeyboardInterrupt):
             print(MSG_LOGIN_ABORTED)
             return 1
@@ -133,7 +132,7 @@ def rconcmd(host: str, port: int, passwd: str, prompt: str = PS1) -> int:
 
             if command in EXIT_COMMANDS:
                 try:
-                    return _exit(*args)
+                    return exit(*args)  # pylint: disable=R1722
                 except (TypeError, ValueError):
                     print(MSG_EXIT_USAGE.format(command))
                     continue
@@ -144,7 +143,7 @@ def rconcmd(host: str, port: int, passwd: str, prompt: str = PS1) -> int:
                 print(MSG_SESSION_TIMEOUT)
 
                 try:
-                    passwd = _login(client, passwd)
+                    passwd = login(client, passwd)
                 except (EOFError, KeyboardInterrupt):
                     print(MSG_LOGIN_ABORTED)
                     return 2
