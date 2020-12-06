@@ -7,7 +7,8 @@ from mcipc.common import BaseClient
 from mcipc.query.proto import BasicStatsMixin
 from mcipc.query.proto import FullStatsMixin
 from mcipc.query.proto import HandshakeMixin
-from mcipc.query.proto import Packet
+from mcipc.query.proto import Request
+from mcipc.query.proto import Response
 
 
 __all__ = ['Client']
@@ -44,10 +45,10 @@ class Client(BaseClient, HandshakeMixin, BasicStatsMixin, FullStatsMixin):
         """Receives all bytes from the socket."""
         return b''.join(self._recv_chunks(buffer=buffer))
 
-    def communicate(self, packet: Packet, response_type: type = None, *,
-                    buffer: int = 4096):
+    def communicate(self, request: Request, response_type: type = None, *,
+                    buffer: int = 4096) -> Response:
         """Sends and receives a packet."""
-        self._socket.send(bytes(packet))
+        self._socket.send(bytes(request))
         response = self._recv_all(buffer=buffer)
 
         if response_type is None:
