@@ -6,7 +6,7 @@ commands on a Minecraft server and receive the respective results.
 
 .. warning::
 
-   Enabling RCON on a public IP address may consitute a *information disclosure* and/or a *remote code execution* vulnerability.
+   Enabling RCON on a public IP address may constitute a *information disclosure* and/or a *remote code execution* vulnerability.
 
 To enable `RCON` on a Minecraft server, you must set `enable-rcon = true` in the
 server's `server.properties` file.

@@ -6,7 +6,7 @@ The Minecraft query protocol has two query modes: *basic stats* and *full stats*
 
 .. warning::
 
-   Enabling Query on a public IP address may consitute a *information disclosure* vulnerability.
+   Enabling Query on a public IP address may constitute a *information disclosure* vulnerability.
 
 Basic stats
 -----------
