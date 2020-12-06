@@ -13,6 +13,7 @@ __all__ = ['get_response', 'StubServer']
 
 
 LOGGER = getLogger(__file__)
+VERSION = '1.16.4'
 
 
 def get_response(text: str) -> bytes:
@@ -28,7 +29,7 @@ def get_response(text: str) -> bytes:
 class StubServer:
     """A stub minecraft server."""
 
-    def __init__(self, description: str, *, version: str = '1.14.2',
+    def __init__(self, description: str, *, version: str = VERSION,
                  max_players: int = 20, protocol: int = 485):
         """Description, max players and protocol information."""
         self.description = description
