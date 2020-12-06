@@ -24,12 +24,9 @@ class Client(client.Client):
         if offensive:
             command.append('-o')
 
-        # pylint: disable=E1123
-        text = check_output(command, stderr=PIPE, text=True)
-        return self.say(text)
+        return self.say(check_output(command, stderr=PIPE, text=True))
 
     def datetime(self, frmt: str = '%c') -> str:
         """Tells all players the current datetime."""
         setlocale(LC_TIME, getdefaultlocale())  # Fix loacale.
-        text = datetime.now().strftime(frmt)
-        return self.say(text)
+        return self.say(datetime.now().strftime(frmt))
