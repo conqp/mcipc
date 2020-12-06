@@ -5,8 +5,8 @@ The following is applicable to both, `RCON` and `Query` clients.
 
 Handling connection timeouts.
 -----------------------------
-Since version 1.2.1, you can specify an optional `timeout=<sec>` parameter on both `Query` and `RCON` clients.
-If a timeout is reached during a connection attempt, it will raise a `socket.timeout` exception.
+Since version 1.2.1, you can specify an optional :code:`timeout=<sec>` parameter on both `Query` and `RCON` clients.
+If a timeout is reached during a connection attempt, it will raise a :py:class:`socket.timeout` exception.
 The following example will raise a connection timeout after 1.5 seconds:
 
 .. code-block:: python
@@ -21,8 +21,8 @@ The following example will raise a connection timeout after 1.5 seconds:
 
 Configuration
 -------------
-`queryclt` servers can be configured in `/etc/mcipc.d/query.conf`.\
-`rconclt` servers can be configured in `/etc/mcipc.d/rcon.conf`.\
+`queryclt` servers can be configured in :file:`/etc/mcipc.d/query.conf`.
+`rconclt` servers can be configured in :file:`/etc/mcipc.d/rcon.conf`.
 The configuration file format is:
 
 .. code-block:: ini
@@ -32,4 +32,4 @@ The configuration file format is:
     port = <port>
     passwd = <password>
 
-The `passwd` entry is optional for `rcon.conf` and unnecessary for `query.conf`.
+The :code:`passwd` entry is optional for :file:`rcon.conf` and unnecessary for :file:`query.conf`.

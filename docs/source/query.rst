@@ -12,9 +12,9 @@ Basic stats
 -----------
 
 To get *basic stats* from a Minecraft server, it must enable the `Query` protocol.
-You can enable the query protocol on a Minecraft server by setting `enable-query = true` in the server's `server.properties` file.
-To specify a deviating port, you can set `query.port = <port>` in the same file.
-The following example assumes a server running on `127.0.0.1` and on the default query port `25565`:
+You can enable the query protocol on a Minecraft server by setting :code:`enable-query = true` in the server's :file:`server.properties` file.
+To specify a deviating port, you can set :code:`query.port = <port>` in the same file.
+The following example assumes a server running on :code:`127.0.0.1` and on the default query port :code:`25565`:
 
 .. code-block:: python
 
@@ -46,7 +46,7 @@ For retrieving full stats of a server, the same premises apply.
 JSON conversion
 ---------------
 
-Both :py:class:`mcipc.query.proto.basic_stats.BasicStats` and :py:class:`mcipc.query.proto.full_stats.FullStats` provide a *to_json()* method to return their values in a JSON compatible dict:
+Both :py:class:`mcipc.query.proto.basic_stats.BasicStats` and :py:class:`mcipc.query.proto.full_stats.FullStats` provide a :code:`to_json()` method to return their values in a JSON compatible dict:
 
 .. code-block:: python
 

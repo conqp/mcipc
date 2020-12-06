@@ -2,9 +2,9 @@ Scripts
 =======
 This library also ships a couple of scripts intended as a proof-of-concept.
 
-* `queryclt`: A `Query` client.
-* `rconclt`: An `RCON` client.
-* `rconshell`: An interactive `RCON` shell.
+* :file:`queryclt`: A `Query` client.
+* :file:`rconclt`: An `RCON` client.
+* :file:`rconshell`: An interactive `RCON` shell.
 
 queryclt
 --------
@@ -15,7 +15,7 @@ To communicate with a server, run:
 
     queryclt <server> <stats_type> [<args>...] [options]
 
-The placeholder `<server>` can either be a pre-defined server's name (see :ref:`configuration`) or server socket identified by `<host>:<port>`.
+The placeholder :code:`<server>` can either be a pre-defined server's name (see :ref:`configuration`) or server socket identified by :code:`<host>:<port>`.
 
 rconclt
 -------
@@ -26,5 +26,5 @@ To communicate with a server, run:
 
     rconclt <server> <command> [<args>...] [options]
 
-The placeholder `<server>` can either be a pre-defined server's name (see :ref:`configuration`) or server socket identified by `[<password>@]<host>:<port>`.\
+The placeholder :code:`<server>` can either be a pre-defined server's name (see :ref:`configuration`) or server socket identified by :code:`[<password>@]<host>:<port>`.\
 If no password was specified in either the pre-defined server entry or the server socket, the script will interactively ask for the server's password.
