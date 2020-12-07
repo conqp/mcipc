@@ -106,9 +106,20 @@ class Packet(NamedTuple):
 class Client(BaseClient):
     """An RCON client."""
 
-    def __init__(self, host: str, port: int, timeout: float = None):
+    def __init__(self, host: str, port: int, timeout: float = None,
+                 passwd: str = None):
         """Initializes the base client with the SOCK_STREAM socket type."""
         super().__init__(SOCK_STREAM, host, port, timeout=timeout)
+        self.passwd = passwd
+
+    def __enter__(self):
+        """Attempts an auto-login if a password is set."""
+        result = super().__enter__()
+
+        if self.passwd is not None:
+            self.login(self.passwd)
+
+        return result
 
     def communicate(self, packet: Packet) -> Packet:
         """Sends and receives a packet."""
@@ -140,5 +151,14 @@ class Client(BaseClient):
     def run(self, command: str, *arguments: str, raw: bool = False) -> str:
         """Runs a command."""
         packet = Packet.from_args(command, *arguments)
-        response = self.communicate(packet)
+
+        try:
+            response = self.communicate(packet)
+        except RequestIdMismatch:
+            if self.passwd is not None:  # Re-authenticate and retry command.
+                self.login(self.passwd)
+                return self.run(command, *arguments, raw=raw)
+
+            raise
+
         return response if raw else response.payload
