@@ -3,11 +3,10 @@
 from __future__ import annotations
 from enum import Enum
 from logging import getLogger
-from random import randint
 from socket import SOCK_STREAM
 from typing import NamedTuple
 
-from mcipc.common import BaseClient
+from mcipc.common import BaseClient, LittleEndianSignedInt32
 from mcipc.rcon.exceptions import InvalidPacketStructure
 from mcipc.rcon.exceptions import RequestIdMismatch
 from mcipc.rcon.exceptions import WrongPassword
@@ -20,25 +19,10 @@ LOGGER = getLogger(__file__)
 TAIL = b'\0\0'
 
 
-class LittleEndianSignedInt32(int):
-    """A little-endian, signed int32."""
+def random_request_id() -> LittleEndianSignedInt32:
+    """Generates a random request ID."""
 
-    MIN = -2_147_483_648
-    MAX = 2_147_483_647
-
-    def __bytes__(self):
-        """Returns the integer as signed little endian."""
-        return self.to_bytes(4, 'little', signed=True)
-
-    @classmethod
-    def from_bytes(cls, bytes_: bytes) -> LittleEndianSignedInt32:
-        """Creates the integer from the given bytes."""
-        return super().from_bytes(bytes_, 'little', signed=True)
-
-    @classmethod
-    def random_request_id(cls) -> LittleEndianSignedInt32:
-        """Generates a random request ID."""
-        return cls(randint(0, cls.MAX))     # A random non-negative int32.
+    return LittleEndianSignedInt32.random(min=0)
 
 
 class Type(Enum):
@@ -93,14 +77,12 @@ class Packet(NamedTuple):
     @classmethod
     def from_args(cls, *args: str) -> Packet:
         """Creates a command packet."""
-        request_id = LittleEndianSignedInt32.random_request_id()
-        return cls(request_id, Type.COMMAND, ' '.join(args))
+        return cls(random_request_id(), Type.COMMAND, ' '.join(args))
 
     @classmethod
     def from_login(cls, passwd: str) -> Packet:
         """Creates a login packet."""
-        request_id = LittleEndianSignedInt32.random_request_id()
-        return cls(request_id, Type.LOGIN, passwd)
+        return cls(random_request_id(), Type.LOGIN, passwd)
 
 
 class Client(BaseClient):

@@ -1,10 +1,17 @@
 """Stuff, common to Query and RCON."""
 
+from __future__ import annotations
+from random import randint
 from socket import socket, SocketKind   # pylint: disable=E0611
 from typing import Tuple
 
 
-__all__ = ['BaseClient']
+__all__ = [
+    'BaseClient',
+    'BigEndianSignedInt32',
+    'LittleEndianSignedInt32',
+    'SignedInt32'
+]
 
 
 class BaseClient:
@@ -42,3 +49,42 @@ class BaseClient:
     def close(self):
         """Disconnects from the RCON server."""
         return self._socket.close()
+
+
+class SignedInt32(int):
+    """A signed int32."""
+
+    MIN = -2_147_483_648
+    MAX = 2_147_483_647
+
+    # pylint: disable=W0622
+    @classmethod
+    def random(cls, min: int = MIN, max: int = MAX) -> SignedInt32:
+        """Generates a random signed int32."""
+        return cls(randint(min, max))
+
+
+class BigEndianSignedInt32(SignedInt32):
+    """A big-endian, signed int32."""
+
+    def __bytes__(self):
+        """Returns the int as bytes."""
+        return self.to_bytes(4, 'big', signed=True)
+
+    @classmethod
+    def from_bytes(cls, bytes_: bytes) -> BigEndianSignedInt32:
+        """Reutns the int from the given bytes."""
+        return super().from_bytes(bytes_, 'big', signed=True)
+
+
+class LittleEndianSignedInt32(SignedInt32):
+    """A little-endian, signed int32."""
+
+    def __bytes__(self):
+        """Returns the integer as signed little endian."""
+        return self.to_bytes(4, 'little', signed=True)
+
+    @classmethod
+    def from_bytes(cls, bytes_: bytes) -> LittleEndianSignedInt32:
+        """Creates the integer from the given bytes."""
+        return super().from_bytes(bytes_, 'little', signed=True)

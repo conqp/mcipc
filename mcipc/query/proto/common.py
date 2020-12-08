@@ -4,15 +4,16 @@ from __future__ import annotations
 from enum import Enum
 from functools import partial
 from ipaddress import ip_address, IPv4Address, IPv6Address
-from random import randint
 from typing import Iterable, Iterator, Union
+
+from mcipc.common import BigEndianSignedInt32
 
 
 __all__ = [
     'MAGIC',
     'decodeall',
     'ip_or_hostname',
-    'BigEndianSignedInt32',
+    'random_session_id',
     'ChallengeToken',
     'IPAddressOrHostname',
     'Type'
@@ -39,27 +40,12 @@ def ip_or_hostname(string: str) -> IPAddressOrHostname:
         return string
 
 
-class BigEndianSignedInt32(int):
-    """A big-endian, signed int32."""
+def random_session_id() -> BigEndianSignedInt32:
+    """Returns a random session ID.
+    See: https://wiki.vg/Query#Generating_a_Session_ID
+    """
 
-    MIN = -2_147_483_648
-    MAX = 2_147_483_647
-
-    def __bytes__(self):
-        """Returns the int as bytes."""
-        return self.to_bytes(4, 'big', signed=True)
-
-    @classmethod
-    def from_bytes(cls, bytes_: bytes) -> BigEndianSignedInt32:
-        """Reutns the int from the given bytes."""
-        return super().from_bytes(bytes_, 'big', signed=True)
-
-    @classmethod
-    def random_session_id(cls) -> BigEndianSignedInt32:
-        """Returns a random session ID.
-        See: https://wiki.vg/Query#Generating_a_Session_ID
-        """
-        return cls(randint(cls.MIN, cls.MAX) & SESSION_ID_MASK)
+    return BigEndianSignedInt32.random() & SESSION_ID_MASK
 
 
 class ChallengeToken(BigEndianSignedInt32):

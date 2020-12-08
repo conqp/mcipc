@@ -5,10 +5,12 @@ from typing import Generator, NamedTuple, Tuple
 
 from mcipc.query.proto.common import MAGIC
 from mcipc.query.proto.common import ip_or_hostname
-from mcipc.query.proto.common import BigEndianSignedInt32
+from mcipc.query.proto.common import random_session_id
 from mcipc.query.proto.common import ChallengeToken
 from mcipc.query.proto.common import IPAddressOrHostname
 from mcipc.query.proto.common import Type
+
+from mcipc.common import BigEndianSignedInt32
 
 
 __all__ = ['Request', 'FullStats', 'FullStatsMixin']
@@ -113,15 +115,13 @@ class Request(NamedTuple):
         return payload
 
     @classmethod
-    def create(cls, challenge_token: ChallengeToken,
-               session_id: BigEndianSignedInt32 = None) -> Request:
+    def create(cls, challenge_token: ChallengeToken) -> Request:
         """Creates a new request with the specified challenge
         token and the specified or a random session ID.
         """
-        if session_id is None:
-            session_id = BigEndianSignedInt32.random_session_id()
 
-        return cls(MAGIC, Type.STAT, session_id, challenge_token, PADDING)
+        return cls(MAGIC, Type.STAT, random_session_id(), challenge_token,
+                   PADDING)
 
 
 class FullStats(NamedTuple):
@@ -176,7 +176,11 @@ class FullStatsMixin:   # pylint: disable=R0903
     """Query client mixin for full stats."""
 
     @property
+    def _full_stats_request(self) -> Request:
+        """Returns a new full stats request."""
+        return Request.create(self._challenge_token)
+
+    @property
     def full_stats(self) -> FullStats:
         """Returns full stats"""
-        request = Request.create(self._challenge_token)
-        return self.communicate(request, FullStats)
+        return self.communicate(self._full_stats_request, FullStats)

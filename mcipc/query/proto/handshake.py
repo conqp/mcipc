@@ -4,9 +4,11 @@ from __future__ import annotations
 from typing import NamedTuple
 
 from mcipc.query.proto.common import MAGIC
-from mcipc.query.proto.common import BigEndianSignedInt32
+from mcipc.query.proto.common import random_session_id
 from mcipc.query.proto.common import ChallengeToken
 from mcipc.query.proto.common import Type
+
+from mcipc.common import BigEndianSignedInt32
 
 
 __all__ = ['Request', 'Response', 'HandshakeMixin']
@@ -27,12 +29,10 @@ class Request(NamedTuple):
         return payload
 
     @classmethod
-    def create(cls, session_id: BigEndianSignedInt32 = None) -> Request:
+    def create(cls) -> Request:
         """Returns a handshake request packet with a random session ID."""
-        if session_id is None:
-            session_id = BigEndianSignedInt32.random_session_id()
 
-        return cls(MAGIC, Type.HANDSHAKE, session_id)
+        return cls(MAGIC, Type.HANDSHAKE, random_session_id())
 
 
 class Response(NamedTuple):
@@ -64,5 +64,4 @@ class HandshakeMixin:   # pylint: disable=R0903
 
     def handshake(self) -> Response:
         """Performs a handshake."""
-        request = Request.create()
-        return self.communicate(request, Response)
+        return self.communicate(Request.create(), Response)
