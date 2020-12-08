@@ -7,7 +7,6 @@ from mcipc.query.proto.common import MAGIC
 from mcipc.query.proto.common import decodeall
 from mcipc.query.proto.common import ip_or_hostname
 from mcipc.query.proto.common import random_session_id
-from mcipc.query.proto.common import ChallengeToken
 from mcipc.query.proto.common import IPAddressOrHostname
 from mcipc.query.proto.common import Type
 
@@ -23,7 +22,7 @@ class Request(NamedTuple):
     magic: bytes
     type: Type
     session_id: BigEndianSignedInt32
-    challenge_token: ChallengeToken
+    challenge_token: BigEndianSignedInt32
 
     def __bytes__(self):
         """Returns the packet as bytes."""
@@ -34,7 +33,7 @@ class Request(NamedTuple):
         return payload
 
     @classmethod
-    def create(cls, challenge_token: ChallengeToken) -> Request:
+    def create(cls, challenge_token: BigEndianSignedInt32) -> Request:
         """Creates a new request with the specified challenge
         token and the specified or a random session ID.
         """

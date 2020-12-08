@@ -14,7 +14,6 @@ __all__ = [
     'decodeall',
     'ip_or_hostname',
     'random_session_id',
-    'ChallengeToken',
     'IPAddressOrHostname',
     'Type'
 ]
@@ -46,17 +45,6 @@ def random_session_id() -> BigEndianSignedInt32:
     """
 
     return BigEndianSignedInt32.random() & SESSION_ID_MASK
-
-
-class ChallengeToken(BigEndianSignedInt32):
-    """A Query challenge token."""
-
-    @classmethod
-    def from_handshake(cls, bytes_: bytes):
-        """Returns the challenge token from a handshake response.
-        See: https://wiki.vg/Query#Handshake
-        """
-        return cls(bytes_[:-1].decode())
 
 
 class Type(Enum):

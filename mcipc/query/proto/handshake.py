@@ -5,7 +5,6 @@ from typing import NamedTuple
 
 from mcipc.query.proto.common import MAGIC
 from mcipc.query.proto.common import random_session_id
-from mcipc.query.proto.common import ChallengeToken
 from mcipc.query.proto.common import Type
 
 from mcipc.common import BigEndianSignedInt32
@@ -40,14 +39,15 @@ class Response(NamedTuple):
 
     type: bytes
     session_id: BigEndianSignedInt32
-    challenge_token: ChallengeToken
+    challenge_token: BigEndianSignedInt32
 
     @classmethod
     def from_bytes(cls, bytes_: bytes) -> Response:
         """Creates the packet from bytes."""
         type_ = Type.from_bytes(bytes_[0:1])
         session_id = BigEndianSignedInt32.from_bytes(bytes_[1:5])
-        challenge_token = ChallengeToken.from_handshake(bytes_[5:])
+        # For challenge token, see: https://wiki.vg/Query#Handshake
+        challenge_token = BigEndianSignedInt32(bytes_[5:-1].decode())
         return cls(type_, session_id, challenge_token)
 
     def to_json(self) -> dict:
