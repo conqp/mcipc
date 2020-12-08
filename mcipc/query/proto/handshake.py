@@ -3,11 +3,10 @@
 from __future__ import annotations
 from typing import NamedTuple
 
+from mcipc.common import BigEndianSignedInt32
 from mcipc.query.proto.common import MAGIC
 from mcipc.query.proto.common import random_session_id
 from mcipc.query.proto.common import Type
-
-from mcipc.common import BigEndianSignedInt32
 
 
 __all__ = ['Request', 'Response', 'HandshakeMixin']
