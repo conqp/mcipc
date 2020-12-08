@@ -23,11 +23,11 @@ The Minecraft query protocol has two query modes: *basic stats* and *full stats*
 from mcipc.query import Client
 
 with Client('127.0.0.1', 25565) as client:
-    basic_stats = client.basic_stats
-    full_stats = client.full_stats
+    basic_stats = client.basic_stats    # Get basic stats.
+    full_stats = client.full_stats      # Get full stats.
 
-print(basic_stats)  # Get basic stats.
-print(full_stats)   # Get full stats.
+print(basic_stats)
+print(full_stats)
 ```
 
 ### RCON protocol
