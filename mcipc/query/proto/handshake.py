@@ -61,6 +61,13 @@ class Response(NamedTuple):
 class HandshakeMixin:   # pylint: disable=R0903
     """Query client mixin for performing handshakes."""
 
-    def handshake(self) -> Response:
+    def handshake(self, *, set_challenge_token: bool = True) -> Response:
         """Performs a handshake."""
-        return self.communicate(Request.create(), Response)
+        request = Request.create()
+        bytes_ = self.communicate(bytes(request))
+        response = Response.from_bytes(bytes_)
+
+        if set_challenge_token:
+            self._challenge_token = response.challenge_token
+
+        return response

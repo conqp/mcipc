@@ -7,8 +7,6 @@ from mcipc.common import BaseClient
 from mcipc.query.proto import BasicStatsMixin
 from mcipc.query.proto import FullStatsMixin
 from mcipc.query.proto import HandshakeMixin
-from mcipc.query.proto import Request
-from mcipc.query.proto import Response
 
 
 __all__ = ['Client']
@@ -26,12 +24,12 @@ class Client(BaseClient, HandshakeMixin, BasicStatsMixin, FullStatsMixin):
 
     def __enter__(self):
         """Performs a handshake."""
-        super().__enter__()
+        result = super().__enter__()
 
         if self._challenge_token is None:
-            self._challenge_token = self.handshake().challenge_token
+            self.handshake()
 
-        return self
+        return result
 
     def _recv_chunks(self, buffer: int = 4096) -> Generator[bytes, None, None]:
         """Yields chunks of bytes from the socket."""
@@ -45,13 +43,7 @@ class Client(BaseClient, HandshakeMixin, BasicStatsMixin, FullStatsMixin):
         """Receives all bytes from the socket."""
         return b''.join(self._recv_chunks(buffer=buffer))
 
-    def communicate(self, request: Request, response_type: type = None, *,
-                    buffer: int = 4096) -> Response:
-        """Sends and receives a packet."""
-        self._socket.send(bytes(request))
-        response = self._recv_all(buffer=buffer)
-
-        if response_type is None:
-            return response
-
-        return response_type.from_bytes(response)
+    def communicate(self, request: bytes, *, buffer: int = 4096) -> bytes:
+        """Sends and receives bytes."""
+        self._socket.send(request)
+        return self._recv_all(buffer=buffer)

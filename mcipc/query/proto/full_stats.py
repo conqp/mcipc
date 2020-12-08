@@ -175,11 +175,8 @@ class FullStatsMixin:   # pylint: disable=R0903
     """Query client mixin for full stats."""
 
     @property
-    def _full_stats_request(self) -> Request:
-        """Returns a new full stats request."""
-        return Request.create(self._challenge_token)
-
-    @property
     def full_stats(self) -> FullStats:
         """Returns full stats"""
-        return self.communicate(self._full_stats_request, FullStats)
+        request = Request.create(self._challenge_token)
+        bytes_ = self.communicate(bytes(request))
+        return FullStats.from_bytes(bytes_)
