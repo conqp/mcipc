@@ -57,12 +57,16 @@ class SignedInt32(int):
     MIN = -2_147_483_648
     MAX = 2_147_483_647
 
+    def __new__(cls, *args, **kwargs):
+        """Creates a new integer with boundary checks."""
+        if cls.MIN <= (i := super().__new__(cls, *args, **kwargs)) <= cls.MAX:
+            return i
+
+        raise ValueError('Signed int32 out of bounds.')
+
     @classmethod
     def random(cls, min: int = MIN, max: int = MAX) -> SignedInt32:
         """Generates a random signed int32."""
-        if min < cls.MIN or max > cls.MAX:
-            raise ValueError('Signed int32 out of bounds.')
-
         return cls(randint(min, max))
 
 
