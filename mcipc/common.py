@@ -57,7 +57,6 @@ class SignedInt32(int):
     MIN = -2_147_483_648
     MAX = 2_147_483_647
 
-    # pylint: disable=W0622
     @classmethod
     def random(cls, min: int = MIN, max: int = MAX) -> SignedInt32:
         """Generates a random signed int32."""
