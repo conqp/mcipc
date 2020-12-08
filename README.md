@@ -24,6 +24,7 @@ from mcipc.query import Client
 
 with Client('127.0.0.1', 25565) as client:
     basic_stats = client.basic_stats
+    full_stats = client.full_stats
 
 print(basic_stats)  # Get basic stats.
 print(full_stats)   # Get full stats.
