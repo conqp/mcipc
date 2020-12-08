@@ -60,6 +60,9 @@ class SignedInt32(int):
     @classmethod
     def random(cls, min: int = MIN, max: int = MAX) -> SignedInt32:
         """Generates a random signed int32."""
+        if min < cls.MIN or max > cls.MAX:
+            raise ValueError('Signed int32 out of bounds.')
+
         return cls(randint(min, max))
 
 
