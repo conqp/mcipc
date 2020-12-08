@@ -30,7 +30,6 @@ class Request(NamedTuple):
     @classmethod
     def create(cls) -> Request:
         """Returns a handshake request packet with a random session ID."""
-
         return cls(MAGIC, Type.HANDSHAKE, random_session_id())
 
 

@@ -44,7 +44,7 @@ def random_session_id() -> BigEndianSignedInt32:
     See: https://wiki.vg/Query#Generating_a_Session_ID
     """
 
-    return BigEndianSignedInt32.random() & SESSION_ID_MASK
+    return BigEndianSignedInt32.random(mask=SESSION_ID_MASK)
 
 
 class Type(Enum):

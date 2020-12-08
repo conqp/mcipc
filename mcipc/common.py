@@ -65,9 +65,13 @@ class SignedInt32(int):
         raise ValueError('Signed int32 out of bounds.')
 
     @classmethod
-    def random(cls, min: int = MIN, max: int = MAX) -> SignedInt32:
-        """Generates a random signed int32."""
-        return cls(randint(min, max))
+    def random(cls, min: int = MIN, max: int = MAX, *,  # pylint: disable=W0622
+               mask: int = None) -> SignedInt32:
+        """Generates a random signed int32 with an optional bit mask."""
+        if mask is None:
+            return cls(randint(min, max))
+
+        return cls(randint(min, max) & mask)
 
 
 class BigEndianSignedInt32(SignedInt32):
