@@ -62,7 +62,7 @@ class SignedInt32(int):
         if cls.MIN <= (i := super().__new__(cls, *args, **kwargs)) <= cls.MAX:
             return i
 
-        raise ValueError('Signed int32 out of bounds.')
+        raise ValueError('Signed int32 out of bounds:', int(i))
 
     @classmethod
     def random(cls, min: int = MIN, max: int = MAX, *,  # pylint: disable=W0622
