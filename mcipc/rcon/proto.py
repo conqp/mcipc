@@ -88,8 +88,8 @@ class Packet(NamedTuple):
 class Client(BaseClient):
     """An RCON client."""
 
-    def __init__(self, host: str, port: int, timeout: float = None,
-                 passwd: str = None):
+    def __init__(self, host: str, port: int, *,
+                 timeout: float = None, passwd: str = None):
         """Initializes the base client with the SOCK_STREAM socket type."""
         super().__init__(SOCK_STREAM, host, port, timeout=timeout)
         self.passwd = passwd

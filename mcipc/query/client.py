@@ -17,7 +17,7 @@ __all__ = ['Client']
 class Client(BaseClient, HandshakeMixin, BasicStatsMixin, FullStatsMixin):
     """A Query client."""
 
-    def __init__(self, host: str, port: int, timeout: float = None):
+    def __init__(self, host: str, port: int, *, timeout: float = None):
         """Initializes the base client with the socket
         type SOCK_DGRAM and sets the challenge token.
         """

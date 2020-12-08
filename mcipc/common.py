@@ -17,7 +17,7 @@ __all__ = [
 class BaseClient:
     """A basic client."""
 
-    def __init__(self, typ: SocketKind, host: str, port: int,
+    def __init__(self, typ: SocketKind, host: str, port: int, *,
                  timeout: float = None):
         """Sets host an port."""
         self._socket = socket(type=typ)
