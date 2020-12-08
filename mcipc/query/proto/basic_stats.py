@@ -90,6 +90,6 @@ class BasicStatsMixin:  # pylint: disable=R0903
     @property
     def basic_stats(self) -> BasicStats:
         """Returns basic stats"""
-        request = Request.create(self._challenge_token)
+        request = Request.create(self.challenge_token)
         bytes_ = self.communicate(bytes(request))
         return BasicStats.from_bytes(bytes_)

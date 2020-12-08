@@ -68,6 +68,6 @@ class HandshakeMixin:   # pylint: disable=R0903
         response = Response.from_bytes(bytes_)
 
         if set_challenge_token:
-            self._challenge_token = response.challenge_token
+            self.challenge_token = response.challenge_token
 
         return response

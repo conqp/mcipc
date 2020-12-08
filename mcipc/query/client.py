@@ -20,13 +20,13 @@ class Client(BaseClient, HandshakeMixin, BasicStatsMixin, FullStatsMixin):
         type SOCK_DGRAM and sets the challenge token.
         """
         super().__init__(SOCK_DGRAM, host, port, timeout=timeout)
-        self._challenge_token = None
+        self.challenge_token = None
 
     def __enter__(self):
         """Performs a handshake."""
         result = super().__enter__()
 
-        if self._challenge_token is None:
+        if self.challenge_token is None:
             self.handshake()
 
         return result
