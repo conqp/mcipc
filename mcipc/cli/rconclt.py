@@ -8,6 +8,12 @@ from subprocess import CalledProcessError, check_call
 from sys import exit    # pylint: disable=W0622
 from typing import Tuple
 
+from mcipc.cli.errors import CONNECTION_REFUSED
+from mcipc.cli.errors import CONNECTION_TIMEOUT
+from mcipc.cli.errors import NO_SUCH_SERVER
+from mcipc.cli.errors import REQUEST_ID_MISMATCH
+from mcipc.cli.errors import USER_ABORT
+from mcipc.cli.errors import WRONG_PASSWORD
 from mcipc.config import LOG_FORMAT, InvalidCredentials, Credentials
 from mcipc.rcon.config import CONFIG
 from mcipc.rcon.datastructures import Players
@@ -77,7 +83,7 @@ def get_credentials(server: str) -> Tuple[str, int, str]:
             host, port, passwd = CONFIG.servers[server]
         except KeyError:
             LOGGER.error('No such server: %s.', server)
-            exit(2)
+            exit(NO_SUCH_SERVER)
 
     if passwd is None:
         try:
@@ -85,7 +91,7 @@ def get_credentials(server: str) -> Tuple[str, int, str]:
         except (KeyboardInterrupt, EOFError):
             print()
             LOGGER.error('Aborted by user.')
-            exit(3)
+            exit(USER_ABORT)
 
     return (host, port, passwd)
 
@@ -157,12 +163,15 @@ def main():
                     exit(1)
             else:
                 run_action(client, args)
+    except ConnectionRefusedError:
+        LOGGER.error('Connection refused.')
+        exit(CONNECTION_REFUSED)
     except timeout:
         LOGGER.error('Connection timeout.')
-        exit(4)
+        exit(CONNECTION_TIMEOUT)
     except RequestIdMismatch:
         LOGGER.error('Unexpected request ID mismatch.')
-        exit(5)
+        exit(REQUEST_ID_MISMATCH)
     except WrongPassword:
         LOGGER.error('Wrong password.')
-        exit(6)
+        exit(WRONG_PASSWORD)

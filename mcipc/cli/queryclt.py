@@ -7,6 +7,10 @@ from socket import timeout
 from sys import exit, stdout    # pylint: disable=W0622
 from typing import Tuple
 
+from mcipc.cli.errors import CONNECTION_REFUSED
+from mcipc.cli.errors import CONNECTION_TIMEOUT
+from mcipc.cli.errors import NO_SUCH_SERVER
+from mcipc.cli.errors import USER_ABORT
 from mcipc.config import LOG_FORMAT, InvalidCredentials, Credentials
 from mcipc.query.client import Client
 from mcipc.query.config import CONFIG
@@ -83,7 +87,7 @@ def get_credentials(server: str) -> Tuple[str, int]:
             host, port, passwd = CONFIG.servers[server]
         except KeyError:
             LOGGER.error('No such server: %s.', server)
-            exit(2)
+            exit(NO_SUCH_SERVER)
 
     if passwd is not None:
         LOGGER.warning('Query protocol does not require a password.')
@@ -177,6 +181,13 @@ def main():
                 print(basic_stats(client, args), flush=True)
             elif args.action == 'full-stats':
                 print(full_stats(client, args), flush=True)
+    except KeyboardInterrupt:
+        print()
+        LOGGER.error('Aborted by user.')
+        exit(USER_ABORT)
+    except ConnectionRefusedError:
+        LOGGER.error('Connection refused.')
+        exit(CONNECTION_REFUSED)
     except timeout:
         LOGGER.error('Connection timeout.')
-        exit(3)
+        exit(CONNECTION_TIMEOUT)
