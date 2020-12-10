@@ -14,7 +14,7 @@ from mcipc.query.proto.common import Type
 __all__ = ['Request', 'FullStats', 'FullStatsMixin']
 
 
-PADDING = 0
+PADDING = b'\x00\x00\x00\x00'
 NULL = b'\0'
 
 
@@ -97,11 +97,11 @@ def stats_from_dict(dictionary: dict):
 class Request(NamedTuple):
     """Basic statistics request packet."""
 
-    magic: bytes
-    type: Type
-    session_id: BigEndianSignedInt32
-    challenge_token: BigEndianSignedInt32
-    padding: int
+    magic: bytes = MAGIC
+    type: Type = Type.STAT
+    session_id: BigEndianSignedInt32 = BigEndianSignedInt32()
+    challenge_token: BigEndianSignedInt32 = BigEndianSignedInt32()
+    padding: bytes = PADDING
 
     def __bytes__(self):
         """Returns the packet as bytes."""
@@ -109,17 +109,8 @@ class Request(NamedTuple):
         payload += bytes(self.type)
         payload += bytes(self.session_id)
         payload += bytes(self.challenge_token)
-        payload += self.padding.to_bytes(4, 'big')
+        payload += self.padding
         return payload
-
-    @classmethod
-    def create(cls, challenge_token: BigEndianSignedInt32) -> Request:
-        """Creates a new request with the specified challenge
-        token and the specified or a random session ID.
-        """
-
-        return cls(MAGIC, Type.STAT, random_session_id(), challenge_token,
-                   PADDING)
 
 
 class FullStats(NamedTuple):
@@ -176,6 +167,8 @@ class FullStatsMixin:   # pylint: disable=R0903
     @property
     def full_stats(self) -> FullStats:
         """Returns full stats"""
-        request = Request.create(self.challenge_token)
+        request = Request(
+            session_id=random_session_id(),
+            challenge_token=self.challenge_token)
         bytes_ = self.communicate(bytes(request))
         return FullStats.from_bytes(bytes_)

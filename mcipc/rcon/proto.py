@@ -7,7 +7,6 @@ from socket import SOCK_STREAM
 from typing import NamedTuple
 
 from mcipc.common import BaseClient, LittleEndianSignedInt32
-from mcipc.rcon.exceptions import InvalidPacketStructure
 from mcipc.rcon.exceptions import RequestIdMismatch
 from mcipc.rcon.exceptions import WrongPassword
 
@@ -16,7 +15,7 @@ __all__ = ['LittleEndianSignedInt32', 'Type', 'Packet', 'Client']
 
 
 LOGGER = getLogger(__file__)
-TAIL = b'\0\0'
+TERMINATOR = '\x00\x00'
 
 
 def random_request_id() -> LittleEndianSignedInt32:
@@ -49,30 +48,31 @@ class Type(Enum):
 class Packet(NamedTuple):
     """An RCON packet."""
 
-    request_id: LittleEndianSignedInt32
+    id: LittleEndianSignedInt32
     type: Type
     payload: str
+    terminator: str = TERMINATOR
 
     def __bytes__(self):
-        """Returns the packet as bytes."""
-        payload = bytes(self.request_id)
+        """Returns the packet as bytes with prepended length."""
+        payload = bytes(self.id)
         payload += bytes(self.type)
         payload += self.payload.encode()
-        payload += TAIL
+        payload += self.terminator.encode()
         size = len(payload).to_bytes(4, 'little', signed=True)
         return size + payload
 
     @classmethod
     def from_bytes(cls, bytes_: bytes) -> Packet:
         """Creates a packet from the respective bytes."""
-        request_id = LittleEndianSignedInt32.from_bytes(bytes_[:4])
+        id_ = LittleEndianSignedInt32.from_bytes(bytes_[:4])
         type_ = Type.from_bytes(bytes_[4:8])
         payload = bytes_[8:-2].decode()
 
-        if (tail := bytes_[-2:]) != TAIL:
-            raise InvalidPacketStructure('Invalid tail.', tail, TAIL)
+        if (terminator := bytes_[-2:].decode()) != TERMINATOR:
+            LOGGER.warning('Unexpected terminator: %s', terminator)
 
-        return cls(request_id, type_, payload)
+        return cls(id_, type_, payload, terminator)
 
     @classmethod
     def from_args(cls, *args: str) -> Packet:
@@ -111,10 +111,10 @@ class Client(BaseClient):
         payload = self._socket.recv(length)
         response = Packet.from_bytes(payload)
 
-        if response.request_id == packet.request_id:
+        if response.id == packet.id:
             return response
 
-        raise RequestIdMismatch(packet.request_id, response.request_id)
+        raise RequestIdMismatch(packet.id, response.id)
 
     def login(self, passwd: str) -> bool:
         """Performs a login."""

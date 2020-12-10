@@ -2,32 +2,11 @@
 
 
 __all__ = [
-    'InvalidPacketStructure',
     'NotALocation',
     'RequestIdMismatch',
     'StructureNotFound',
     'WrongPassword'
 ]
-
-
-class InvalidPacketStructure(ValueError):
-    """Indicates an invalid packet structure."""
-
-    def __init__(self, message: str, value, expected):
-        """Sets an error message, the actual value and the expected value."""
-        super().__init__(message, value, expected)
-        self.message = message
-        self.value = value
-        self.expected = expected
-
-    @property
-    def description(self) -> str:
-        """Returns an additional error description."""
-        return f'Expected "{self.expected}", but got "{self.value}".'
-
-    def __str__(self):
-        """Returns a string representation."""
-        return f'{self.message} {self.description}'
 
 
 class NotALocation(ValueError):

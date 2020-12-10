@@ -15,9 +15,9 @@ __all__ = ['Request', 'Response', 'HandshakeMixin']
 class Request(NamedTuple):
     """A client → server handshake request packet."""
 
-    magic: bytes
-    type: Type
-    session_id: BigEndianSignedInt32
+    magic: bytes = MAGIC
+    type: Type = Type.HANDSHAKE
+    session_id: BigEndianSignedInt32 = BigEndianSignedInt32()
 
     def __bytes__(self):
         """Converts the packet to bytes."""
@@ -25,11 +25,6 @@ class Request(NamedTuple):
         payload += bytes(self.type)
         payload += bytes(self.session_id)
         return payload
-
-    @classmethod
-    def create(cls) -> Request:
-        """Returns a handshake request packet with a random session ID."""
-        return cls(MAGIC, Type.HANDSHAKE, random_session_id())
 
 
 class Response(NamedTuple):
@@ -62,7 +57,7 @@ class HandshakeMixin:   # pylint: disable=R0903
 
     def handshake(self, *, set_challenge_token: bool = True) -> Response:
         """Performs a handshake."""
-        request = Request.create()
+        request = Request(session_id=random_session_id())
         bytes_ = self.communicate(bytes(request))
         response = Response.from_bytes(bytes_)
 
