@@ -4,6 +4,14 @@ mcipc.cli package
 Submodules
 ----------
 
+mcipc.cli.errors module
+-----------------------
+
+.. automodule:: mcipc.cli.errors
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 mcipc.cli.queryclt module
 -------------------------
 
