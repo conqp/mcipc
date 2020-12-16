@@ -3,10 +3,10 @@
 from __future__ import annotations
 from enum import Enum
 from functools import partial
-from ipaddress import ip_address, IPv4Address, IPv6Address
-from typing import Iterable, Iterator, Union
+from ipaddress import ip_address
+from typing import Iterable, Iterator
 
-from mcipc.common import BigEndianSignedInt32
+from mcipc.common import BigEndianSignedInt32, IPAddressOrHostname
 
 
 __all__ = [
@@ -21,7 +21,6 @@ __all__ = [
 
 MAGIC = b'\xfe\xfd'
 SESSION_ID_MASK = 0x0F0F0F0F
-IPAddressOrHostname = Union[IPv4Address, IPv6Address, str]
 
 
 def decodeall(blocks: Iterable[bytes], encoding='latin-1') -> Iterator[str]:

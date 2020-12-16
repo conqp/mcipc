@@ -1,17 +1,22 @@
 """Stuff, common to Query and RCON."""
 
 from __future__ import annotations
+from ipaddress import IPv4Address, IPv6Address
 from random import randint
 from socket import socket, SocketKind   # pylint: disable=E0611
-from typing import Tuple
+from typing import Tuple, Union
 
 
 __all__ = [
     'BaseClient',
     'BigEndianSignedInt32',
+    'IPAddressOrHostname',
     'LittleEndianSignedInt32',
     'SignedInt32'
 ]
+
+
+IPAddressOrHostname = Union[IPv4Address, IPv6Address, str]
 
 
 class BaseClient:
