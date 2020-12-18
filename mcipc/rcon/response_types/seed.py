@@ -1,13 +1,13 @@
 """Represents a seed."""
 
 from __future__ import annotations
-from re import compile  # pylint: disable=W0622
+from re import fullmatch
 
 
 __all__ = ['Seed']
 
 
-REGEX = compile('.*\\[(-?\\d+)\\]')
+REGEX = '.*\\[(-?\\d+)\\]'
 
 
 class Seed(int):
@@ -16,7 +16,7 @@ class Seed(int):
     @classmethod
     def from_response(cls, text: str) -> Seed:
         """Returns a seed from a server response."""
-        if (match := REGEX.fullmatch(text)) is None:
+        if (match := fullmatch(REGEX, text)) is None:
             raise ValueError('Unexpected seed response:', text)
 
         return cls(match.group(1))

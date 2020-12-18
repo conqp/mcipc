@@ -1,7 +1,7 @@
 """Locations."""
 
 from __future__ import annotations
-from re import compile  # pylint: disable=W0622
+from re import fullmatch
 from typing import NamedTuple, Union
 
 from mcipc.rcon.exceptions import NotALocation
@@ -10,7 +10,7 @@ from mcipc.rcon.exceptions import NotALocation
 __all__ = ['Location']
 
 
-REGEX = compile('.*\\[(-?\\d+), (~|-?\\d+), (-?\\d+)\\].*')
+REGEX = '.*\\[(-?\\d+), (~|-?\\d+), (-?\\d+)\\].*'
 
 
 class Location(NamedTuple):
@@ -23,7 +23,7 @@ class Location(NamedTuple):
     @classmethod
     def from_response(cls, text: str) -> Location:
         """Creates a location from a server response."""
-        if (match := REGEX.fullmatch(text)) is None:
+        if (match := fullmatch(REGEX, text)) is None:
             raise NotALocation(text)
 
         x, y, z = match.groups()    # pylint: disable=C0103

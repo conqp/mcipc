@@ -3,8 +3,10 @@
 from getpass import getpass
 from typing import NamedTuple, Union
 
-from mcipc.rcon.client import Client
+from mcipc.common import Edition
+from mcipc.rcon.client import CLIENTS
 from mcipc.rcon.exceptions import RequestIdMismatch, WrongPassword
+from mcipc.rcon.proto import Client
 
 
 __all__ = ['rconcmd']
@@ -23,6 +25,7 @@ PS1 = 'RCON> '
 class Config(NamedTuple):
     """RCON CLI configuration."""
 
+    edition: Edition
     host: str
     port: int
     passwd: str
@@ -39,7 +42,7 @@ def read(prompt: str, typ: type = None) -> type:
             try:
                 return typ(raw)
             except (TypeError, ValueError):
-                print(f'Invalid {typ}: {raw}.')
+                print(f'Invalid {typ}: {raw}')
                 continue
 
         return raw
@@ -73,10 +76,14 @@ def login(client: Client, passwd: str) -> str:
     return passwd
 
 
-def get_config(host: str, port: int, passwd: str, prompt: str) -> Config:
+def get_config(edition: str, host: str, port: int, passwd: str,
+               prompt: str) -> Config:
     """Reads the necessary arguments."""
 
-    while any(item is None for item in (host, port, passwd, prompt)):
+    while any(item is None for item in (edition, host, port, passwd, prompt)):
+        if edition is None:
+            edition = read_or_none('Edition: ', typ=Edition)
+
         if host is None:
             host = read_or_none('Host: ')
 
@@ -89,7 +96,7 @@ def get_config(host: str, port: int, passwd: str, prompt: str) -> Config:
         if prompt is None:
             prompt = read_or_none('Prompt: ')
 
-    return Config(host, port, passwd, prompt)
+    return Config(edition, host, port, passwd, prompt)
 
 
 def exit(exit_code: Union[int, str] = 0) -> int:    # pylint: disable=W0622
@@ -99,16 +106,17 @@ def exit(exit_code: Union[int, str] = 0) -> int:    # pylint: disable=W0622
     return int(exit_code)
 
 
-def rconcmd(host: str, port: int, passwd: str, prompt: str = PS1) -> int:
+def rconcmd(edition: str, host: str, port: int, passwd: str,
+            prompt: str = PS1) -> int:
     """Initializes the console."""
 
     try:
-        config = get_config(host, port, passwd, prompt)
+        config = get_config(edition, host, port, passwd, prompt)
     except KeyboardInterrupt:
         print(MSG_ABORTED)
         return 1
 
-    with Client(config.host, config.port) as client:
+    with CLIENTS[config.edition](config.host, config.port) as client:
         try:
             passwd = login(client, config.passwd)
         except (EOFError, KeyboardInterrupt):

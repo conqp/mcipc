@@ -6,12 +6,15 @@ from logging import getLogger
 from socket import SOCK_STREAM
 from typing import NamedTuple
 
-from mcipc.common import BaseClient, LittleEndianSignedInt32
+from mcipc.client import Client as BaseClient
+from mcipc.types import LittleEndianSignedInt32
 from mcipc.rcon.exceptions import RequestIdMismatch
 from mcipc.rcon.exceptions import WrongPassword
+from mcipc.rcon.exceptions import check_error
+from mcipc.rcon.functions import str_until_none
 
 
-__all__ = ['LittleEndianSignedInt32', 'Type', 'Packet', 'Client']
+__all__ = ['Type', 'Packet', 'Client']
 
 
 LOGGER = getLogger(__file__)
@@ -88,10 +91,11 @@ class Packet(NamedTuple):
 class Client(BaseClient):
     """An RCON client."""
 
-    def __init__(self, host: str, port: int, *,
-                 timeout: float = None, passwd: str = None):
+    def __init__(self, host: str, port: int, *, timeout: float = None,
+                 check: bool = True, passwd: str = None):
         """Initializes the base client with the SOCK_STREAM socket type."""
         super().__init__(SOCK_STREAM, host, port, timeout=timeout)
+        self.check = check
         self.passwd = passwd
 
     def __enter__(self):
@@ -130,17 +134,20 @@ class Client(BaseClient):
 
         return True
 
-    def run(self, command: str, *arguments: str, raw: bool = False) -> str:
+    def run(self, command: str, *arguments: str) -> str:
         """Runs a command."""
-        packet = Packet.from_args(command, *arguments)
+        packet = Packet.from_args(*str_until_none(command, *arguments))
 
         try:
             response = self.communicate(packet)
         except RequestIdMismatch:
             if self.passwd is not None:  # Re-authenticate and retry command.
                 self.login(self.passwd)
-                return self.run(command, *arguments, raw=raw)
+                return self.run(command, *arguments)
 
             raise
 
-        return response if raw else response.payload
+        if self.check:
+            check_error(response.payload)
+
+        return response.payload

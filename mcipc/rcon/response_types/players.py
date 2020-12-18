@@ -1,22 +1,22 @@
 """Information about online players."""
 
 from __future__ import annotations
-from re import Match, compile  # pylint: disable=W0622
+from re import Match, fullmatch
 from typing import NamedTuple, Tuple, Union
 
 
 __all__ = ['Players']
 
 
-REGEX_VANILLA = compile('.+ (\\d+) .+ (\\d+) .+: (.*)')
-REGEX_PAPER = compile('.+ §c(\\d+)§6 .+ §c(\\d+)§6 .+\\.([\\s\\S]*)')
-REGEX_PAPER_NAME = compile('.+: (?:§4)?(\\w+)(?:§r)?§f')
+REGEX_VANILLA = '.+ (\\d+) .+ (\\d+) .+: (.*)'
+REGEX_PAPER = '.+ §c(\\d+)§6 .+ §c(\\d+)§6 .+\\.([\\s\\S]*)'
+REGEX_PAPER_NAME = '.+: (?:§4)?(\\w+)(?:§r)?§f'
 
 
 def extract_paper_name(name: str) -> Union[str, None]:
     """Extracts names from Paper server output."""
 
-    if (match := REGEX_PAPER_NAME.fullmatch(name.strip())) is None:
+    if (match := fullmatch(REGEX_PAPER_NAME, name.strip())) is None:
         return None
 
     return match.group(1)
@@ -48,10 +48,10 @@ class Players(NamedTuple):
     @classmethod
     def from_response(cls, text: str) -> Players:
         """Creates the players information from a server response."""
-        if (match := REGEX_VANILLA.fullmatch(text)) is not None:
+        if (match := fullmatch(REGEX_VANILLA, text)) is not None:
             return cls.from_vanilla(match)
 
-        if (match := REGEX_PAPER.fullmatch(text)) is not None:
+        if (match := fullmatch(REGEX_PAPER, text)) is not None:
             return cls.from_paper(match)
 
         raise ValueError('Unexpected players response:', text)

@@ -1,11 +1,10 @@
 """Datastructures to represent help on commands."""
 
 from __future__ import annotations
-from logging import getLogger
-from typing import Iterable, NamedTuple, Tuple, Union
+from typing import NamedTuple
 
 
-LOGGER = getLogger(__file__)
+__all__ = ['Command', 'Help']
 
 
 class Command(NamedTuple):
@@ -15,18 +14,13 @@ class Command(NamedTuple):
     arguments: str
 
     @classmethod
-    def from_tuple(cls, tpl: Union[Tuple[str, str], Tuple[str]]) -> Command:
-        """Creates the command from a tuple."""
+    def from_string(cls, text: str) -> Command:
+        """Creates the command from a string."""
         try:
-            command, arguments, *superfluous = tpl
+            command, arguments = text.split(maxsplit=1)
         except ValueError:
-            command, = tpl
+            command = text
             arguments = None
-            superfluous = None
-
-        if superfluous:
-            items = len(superfluous) + 2
-            raise ValueError(f'Expected one or two items. Got {items}.')
 
         return cls(command, arguments)
 
@@ -49,9 +43,9 @@ class Help(dict):
     """command: arguments key pairs."""
 
     @classmethod
-    def from_sequence(cls, sequence: Iterable) -> Help:
-        """Creates the help from the respective sequence."""
-        commands = (Command.from_tuple(item) for item in sequence)
+    def from_response(cls, text: str) -> Help:
+        """Creates the help object from a server response text."""
+        commands = map(Command.from_string, filter(None, text.split('/')))
         return cls((command.command, command) for command in commands)
 
     def to_json(self) -> dict:
