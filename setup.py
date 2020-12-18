@@ -16,7 +16,9 @@ setup(
         'mcipc.query',
         'mcipc.query.proto',
         'mcipc.rcon',
-        'mcipc.rcon.datastructures',
+        'mcipc.rcon.client',
+        'mcipc.rcon.commands',
+        'mcipc.rcon.response_types',
         'mcipc.server'
     ],
     scripts=[
