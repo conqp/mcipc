@@ -1,4 +1,4 @@
-"""Agent-related commands. for EE only."""
+"""Agent-related commands."""
 
 from mcipc.rcon.proto import Client
 from mcipc.rcon.types import Direction

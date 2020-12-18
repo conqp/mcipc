@@ -8,9 +8,9 @@ from re import fullmatch
 __all__ = [
     'CommandError',
     'InvalidArgument',
+    'LocationNotFound',
     'NotALocation',
     'RequestIdMismatch',
-    'StructureNotFound',
     'UnknownCommand',
     'WrongPassword',
     'check_error'
@@ -19,6 +19,15 @@ __all__ = [
 
 CMD_ERR = 'Unknown or incomplete command, see below for error(.*)<--\\[HERE\\]'
 ARG_ERR = 'Incorrect argument for command(.*)<--\\[HERE\\]'
+
+
+class LocationNotFound(ValueError):
+    """Indicates that the given location could not be found."""
+
+    def __init__(self, name):
+        """Sets the invalid location's name."""
+        super().__init__(name)
+        self.name = name
 
 
 class NotALocation(ValueError):
@@ -33,15 +42,6 @@ class RequestIdMismatch(Exception):
         super().__init__(sent, received)
         self.sent = sent
         self.received = received
-
-
-class StructureNotFound(ValueError):
-    """Indicates that the given structure could not be found."""
-
-    def __init__(self, structure):
-        """Sets the invalid structure's name."""
-        super().__init__(structure)
-        self.structure = structure
 
 
 class WrongPassword(Exception):

@@ -1,4 +1,4 @@
-"""Banning and kicking of players or IP addresses."""
+"""Banning, pardoning and kicking of players or IP addresses."""
 
 from mcipc.rcon.proto import Client
 from mcipc.types import IPAddressOrHostname

@@ -1,4 +1,4 @@
-"""Attribute management."""
+"""Implementation of the attribute command."""
 
 from mcipc.rcon.proto import Client
 from mcipc.rcon.proxy import CommandProxy

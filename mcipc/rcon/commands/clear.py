@@ -1,4 +1,4 @@
-"""Clear command implementation."""
+"""Implementation of the clear command."""
 
 from mcipc.rcon.proto import Client
 

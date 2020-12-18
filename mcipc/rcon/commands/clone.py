@@ -1,4 +1,4 @@
-"""Cloning blocks."""
+"""Implementation of the clone command."""
 
 from mcipc.rcon.proto import Client
 from mcipc.rcon.types import CloneMode, MaskMode, Vec3

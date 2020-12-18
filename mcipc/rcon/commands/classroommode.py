@@ -1,4 +1,4 @@
-"""Classroom mode setting."""
+"""Implementation of the classroommode command."""
 
 from mcipc.rcon.proto import Client
 

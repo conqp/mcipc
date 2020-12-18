@@ -1,4 +1,4 @@
-"""Boss bar management."""
+"""Implementation of the bossbar command."""
 
 from mcipc.rcon.proto import Client
 from mcipc.rcon.proxy import CommandProxy

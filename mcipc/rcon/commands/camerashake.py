@@ -1,4 +1,4 @@
-"""Camera shake setting."""
+"""Implementation of the camerashake command."""
 
 from mcipc.rcon.proto import Client
 from mcipc.rcon.proxy import CommandProxy

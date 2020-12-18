@@ -1,4 +1,4 @@
-"""Code connection."""
+"""Implementation of the code command."""
 
 from mcipc.rcon.proto import Client
 

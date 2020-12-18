@@ -1,4 +1,4 @@
-"""Chat-realted functions."""
+"""Chat-realted commands."""
 
 from mcipc.rcon.proto import Client
 

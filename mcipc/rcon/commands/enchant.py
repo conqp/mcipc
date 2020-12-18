@@ -1,4 +1,4 @@
-"""Implementation of th eenchant command."""
+"""Implementation of the enchant command."""
 
 from mcipc.rcon.proto import Client
 from mcipc.rcon.types import Enchantment
