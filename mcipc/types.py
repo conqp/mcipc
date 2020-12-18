@@ -1,14 +1,12 @@
-"""Stuff, common to Query and RCON."""
+"""Common data types."""
 
 from __future__ import annotations
 from ipaddress import IPv4Address, IPv6Address
 from random import randint
-from socket import socket, SocketKind   # pylint: disable=E0611
-from typing import Tuple, Union
+from typing import Union
 
 
 __all__ = [
-    'BaseClient',
     'BigEndianSignedInt32',
     'IPAddressOrHostname',
     'LittleEndianSignedInt32',
@@ -19,55 +17,18 @@ __all__ = [
 IPAddressOrHostname = Union[IPv4Address, IPv6Address, str]
 
 
-class BaseClient:
-    """A basic client."""
-
-    def __init__(self, typ: SocketKind, host: str, port: int, *,
-                 timeout: float = None):
-        """Sets host an port."""
-        self._socket = socket(type=typ)
-        self.host = host
-        self.port = port
-        self.timeout = timeout
-
-    def __enter__(self):
-        """Conntects the socket."""
-        self._socket.__enter__()
-        self.connect()
-        return self
-
-    def __exit__(self, typ, value, traceback):
-        """Delegates to the underlying socket's exit method."""
-        self.close()
-        return self._socket.__exit__(typ, value, traceback)
-
-    @property
-    def socket(self) -> Tuple[str, int]:
-        """Returns a tuple of host and port."""
-        return (self.host, self.port)
-
-    def connect(self):
-        """Conntects to the RCON server."""
-        self._socket.settimeout(self.timeout)
-        return self._socket.connect(self.socket)
-
-    def close(self):
-        """Disconnects from the RCON server."""
-        return self._socket.close()
-
-
 class SignedInt32(int):
     """A signed int32."""
 
     MIN = -2_147_483_648
     MAX = 2_147_483_647
 
-    def __new__(cls, *args, **kwargs):
-        """Creates a new integer with boundary checks."""
-        if cls.MIN <= (i := super().__new__(cls, *args, **kwargs)) <= cls.MAX:
-            return i
+    def __init__(self, *_):
+        """Checks the boundaries."""
+        super().__init__()
 
-        raise ValueError('Signed int32 out of bounds:', int(i))
+        if not self.MIN <= self <= self.MAX:
+            raise ValueError('Signed int32 out of bounds:', self)
 
     @classmethod
     def random(cls, min: int = MIN, max: int = MAX, *,  # pylint: disable=W0622
