@@ -6,7 +6,7 @@ from functools import partial
 from ipaddress import ip_address
 from typing import Iterable, Iterator
 
-from mcipc.common import BigEndianSignedInt32, IPAddressOrHostname
+from mcipc.types import BigEndianSignedInt32, IPAddressOrHostname
 
 
 __all__ = [

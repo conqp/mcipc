@@ -3,7 +3,7 @@
 from socket import SOCK_DGRAM
 from typing import Generator
 
-from mcipc.common import BaseClient
+from mcipc.client import Client as BaseClient
 from mcipc.query.proto import BasicStatsMixin
 from mcipc.query.proto import FullStatsMixin
 from mcipc.query.proto import HandshakeMixin

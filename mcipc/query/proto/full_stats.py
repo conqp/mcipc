@@ -3,11 +3,11 @@
 from __future__ import annotations
 from typing import Generator, NamedTuple, Tuple
 
-from mcipc.common import BigEndianSignedInt32, IPAddressOrHostname
 from mcipc.query.proto.common import MAGIC
 from mcipc.query.proto.common import ip_or_hostname
 from mcipc.query.proto.common import random_session_id
 from mcipc.query.proto.common import Type
+from mcipc.types import BigEndianSignedInt32, IPAddressOrHostname
 
 
 __all__ = ['Request', 'FullStats', 'FullStatsMixin']

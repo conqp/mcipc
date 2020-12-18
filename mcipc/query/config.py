@@ -1,9 +1,60 @@
 """Query server configuration."""
 
-from mcipc.config import CredentialsConfig
+from __future__ import annotations
+from configparser import ConfigParser, SectionProxy
+from pathlib import Path
+from typing import Dict, Iterator, NamedTuple, Tuple
+
+from mcipc.exceptions import InvalidConfig
 
 
 __all__ = ['CONFIG']
 
 
-CONFIG = CredentialsConfig('/etc/mcipc.d/query.conf')
+CONFIG = ConfigParser()
+CONFIG_FILE = Path('/etc/mcipc.d/query.conf')
+
+
+class Config(NamedTuple):
+    """Represents server configuration."""
+
+    host: str
+    port: int
+
+    @classmethod
+    def from_string(cls, string: str) -> Config:
+        """Reads the credentials from the given string."""
+        try:
+            host, port = string.split(':')
+        except ValueError:
+            raise InvalidConfig(f'Invalid socket: {string}.') from None
+
+        try:
+            port = int(port)
+        except ValueError:
+            raise InvalidConfig(f'Not an integer: {port}.') from None
+
+        return cls(host, port)
+
+    @classmethod
+    def from_config_section(cls, section: SectionProxy) -> Config:
+        """Creates a credentials tuple from
+        the respective config section.
+        """
+        host = section['host']
+        port = section.getint('port')
+        return cls(host, port)
+
+
+def entries(config_parser: ConfigParser) -> Iterator[Tuple[str, Config]]:
+    """Yields config entries."""
+
+    for section in config_parser.sections():
+        yield (section, Config.from_config_section(config_parser[section]))
+
+
+def servers() -> Dict[str, Config]:
+    """Returns a dictionary of servers."""
+
+    CONFIG.read(CONFIG_FILE)
+    return dict(entries(CONFIG))
