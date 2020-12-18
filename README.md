@@ -48,6 +48,9 @@ print(players)
 print(mansion)
 ```
 
+## Credits
+Many thanks to all contributers to the [Minecraft Wiki](https://minecraft.gamepedia.com/) and the [Wiki.vg](https://wiki.vg/Main_Page).
+
 ## License
 Copyright (C) 2018-2020 Richard Neumann <mail at richard dash neumann period de>
 
