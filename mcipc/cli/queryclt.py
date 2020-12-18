@@ -7,13 +7,14 @@ from socket import timeout
 from sys import exit, stdout    # pylint: disable=W0622
 from typing import Tuple
 
-from mcipc.cli.errors import CONNECTION_REFUSED
-from mcipc.cli.errors import CONNECTION_TIMEOUT
-from mcipc.cli.errors import NO_SUCH_SERVER
-from mcipc.cli.errors import USER_ABORT
-from mcipc.config import LOG_FORMAT, InvalidCredentials, Credentials
+from mcipc.constants import ERR_CONNECTION_REFUSED
+from mcipc.constants import ERR_CONNECTION_TIMEOUT
+from mcipc.constants import ERR_NO_SUCH_SERVER
+from mcipc.constants import ERR_USER_ABORT
+from mcipc.constants import LOG_FORMAT
+from mcipc.exceptions import InvalidConfig
 from mcipc.query.client import Client
-from mcipc.query.config import CONFIG
+from mcipc.query.config import Config, servers
 
 
 __all__ = ['main']
@@ -81,18 +82,13 @@ def get_credentials(server: str) -> Tuple[str, int]:
     """Get the credentials for a server from the respective server name."""
 
     try:
-        host, port, passwd = Credentials.from_string(server)
-    except InvalidCredentials:
+        return Config.from_string(server)
+    except InvalidConfig:
         try:
-            host, port, passwd = CONFIG.servers[server]
+            return servers()[server]
         except KeyError:
             LOGGER.error('No such server: %s.', server)
-            exit(NO_SUCH_SERVER)
-
-    if passwd is not None:
-        LOGGER.warning('Query protocol does not require a password.')
-
-    return (host, port)
+            exit(ERR_NO_SUCH_SERVER)
 
 
 def basic_stats(client: Client, args: Namespace):   # pylint: disable=R0911
@@ -184,10 +180,10 @@ def main():
     except KeyboardInterrupt:
         print()
         LOGGER.error('Aborted by user.')
-        exit(USER_ABORT)
+        exit(ERR_USER_ABORT)
     except ConnectionRefusedError:
         LOGGER.error('Connection refused.')
-        exit(CONNECTION_REFUSED)
+        exit(ERR_CONNECTION_REFUSED)
     except timeout:
         LOGGER.error('Connection timeout.')
-        exit(CONNECTION_TIMEOUT)
+        exit(ERR_CONNECTION_TIMEOUT)

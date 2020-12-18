@@ -8,14 +8,15 @@ from subprocess import CalledProcessError, check_call
 from sys import exit    # pylint: disable=W0622
 from typing import Tuple
 
-from mcipc.cli.errors import CONNECTION_REFUSED
-from mcipc.cli.errors import CONNECTION_TIMEOUT
-from mcipc.cli.errors import NO_SUCH_SERVER
-from mcipc.cli.errors import REQUEST_ID_MISMATCH
-from mcipc.cli.errors import USER_ABORT
-from mcipc.cli.errors import WRONG_PASSWORD
-from mcipc.config import LOG_FORMAT, InvalidCredentials, Credentials
-from mcipc.rcon.config import CONFIG
+from mcipc.constants import ERR_CONNECTION_REFUSED
+from mcipc.constants import ERR_CONNECTION_TIMEOUT
+from mcipc.constants import ERR_NO_SUCH_SERVER
+from mcipc.constants import ERR_REQUEST_ID_MISMATCH
+from mcipc.constants import ERR_USER_ABORT
+from mcipc.constants import ERR_WRONG_PASSWORD
+from mcipc.constants import LOG_FORMAT
+from mcipc.exceptions import InvalidConfig
+from mcipc.rcon.config import Config, servers
 from mcipc.rcon.datastructures import Players
 from mcipc.rcon.exceptions import RequestIdMismatch, WrongPassword
 from mcipc.rcon.playground import Client
@@ -77,13 +78,13 @@ def get_credentials(server: str) -> Tuple[str, int, str]:
     """Get the credentials for a server from the respective server name."""
 
     try:
-        host, port, passwd = Credentials.from_string(server)
-    except InvalidCredentials:
+        host, port, passwd = Config.from_string(server)
+    except InvalidConfig:
         try:
-            host, port, passwd = CONFIG.servers[server]
+            host, port, passwd = servers()[server]
         except KeyError:
             LOGGER.error('No such server: %s.', server)
-            exit(NO_SUCH_SERVER)
+            exit(ERR_NO_SUCH_SERVER)
 
     if passwd is None:
         try:
@@ -91,7 +92,7 @@ def get_credentials(server: str) -> Tuple[str, int, str]:
         except (KeyboardInterrupt, EOFError):
             print()
             LOGGER.error('Aborted by user.')
-            exit(USER_ABORT)
+            exit(ERR_USER_ABORT)
 
     return (host, port, passwd)
 
@@ -165,13 +166,13 @@ def main():
                 run_action(client, args)
     except ConnectionRefusedError:
         LOGGER.error('Connection refused.')
-        exit(CONNECTION_REFUSED)
+        exit(ERR_CONNECTION_REFUSED)
     except timeout:
         LOGGER.error('Connection timeout.')
-        exit(CONNECTION_TIMEOUT)
+        exit(ERR_CONNECTION_TIMEOUT)
     except RequestIdMismatch:
         LOGGER.error('Unexpected request ID mismatch.')
-        exit(REQUEST_ID_MISMATCH)
+        exit(ERR_REQUEST_ID_MISMATCH)
     except WrongPassword:
         LOGGER.error('Wrong password.')
-        exit(WRONG_PASSWORD)
+        exit(ERR_WRONG_PASSWORD)

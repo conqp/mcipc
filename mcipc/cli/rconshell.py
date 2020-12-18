@@ -5,10 +5,10 @@ from logging import INFO, basicConfig, getLogger
 from socket import timeout
 from sys import exit    # pylint: disable=W0622
 
-from mcipc.cli.errors import CONNECTION_REFUSED
-from mcipc.cli.errors import CONNECTION_TIMEOUT
+from mcipc.constants import ERR_CONNECTION_REFUSED
+from mcipc.constants import ERR_CONNECTION_TIMEOUT
+from mcipc.constants import LOG_FORMAT
 from mcipc.cli.rconclt import get_credentials
-from mcipc.config import LOG_FORMAT
 from mcipc.rcon.console import PS1, rconcmd
 
 
@@ -43,9 +43,9 @@ def main():
         exit_code = rconcmd(host, port, passwd, args.prompt)
     except ConnectionRefusedError:
         LOGGER.error('Connection refused.')
-        exit(CONNECTION_REFUSED)
+        exit(ERR_CONNECTION_REFUSED)
     except timeout:
         LOGGER.error('Connection timeout.')
-        exit(CONNECTION_TIMEOUT)
+        exit(ERR_CONNECTION_TIMEOUT)
 
     exit(exit_code)
