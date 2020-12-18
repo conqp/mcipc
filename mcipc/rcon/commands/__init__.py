@@ -41,8 +41,10 @@ from mcipc.rcon.commands.give import give_be, give_je
 from mcipc.rcon.commands.help import help_
 from mcipc.rcon.commands.immutableworld import immutableworld
 from mcipc.rcon.commands.item import item
+from mcipc.rcon.commands.kill import kill
 from mcipc.rcon.commands.list import list_
 from mcipc.rcon.commands.locate import locate
+from mcipc.rcon.commands.locatebiome import locatebiome
 from mcipc.rcon.commands.op import deop, op
 from mcipc.rcon.commands.seed import seed
 from mcipc.rcon.commands.spawn import clearspawnpoint
