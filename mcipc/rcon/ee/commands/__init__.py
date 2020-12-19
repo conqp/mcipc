@@ -15,3 +15,4 @@ from mcipc.rcon.ee.commands.classroommode import classroommode
 from mcipc.rcon.ee.commands.code import code
 from mcipc.rcon.ee.commands.geteduclientinfo import geteduclientinfo
 from mcipc.rcon.ee.commands.immutableworld import immutableworld
+from mcipc.rcon.ee.commands.position import position
