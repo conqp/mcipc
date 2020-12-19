@@ -4,10 +4,16 @@ from __future__ import annotations
 from enum import Enum
 from json import dumps
 from re import fullmatch
-from typing import Callable, Dict, Generator
+from typing import Callable, Dict, Generator, Iterable, Iterator
 
 
-__all__ = ['attributes', 'boolmap', 'str_until_none', 'stringify']
+__all__ = [
+    'attributes',
+    'boolmap',
+    'str_until_none',
+    'stringify',
+    'until_none'
+]
 
 
 def attributes(attribute_map: Dict[str, Callable]) -> Callable[type, type]:
@@ -42,6 +48,12 @@ def boolmap(text: str, true: str = None, false: str = None, *,
     return default
 
 
+def str_until_none(*items: object) -> Iterator[str]:
+    """Yields the items converted to str until one item is None."""
+
+    return map(stringify, until_none(items))
+
+
 def stringify(value: type) -> str:
     """Yields strings from the given object."""
 
@@ -63,11 +75,11 @@ def stringify(value: type) -> str:
     return str(value)
 
 
-def str_until_none(*items: object) -> Generator[str, None, None]:
-    """Yields the items converted to str until one item is None."""
+def until_none(items: Iterable[type]) -> Generator[type, None, None]:
+    """Yields items until one item is None."""
 
     for item in items:
         if item is None:
-            return
+            break
 
-        yield stringify(item)
+        yield item
