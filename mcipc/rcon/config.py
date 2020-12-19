@@ -35,7 +35,7 @@ class Config(NamedTuple):
             edition = Edition.JAVA
             LOGGER.warning('No edition specified, defaulting to: %s', edition)
         else:
-            edition = Edition.from_string(edition)
+            edition = Edition[edition]
 
         try:
             host, port = string.split(':')
