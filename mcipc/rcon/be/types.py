@@ -7,8 +7,11 @@ __all__ = [
     'Biome',
     'Enchantment',
     'EntityEquipmentSlot',
+    'FillType',
     'ReplaceMode',
-    'Structure'
+    'RideRules',
+    'Structure',
+    'TeleportRules'
 ]
 
 
@@ -161,11 +164,26 @@ class EntityEquipmentSlot(Enum):
         return self.value.format(slot_number)   # pylint: disable=E1101
 
 
+class FillType(Enum):
+    """Available fill types."""
+
+    IF_GROUP_FITS = 'if_group_fits'
+    UNTIL_FULL = 'until_full'
+
+
 class ReplaceMode(Enum):
     """Available replace modes."""
 
     DESTROY = 'destroy'
     KEEP = 'keep'
+
+
+class RideRules(Enum):
+    """Available ride rules."""
+
+    NO_RIDE_CHANGE = 'no_ride_change'
+    REASSIGN_RIDES = 'reassign_rides'
+    SKIP_RIDERS = 'skip_riders'
 
 
 class Structure(Enum):
@@ -188,3 +206,10 @@ class Structure(Enum):
     JUNGLE_PYRAMID = 'temple'
     SWAMP_HUT = 'temple'
     VILLAGE = 'village'
+
+
+class TeleportRules(Enum):
+    """Available teleportation rules."""
+
+    TELEPORT_RIDE = 'teleport_ride'
+    TELEPORT_RIDER = 'teleport_rider'
