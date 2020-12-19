@@ -17,6 +17,7 @@ from mcipc.rcon.be.commands.help import help    # pylint: disable=W0622
 from mcipc.rcon.be.commands.list import list    # pylint: disable=W0622
 from mcipc.rcon.be.commands.locate import locate
 from mcipc.rcon.be.commands.particle import particle
+from mcipc.rcon.be.commands.playanimation import playanimation
 from mcipc.rcon.be.commands.setworldspawn import setworldspawn
 from mcipc.rcon.be.commands.spawnpoint import spawnpoint
 from mcipc.rcon.be.commands.xp import xp
