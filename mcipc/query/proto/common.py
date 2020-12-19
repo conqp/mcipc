@@ -3,10 +3,9 @@
 from __future__ import annotations
 from enum import Enum
 from functools import partial
-from ipaddress import ip_address
-from typing import Iterable, Iterator
-
-from mcipc.types import BigEndianSignedInt32, IPAddressOrHostname
+from ipaddress import IPv4Address, IPv6Address, ip_address
+from random import randint
+from typing import Iterable, Iterator, Union
 
 
 __all__ = [
@@ -21,6 +20,9 @@ __all__ = [
 
 MAGIC = b'\xfe\xfd'
 SESSION_ID_MASK = 0x0F0F0F0F
+
+
+IPAddressOrHostname = Union[IPv4Address, IPv6Address, str]
 
 
 def decodeall(blocks: Iterable[bytes], encoding='latin-1') -> Iterator[str]:
@@ -43,7 +45,31 @@ def random_session_id() -> BigEndianSignedInt32:
     See: https://wiki.vg/Query#Generating_a_Session_ID
     """
 
-    return BigEndianSignedInt32.random(mask=SESSION_ID_MASK)
+    random = randint(BigEndianSignedInt32.MIN, BigEndianSignedInt32.MAX)
+    return BigEndianSignedInt32(random & SESSION_ID_MASK)
+
+
+class BigEndianSignedInt32(int):
+    """A big-endian, signed int32."""
+
+    MIN = -2_147_483_648
+    MAX = 2_147_483_647
+
+    def __init__(self, *_):
+        """Checks the boundaries."""
+        super().__init__()
+
+        if not self.MIN <= self <= self.MAX:
+            raise ValueError('Signed int32 out of bounds:', self)
+
+    def __bytes__(self):
+        """Returns the int as bytes."""
+        return self.to_bytes(4, 'big', signed=True)
+
+    @classmethod
+    def from_bytes(cls, bytes_: bytes) -> BigEndianSignedInt32:
+        """Reutns the int from the given bytes."""
+        return super().from_bytes(bytes_, 'big', signed=True)
 
 
 class Type(Enum):

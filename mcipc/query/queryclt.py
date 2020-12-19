@@ -7,12 +7,7 @@ from socket import timeout
 from sys import exit, stdout    # pylint: disable=W0622
 from typing import Tuple
 
-from mcipc.constants import ERR_CONNECTION_REFUSED
-from mcipc.constants import ERR_CONNECTION_TIMEOUT
-from mcipc.constants import ERR_NO_SUCH_SERVER
-from mcipc.constants import ERR_USER_ABORT
-from mcipc.constants import LOG_FORMAT
-from mcipc.exceptions import InvalidConfig
+from mcipc.query.exceptions import InvalidConfig
 from mcipc.query.client import Client
 from mcipc.query.config import Config, servers
 
@@ -22,6 +17,7 @@ __all__ = ['main']
 
 DEFAULT_INDENT = 2 if stdout.isatty() else None
 LOGGER = getLogger('queryclt')
+LOG_FORMAT = '[%(levelname)s] %(name)s: %(message)s'
 
 
 def get_args() -> Namespace:
@@ -88,7 +84,7 @@ def get_credentials(server: str) -> Tuple[str, int]:
             return servers()[server]
         except KeyError:
             LOGGER.error('No such server: %s.', server)
-            exit(ERR_NO_SUCH_SERVER)
+            exit(2)
 
 
 def basic_stats(client: Client, args: Namespace):   # pylint: disable=R0911
@@ -180,10 +176,10 @@ def main():
     except KeyboardInterrupt:
         print()
         LOGGER.error('Aborted by user.')
-        exit(ERR_USER_ABORT)
+        exit(1)
     except ConnectionRefusedError:
         LOGGER.error('Connection refused.')
-        exit(ERR_CONNECTION_REFUSED)
+        exit(3)
     except timeout:
         LOGGER.error('Connection timeout.')
-        exit(ERR_CONNECTION_TIMEOUT)
+        exit(4)

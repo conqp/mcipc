@@ -5,14 +5,14 @@ from configparser import ConfigParser, SectionProxy
 from pathlib import Path
 from typing import Dict, Iterator, NamedTuple, Tuple
 
-from mcipc.exceptions import InvalidConfig
+from mcipc.query.exceptions import InvalidConfig
 
 
 __all__ = ['CONFIG']
 
 
 CONFIG = ConfigParser()
-CONFIG_FILE = Path('/etc/mcipc.d/query.conf')
+CONFIG_FILE = Path('/etc/query.conf')
 
 
 class Config(NamedTuple):

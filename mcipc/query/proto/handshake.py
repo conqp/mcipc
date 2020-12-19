@@ -5,8 +5,8 @@ from typing import NamedTuple
 
 from mcipc.query.proto.common import MAGIC
 from mcipc.query.proto.common import random_session_id
+from mcipc.query.proto.common import BigEndianSignedInt32
 from mcipc.query.proto.common import Type
-from mcipc.types import BigEndianSignedInt32
 
 
 __all__ = ['Request', 'Response', 'HandshakeMixin']

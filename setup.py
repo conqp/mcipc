@@ -12,7 +12,6 @@ setup(
     python_requires='>=3.8',
     packages=[
         'mcipc',
-        'mcipc.cli',
         'mcipc.query',
         'mcipc.query.proto',
         'mcipc.rcon',
@@ -21,12 +20,8 @@ setup(
         'mcipc.rcon.response_types',
         'mcipc.server'
     ],
-    scripts=[
-        'files/mcstubsrv',
-        'files/queryclt',
-        'files/rconclt',
-        'files/rconshell'
-    ],
+    scripts=['files/mcstubsrv', 'files/queryclt'],
+    install_requires=['rcon'],
     url='https://github.com/conqp/mcipc',
     license='GPLv3',
     description='A Minecraft server inter-process communication library.',

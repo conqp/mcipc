@@ -1,7 +1,6 @@
 """RCON exceptions."""
 
 from __future__ import annotations
-from contextlib import suppress
 from re import fullmatch
 
 
@@ -10,10 +9,7 @@ __all__ = [
     'InvalidArgument',
     'LocationNotFound',
     'NotALocation',
-    'RequestIdMismatch',
-    'UnknownCommand',
-    'WrongPassword',
-    'check_error'
+    'UnknownCommand'
 ]
 
 
@@ -32,20 +28,6 @@ class LocationNotFound(ValueError):
 
 class NotALocation(ValueError):
     """Indicates that the given text is not a valid location value."""
-
-
-class RequestIdMismatch(Exception):
-    """Indicates that the sent and received request IDs do not match."""
-
-    def __init__(self, sent: int, received: int):
-        """Sets the sent and received request IDs."""
-        super().__init__(sent, received)
-        self.sent = sent
-        self.received = received
-
-
-class WrongPassword(Exception):
-    """Indicates a wrong RCON password."""
 
 
 class NotApplicable(Exception):
@@ -80,13 +62,3 @@ class InvalidArgument(CommandError):
     """Represents an invalid argument error."""
 
     REGEX = ARG_ERR
-
-
-def check_error(string: str):
-    """Raises an appropriate exceptions if
-    the string is considered erroneous.
-    """
-
-    for exception in (UnknownCommand, InvalidArgument):
-        with suppress(NotApplicable):
-            raise exception.from_string(string)
