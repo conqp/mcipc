@@ -24,6 +24,7 @@ __all__ = [
     'Direction',
     'FillMode',
     'GameMode',
+    'Hand',
     'IntRange',
     'JSON',
     'MaskMode',
@@ -186,6 +187,13 @@ class GameMode(Enum):
     CREATIVE = 'creative'
     SPECTATOR = 'spectator'
     SURVIVAL = 'survival'
+
+
+class Hand(Enum):
+    """Available hands."""
+
+    MAINHAND = 'mainhand'
+    OFFHAND = 'offhand'
 
 
 class IntRange:
