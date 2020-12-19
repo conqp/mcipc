@@ -35,12 +35,12 @@ def main():
     basicConfig(level=INFO, format=LOG_FORMAT)
 
     if server := args.server:
-        host, port, passwd = get_credentials(server)
+        edition, host, port, passwd = get_credentials(server)
     else:
-        host = port = passwd = None
+        edition, host = port = passwd = None
 
     try:
-        exit_code = rconcmd(host, port, passwd, args.prompt)
+        exit_code = rconcmd(edition, host, port, passwd, args.prompt)
     except ConnectionRefusedError:
         LOGGER.error('Connection refused.')
         exit(ERR_CONNECTION_REFUSED)
