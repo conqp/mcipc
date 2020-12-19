@@ -7,4 +7,5 @@ from mcipc.rcon.commands.gamerule import gamerule
 from mcipc.rcon.commands.kick import kick
 from mcipc.rcon.commands.kill import kill
 from mcipc.rcon.commands.op import deop, op
+from mcipc.rcon.commands.reload import reload
 from mcipc.rcon.commands.teleport import teleport
