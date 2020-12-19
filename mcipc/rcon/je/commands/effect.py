@@ -4,10 +4,10 @@ from mcipc.rcon.proto import Client
 from mcipc.rcon.proxy import CommandProxy
 
 
-__all__ = ['effect_be', 'effect_je']
+__all__ = ['effect']
 
 
-class EffectJEProxy(CommandProxy):
+class EffectProxy(CommandProxy):
     """Proxy for effect commands on the Java Edition."""
 
     def clear(self, targets: str = None, effect: str = None) -> str:
@@ -22,20 +22,7 @@ class EffectJEProxy(CommandProxy):
                          hide_particles)
 
 
-def effect_be(self: Client, player: str,  # pylint: disable=R0913
-              effect_or_clear: str, seconds: int = None, amplifier: int = None,
-              hide_particles: bool = None) -> str:
+def effect(self: Client) -> EffectJEProxy:
     """Returns a proxy for available sub-commands."""
 
-    command = ['effect', player, (mode := str(effect_or_clear))]
-
-    if mode != 'clear':
-        command += [seconds, amplifier, hide_particles]
-
-    return self.run(*command)
-
-
-def effect_je(self: Client) -> EffectJEProxy:
-    """Returns a proxy for available sub-commands."""
-
-    return EffectJEProxy(self, 'effect')
+    return EffectProxy(self, 'effect')

@@ -1,11 +1,11 @@
-"""Implementation of the experience command."""
+"""Implementation of the experience and xp commands."""
 
 from mcipc.rcon.proto import Client
 from mcipc.rcon.proxy import CommandProxy
 from mcipc.rcon.types import XPUnit
 
 
-__all__ = ['experience', 'xp_be', 'xp_je']
+__all__ = ['experience', 'xp']
 
 
 class ExperienceProxy(CommandProxy):
@@ -30,13 +30,7 @@ def experience(self: Client) -> ExperienceProxy:
     return ExperienceProxy(self, 'experience')
 
 
-def xp_be(self: Client, amount: int, player: str) -> str:
-    """Gives the player the specified amount of XP."""
-
-    return self.run('xp', amount, player)
-
-
-def xp_je(self: Client) -> ExperienceProxy:
+def xp(self: Client) -> ExperienceProxy:
     """Delegates to a command proxy."""
 
     return ExperienceProxy(self, 'xp')

@@ -25,12 +25,6 @@ def banlist(self: Client, *ips_or_players: IPAddressOrHostname) -> str:
     return self.run('banlist', *ips_or_players)
 
 
-def kick(self: Client, player: str, *reasons: str) -> str:
-    """Kicks the respective player."""
-
-    return self.run('kick', player, *reasons)
-
-
 def pardon(self: Client, target: str) -> str:
     """Removes entries from the banlist."""
 

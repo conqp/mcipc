@@ -2,24 +2,29 @@
 
 from __future__ import annotations
 from re import Match, fullmatch
-from typing import NamedTuple, Tuple, Union
+from typing import Generator, NamedTuple, Tuple
+from uuid import UUID
 
 
 __all__ = ['Players']
 
 
-REGEX_VANILLA = '.+ (\\d+) .+ (\\d+) .+: (.*)'
+REGEX_JAVA = '.+ (\\d+) .+ (\\d+) .+: (.*)'
+REGEX_JAVA_NAME = '(\\S+)(?: \\((\\S+)\\))?'
 REGEX_PAPER = '.+ §c(\\d+)§6 .+ §c(\\d+)§6 .+\\.([\\s\\S]*)'
-REGEX_PAPER_NAME = '.+: (?:§4)?(\\w+)(?:§r)?§f'
+REGEX_PAPER_NAME = '(.+): (?:§4)?(\\w+)(?:§r)?§f'
 
 
-def extract_paper_name(name: str) -> Union[str, None]:
-    """Extracts names from Paper server output."""
+class Player(NamedTuple):
+    """Player names with optional UUIDs."""
 
-    if (match := fullmatch(REGEX_PAPER_NAME, name.strip())) is None:
-        return None
+    name: str
+    uuid: UUID = None
+    state: str = None
 
-    return match.group(1)
+    def to_json(self) -> dict:
+        """Returns a JSON-ish dict."""
+        return {'name': str(self), 'uuid': self.uuid.hex, 'state': self.state}
 
 
 class Players(NamedTuple):
@@ -27,35 +32,17 @@ class Players(NamedTuple):
 
     online: int
     max: int
-    names: Tuple[str]
+    players: Tuple[Player]
 
-    @classmethod
-    def from_vanilla(cls, match: Match) -> Players:
-        """Creates the players information from a vanilla server match."""
-        online, max_, names = match.groups()
-        names = filter(None, map(lambda name: name.strip(), names.split(', ')))
-        return cls(int(online), int(max_), tuple(names))
-
-    @classmethod
-    def from_paper(cls, match: Match) -> Players:
-        """Creates the players information from a Paper server match.
-        https://github.com/conqp/mcipc/issues/13#issuecomment-726145034
-        """
-        online, max_, names = match.groups()
-        names = filter(None, map(extract_paper_name, names.split('\n')))
-        return cls(int(online), int(max_), tuple(names))
-
-    @classmethod
-    def from_response(cls, text: str) -> Players:
-        """Creates the players information from a server response."""
-        if (match := fullmatch(REGEX_VANILLA, text)) is not None:
-            return cls.from_vanilla(match)
-
-        if (match := fullmatch(REGEX_PAPER, text)) is not None:
-            return cls.from_paper(match)
-
-        raise ValueError('Unexpected players response:', text)
+    @property
+    def names(self) -> Tuple[str]:  # XXX: For backward compatibility.
+        """Returns a tuple of the players' names."""
+        return tuple(player.name for player in self.players)
 
     def to_json(self) -> dict:
         """Returns a JSON-ish dict."""
-        return {'online': self.online, 'max': self.max, 'names': self.names}
+        return {
+            'online': self.online,
+            'max': self.max,
+            'players': [player.to_json() for player in self.players]
+        }

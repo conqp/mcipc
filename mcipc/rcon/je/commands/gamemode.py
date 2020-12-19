@@ -1,16 +1,10 @@
-"""Game mode related commands."""
+"""Implementation of the gamemode command."""
 
 from mcipc.rcon.proto import Client
 from mcipc.rcon.types import GameMode
 
 
-__all__ = ['defaultgamemode', 'gamemode']
-
-
-def defaultgamemode(self: Client, mode: GameMode) -> str:
-    """Sets the default game mode."""
-
-    return self.run('defaultgamemode', mode)
+__all__ = ['gamemode']
 
 
 def gamemode(self: Client, mode: GameMode, target: str = None) -> str:
