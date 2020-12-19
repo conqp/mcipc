@@ -3,7 +3,13 @@
 from enum import Enum
 
 
-__all__ = ['Biome', 'Enchantment', 'Structure']
+__all__ = [
+    'Biome',
+    'Enchantment',
+    'EntityEquipmentSlot',
+    'ReplaceMode',
+    'Structure'
+]
 
 
 class Biome(Enum):
@@ -128,6 +134,38 @@ class Enchantment(Enum):
     SWEEPING = 'sweeping'
     THORNS = 'thorns'
     UNBREAKING = 'unbreaking'
+
+
+class EntityEquipmentSlot(Enum):
+    """Available entity equipment slots."""
+
+    ARMOR_CHEST = 'armor.chest'
+    ARMOR_FEET = 'armor.feet'
+    ARMOR_HEAD = 'armor.head'
+    ARMOR_LEGS = 'armor.legs'
+    CONTAINER_SLOT = 'container.{}'
+    ENDERCHEST_SLOT = 'enderchest.{}'
+    HORSE_ARMOR = 'horse.armor'
+    HORSE_CHEST = 'horse.chest'
+    HORSE_SADDLE = 'horse.saddle'
+    HORSE_SLOT = 'horse.{}'
+    HOTBAR_SLOT = 'hotbar.{}'
+    INVENTORY_SLOT = 'inventory.{}'
+    VILLAGER_SLOT = 'villager.{}'
+    WEAPON = 'weapon'
+    WEAPON_MAINHAND = 'weapon.mainhand'
+    WEAPON_OFFHAND = 'weapon.offhand'
+
+    def __call__(self, slot_number: int) -> str:
+        """Formats the slot with the given slot number."""
+        return self.value.format(slot_number)   # pylint: disable=E1101
+
+
+class ReplaceMode(Enum):
+    """Available replace modes."""
+
+    DESTROY = 'destroy'
+    KEEP = 'keep'
 
 
 class Structure(Enum):
