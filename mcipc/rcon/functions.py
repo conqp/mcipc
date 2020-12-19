@@ -4,32 +4,15 @@ from __future__ import annotations
 from enum import Enum
 from json import dumps
 from re import fullmatch
-from typing import Callable, Dict, Generator, Iterable, Iterator
+from typing import Generator, Iterable, Iterator
 
 
 __all__ = [
-    'attributes',
     'boolmap',
     'str_until_none',
     'stringify',
     'until_none'
 ]
-
-
-def attributes(attribute_map: Dict[str, Callable]) -> Callable[type, type]:
-    """Decorator factory."""
-
-    def decorator(cls: type) -> type:
-        """Decorates the respective class."""
-        for key, value in attribute_map.items():
-            if hasattr(cls, key):
-                raise ValueError(f'{cls} already has an attribute "{key}".')
-
-            setattr(cls, key, value)
-
-        return cls
-
-    return decorator
 
 
 def boolmap(text: str, true: str = None, false: str = None, *,
