@@ -23,9 +23,9 @@ __all__ = [
 ]
 
 
-Client = JavaClient     # For backwards compatibility.
 CLIENTS = {
     Edition.BEDROCK: BedrockClient,
     Edition.EDUCATION: EducationClient,
     Edition.JAVA: JavaClient
 }
+Client = JavaClient     # For backwards compatibility.
