@@ -12,5 +12,5 @@ def playanimation(self: Client, entity: str, animation: str,
                   stop_expression: str = None, controller: str = None) -> str:
     """Makes one or more entities play a one-off animation."""
 
-    return self.run(entity, animation, next_state, blend_out_time,
-                    stop_expression, controller)
+    return self.run('playanimation', entity, animation, next_state,
+                    blend_out_time, stop_expression, controller)
