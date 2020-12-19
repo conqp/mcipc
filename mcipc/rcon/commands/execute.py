@@ -139,6 +139,10 @@ class StoreProxy(CommandProxy):
 class ExecuteProxy(CommandProxy):
     """A proxy for execute sub-commands."""
 
+    def __call__(self) -> str:
+        """Runs the command in the current execution context."""
+        return self._run()
+
     def align(self, axes: str) -> ExecuteProxy:
         """Aligns with the given axes and returns a sub-proxy."""
         return self._proxy(type(self), 'align', axes)
@@ -216,7 +220,7 @@ class ExecuteProxy(CommandProxy):
         """Runs the a command with arguments
         in the current execution context.
         """
-        return self._run(*arguments)
+        return self._run('run', *arguments)
 
 
 def execute(self: Client) -> ExecuteProxy:
