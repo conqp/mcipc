@@ -10,6 +10,7 @@ __all__ = [
     'FillType',
     'ReplaceMode',
     'RideRules',
+    'SaveCommand',
     'Structure',
     'TeleportRules'
 ]
@@ -184,6 +185,14 @@ class RideRules(Enum):
     NO_RIDE_CHANGE = 'no_ride_change'
     REASSIGN_RIDES = 'reassign_rides'
     SKIP_RIDERS = 'skip_riders'
+
+
+class SaveCommand(Enum):
+    """Available save commands."""
+
+    HOLD = 'hold'
+    QUERY = 'query'
+    RESUME = 'resume'
 
 
 class Structure(Enum):

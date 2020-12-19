@@ -21,6 +21,7 @@ from mcipc.rcon.be.commands.playanimation import playanimation
 from mcipc.rcon.be.commands.playsound import playsound
 from mcipc.rcon.be.commands.replaceitem import replaceitem
 from mcipc.rcon.be.commands.ride import ride
+from mcipc.rcon.be.commands.save import save
 from mcipc.rcon.be.commands.setworldspawn import setworldspawn
 from mcipc.rcon.be.commands.spawnpoint import spawnpoint
 from mcipc.rcon.be.commands.xp import xp
