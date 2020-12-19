@@ -1,6 +1,6 @@
 """Implementation of the fill command."""
 
-from mcipc.rcon.proto import Client
+from mcipc.rcon.client import Client
 from mcipc.rcon.types import FillMode, Vec3
 
 

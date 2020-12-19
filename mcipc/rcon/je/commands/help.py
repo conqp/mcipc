@@ -1,7 +1,7 @@
 """Implementation of the help command."""
 
+from mcipc.rcon.client import Client
 from mcipc.rcon.je.parsers.help import parse
-from mcipc.rcon.proto import Client
 from mcipc.rcon.response_types import Help
 
 

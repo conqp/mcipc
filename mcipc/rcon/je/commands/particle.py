@@ -1,7 +1,7 @@
 """Implementation of the particle command."""
 
+from mcipc.rcon.client import Client
 from mcipc.rcon.je.types import ParticleMode
-from mcipc.rcon.proto import Client
 from mcipc.rcon.types import Vec3
 
 

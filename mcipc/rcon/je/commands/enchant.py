@@ -1,7 +1,7 @@
 """Implementation of the enchant command."""
 
+from mcipc.rcon.client import Client
 from mcipc.rcon.je.types import Enchantment
-from mcipc.rcon.proto import Client
 
 
 __all__ = ['enchant']

@@ -1,7 +1,7 @@
 """Implementation of the ride command."""
 
 from mcipc.rcon.be.types import FillType, RideRules, TeleportRules
-from mcipc.rcon.proto import Client
+from mcipc.rcon.client import Client
 from mcipc.rcon.proxy import CommandProxy
 
 

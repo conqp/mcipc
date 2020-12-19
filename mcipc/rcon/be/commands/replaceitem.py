@@ -1,7 +1,7 @@
 """Implementation of the replaceitem command."""
 
 from mcipc.rcon.be.types import EntityEquipmentSlot, ReplaceMode
-from mcipc.rcon.proto import Client
+from mcipc.rcon.client import Client
 from mcipc.rcon.proxy import CommandProxy
 from mcipc.rcon.types import Vec3
 

@@ -1,7 +1,7 @@
 """Implementation of the seed command."""
 
+from mcipc.rcon.client import Client
 from mcipc.rcon.je.parsers.seed import parse
-from mcipc.rcon.proto import Client
 
 
 __all__ = ['seed']

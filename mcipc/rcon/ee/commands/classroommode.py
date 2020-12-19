@@ -1,6 +1,6 @@
 """Implementation of the classroommode command."""
 
-from mcipc.rcon.proto import Client
+from mcipc.rcon.client import Client
 
 
 __all__ = ['classroommode']

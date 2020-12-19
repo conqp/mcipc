@@ -1,7 +1,7 @@
 """Implementation of the difficulty command."""
 
+from mcipc.rcon.client import Client
 from mcipc.rcon.functions import boolmap
-from mcipc.rcon.proto import Client
 from mcipc.rcon.types import Difficulty
 
 

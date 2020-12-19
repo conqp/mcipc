@@ -1,6 +1,6 @@
 """Implementation of the datapack command."""
 
-from mcipc.rcon.proto import Client
+from mcipc.rcon.client import Client
 from mcipc.rcon.proxy import CommandProxy
 from mcipc.rcon.types import DatapackMode, DatapackState
 

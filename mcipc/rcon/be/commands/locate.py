@@ -1,7 +1,7 @@
 """Implementation of the locate command."""
 
 from mcipc.rcon.be.types import Structure
-from mcipc.rcon.proto import Client
+from mcipc.rcon.client import Client
 
 
 __all__ = ['locate']
