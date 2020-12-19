@@ -15,11 +15,13 @@ from mcipc.constants import ERR_REQUEST_ID_MISMATCH
 from mcipc.constants import ERR_USER_ABORT
 from mcipc.constants import ERR_WRONG_PASSWORD
 from mcipc.constants import LOG_FORMAT
+from mcipc.enumerations import Edition
 from mcipc.exceptions import InvalidConfig
+from mcipc.rcon import CLIENTS
 from mcipc.rcon.config import Config, servers
-from mcipc.rcon.datastructures import Players
 from mcipc.rcon.exceptions import RequestIdMismatch, WrongPassword
-from mcipc.rcon.playground import Client
+from mcipc.rcon.proto import Client
+from mcipc.rcon.response_types import Players
 
 
 __all__ = ['get_credentials', 'main']
@@ -74,14 +76,14 @@ def get_args() -> Namespace:
     return parser.parse_args()
 
 
-def get_credentials(server: str) -> Tuple[str, int, str]:
+def get_credentials(server: str) -> Tuple[Edition, str, int, str]:
     """Get the credentials for a server from the respective server name."""
 
     try:
-        host, port, passwd = Config.from_string(server)
+        edition, host, port, passwd = Config.from_string(server)
     except InvalidConfig:
         try:
-            host, port, passwd = servers()[server]
+            edition, host, port, passwd = servers()[server]
         except KeyError:
             LOGGER.error('No such server: %s.', server)
             exit(ERR_NO_SUCH_SERVER)
@@ -94,7 +96,7 @@ def get_credentials(server: str) -> Tuple[str, int, str]:
             LOGGER.error('Aborted by user.')
             exit(ERR_USER_ABORT)
 
-    return (host, port, passwd)
+    return (edition, host, port, passwd)
 
 
 def idle_shutdown(players: Players, args: Namespace) -> bool:
@@ -153,10 +155,10 @@ def main():
     args = get_args()
     log_level = DEBUG if args.debug else INFO
     basicConfig(level=log_level, format=LOG_FORMAT)
-    host, port, passwd = get_credentials(args.server)
+    edition, host, port, passwd = get_credentials(args.server)
 
     try:
-        with Client(host, port, timeout=args.timeout) as client:
+        with CLIENTS[edition](host, port, timeout=args.timeout) as client:
             client.login(passwd)
 
             if args.action == 'idle-shutdown':
