@@ -3,7 +3,7 @@
 from enum import Enum
 
 
-__all__ = ['Biome', 'Enchantment', 'Structure']
+__all__ = ['Biome', 'Enchantment', 'ParticleMode', 'Structure']
 
 
 class Biome(Enum):
@@ -133,6 +133,13 @@ class Enchantment(Enum):
     SWEEPING = 'sweeping'
     THORNS = 'thorns'
     UNBREAKING = 'unbreaking'
+
+
+class ParticleMode(Enum):
+    """Available particle modes."""
+
+    FORCE = 'force'
+    NORMAL = 'normal'
 
 
 class Structure(Enum):
