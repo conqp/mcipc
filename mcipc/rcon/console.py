@@ -3,8 +3,8 @@
 from getpass import getpass
 from typing import NamedTuple, Union
 
-from mcipc.common import Edition
-from mcipc.rcon.client import CLIENTS
+from mcipc.enumerations import Edition
+from mcipc.rcon.clients import CLIENTS
 from mcipc.rcon.exceptions import RequestIdMismatch, WrongPassword
 from mcipc.rcon.proto import Client
 
@@ -82,7 +82,8 @@ def get_config(edition: str, host: str, port: int, passwd: str,
 
     while any(item is None for item in (edition, host, port, passwd, prompt)):
         if edition is None:
-            edition = read_or_none('Edition: ', typ=Edition)
+            edition = read_or_none(
+                'Edition: ', typ=lambda edition: Edition[edition])
 
         if host is None:
             host = read_or_none('Host: ')
