@@ -9,12 +9,6 @@ from uuid import UUID
 __all__ = ['Players']
 
 
-REGEX_JAVA = '.+ (\\d+) .+ (\\d+) .+: (.*)'
-REGEX_JAVA_NAME = '(\\S+)(?: \\((\\S+)\\))?'
-REGEX_PAPER = '.+ §c(\\d+)§6 .+ §c(\\d+)§6 .+\\.([\\s\\S]*)'
-REGEX_PAPER_NAME = '(.+): (?:§4)?(\\w+)(?:§r)?§f'
-
-
 class Player(NamedTuple):
     """Player names with optional UUIDs."""
 

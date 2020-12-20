@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from mcipc.rcon.functions import until_none
-from mcipc.rcon.proto import Client
+from mcipc.rcon.client import Client
 
 
 __all__ = ['CommandProxy']

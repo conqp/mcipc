@@ -1,6 +1,6 @@
 """Client implementation for Java Edition."""
 
-from mcipc.rcon.proto import Client
+from mcipc.rcon.client import Client
 
 
 __all__ = ['Client']

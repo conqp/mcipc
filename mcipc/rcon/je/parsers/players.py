@@ -1,6 +1,18 @@
 """Parsing of players."""
 
+from re import Match, fullmatch
+from typing import Generator
+
 from mcipc.rcon.response_types import Player, Players
+
+
+__all__ = ['parse']
+
+
+REGEX_JAVA = '.+ (\\d+) .+ (\\d+) .+: (.*)'
+REGEX_JAVA_NAME = '(\\S+)(?: \\((\\S+)\\))?'
+REGEX_PAPER = '.+ §c(\\d+)§6 .+ §c(\\d+)§6 .+\\.([\\s\\S]*)'
+REGEX_PAPER_NAME = '§6(.+)§r: (?:§4)?(\\w+)(?:§r)?§f'
 
 
 def player_from_java_name(name: str) -> Player:
