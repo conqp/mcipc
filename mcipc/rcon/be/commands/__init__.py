@@ -25,6 +25,7 @@ from mcipc.rcon.be.commands.save import save
 from mcipc.rcon.be.commands.schedule import schedule
 from mcipc.rcon.be.commands.scoreboard import scoreboard
 from mcipc.rcon.be.commands.setblock import setblock
+from mcipc.rcon.be.commands.setmaxplayers import setmaxplayers
 from mcipc.rcon.be.commands.setworldspawn import setworldspawn
 from mcipc.rcon.be.commands.spawnpoint import spawnpoint
 from mcipc.rcon.be.commands.xp import xp
