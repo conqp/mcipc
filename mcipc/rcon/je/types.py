@@ -1,9 +1,21 @@
 """Types for client -> Java Edition server communication."""
 
+from __future__ import annotations
 from enum import Enum
+from typing import Union
+
+from mcipc.rcon.functions import stringify
 
 
-__all__ = ['Biome', 'Enchantment', 'ParticleMode', 'Structure']
+__all__ = [
+    'Biome',
+    'Enchantment',
+    'ParticleMode',
+    'ScheduleMode',
+    'Structure',
+    'Time',
+    'TimeUnit'
+]
 
 
 class Biome(Enum):
@@ -142,6 +154,13 @@ class ParticleMode(Enum):
     NORMAL = 'normal'
 
 
+class ScheduleMode(Enum):
+    """Available schedule modes."""
+
+    APPEND = 'append'
+    REPLACE = 'replace'
+
+
 class Structure(Enum):
     """Available structures in the Java Edition."""
 
@@ -163,3 +182,30 @@ class Structure(Enum):
     JUNGLE_PYRAMID = 'jungle_pyramid'
     SWAMP_HUT = 'swamp_hut'
     VILLAGE = 'village'
+
+
+class Time(float):
+    """Float value with time unit."""
+
+    def __new__(cls, value: Union[str, int, float], unit: TimeUnit = None):
+        """Creates a new time."""
+        instance = super().__new__(cls, value)
+        instance.unit = unit
+        return instance
+
+    def __repr__(self):
+        """Returns a Minecraft server-compliant string."""
+        string = super().__repr__()
+
+        if (unit := self.unit) is not None:     # pylint: disable=E1101
+            return string + stringify(unit)
+
+        return string
+
+
+class TimeUnit(Enum):
+    """Available time units."""
+
+    DAY = 'd'
+    SECOND = 's'
+    TICK = 't'
