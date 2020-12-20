@@ -33,4 +33,5 @@ from mcipc.rcon.be.commands.stopsound import stopsound
 from mcipc.rcon.be.commands.structure import structure
 from mcipc.rcon.be.commands.summon import summon
 from mcipc.rcon.be.commands.teleport import teleport
+from mcipc.rcon.be.commands.testfor import testfor
 from mcipc.rcon.be.commands.xp import xp
