@@ -29,6 +29,8 @@ def teleport(self: Client, *, destination: str = None, location: Vec3 = None,
                 command += ['facing', 'entity', facing_entity, facing_anchor]
         elif destination is not None:
             command.append(destination)
+        else:
+            raise TypeError('Must specify either destination or location.')
     elif destination is not None:
         command.append(destination)
     elif location is not None:
