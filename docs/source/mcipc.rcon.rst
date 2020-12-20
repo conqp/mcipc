@@ -7,7 +7,11 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   mcipc.rcon.datastructures
+   mcipc.rcon.be
+   mcipc.rcon.commands
+   mcipc.rcon.ee
+   mcipc.rcon.je
+   mcipc.rcon.response_types
 
 Submodules
 ----------
@@ -19,45 +23,35 @@ mcipc.rcon.client module
    :members:
    :undoc-members:
    :show-inheritance:
-   :inherited-members:
 
-mcipc.rcon.config module
-------------------------
+mcipc.rcon.editions module
+--------------------------
 
-.. automodule:: mcipc.rcon.config
+.. automodule:: mcipc.rcon.editions
    :members:
    :undoc-members:
    :show-inheritance:
 
-mcipc.rcon.console module
--------------------------
+mcipc.rcon.functions module
+---------------------------
 
-.. automodule:: mcipc.rcon.console
+.. automodule:: mcipc.rcon.functions
    :members:
    :undoc-members:
    :show-inheritance:
 
-mcipc.rcon.exceptions module
-----------------------------
-
-.. automodule:: mcipc.rcon.exceptions
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-mcipc.rcon.playground module
-----------------------------
-
-.. automodule:: mcipc.rcon.playground
-   :members:
-   :undoc-members:
-   :show-inheritance:
-   :inherited-members:
-
-mcipc.rcon.proto module
+mcipc.rcon.proxy module
 -----------------------
 
-.. automodule:: mcipc.rcon.proto
+.. automodule:: mcipc.rcon.proxy
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+mcipc.rcon.types module
+-----------------------
+
+.. automodule:: mcipc.rcon.types
    :members:
    :undoc-members:
    :show-inheritance:

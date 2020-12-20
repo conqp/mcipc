@@ -19,12 +19,27 @@ mcipc.query.client module
    :members:
    :undoc-members:
    :show-inheritance:
-   :inherited-members:
 
 mcipc.query.config module
 -------------------------
 
 .. automodule:: mcipc.query.config
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+mcipc.query.exceptions module
+-----------------------------
+
+.. automodule:: mcipc.query.exceptions
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+mcipc.query.queryclt module
+---------------------------
+
+.. automodule:: mcipc.query.queryclt
    :members:
    :undoc-members:
    :show-inheritance:

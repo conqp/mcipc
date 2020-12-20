@@ -1,6 +1,7 @@
 """Implementation of the function command."""
 
 from pathlib import Path
+from typing import Union
 
 from mcipc.rcon.client import Client
 

@@ -44,6 +44,14 @@ mcipc.server.server module
    :undoc-members:
    :show-inheritance:
 
+mcipc.server.stubsrv module
+---------------------------
+
+.. automodule:: mcipc.server.stubsrv
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 
