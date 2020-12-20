@@ -12,6 +12,7 @@ __all__ = [
     'Location',
     'MatchMode',
     'Mirror',
+    'MusicRepeatMode',
     'Operator',
     'Order',
     'RelativeFloat',
@@ -208,6 +209,13 @@ class Mirror(Enum):
     Z = 'z'
     XZ = 'xz'
     NONE = 'none'
+
+
+class MusicRepeatMode(Enum):
+    """Available music repeat modes."""
+
+    LOOP = 'loop'
+    PLAY_ONCE = 'play_once'
 
 
 class Operator(Enum):
