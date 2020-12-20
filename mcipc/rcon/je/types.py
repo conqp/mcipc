@@ -12,6 +12,7 @@ __all__ = [
     'Enchantment',
     'ParticleMode',
     'ScheduleMode',
+    'SoundSource',
     'Structure',
     'Time',
     'TimeUnit'
@@ -166,6 +167,21 @@ class ScheduleMode(Enum):
 
     APPEND = 'append'
     REPLACE = 'replace'
+
+
+class SoundSource(Enum):
+    """Available sound sources."""
+
+    MASTER = 'master'
+    MUSIC = 'music'
+    RECORD = 'record'
+    WEATHER = 'weather'
+    BLOCK = 'block'
+    HOSTILE = 'hostile'
+    NEUTRAL = 'neutral'
+    PLAYER = 'player'
+    AMBIENT = 'ambient'
+    VOICE = 'voice'
 
 
 class Structure(Enum):
