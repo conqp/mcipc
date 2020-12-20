@@ -1,6 +1,7 @@
 """Types for client -> Bedrock Edition server communication."""
 
 from enum import Enum
+from typing import Union
 
 
 __all__ = [
@@ -11,12 +12,16 @@ __all__ = [
     'Location',
     'Operator',
     'Order',
+    'RelativeFloat',
     'ReplaceMode',
     'RideRules',
     'SaveCommand',
     'Structure',
     'TeleportRules'
 ]
+
+
+RelativeFloat = Union[float, str]
 
 
 class Biome(Enum):

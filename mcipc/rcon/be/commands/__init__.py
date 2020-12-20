@@ -28,4 +28,5 @@ from mcipc.rcon.be.commands.setblock import setblock
 from mcipc.rcon.be.commands.setmaxplayers import setmaxplayers
 from mcipc.rcon.be.commands.setworldspawn import setworldspawn
 from mcipc.rcon.be.commands.spawnpoint import spawnpoint
+from mcipc.rcon.be.commands.spreadplayers import spreadplayers
 from mcipc.rcon.be.commands.xp import xp
