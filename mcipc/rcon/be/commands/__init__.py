@@ -39,4 +39,5 @@ from mcipc.rcon.be.commands.testforblocks import testforblocks
 from mcipc.rcon.be.commands.tickingarea import tickingarea
 from mcipc.rcon.be.commands.time import time
 from mcipc.rcon.be.commands.title import title
+from mcipc.rcon.be.commands.toggledownfall import toggledownfall
 from mcipc.rcon.be.commands.xp import xp
