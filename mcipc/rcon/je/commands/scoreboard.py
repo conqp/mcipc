@@ -56,7 +56,37 @@ class PlayersProxy(CommandProxy):
         """Enables an objective for the given targets."""
         return self._run('enable', targets, objective)
 
-    # TODO: Implement further commands and scoreboard for Bedrock Edition.
+    def get(self, target: str, objective: str) -> str:
+        """Gets a player's objective."""
+        return self._run('get', target, objective)
+
+    def list(self, target: str = None) -> str:
+        """Lists scoreboard of an optional player."""
+        return self._run('list', target)
+
+    # pylint: disable=R0913
+    def operation(self, targets: str, target_objective: str, operation: str,
+                  source: str, source_objective: str) -> str:
+        """Applies an arithmetic operation altering the target's/targets'
+        score(s) in the target objective, using source target's/targets'
+        score(s) in the source objective as input.
+        """
+        return self._run('operation', targets, target_objective, operation,
+                         source, source_objective)
+
+    def remove(self, targets: str, objective: str, score: int) -> str:
+        """Decrements the target's/targets' score(s)
+        in that objective by the given amount.
+        """
+        return self._run('remove', targets, objective, score)
+
+    def reset(self, targets: str, objective: str = None) -> str:
+        """Resets a player's score."""
+        return self._run('reset', targets, objective)
+
+    def set(self, targets: str, objective: str, score: int) -> str:
+        """Sets a player's score."""
+        return self._run('set', targets, objective, score)
 
 
 class ScoreboardProxy(CommandProxy):
