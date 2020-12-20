@@ -7,6 +7,7 @@ from mcipc.rcon.types import FillMode, Vec3
 __all__ = ['fill']
 
 
+# pylint: disable=C0103,R0913
 def fill(self: Client, from_: Vec3, to: Vec3, block: str,
          mode: FillMode = None, filter: str = None) -> str:
     """Fills all or parts of a region with a specific block."""

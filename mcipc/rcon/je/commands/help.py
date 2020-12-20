@@ -8,6 +8,7 @@ from mcipc.rcon.response_types import Help
 __all__ = ['help']
 
 
+# pylint: disable=W0622
 def help(client: Client, command: str = None) -> Help:
     """Returns help about commands."""
 

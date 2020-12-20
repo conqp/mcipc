@@ -10,6 +10,7 @@ __all__ = ['effect']
 class EffectProxy(CommandProxy):
     """Proxy for effect commands on the Java Edition."""
 
+    # pylint: disable=W0621
     def clear(self, targets: str = None, effect: str = None) -> str:
         """Clears effects."""
         return self._run('clear', targets, effect)
@@ -22,7 +23,7 @@ class EffectProxy(CommandProxy):
                          hide_particles)
 
 
-def effect(self: Client) -> EffectJEProxy:
+def effect(self: Client) -> EffectProxy:
     """Returns a proxy for available sub-commands."""
 
     return EffectProxy(self, 'effect')

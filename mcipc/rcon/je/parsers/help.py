@@ -22,4 +22,4 @@ def parse(text: str) -> Help:
     """Creates the help object from a server response text."""
 
     commands = map(parse_command, filter(None, text.split('/')))
-    return Help((command.command, command) for command in commands) 
+    return Help((command.command, command) for command in commands)

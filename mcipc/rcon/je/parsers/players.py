@@ -2,6 +2,7 @@
 
 from re import Match, fullmatch
 from typing import Generator
+from uuid import UUID
 
 from mcipc.rcon.response_types import Player, Players
 

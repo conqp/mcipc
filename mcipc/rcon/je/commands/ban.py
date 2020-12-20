@@ -1,10 +1,10 @@
 """Banning, pardoning and kicking of players or IP addresses."""
 
 from mcipc.rcon.client import Client
-from mcipc.types import IPAddressOrHostname
+from mcipc.rcon.types import IPAddressOrHostname
 
 
-__all__ = ['ban', 'ban_ip', 'banlist', 'kick', 'pardon']
+__all__ = ['ban', 'ban_ip', 'banlist', 'pardon']
 
 
 def ban(self: Client, player: str, *reasons: str) -> str:

@@ -30,7 +30,7 @@ def experience(self: Client) -> ExperienceProxy:
     return ExperienceProxy(self, 'experience')
 
 
-def xp(self: Client) -> ExperienceProxy:
+def xp(self: Client) -> ExperienceProxy:    # pylint: disable=C0103
     """Delegates to a command proxy."""
 
     return ExperienceProxy(self, 'xp')

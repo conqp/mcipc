@@ -6,6 +6,7 @@ from mcipc.rcon.client import Client
 __all__ = ['effect']
 
 
+# pylint: disable=R0913
 def effect(self: Client, player: str, effect_or_clear: str,
            seconds: int = None, amplifier: int = None,
            hide_particles: bool = None) -> str:

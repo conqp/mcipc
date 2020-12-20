@@ -13,4 +13,4 @@ def enchant(self: Client, player: str, enchantment: Union[Enchantment, int],
             level: int = None) -> str:
     """Enchants the given player."""
 
-    return self.run('enchant', target, enchantment, level)
+    return self.run('enchant', player, enchantment, level)

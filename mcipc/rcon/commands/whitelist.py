@@ -22,7 +22,7 @@ class WhitelistProxy(CommandProxy):
         """Turns the whitelist checking off."""
         return self._run('off')
 
-    def on(self) -> str:
+    def on(self) -> str:    # pylint: disable=C0103
         """Turns the whitelist checking on."""
         return self._run('on')
 

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 from enum import Enum
+from ipaddress import IPv4Address, IPv6Address
 from typing import NamedTuple, Union
 
 
@@ -26,6 +27,7 @@ __all__ = [
     'GameMode',
     'Hand',
     'IntRange',
+    'IPAddressOrHostname',
     'JSON',
     'MaskMode',
     'Rotation',
@@ -45,6 +47,7 @@ __all__ = [
 
 
 Coordinate = Union[int, str]
+IPAddressOrHostname = Union[IPv4Address, IPv6Address, str]
 JSON = Union[dict, float, int, list, str]
 
 

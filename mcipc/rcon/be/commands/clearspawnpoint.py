@@ -1,7 +1,6 @@
 """Implementation of the clearspawnpoint."""
 
 from mcipc.rcon.client import Client
-from mcipc.rcon.types import Vec3
 
 
 __all__ = ['clearspawnpoint']

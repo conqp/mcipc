@@ -1,8 +1,6 @@
 """Information about online players."""
 
-from __future__ import annotations
-from re import Match, fullmatch
-from typing import Generator, NamedTuple, Tuple
+from typing import NamedTuple, Tuple
 from uuid import UUID
 
 
