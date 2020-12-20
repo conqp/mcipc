@@ -22,7 +22,8 @@ __all__ = [
     'Structure',
     'StructureAnimationMode',
     'StructureSaveMode',
-    'TeleportRules'
+    'TeleportRules',
+    'TimeSpec'
 ]
 
 
@@ -303,3 +304,14 @@ class TeleportRules(Enum):
 
     TELEPORT_RIDE = 'teleport_ride'
     TELEPORT_RIDER = 'teleport_rider'
+
+
+class TimeSpec(Enum):
+    """Available time specifications."""
+
+    DAY = 'day'
+    NIGHT = 'night'
+    NOON = 'noon'
+    MIDNIGHT = 'midnight'
+    SUNRISE = 'sunrise‌'
+    SUNSET = 'sunset‌'
