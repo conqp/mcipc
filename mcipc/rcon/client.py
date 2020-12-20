@@ -13,12 +13,15 @@ from mcipc.rcon.functions import str_until_none
 __all__ = ['MinecraftClient']
 
 
+EXCEPTIONS = (UnknownCommand, InvalidArgument)
+
+
 def check_result(response: str) -> str:
     """Raises an appropriate exceptions if
     the string is considered erroneous.
     """
 
-    for exception in (UnknownCommand, InvalidArgument):
+    for exception in EXCEPTIONS:
         with suppress(NotApplicable):
             raise exception.from_string(response)
 
