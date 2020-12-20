@@ -8,6 +8,9 @@ __all__ = [
     'Enchantment',
     'EntityEquipmentSlot',
     'FillType',
+    'Location',
+    'Operator',
+    'Order',
     'ReplaceMode',
     'RideRules',
     'SaveCommand',
@@ -170,6 +173,35 @@ class FillType(Enum):
 
     IF_GROUP_FITS = 'if_group_fits'
     UNTIL_FULL = 'until_full'
+
+
+class Location(Enum):
+    """Available locations."""
+
+    BELOWNAME = 'belowname'
+    LIST = 'list'
+    SIDEBAR = 'sidebar'
+
+
+class Operator(Enum):
+    """Available operators."""
+
+    ADDITION = '+'
+    SUBTRACTION = '-'
+    MULTIPLICATION = '*'
+    DIVISION = '/'
+    MODULO = '%'
+    ASSIGN = '='
+    MIN = '<'
+    MAX = '>'
+    SWAP = '><'
+
+
+class Order(Enum):
+    """Available orderings."""
+
+    ASCENDING = 'ascending'
+    DESCENDING = 'descending'
 
 
 class ReplaceMode(Enum):
