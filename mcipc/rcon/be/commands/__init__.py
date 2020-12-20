@@ -41,4 +41,5 @@ from mcipc.rcon.be.commands.time import time
 from mcipc.rcon.be.commands.title import title
 from mcipc.rcon.be.commands.toggledownfall import toggledownfall
 from mcipc.rcon.be.commands.transferserver import transferserver
+from mcipc.rcon.be.commands.weather import weather
 from mcipc.rcon.be.commands.xp import xp
