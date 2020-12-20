@@ -1,6 +1,6 @@
 """Implementation of the kill command."""
 
-from mcipc.rcon.proto import Client
+from mcipc.rcon.client import Client
 
 
 __all__ = ['kill']

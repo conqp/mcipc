@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from mcipc.rcon.proto import Client
+from mcipc.rcon.client import Client
 from mcipc.rcon.proxy import CommandProxy
 from mcipc.rcon.types import Anchor
 from mcipc.rcon.types import BossbarSlot

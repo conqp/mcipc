@@ -1,6 +1,6 @@
 """Chat-realted commands."""
 
-from mcipc.rcon.proto import Client
+from mcipc.rcon.client import Client
 
 
 __all__ = ['me', 'say', 'send_url', 'tell', 'tellraw']

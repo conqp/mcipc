@@ -2,7 +2,7 @@
 
 from typing import Union
 
-from mcipc.rcon.proto import Client
+from mcipc.rcon.client import Client
 
 
 __all__ = ['gamerule']

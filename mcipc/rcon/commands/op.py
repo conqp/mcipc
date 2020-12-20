@@ -1,6 +1,6 @@
 """Operators management."""
 
-from mcipc.rcon.proto import Client
+from mcipc.rcon.client import Client
 
 
 __all__ = ['deop', 'op']

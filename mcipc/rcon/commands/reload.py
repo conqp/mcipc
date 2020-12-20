@@ -1,6 +1,6 @@
 """Implementation of the reload command."""
 
-from mcipc.rcon.proto import Client
+from mcipc.rcon.client import Client
 
 
 __all__ = ['reload']
