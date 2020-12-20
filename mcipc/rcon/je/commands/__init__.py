@@ -45,3 +45,4 @@ from mcipc.rcon.je.commands.summon import summon
 from mcipc.rcon.je.commands.team import team
 from mcipc.rcon.je.commands.teammsg import teammsg, tm
 from mcipc.rcon.je.commands.teleport import teleport
+from mcipc.rcon.je.commands.time import time

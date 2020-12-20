@@ -19,6 +19,8 @@ __all__ = [
     'TeamOption',
     'TeamValue',
     'Time',
+    'TimeSpec',
+    'TimeType',
     'TimeUnit',
     'Visibility'
 ]
@@ -274,6 +276,23 @@ class Time(float):
             return string + stringify(unit)
 
         return string
+
+
+class TimeSpec(Enum):
+    """Available time specifications."""
+
+    DAY = 'day'
+    NIGHT = 'night'
+    NOON = 'noon'
+    MIDNIGHT = 'midnight'
+
+
+class TimeType(Enum):
+    """Available time types."""
+
+    DAYTIME = 'daytime'
+    GAMETIME = 'gametime'
+    DAY = 'day'
 
 
 class TimeUnit(Enum):
