@@ -12,7 +12,7 @@ class TeamProxy(CommandProxy):
     """Proxy for team commands."""
 
     # pylint: disable=W0621
-    def add(self, team: str, display_name: str = None) -> str:
+    def add(self, team: str, display_name: dict = None) -> str:
         """Adds a team."""
         return self._run('add', team, display_name)
 
