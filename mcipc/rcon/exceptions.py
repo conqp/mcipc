@@ -13,10 +13,6 @@ __all__ = [
 ]
 
 
-CMD_ERR = 'Unknown or incomplete command, see below for error(.*)<--\\[HERE\\]'
-ARG_ERR = 'Incorrect argument for command(.*)<--\\[HERE\\]'
-
-
 class LocationNotFound(ValueError):
     """Indicates that the given location could not be found."""
 
@@ -37,6 +33,8 @@ class NotApplicable(Exception):
 class CommandError(Exception):
     """Indicates an error with an RCON command."""
 
+    REGEX = NotImplemented
+
     def __init__(self, command: str):
         """Sets the faulty command."""
         super().__init__(command)
@@ -45,7 +43,6 @@ class CommandError(Exception):
     @classmethod
     def from_string(cls, string: str) -> CommandError:
         """Creates the error from the given return value."""
-        # pylint: disable=E1101
         if (match := fullmatch(cls.REGEX, string)) is not None:
             return cls(*match.groups())
 
@@ -55,10 +52,11 @@ class CommandError(Exception):
 class UnknownCommand(CommandError):
     """Represents an unknown command error."""
 
-    REGEX = CMD_ERR
+    REGEX = ('Unknown or incomplete command, see '
+             'below for error(.*)<--\\[HERE\\]')
 
 
 class InvalidArgument(CommandError):
     """Represents an invalid argument error."""
 
-    REGEX = ARG_ERR
+    REGEX = 'Incorrect argument for command(.*)<--\\[HERE\\]'
