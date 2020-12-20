@@ -36,4 +36,5 @@ from mcipc.rcon.be.commands.teleport import teleport
 from mcipc.rcon.be.commands.testfor import testfor
 from mcipc.rcon.be.commands.testforblock import testforblock
 from mcipc.rcon.be.commands.testforblocks import testforblocks
+from mcipc.rcon.be.commands.tickingarea import tickingarea
 from mcipc.rcon.be.commands.xp import xp
