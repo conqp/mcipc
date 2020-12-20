@@ -15,7 +15,6 @@ setup(
         'mcipc.query',
         'mcipc.query.proto',
         'mcipc.rcon',
-        'mcipc.rcon.client',
         'mcipc.rcon.be',
         'mcipc.rcon.be.commands',
         'mcipc.rcon.commands',
