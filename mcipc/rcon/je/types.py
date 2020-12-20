@@ -154,6 +154,13 @@ class ParticleMode(Enum):
     NORMAL = 'normal'
 
 
+class RenderType(Enum):
+    """Available render types."""
+
+    HEARTS = 'hearts'
+    INTEGER = 'integer'
+
+
 class ScheduleMode(Enum):
     """Available schedule modes."""
 
