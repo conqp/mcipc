@@ -10,7 +10,7 @@ from mcipc.rcon.exceptions import UnknownCommand
 from mcipc.rcon.functions import str_until_none
 
 
-__all__ = ['MinecraftClient']
+__all__ = ['Client']
 
 
 EXCEPTIONS = (UnknownCommand, InvalidArgument)
@@ -28,9 +28,9 @@ def check_result(response: str) -> str:
     return response
 
 
-class MinecraftClient(Client):  # pylint: disable=R0903
+class Client(Client):  # pylint: disable=E0102
     """An RCON client for Minecraft."""
 
-    def run(self, command: str, *arguments: str):
+    def run(self, command: str, *arguments: str):   # pylint: disable=W0221
         """Runs the command with additional checks."""
         return check_result(super().run(*str_until_none(command, *arguments)))
