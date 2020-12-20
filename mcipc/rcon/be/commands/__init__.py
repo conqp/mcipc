@@ -43,4 +43,5 @@ from mcipc.rcon.be.commands.toggledownfall import toggledownfall
 from mcipc.rcon.be.commands.transferserver import transferserver
 from mcipc.rcon.be.commands.weather import weather
 from mcipc.rcon.be.commands.worldbuilder import wb, worldbuilder
+from mcipc.rcon.be.commands.wsserver import connect, wsserver
 from mcipc.rcon.be.commands.xp import xp
