@@ -10,6 +10,7 @@ __all__ = [
     'EntityEquipmentSlot',
     'FillType',
     'Location',
+    'MatchMode',
     'Mirror',
     'Operator',
     'Order',
@@ -190,6 +191,13 @@ class Location(Enum):
     BELOWNAME = 'belowname'
     LIST = 'list'
     SIDEBAR = 'sidebar'
+
+
+class MatchMode(Enum):
+    """Available block matching modes."""
+
+    ALL = 'all'
+    MASKED = 'masked'
 
 
 class Mirror(Enum):
