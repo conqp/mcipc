@@ -10,13 +10,17 @@ __all__ = [
     'EntityEquipmentSlot',
     'FillType',
     'Location',
+    'Mirror',
     'Operator',
     'Order',
     'RelativeFloat',
     'ReplaceMode',
     'RideRules',
+    'Rotation',
     'SaveCommand',
     'Structure',
+    'StructureAnimationMode',
+    'StructureSaveMode',
     'TeleportRules'
 ]
 
@@ -39,7 +43,7 @@ class Biome(Enum):
     CRIMSON_FOREST = 'crimson_forest'
     DARK_FOREST = 'roofed_forest'
     DARK_FOREST_HILLS = 'roofed_forest_mutated'
-    DEEP_COLD_OCEAN = 'deep_cold_ocean'
+    DEEP_COLD_OCEAN = 'deep_cStructureAnimationModeold_ocean'
     DEEP_FROZEN_OCEAN = 'deep_frozen_ocean'
     DEEP_LUKEWARN_OCEAN = 'deep_lukewarm_ocean'
     DEEP_OCEAN = 'deep_ocean'
@@ -188,6 +192,15 @@ class Location(Enum):
     SIDEBAR = 'sidebar'
 
 
+class Mirror(Enum):
+    """Available mirror modes."""
+
+    X = 'x'
+    Z = 'z'
+    XZ = 'xz'
+    NONE = 'none'
+
+
 class Operator(Enum):
     """Available operators."""
 
@@ -224,6 +237,15 @@ class RideRules(Enum):
     SKIP_RIDERS = 'skip_riders'
 
 
+class Rotation(Enum):
+    """Available rotation modes."""
+
+    DEG_0 = '0_degrees'
+    DEG_90 = '90_degrees'
+    DEG_180 = '180_degrees'
+    DEG_270 = '270_degrees'
+
+
 class SaveCommand(Enum):
     """Available save commands."""
 
@@ -252,6 +274,20 @@ class Structure(Enum):
     JUNGLE_PYRAMID = 'temple'
     SWAMP_HUT = 'temple'
     VILLAGE = 'village'
+
+
+class StructureAnimationMode(Enum):
+    """Available structure animations."""
+
+    BLOCK_BY_BLOCK = 'block_by_block'
+    LAYER_BY_LAYER = 'layer_by_layer'
+
+
+class StructureSaveMode(Enum):
+    """Available structure save modes."""
+
+    DISK = 'disk'
+    MEMORY = 'memory'
 
 
 class TeleportRules(Enum):
