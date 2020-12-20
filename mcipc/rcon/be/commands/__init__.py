@@ -31,4 +31,5 @@ from mcipc.rcon.be.commands.spawnpoint import spawnpoint
 from mcipc.rcon.be.commands.spreadplayers import spreadplayers
 from mcipc.rcon.be.commands.stopsound import stopsound
 from mcipc.rcon.be.commands.structure import structure
+from mcipc.rcon.be.commands.summon import summon
 from mcipc.rcon.be.commands.xp import xp
