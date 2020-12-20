@@ -3,8 +3,9 @@
 from typing import Union
 
 from mcipc.rcon.client import Client
-from mcipc.rcon.je.types import Time, TimeSpec, TimeType
+from mcipc.rcon.je.types import Time, TimeSpec
 from mcipc.rcon.proxy import CommandProxy
+from mcipc.rcon.types import TimeType
 
 
 __all__ = ['time']

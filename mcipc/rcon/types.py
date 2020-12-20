@@ -37,6 +37,7 @@ __all__ = [
     'TargetSelectorPrefix',
     'TargetType',
     'TargetValue',
+    'TimeType',
     'Vec2',
     'Vec3',
     'XPUnit'
@@ -310,6 +311,14 @@ class TargetType(Enum):
     BLOCK = 'block'
     ENTITY = 'entity'
     STORAGE = 'storage'
+
+
+class TimeType(Enum):
+    """Available time types."""
+
+    DAYTIME = 'daytime'
+    GAMETIME = 'gametime'
+    DAY = 'day'
 
 
 class Vec2(NamedTuple):

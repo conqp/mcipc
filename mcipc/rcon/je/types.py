@@ -20,7 +20,6 @@ __all__ = [
     'TeamValue',
     'Time',
     'TimeSpec',
-    'TimeType',
     'TimeUnit',
     'Visibility'
 ]
@@ -285,14 +284,6 @@ class TimeSpec(Enum):
     NIGHT = 'night'
     NOON = 'noon'
     MIDNIGHT = 'midnight'
-
-
-class TimeType(Enum):
-    """Available time types."""
-
-    DAYTIME = 'daytime'
-    GAMETIME = 'gametime'
-    DAY = 'day'
 
 
 class TimeUnit(Enum):
