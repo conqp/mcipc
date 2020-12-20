@@ -1,7 +1,7 @@
 """Implementation of the locate command."""
 
 from mcipc.rcon.client import Client
-from mcipc.rcon.exceptions import NotALocation, LocationNotFound
+from mcipc.rcon.je.errors import LocationNotFound
 from mcipc.rcon.je.parsers.location import parse
 from mcipc.rcon.je.types import Structure
 from mcipc.rcon.response_types import Location
@@ -17,5 +17,5 @@ def locate(client: Client, structure: Structure) -> Location:
 
     try:
         return parse(response)
-    except NotALocation:
+    except ValueError:
         raise LocationNotFound(structure) from None
