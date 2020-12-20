@@ -48,3 +48,4 @@ from mcipc.rcon.je.commands.teleport import teleport
 from mcipc.rcon.je.commands.time import time
 from mcipc.rcon.je.commands.title import title
 from mcipc.rcon.je.commands.trigger import trigger
+from mcipc.rcon.je.commands.weather import weather
