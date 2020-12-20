@@ -30,6 +30,7 @@ __all__ = [
     'MaskMode',
     'Rotation',
     'ScanMode',
+    'SetblockMode',
     'StorageType',
     'Style',
     'TargetSelector',
@@ -238,6 +239,14 @@ class ScanMode(Enum):
 
     ALL = 'all'
     MASKED = 'masked'
+
+
+class SetblockMode(Enum):
+    """Available modes to set blocks."""
+
+    DESTROY = 'destroy'
+    KEEP = 'keep'
+    REPLACE = 'replace'
 
 
 class StorageType(Enum):
