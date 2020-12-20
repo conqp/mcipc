@@ -2,8 +2,9 @@
 A Minecraft inter-process communication API implementing the [RCON](http://wiki.vg/RCON) and [Query](http://wiki.vg/Query) protocols.
 
 ## Requirements
-[![Build Status](https://travis-ci.com/conqp/mcipc.svg?branch=master)](https://travis-ci.com/conqp/mcipc)  
-`mcipc` requires Python 3.8 or higher.
+`mcipc` requires Python 3.8 or higher.  
+It also depends on [rcon](https://github.com/conqp/rcon) which has been split from this project.  
+If you install `mcicp` via `pip`, it will automatically be installed as a dependency.
 
 ## Documentation
 [![Documentation Status](https://readthedocs.org/projects/mcipc/badge/?version=latest)](https://mcipc.readthedocs.io/en/latest/?badge=latest)  
