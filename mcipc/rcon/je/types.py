@@ -9,13 +9,18 @@ from mcipc.rcon.functions import stringify
 
 __all__ = [
     'Biome',
+    'CollisionRule',
+    'Color',
     'Enchantment',
     'ParticleMode',
     'ScheduleMode',
     'SoundSource',
     'Structure',
+    'TeamOption',
+    'TeamValue',
     'Time',
-    'TimeUnit'
+    'TimeUnit',
+    'Visibility'
 ]
 
 
@@ -102,6 +107,37 @@ class Biome(Enum):
     WOODED_BADLANDS_PLATEAU = 'wooded_badlands_plateau'
     WOODED_HILLS = 'wooded_hills'
     WOODED_MOUNTAINS = 'wooded_mountains'
+
+
+class CollisionRule(Enum):
+    """Available collision rules."""
+
+    ALWAYS = 'always'
+    NEVER = 'never'
+    PUSH_OTHER_TEAMS = 'pushOtherTeams'
+    PUSH_OWN_TEAM = 'pushOwnTeam'
+
+
+class Color(Enum):
+    """Available colors."""
+
+    AQUA = 'aqua'
+    BLACK = 'black'
+    BLUE = 'blue'
+    DARK_AQUA = 'dark_aqua'
+    DARK_BLUE = 'dark_blue'
+    DARK_GRAY = 'dark_gray'
+    DARK_GREEN = 'dark_green'
+    DARK_PURPLE = 'dark_purple'
+    DARK_RED = 'dark_red'
+    GOLD = 'gold'
+    GRAY = 'gray'
+    GREEN = 'green'
+    LIGHT_PURPLE = 'light_purple'
+    RED = 'red'
+    RESET = 'reset'
+    YELLOW = 'yellow'
+    WHITE = 'white'
 
 
 class Enchantment(Enum):
@@ -207,6 +243,20 @@ class Structure(Enum):
     VILLAGE = 'village'
 
 
+class TeamOption(Enum):
+    """Available team options."""
+
+    COLLISION_RULE = 'collisionRule'
+    COLOR = 'color'
+    DEATH_MESSAGE_VISIBILITY = 'deathMessageVisibility'
+    DISPLAY_NAME = 'displayName'
+    FRIENDLY_FIRE = 'friendlyFire'
+    NAMETAG_VISIBILITY = 'nametagVisibility'
+    PREFIX = 'prefix'
+    SEE_FRIENDLY_INVISIBLES = 'seeFriendlyInvisibles'
+    SUFFIX = 'suffix'
+
+
 class Time(float):
     """Float value with time unit."""
 
@@ -232,3 +282,15 @@ class TimeUnit(Enum):
     DAY = 'd'
     SECOND = 's'
     TICK = 't'
+
+
+class Visibility(Enum):
+    """Available visibility types."""
+
+    NEVER = 'never'
+    HIDE_FOR_OTHER_TEAMS = 'hideForOtherTeams'
+    HIDE_FOR_OWN_TEAM = 'hideForOwnTeam'
+    ALWAYS = 'always'
+
+
+TeamValue = Union[CollisionRule, Color, Visibility, dict, bool, str]
