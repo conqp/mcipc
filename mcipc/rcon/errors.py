@@ -50,14 +50,14 @@ class UnknownCommand(CommandError):
 
 
 ERRORS = {
-    InvalidArgument: 'Incorrect argument for command(.*)<--\\[HERE\\]',
-    InvalidInteger: 'Invalid integer(.*)<--\\[HERE\\]',
-    InvalidNameOrUUID: 'Invalid name or UUID(.*)<--\\[HERE\\]',
-    NoPlayerFound: 'No player was found',
-    UnexpectedTrailingData: ('Expected whitespace to end one argument, but '
-                             'found trailing data(.*)<--\\[HERE\\]'),
-    UnknownCommand: ('Unknown or incomplete command, see '
-                     'below for error(.*)<--\\[HERE\\]')
+    'Incorrect argument for command(.*)<--\\[HERE\\]': InvalidArgument,
+    'Invalid integer(.*)<--\\[HERE\\]': InvalidInteger,
+    'Invalid name or UUID(.*)<--\\[HERE\\]': InvalidNameOrUUID,
+    'No player was found': NoPlayerFound,
+    ('Expected whitespace to end one argument, but found trailing data'
+     '(.*)<--\\[HERE\\]'): UnexpectedTrailingData,
+    ('Unknown or incomplete command, see below for error'
+     '(.*)<--\\[HERE\\]'): UnknownCommand
 }
 
 
@@ -65,7 +65,7 @@ ERRORS = {
 def get_exception(response: str) -> Exception:
     """Returns an exception based on a respnse string."""
 
-    for exception, regex in ERRORS.items():
+    for regex, exception in ERRORS.items():
         if (match := fullmatch(regex, response)) is not None:
             return partial(exception, *match.groups())
 

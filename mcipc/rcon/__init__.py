@@ -3,11 +3,27 @@
 from mcipc.rcon.be import Client as BedrockClient
 from mcipc.rcon.editions import Edition
 from mcipc.rcon.ee import Client as EducationClient
+from mcipc.rcon.errors import CommandError
+from mcipc.rcon.errors import InvalidArgument
+from mcipc.rcon.errors import InvalidInteger
+from mcipc.rcon.errors import InvalidNameOrUUID
+from mcipc.rcon.errors import LocationNotFound
+from mcipc.rcon.errors import NoPlayerFound
+from mcipc.rcon.errors import UnexpectedTrailingData
+from mcipc.rcon.errors import UnknownCommand
 from mcipc.rcon.je import Client as JavaClient
 
 
 __all__ = [
     'CLIENTS',
+    'CommandError',
+    'InvalidArgument',
+    'InvalidInteger',
+    'InvalidNameOrUUID',
+    'LocationNotFound',
+    'NoPlayerFound',
+    'UnexpectedTrailingData',
+    'UnknownCommand',
     'BedrockClient',
     'Edition',
     'EducationClient',

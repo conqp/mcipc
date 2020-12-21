@@ -33,14 +33,22 @@ def boolmap(text: str, true: str = None, false: str = None, *,
     return default
 
 
-def parsed(function: Callable, typ: type) -> Callable:
-    """Wraps a function to have its result parsed to a type."""
+def parsed(parser: Callable) -> Callable[[Callable], Callable]:
+    """Updates a function to parse its result with a parser."""
 
-    @wraps(function)
-    def wrapper(*args, **kwargs):
-        return typ(function(*args, **kwargs))
+    def decorator(function: Callable) -> Callable:
+        """Decorator that wraps the function and updates its return type."""
+        @wraps(function)
+        def inner(*args, **kwargs):
+            """Wrapper function thats parses the function's return value."""
+            return parser(function(*args, **kwargs))
 
-    return wrapper
+        if 'return' in parser.__annotations__:
+            inner.__annotations__['return'] = parser.__annotations__['return']
+
+        return inner
+
+    return decorator
 
 
 def str_until_none(*items: object) -> Iterator[str]:
