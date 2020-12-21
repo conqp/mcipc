@@ -56,8 +56,7 @@ from mcipc.rcon.be import Client    # For Bedrock Edition servers.
 from mcipc.rcon.ee import Client    # For Education Edition servers.
 from mcipc.rcon.je import Client    # For Java Edition servers.
 
-with Client('127.0.0.1', 5000) as client:
-    client.login('mysecretpassword')    # Perform initial login.
+with Client('127.0.0.1', 5000, passwd='mysecretpassword') as client:
     seed = client.seed                  # Get the server's seed.
     players = client.players            # Get the server's players info.
     mansion = client.locate('mansion')  # Get the next mansion's location.
