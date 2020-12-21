@@ -1,6 +1,5 @@
 """Errors returned from Java Edition servers via RCON."""
 
-from __future__ import annotations
 from functools import lru_cache
 from re import fullmatch
 
@@ -9,8 +8,10 @@ __all__ = [
     'CommandError',
     'InvalidArgument',
     'InvalidInteger',
-    'UnknownCommand',
+    'InvalidNameOrUUID',
     'LocationNotFound',
+    'UnexpectedTrailingData',
+    'UnknownCommand',
     'check_result'
 ]
 
@@ -27,18 +28,29 @@ class InvalidInteger(CommandError):
     """Represents an invalid argument error."""
 
 
-class UnknownCommand(CommandError):
-    """Represents an unknown command error."""
+class InvalidNameOrUUID(CommandError):
+    """Indicates an invalid name or UUID."""
 
 
 class LocationNotFound(CommandError):
     """Indicates that the given location could not be found."""
 
 
+class UnexpectedTrailingData(CommandError):
+    """Indicates unexpected trailing data."""
+
+
+class UnknownCommand(CommandError):
+    """Represents an unknown command error."""
+
+
 
 ERRORS = {
     InvalidArgument: 'Incorrect argument for command(.*)<--\\[HERE\\]',
     InvalidInteger: 'Invalid integer(.*)<--\\[HERE\\]',
+    InvalidNameOrUUID: 'Invalid name or UUID(.*)<--\\[HERE\\]',
+    UnexpectedTrailingData: ('Expected whitespace to end one argument, but '
+                             'found trailing data(.*)<--\\[HERE\\]'),
     UnknownCommand: ('Unknown or incomplete command, see '
                      'below for error(.*)<--\\[HERE\\]')
 }
