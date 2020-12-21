@@ -49,7 +49,6 @@ class UnknownCommand(CommandError):
     """Represents an unknown command error."""
 
 
-
 ERRORS = {
     InvalidArgument: 'Incorrect argument for command(.*)<--\\[HERE\\]',
     InvalidInteger: 'Invalid integer(.*)<--\\[HERE\\]',
