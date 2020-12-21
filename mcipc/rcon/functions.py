@@ -33,7 +33,7 @@ def boolmap(text: str, true: str = None, false: str = None, *,
     return default
 
 
-def parsed(parser: Callable) -> Callable[[Callable], Callable]:
+def parsed(parser: Callable[[str], type]) -> Callable[[Callable], Callable]:
     """Updates a function to parse its result with a parser."""
 
     def decorator(function: Callable) -> Callable:
