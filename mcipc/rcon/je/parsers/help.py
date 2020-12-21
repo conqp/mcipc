@@ -1,25 +1,18 @@
-"""Parses Help response type."""
+"""Parses a dict from a response text."""
 
-from mcipc.rcon.response_types import Command, Help
+from collections import defaultdict
 
 
 __all__ = ['parse']
 
 
-def parse_command(text: str) -> Command:
-    """Creates the command from a string."""
-
-    try:
-        command, arguments = text.split(maxsplit=1)
-    except ValueError:
-        command = text
-        arguments = None
-
-    return Command(command, arguments)
-
-
-def parse(text: str) -> Help:
+def parse(text: str) -> dict:
     """Creates the help object from a server response text."""
 
-    commands = map(parse_command, filter(None, text.split('/')))
-    return Help((command.command, command) for command in commands)
+    help = defaultdict(list)    # pylint: disable=W0622
+
+    for use_case in filter(None, text.split('/')):
+        command, *arguments = use_case.split()
+        help[command].append(arguments)
+
+    return help
