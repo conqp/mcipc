@@ -22,7 +22,7 @@ setup(
         'mcipc.rcon.ee.commands',
         'mcipc.rcon.je',
         'mcipc.rcon.je.commands',
-        'mcipc.rcon.je.parsers',
+        'mcipc.rcon.parsers',
         'mcipc.rcon.response_types',
         'mcipc.server'
     ],
