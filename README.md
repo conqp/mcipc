@@ -67,7 +67,7 @@ print(players)
 print(mansion)
 ```
 
-Output of the above example for Java Edition clients:
+Example output of the above commands with a Java Edition client:
 
 ```python
 -8217057902979500137

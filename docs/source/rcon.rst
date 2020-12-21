@@ -29,7 +29,7 @@ The following example assumes a server running on :code:`127.0.0.1` and on the R
 	print(players)
 	print(mansion)
 
-Output of the above example for Java Edition clients:
+Example output of the above commands with a Java Edition client:
 
 .. code-block:: python
 
