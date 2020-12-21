@@ -20,7 +20,8 @@ __all__ = ['execute']
 class ScoreProxy(CommandProxy):
     """Check a score against either another score or a given range."""
 
-    def matches(self, range: IntRange) -> ExecuteProxy: # pylint: disable=W0622
+    # pylint: disable=W0622
+    def matches(self, range: IntRange) -> ExecuteProxy:
         """Matches a range."""
         return self._proxy(ExecuteProxy, 'matches', range)
 

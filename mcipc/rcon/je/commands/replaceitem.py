@@ -15,7 +15,8 @@ class ReplaceitemProxy(CommandProxy):
         """Replaces a block."""
         self._run('block', pos, slot, item, count)
 
-    def entity(self, targets: str, slot: str, item: str, count: int = None) -> str:
+    def entity(self, targets: str, slot: str, item: str,
+               count: int = None) -> str:
         """Replaces an entity."""
         self._run('entity', targets, slot, item, count)
 

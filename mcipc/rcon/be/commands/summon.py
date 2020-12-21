@@ -11,7 +11,7 @@ def summon(self: Client, entity_type: str, spawn_pos: Vec3 = None,
            spawn_event: str = None, name_tag: str = None) -> str:
     """Summons an entity."""
 
-    command  = ['summon', entity_type]
+    command = ['summon', entity_type]
 
     if name_tag is not None and spawn_event is None:
         command += [name_tag, spawn_pos]
