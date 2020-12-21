@@ -52,9 +52,9 @@ The `RCON` protocol is used to remotely control a Minecraft server, i.e. execute
 commands on a Minecraft server and receive the respective results.
 
 ```python
-from mcipc.be.rcon import Client    # For Bedrock Edition servers.
-from mcipc.ee.rcon import Client    # For Education Edition servers.
-from mcipc.je.rcon import Client    # For Java Edition servers.
+from mcipc.rcon.be import Client    # For Bedrock Edition servers.
+from mcipc.rcon.ee import Client    # For Education Edition servers.
+from mcipc.rcon.je import Client    # For Java Edition servers.
 
 with Client('127.0.0.1', 5000) as client:
     client.login('mysecretpassword')    # Perform initial login.

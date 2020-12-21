@@ -16,9 +16,9 @@ The following example assumes a server running on :code:`127.0.0.1` and on the R
 
 .. code-block:: python
 
-	from mcipc.be.rcon import Client    # For Bedrock Edition servers.
-	from mcipc.ee.rcon import Client    # For Education Edition servers.
-	from mcipc.je.rcon import Client    # For Java Edition servers.
+	from mcipc.rcon.be import Client    # For Bedrock Edition servers.
+	from mcipc.rcon.ee import Client    # For Education Edition servers.
+	from mcipc.rcon.je import Client    # For Java Edition servers.
 
 	with Client('127.0.0.1', 5000, passwd='mysecretpassword') as client:
 	    seed = client.seed                  # Get the server's seed.
@@ -39,17 +39,16 @@ Example output of the above commands with a Java Edition client:
 
 .. seealso::
 
-    Bedrock Edition client: :py:class:`mcipc.rcon.client.be.Client`
-    Education Edition client: :py:class:`mcipc.rcon.client.ee.Client`
-    Java Edition client: :py:class:`mcipc.rcon.client.je.Client`
+    * Bedrock Edition client: :py:class:`mcipc.rcon.be.Client`
+    * Education Edition client: :py:class:`mcipc.rcon.ee.Client`
+    * Java Edition client: :py:class:`mcipc.rcon.je.Client`
 
 JSON conversion
 ---------------
 
-:py:class:`mcipc.rcon.response_types.seed.Seed`, :py:class:`mcipc.rcon.response_types.players.Players` and :py:class:`mcipc.rcon.response_types.location.Location` objects provide a :code:`to_json()` method to return their values in a JSON compatible format:
+:py:class: :py:class:`mcipc.rcon.response_types.players.Players` and :py:class:`mcipc.rcon.response_types.location.Location` objects provide a :code:`to_json()` method to return their values in a JSON compatible format:
 
 .. code-block:: python
 
-    seed_as_json = seed.to_json()		# Is of type int.
     players_as_json = players.to_json() 	# Is of type dict.
     mansion_as_json = mansion.to_json() 	# Is of type dict.
