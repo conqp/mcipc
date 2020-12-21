@@ -5,7 +5,7 @@ from mcipc.rcon.je.types import ScheduleMode, Time
 from mcipc.rcon.proxy import CommandProxy
 
 
-__all__ = ['schedule']
+__all__ = ['ScheduleProxy', 'schedule']
 
 
 class ScheduleProxy(CommandProxy):
@@ -22,6 +22,8 @@ class ScheduleProxy(CommandProxy):
 
 
 def schedule(self: Client) -> ScheduleProxy:
-    """Delegates to a command proxy."""
+    """Delegates to a
+    :py:class:`mcipc.rcon.je.commands.schedule.ScheduleProxy`
+    """
 
     return ScheduleProxy(self, 'schedule')

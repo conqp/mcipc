@@ -5,7 +5,7 @@ from mcipc.rcon.client import Client
 from mcipc.rcon.proxy import CommandProxy
 
 
-__all__ = ['ride']
+__all__ = ['RideProxy', 'ride']
 
 
 class RideProxy(CommandProxy):
@@ -38,6 +38,8 @@ class RideProxy(CommandProxy):
 
 
 def ride(self: Client, riders_or_rides: str) -> RideProxy:
-    """Delegates to a command proxy."""
+    """Delegates to a
+    :py:class:`mcipc.rcon.be.commands.ride.RideProxy`
+    """
 
     return RideProxy(self, 'ride', riders_or_rides)

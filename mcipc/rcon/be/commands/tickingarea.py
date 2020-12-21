@@ -5,7 +5,7 @@ from mcipc.rcon.proxy import CommandProxy
 from mcipc.rcon.types import Vec3
 
 
-__all__ = ['tickingarea']
+__all__ = ['AddProxy', 'TickingareaProxy', 'tickingarea']
 
 
 class AddProxy(CommandProxy):
@@ -25,7 +25,9 @@ class TickingareaProxy(CommandProxy):
     """Proxy for tickingarea commands."""
 
     def add(self) -> AddProxy:
-        """Delegates to a command proxy."""
+        """Delegates to a
+        :py:class:`mcipc.rcon.be.commands.tickingarea.AddProxy`
+        """
         return self._proxy(AddProxy, 'add')
 
     def remove(self, *, name: str = None, position: Vec3 = None) -> str:
@@ -44,6 +46,8 @@ class TickingareaProxy(CommandProxy):
 
 
 def tickingarea(self: Client) -> TickingareaProxy:
-    """Delegates to a command proxy."""
+    """Delegates to a
+    :py:class:`mcipc.rcon.be.commands.tickingarea.TickingareaProxy`
+    """
 
     return TickingareaProxy(self, 'tickingarea')

@@ -6,7 +6,7 @@ from mcipc.rcon.proxy import CommandProxy
 from mcipc.rcon.types import Vec3
 
 
-__all__ = ['replaceitem']
+__all__ = ['ReplaceitemProxy', 'replaceitem']
 
 
 class ReplaceitemProxy(CommandProxy):
@@ -38,6 +38,8 @@ class ReplaceitemProxy(CommandProxy):
 
 
 def replaceitem(self: Client) -> ReplaceitemProxy:
-    """Delegates to a command proxy."""
+    """Delegates to a
+    :py:class:`mcipc.rcon.be.commands.replaceitem.ReplaceitemProxy`
+    """
 
     return ReplaceitemProxy(self, 'replaceitem')

@@ -4,7 +4,7 @@ from mcipc.rcon.client import Client
 from mcipc.rcon.proxy import CommandProxy
 
 
-__all__ = ['trigger']
+__all__ = ['TriggerProxy', 'trigger']
 
 
 class TriggerProxy(CommandProxy):
@@ -24,6 +24,8 @@ class TriggerProxy(CommandProxy):
 
 
 def trigger(self: Client) -> TriggerProxy:
-    """Delegates to a command proxy."""
+    """Delegates to a
+    :py:class:`mcipc.rcon.je.commands.trigger.TriggerProxy`
+    """
 
     return TriggerProxy(self, 'trigger')

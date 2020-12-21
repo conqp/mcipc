@@ -4,7 +4,7 @@ from mcipc.rcon.client import Client
 from mcipc.rcon.proxy import CommandProxy
 
 
-__all__ = ['title']
+__all__ = ['TitleProxy', 'title']
 
 
 class TitleProxy(CommandProxy):
@@ -39,6 +39,8 @@ class TitleProxy(CommandProxy):
 
 
 def title(self: Client, targets: str) -> TitleProxy:
-    """Delegates to a command proxy."""
+    """Delegates to a
+    :py:class:`mcipc.rcon.je.commands.title.TitleProxy`
+    """
 
     return TitleProxy(self, 'title', targets)

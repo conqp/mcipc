@@ -8,7 +8,7 @@ from mcipc.rcon.proxy import CommandProxy
 from mcipc.rcon.types import TimeType
 
 
-__all__ = ['time']
+__all__ = ['TimeProxy', 'time']
 
 
 class TimeProxy(CommandProxy):
@@ -29,6 +29,8 @@ class TimeProxy(CommandProxy):
 
 
 def time(self: Client) -> TimeProxy:
-    """Delegates to a command proxy."""
+    """Delegates to a
+    :py:class:`mcipc.rcon.je.commands.time.TimeProxy`
+    """
 
     return TimeProxy(self, 'time')

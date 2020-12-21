@@ -5,7 +5,7 @@ from mcipc.rcon.proxy import CommandProxy
 from mcipc.rcon.types import Vec2
 
 
-__all__ = ['worldborder']
+__all__ = ['DamageProxy', 'WarningProxy', 'WorldborderProxy', 'worldborder']
 
 
 class DamageProxy(CommandProxy):
@@ -45,7 +45,9 @@ class WorldborderProxy(CommandProxy):
 
     @property
     def damage(self) -> DamageProxy:
-        """Delegates to a sub-proxy."""
+        """Delegates to a
+        :py:class:`mcipc.rcon.je.commands.worldborder.DamageProxy`
+        """
         return self._proxy(DamageProxy, 'damage')
 
     def get(self) -> str:
@@ -58,11 +60,15 @@ class WorldborderProxy(CommandProxy):
 
     @property
     def warning(self) -> WarningProxy:
-        """Delegates to a sub-proxy."""
+        """Delegates to a
+        :py:class:`mcipc.rcon.je.commands.worldborder.WarningProxy`
+        """
         return self._proxy(WorldborderProxy, 'warning')
 
 
 def worldborder(self: Client) -> WorldborderProxy:
-    """Delegates to a command proxy."""
+    """Delegates to a
+    :py:class:`mcipc.rcon.je.commands.worldborder.WorldborderProxy`
+    """
 
     return WorldborderProxy(self, 'worldborder')

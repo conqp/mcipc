@@ -4,7 +4,7 @@ from mcipc.rcon.client import Client
 from mcipc.rcon.proxy import CommandProxy
 
 
-__all__ = ['fog']
+__all__ = ['FogProxy', 'fog']
 
 
 class FogProxy(CommandProxy):
@@ -24,6 +24,8 @@ class FogProxy(CommandProxy):
 
 
 def fog(self: Client, victim: str) -> FogProxy:
-    """Delegates to a proxy."""
+    """Delegates to a
+    :py:class:`mcipc.rcon.be.commands.fog.Proxy`
+    """
 
     return FogProxy(self, 'fog', victim)

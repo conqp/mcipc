@@ -7,7 +7,7 @@ from mcipc.rcon.proxy import CommandProxy
 from mcipc.rcon.types import Vec2
 
 
-__all__ = ['forceload']
+__all__ = ['ForceloadProxy', 'forceload']
 
 
 class ForceloadProxy(CommandProxy):
@@ -42,6 +42,8 @@ class ForceloadProxy(CommandProxy):
 
 
 def forceload(self: Client) -> ForceloadProxy:
-    """Delegates to a proxy."""
+    """Delegates to a
+    :py:class:`mcipc.rcon.je.commands.forceload.ForceloadProxy`
+    """
 
     return ForceloadProxy(self, 'forceload')

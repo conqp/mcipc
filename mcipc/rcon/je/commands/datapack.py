@@ -5,7 +5,7 @@ from mcipc.rcon.proxy import CommandProxy
 from mcipc.rcon.types import DatapackMode, DatapackState
 
 
-__all__ = ['datapack']
+__all__ = ['DatapackProxy', 'datapack']
 
 
 class DatapackProxy(CommandProxy):
@@ -39,6 +39,8 @@ class DatapackProxy(CommandProxy):
 
 
 def datapack(self: Client) -> DatapackProxy:
-    """Returns a command proxy for datapack related commands."""
+    """Delegates to a
+    :py:class:`mcipc.rcon.je.commands.datapack.DatapackProxy`
+    """
 
     return DatapackProxy(self, 'datapack')

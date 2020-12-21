@@ -5,7 +5,7 @@ from mcipc.rcon.proxy import CommandProxy
 from mcipc.rcon.types import CamerashakeType
 
 
-__all__ = ['camerashake']
+__all__ = ['CamerashakeProxy', 'camerashake']
 
 
 class CamerashakeProxy(CommandProxy):   # pylint: disable=R0903
@@ -18,6 +18,8 @@ class CamerashakeProxy(CommandProxy):   # pylint: disable=R0903
 
 
 def camerashake(self: Client) -> CamerashakeProxy:
-    """Returns a camera shake proxy."""
+    """Delegates to a
+    :py:class:`mcipc.rcon.be.commands.camerashake.CamerashakeProxy`
+    """
 
     return CamerashakeProxy(self, 'camerashake')

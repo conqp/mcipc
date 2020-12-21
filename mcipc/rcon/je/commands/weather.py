@@ -4,7 +4,7 @@ from mcipc.rcon.client import Client
 from mcipc.rcon.proxy import CommandProxy
 
 
-__all__ = ['weather']
+__all__ = ['WeatherProxy', 'weather']
 
 
 class WeatherProxy(CommandProxy):
@@ -24,6 +24,8 @@ class WeatherProxy(CommandProxy):
 
 
 def weather(self: Client) -> WeatherProxy:
-    """Delegates to a command proxy."""
+    """Delegates to a
+    :py:class:`mcipc.rcon.je.commands.weather.WeatherProxy`
+    """
 
     return WeatherProxy(self, 'weather')

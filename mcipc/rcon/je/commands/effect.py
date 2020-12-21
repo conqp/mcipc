@@ -4,7 +4,7 @@ from mcipc.rcon.client import Client
 from mcipc.rcon.proxy import CommandProxy
 
 
-__all__ = ['effect']
+__all__ = ['EffectProxy', 'effect']
 
 
 class EffectProxy(CommandProxy):
@@ -24,6 +24,8 @@ class EffectProxy(CommandProxy):
 
 
 def effect(self: Client) -> EffectProxy:
-    """Returns a proxy for available sub-commands."""
+    """Delegates to a
+    :py:class:`mcipc.rcon.je.commands.effect.EffectProxy`
+    """
 
     return EffectProxy(self, 'effect')

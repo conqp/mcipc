@@ -5,7 +5,7 @@ from mcipc.rcon.client import Client
 from mcipc.rcon.proxy import CommandProxy
 
 
-__all__ = ['music']
+__all__ = ['MusicProxy', 'music']
 
 
 class MusicProxy(CommandProxy):
@@ -34,6 +34,8 @@ class MusicProxy(CommandProxy):
 
 
 def music(self: Client) -> MusicProxy:
-    """Delegates to a command proxy."""
+    """Delegates to a
+    :py:class:`mcipc.rcon.be.commands.music.MusicProxy`
+    """
 
     return MusicProxy(self, 'music')

@@ -5,7 +5,7 @@ from mcipc.rcon.proxy import CommandProxy
 from mcipc.rcon.types import TargetType, TargetValue
 
 
-__all__ = ['data']
+__all__ = ['DataProxy', 'DataModifyProxy', 'DataModifySubProxy', 'data']
 
 
 class DataModifySubProxy(CommandProxy):
@@ -25,26 +25,36 @@ class DataModifyProxy(CommandProxy):
 
     @property
     def append(self) -> DataModifySubProxy:
-        """Returns a proxy for append operations."""
+        """Delegates to a
+        :py:class:`mcipc.rcon.je.commands.data.DataModifySubProxy`
+        """
         return self._proxy(DataModifySubProxy, 'append')
 
     def insert(self, index: int) -> DataModifySubProxy:
-        """Returns a proxy for insert operations."""
+        """Delegates to a
+        :py:class:`mcipc.rcon.je.commands.data.DataModifySubProxy`
+        """
         return self._proxy(DataModifySubProxy, 'insert', index)
 
     @property
     def merge(self) -> DataModifySubProxy:
-        """Returns a proxy for merge operations."""
+        """Delegates to a
+        :py:class:`mcipc.rcon.je.commands.data.DataModifySubProxy`
+        """
         return self._proxy(DataModifySubProxy, 'merge')
 
     @property
     def prepend(self) -> DataModifySubProxy:
-        """Returns a proxy for prepend operations."""
+        """Delegates to a
+        :py:class:`mcipc.rcon.je.commands.data.DataModifySubProxy`
+        """
         return self._proxy(DataModifySubProxy, 'prepend')
 
     @property
     def set(self) -> DataModifySubProxy:
-        """Returns a proxy for set operations."""
+        """Delegates to a
+        :py:class:`mcipc.rcon.je.commands.data.DataModifySubProxy`
+        """
         return self._proxy(DataModifySubProxy, 'set')
 
 
@@ -67,7 +77,9 @@ class DataProxy(CommandProxy):
 
     def modify(self, typ: TargetType, value: TargetValue,
                path: str) -> DataModifyProxy:
-        """Modifies blocks."""
+        """Delegates to a
+        :py:class:`mcipc.rcon.je.commands.data.DataModifyProxy`
+        """
         return self._proxy(DataModifyProxy, 'modify', typ, value, path)
 
     def remove(self, typ: TargetType, value: TargetValue, path: str) -> str:
@@ -78,6 +90,8 @@ class DataProxy(CommandProxy):
 
 
 def data(self: Client) -> DataProxy:
-    """Returns a proxy for the several data commands."""
+    """Delegates to a
+    :py:class:`mcipc.rcon.je.commands.data.DataProxy`
+    """
 
     return DataProxy(self, 'data')

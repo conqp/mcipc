@@ -5,7 +5,13 @@ from mcipc.rcon.proxy import CommandProxy
 from mcipc.rcon.je.types import RenderType
 
 
-__all__ = ['scoreboard']
+__all__ = [
+    'ModifyProxy',
+    'ObjectivesProxy',
+    'PlayersProxy',
+    'ScoreboardProxy',
+    'scoreboard'
+]
 
 
 class ModifyProxy(CommandProxy):
@@ -33,7 +39,9 @@ class ObjectivesProxy(CommandProxy):
         return self._run('list')
 
     def modify(self, objective: str) -> ModifyProxy:
-        """Delegates to a command proxy."""
+        """Delegates to a
+        :py:class:`mcipc.rcon.je.commands.scoreboard.ModifyProxy`
+        """
         return self._proxy(ModifyProxy, 'modify', objective)
 
     def remove(self, objective: str) -> str:
@@ -94,16 +102,22 @@ class ScoreboardProxy(CommandProxy):
 
     @property
     def objectives(self) -> ObjectivesProxy:
-        """Delegates to a command proxy."""
+        """Delegates to a
+        :py:class:`mcipc.rcon.je.commands.scoreboard.ObjectivesProxy`
+        """
         return self._proxy(ObjectivesProxy, 'objectives')
 
     @property
     def players(self) -> PlayersProxy:
-        """Delegates to a command proxy."""
+        """Delegates to a
+        :py:class:`mcipc.rcon.je.commands.scoreboard.PlayersProxy`
+        """
         return self._proxy(PlayersProxy, 'players')
 
 
 def scoreboard(self: Client) -> ScoreboardProxy:
-    """Delegates to a command proxy."""
+    """Delegates to a
+    :py:class:`mcipc.rcon.je.commands.scoreboard.ScoreboardProxy`
+    """
 
     return ScoreboardProxy(self, 'scoreboard')

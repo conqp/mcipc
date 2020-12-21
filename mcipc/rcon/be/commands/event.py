@@ -4,7 +4,7 @@ from mcipc.rcon.client import Client
 from mcipc.rcon.proxy import CommandProxy
 
 
-__all__ = ['event']
+__all__ = ['EventProxy', 'event']
 
 
 class EventProxy(CommandProxy):     # pylint: disable=R0903
@@ -16,6 +16,8 @@ class EventProxy(CommandProxy):     # pylint: disable=R0903
 
 
 def event(self: Client) -> EventProxy:
-    """Returns aproxy for event-related sub commands."""
+    """Delegates to a
+    :py:class:`mcipc.rcon.be.commands.event.EventProxy`
+    """
 
     return EventProxy(self, 'event')

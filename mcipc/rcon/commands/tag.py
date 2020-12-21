@@ -4,7 +4,7 @@ from mcipc.rcon.client import Client
 from mcipc.rcon.proxy import CommandProxy
 
 
-__all__ = ['tag']
+__all__ = ['TagProxy', 'tag']
 
 
 class TagProxy(CommandProxy):

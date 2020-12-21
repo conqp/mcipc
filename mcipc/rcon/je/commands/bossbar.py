@@ -5,7 +5,7 @@ from mcipc.rcon.proxy import CommandProxy
 from mcipc.rcon.types import Attribute, Color, Style
 
 
-__all__ = ['bossbar']
+__all__ = ['BossbarProxy', 'BossbarSetProxy', 'bossbar']
 
 
 class BossbarSetProxy(CommandProxy):
@@ -72,11 +72,15 @@ class BossbarProxy(CommandProxy):
         return self._run('remove', id)
 
     def set(self, id: str, attribute: Attribute) -> BossbarSetProxy:
-        """Returns a BoosbarSetProxy."""
+        """Delegates to a
+        :py:class:`mcipc.rcon.je.commands.bossbar.BossbarSetProxy`
+        """
         return self._proxy(BossbarSetProxy, 'set', id, attribute)
 
 
 def bossbar(self: Client) -> BossbarProxy:
-    """Returns a proxy to the boss bar operations."""
+    """Delegates to a
+    :py:class:`mcipc.rcon.je.commands.bossbar.BossbarProxy`
+    """
 
     return BossbarProxy(self, 'bossbar')

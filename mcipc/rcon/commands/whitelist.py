@@ -4,7 +4,7 @@ from mcipc.rcon.client import Client
 from mcipc.rcon.proxy import CommandProxy
 
 
-__all__ = ['whitelist']
+__all__ = ['WhitelistProxy', 'whitelist']
 
 
 class WhitelistProxy(CommandProxy):
@@ -36,6 +36,8 @@ class WhitelistProxy(CommandProxy):
 
 
 def whitelist(self: Client) -> str:
-    """Delegates to a command proxy."""
+    """Delegates to a
+    :py:class:`mcipc.rcon.commands.whitelist.WhitelistProxy`
+    """
 
     return WhitelistProxy(self, 'whitelist')

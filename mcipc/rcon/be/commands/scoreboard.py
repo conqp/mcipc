@@ -7,7 +7,7 @@ from mcipc.rcon.client import Client
 from mcipc.rcon.proxy import CommandProxy
 
 
-__all__ = ['scoreboard']
+__all__ = ['ObjectivesProxy', 'PlayersProxy', 'ScoreboardProxy', 'scoreboard']
 
 
 class ObjectivesProxy(CommandProxy):
@@ -83,16 +83,22 @@ class ScoreboardProxy(CommandProxy):
 
     @property
     def objectives(self) -> ObjectivesProxy:
-        """Delegates to a proxy."""
+        """Delegates to a
+        :py:class:`mcipc.rcon.be.commands.scoreboard.ObjectivesProxy`
+        """
         return self._proxy(ObjectivesProxy, 'objectives')
 
     @property
     def players(self) -> PlayersProxy:
-        """Delegates to a proxy."""
+        """Delegates to a
+        :py:class:`mcipc.rcon.be.commands.scoreboard.PlayersProxy`
+        """
         return self._proxy(PlayersProxy, 'players')
 
 
 def scoreboard(self: Client) -> ScoreboardProxy:
-    """Delegates to a proxy."""
+    """Delegates to a
+    :py:class:`mcipc.rcon.be.commands.scoreboard.ScoreboardProxy`
+    """
 
     return ScoreboardProxy(self, 'scoreboard')

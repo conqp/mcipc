@@ -4,7 +4,7 @@ from mcipc.rcon.client import Client
 from mcipc.rcon.proxy import CommandProxy
 
 
-__all__ = ['advancement']
+__all__ = ['AdvancementProxy', 'AdvancementSubProxy', 'advancement']
 
 
 class AdvancementSubProxy(CommandProxy):
@@ -36,15 +36,21 @@ class AdvancementProxy(CommandProxy):
     """Proxy for advancements-related commands."""
 
     def grant(self, targets: str) -> AdvancementSubProxy:
-        """Returns a proxy for the grant command."""
+        """Delegates to a
+        :py:class:`mcipc.rcon.je.commands.advancement.AdvancementSubProxy`
+        """
         return self._proxy(AdvancementSubProxy, 'grant', targets)
 
     def revoke(self, targets: str) -> AdvancementSubProxy:
-        """Returns a proxy for the revoke command."""
+        """Delegates to a
+        :py:class:`mcipc.rcon.je.commands.advancement.AdvancementSubProxy`
+        """
         return self._proxy(AdvancementSubProxy, 'revoke', targets)
 
 
 def advancement(self: Client) -> AdvancementProxy:
-    """Returns a proxy for sub-commands."""
+    """Delegates to a
+    :py:class:`mcipc.rcon.je.commands.advancement.AdvancementProxy`
+    """
 
     return AdvancementProxy(self, 'advancement')

@@ -14,7 +14,14 @@ from mcipc.rcon.types import StorageType
 from mcipc.rcon.types import Vec3
 
 
-__all__ = ['execute']
+__all__ = [
+    'ConditionalProxy',
+    'DataProxy',
+    'ExecuteProxy',
+    'ScoreProxy',
+    'StoreProxy',
+    'execute'
+]
 
 
 class ScoreProxy(CommandProxy):
@@ -80,7 +87,7 @@ class ConditionalProxy(CommandProxy):
 
     @property
     def data(self) -> DataProxy:
-        """Delegates to the data proxy."""
+        """Delegates to a :py:class:`mcipc.rcon.commands.execute.DataProxy`"""
         return self._proxy(DataProxy, 'data')
 
     def entity(self, entities: str) -> ExecuteProxy:
@@ -209,12 +216,16 @@ class ExecuteProxy(CommandProxy):
 
     @property
     def if_(self) -> ConditionalProxy:
-        """Returns a conditional proxy."""
+        """Delegates to a
+        :py:class:`mcipc.rcon.commands.execute.ConditionalProxy`
+        """
         return self._proxy(ConditionalProxy, 'if')
 
     @property
     def unless(self) -> ConditionalProxy:
-        """Returns a conditional proxy."""
+        """Delegates to a
+        :py:class:`mcipc.rcon.commands.execute.ConditionalProxy`
+        """
         return self._proxy(ConditionalProxy, 'unless')
 
     def run(self, *arguments: str) -> str:
@@ -225,6 +236,6 @@ class ExecuteProxy(CommandProxy):
 
 
 def execute(self: Client) -> ExecuteProxy:
-    """Returns a proxy for sub-commands."""
+    """Delegates to a :py:class:`mcipc.rcon.commands.execute.ExecuteProxy`"""
 
     return ExecuteProxy(self, 'execute')

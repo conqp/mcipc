@@ -5,7 +5,7 @@ from mcipc.rcon.je.types import TeamOption, TeamValue
 from mcipc.rcon.proxy import CommandProxy
 
 
-__all__ = ['team']
+__all__ = ['TeamProxy', 'team']
 
 
 class TeamProxy(CommandProxy):
@@ -42,6 +42,8 @@ class TeamProxy(CommandProxy):
 
 
 def team(self: Client) -> TeamProxy:
-    """Delegates to a command proxy."""
+    """Delegates to a
+    :py:class:`mcipc.rcon.je.commands.team.TeamProxy`
+    """
 
     return TeamProxy(self, 'team')

@@ -4,7 +4,7 @@ from mcipc.rcon.client import Client
 from mcipc.rcon.proxy import CommandProxy
 
 
-__all__ = ['recipe']
+__all__ = ['RecipeProxy', 'recipe']
 
 
 class RecipeProxy(CommandProxy):
@@ -21,6 +21,8 @@ class RecipeProxy(CommandProxy):
 
 
 def recipe(self: Client) -> RecipeProxy:
-    """Delegates to a command proxy."""
+    """Delegates to a
+    :py:class:`mcipc.rcon.je.commands.recipe.RecipeProxy`
+    """
 
     return RecipeProxy(self, 'recipe')

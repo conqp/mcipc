@@ -7,7 +7,7 @@ from mcipc.rcon.proxy import CommandProxy
 from mcipc.rcon.types import Vec3
 
 
-__all__ = ['schedule']
+__all__ = ['ScheduleProxy', 'schedule']
 
 
 class ScheduleProxy(CommandProxy):
@@ -28,6 +28,8 @@ class ScheduleProxy(CommandProxy):
 
 
 def schedule(self: Client) -> ScheduleProxy:
-    """Delegates to a proxy."""
+    """Delegates to a
+    :py:class:`mcipc.rcon.be.commands.schedule.ScheduleProxy`
+    """
 
     return ScheduleProxy(self, 'schedule', 'on_area_loaded', 'add')

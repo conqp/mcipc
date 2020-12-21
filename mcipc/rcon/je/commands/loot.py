@@ -7,7 +7,7 @@ from mcipc.rcon.proxy import CommandProxy
 from mcipc.rcon.types import Hand, Vec3
 
 
-__all__ = ['loot']
+__all__ = ['LootProxy', 'ReplaceProxy', 'SourceProxy', 'loot']
 
 
 class SourceProxy(CommandProxy):
@@ -36,37 +36,51 @@ class ReplaceProxy(CommandProxy):
 
     def entity(self, entities: str, slot: str,
                count: int = None) -> SourceProxy:
-        """Delegates to the source proxy."""
+        """Delegates to a
+        :py:class:`mcipc.rcon.je.commands.loot.SourceProxy`
+        """
         return self._proxy(SourceProxy, 'entity', entities, slot, count)
 
     def block(self, target_pos: Vec3, slot: str,
               count: int = None) -> SourceProxy:
-        """Delegates to the source proxy."""
+        """Delegates to a
+        :py:class:`mcipc.rcon.je.commands.loot.SourceProxy`
+        """
         return self._proxy(SourceProxy, 'block', target_pos, slot, count)
 
 
-class TargetProxy(CommandProxy):
+class LootProxy(CommandProxy):
     """Proxy for target-related commands."""
 
     def spawn(self, target_pos: Vec3) -> SourceProxy:
-        """Returns a source proxy."""
+        """Delegates to a
+        :py:class:`mcipc.rcon.je.commands.loot.SourceProxy`
+        """
         self._proxy(SourceProxy, 'spawn', target_pos)
 
     @property
     def replace(self) -> ReplaceProxy:
-        """Delegates to the replace proxy."""
+        """Delegates to a
+        :py:class:`mcipc.rcon.je.commands.loot.ReplaceProxy`
+        """
         return self._proxy(ReplaceProxy, 'replace')
 
     def give(self, players: str) -> SourceProxy:
-        """Delegates to the source proxy."""
+        """Delegates to a
+        :py:class:`mcipc.rcon.je.commands.loot.SourceProxy`
+        """
         return self._proxy(SourceProxy, 'give', players)
 
     def insert(self, target_pos: Vec3) -> SourceProxy:
-        """Delegates to the source proxy."""
+        """Delegates to a
+        :py:class:`mcipc.rcon.je.commands.loot.SourceProxy`
+        """
         return self._proxy(SourceProxy, 'insert', target_pos)
 
 
-def loot(self: Client) -> TargetProxy:
-    """Returns a loot target proxy."""
+def loot(self: Client) -> LootProxy:
+    """Delegates to a
+    :py:class:`mcipc.rcon.je.commands.loot.LootProxy`
+    """
 
-    return TargetProxy(self, 'loot')
+    return LootProxy(self, 'loot')

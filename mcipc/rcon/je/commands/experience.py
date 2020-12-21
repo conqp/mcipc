@@ -5,7 +5,7 @@ from mcipc.rcon.proxy import CommandProxy
 from mcipc.rcon.types import XPUnit
 
 
-__all__ = ['experience', 'xp']
+__all__ = ['ExperienceProxy', 'experience', 'xp']
 
 
 class ExperienceProxy(CommandProxy):
@@ -25,12 +25,16 @@ class ExperienceProxy(CommandProxy):
 
 
 def experience(self: Client) -> ExperienceProxy:
-    """Delegates to a command proxy."""
+    """Delegates to a
+    :py:class:`mcipc.rcon.je.commands.experience.ExperienceProxy`
+    """
 
     return ExperienceProxy(self, 'experience')
 
 
 def xp(self: Client) -> ExperienceProxy:    # pylint: disable=C0103
-    """Delegates to a command proxy."""
+    """Delegates to a
+    :py:class:`mcipc.rcon.je.commands.experience.ExperienceProxy`
+    """
 
     return ExperienceProxy(self, 'xp')

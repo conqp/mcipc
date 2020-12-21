@@ -5,7 +5,13 @@ from mcipc.rcon.proxy import CommandProxy
 from mcipc.rcon.types import Action
 
 
-__all__ = ['attribute']
+__all__ = [
+    'AttributeProxy',
+    'BaseProxy',
+    'ModifierProxy',
+    'ValueProxy',
+    'attribute'
+]
 
 
 class ValueProxy(CommandProxy):    # pylint: disable=R0903
@@ -45,7 +51,9 @@ class ModifierProxy(CommandProxy):
 
     @property
     def value(self) -> ValueProxy:
-        """Delegates to the value proxy."""
+        """Delegates to a
+        :py:class:`mcipc.rcon.je.commands.attribute.ValueProxy`
+        """
         return self._proxy(ValueProxy, 'value')
 
 
@@ -54,12 +62,16 @@ class AttributeProxy(CommandProxy):
 
     @property
     def base(self) -> BaseProxy:
-        """Returns an attribute base proxy."""
+        """Delegates to a
+        :py:class:`mcipc.rcon.je.commands.attribute.BaseProxy`
+        """
         return self._proxy(BaseProxy, 'base')
 
     @property
     def modifier(self) -> ModifierProxy:
-        """Returns an attribute modifier proxy."""
+        """Delegates to a
+        :py:class:`mcipc.rcon.je.commands.attribute.ModifierProxy`
+        """
         return self._proxy(ModifierProxy, 'modifier')
 
     def get(self, scale: float = None) -> str:
@@ -69,6 +81,8 @@ class AttributeProxy(CommandProxy):
 
 # pylint: disable=W0621
 def attribute(self: Client, target: str, attribute: str) -> AttributeProxy:
-    """Returns an attribute proxy."""
+    """Delegates to a
+    :py:class:`mcipc.rcon.je.commands.attribute.AttributeProxy`
+    """
 
     return AttributeProxy(self, 'attribute', target, attribute)

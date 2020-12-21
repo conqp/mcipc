@@ -9,7 +9,7 @@ from mcipc.rcon.proxy import CommandProxy
 from mcipc.rcon.types import Vec3
 
 
-__all__ = ['structure']
+__all__ = ['StructureProxy', 'structure']
 
 
 class StructureProxy(CommandProxy):
@@ -45,6 +45,8 @@ class StructureProxy(CommandProxy):
 
 
 def structure(self: Client) -> StructureProxy:
-    """Delegates to a command proxy."""
+    """Delegates to a
+    :py:class:`mcipc.rcon.be.commands.structure.StructureProxy`
+    """
 
     return StructureProxy(self, 'structure')
