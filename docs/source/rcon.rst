@@ -16,18 +16,20 @@ The following example assumes a server running on :code:`127.0.0.1` and on the R
 
 .. code-block:: python
 
-	from mcipc.rcon.be import Client    # For Bedrock Edition servers.
-	from mcipc.rcon.ee import Client    # For Education Edition servers.
-	from mcipc.rcon.je import Client    # For Java Edition servers.
+	from mcipc.rcon.je import Biome, Client     # For Java Edition servers.
+	#from mcipc.rcon.be import Client           # For Bedrock Edition servers.
+	#from mcipc.rcon.ee import Client           # For Education Edition servers.
 
 	with Client('127.0.0.1', 5000, passwd='mysecretpassword') as client:
-	    seed = client.seed                  # Get the server's seed.
-	    players = client.players            # Get the server's players info.
-	    mansion = client.locate('mansion')  # Get the next mansion's location.
+	    seed = client.seed                  		# Get the server's seed.
+	    players = client.players            		# Get the server's players info.
+	    mansion = client.locate('mansion')			# Get the next mansion's location.
+	    badlands = client.locatebiome(Biome.BADLANDS)   	# Get the next location of a badlands biome.
 
 	print(seed)
 	print(players)
 	print(mansion)
+	print(badlands)
 
 Example output of the above commands with a Java Edition client:
 
@@ -36,6 +38,7 @@ Example output of the above commands with a Java Edition client:
 	-8217057902979500137
 	Players(online=1, max=20, players=(Player(name='coNQP', uuid=None, state=None),))
 	Location(name='mansion', x=-7216, y=None, z=-1952, distance=7479)
+	Location(name='minecraft:badlands', x=1512, y=None, z=3388, distance=3634)
 
 .. seealso::
 
