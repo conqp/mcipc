@@ -5,8 +5,8 @@ A Minecraft inter-process communication API implementing the [RCON](http://wiki.
 
 ### 2020-12-21 - mcipc-2.0
 Great news: `mcipc` is now available in version 2.  
-The version 2 updates includes the outsourcing of the RCON protocol and client implementation into an [own project](https://github.com/conqp/rcon).  
-This allowes for the RCON library to be used independently of mcipc, e.g. for other games which support the RCON protocol (I successfully tested it on Ark).  
+The version 2 update includes the outsourcing of the RCON protocol and client implementation into an [own project](https://github.com/conqp/rcon).  
+This allowes for the RCON library to be used independently of mcipc, e.g. for [other games](# "I successfully tested it on Ark") which support the RCON protocol.  
 Furthermore `mcipc`'s RCON client implementations have been overhauled. They now provide functions to interact with the respective server.  
 It was therefor necessary to not have one implementation of `mcipc.rcon.Client`, but three:
 
@@ -14,7 +14,7 @@ It was therefor necessary to not have one implementation of `mcipc.rcon.Client`,
 *  `mcipc.rcon.ee.Client` Client for Education Edition servers.
 *  `mcipc.rcon.je.Client` Client for Java Edition servers.
 
-For backwards compatibility, the `mcipc.rcon.Client` is now an alias for `mcipc.rcon.je.Client`.  
+To provide some backwards compatibility, the `mcipc.rcon.Client` is now an alias for `mcipc.rcon.je.Client`.  
 You'll find a full documentation of each client's capabilities, i.e. methods in the [documentation](https://mcipc.readthedocs.io/en/latest).
 
 ## Requirements
