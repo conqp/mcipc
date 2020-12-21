@@ -10,6 +10,7 @@ __all__ = [
     'InvalidInteger',
     'InvalidNameOrUUID',
     'LocationNotFound',
+    'NoPlayerFound',
     'UnexpectedTrailingData',
     'UnknownCommand',
     'check_result'
@@ -36,6 +37,10 @@ class LocationNotFound(CommandError):
     """Indicates that the given location could not be found."""
 
 
+class NoPlayerFound(CommandError):
+    """Indicates that no player was found."""
+
+
 class UnexpectedTrailingData(CommandError):
     """Indicates unexpected trailing data."""
 
@@ -49,6 +54,7 @@ ERRORS = {
     InvalidArgument: 'Incorrect argument for command(.*)<--\\[HERE\\]',
     InvalidInteger: 'Invalid integer(.*)<--\\[HERE\\]',
     InvalidNameOrUUID: 'Invalid name or UUID(.*)<--\\[HERE\\]',
+    NoPlayerFound: 'No player was found',
     UnexpectedTrailingData: ('Expected whitespace to end one argument, but '
                              'found trailing data(.*)<--\\[HERE\\]'),
     UnknownCommand: ('Unknown or incomplete command, see '

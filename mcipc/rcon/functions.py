@@ -2,13 +2,15 @@
 
 from __future__ import annotations
 from enum import Enum
+from functools import wraps
 from json import dumps
 from re import fullmatch
-from typing import Generator, Iterable, Iterator
+from typing import Callable, Generator, Iterable, Iterator
 
 
 __all__ = [
     'boolmap',
+    'parsed',
     'str_until_none',
     'stringify',
     'until_none'
@@ -29,6 +31,16 @@ def boolmap(text: str, true: str = None, false: str = None, *,
         raise ValueError(f'Unexpected text returned: {text}')
 
     return default
+
+
+def parsed(function: Callable, typ: type) -> Callable:
+    """Wraps a function to have its result parsed to a type."""
+
+    @wraps(function)
+    def wrapper(*args, **kwargs):
+        return typ(function(*args, **kwargs))
+
+    return wrapper
 
 
 def str_until_none(*items: object) -> Iterator[str]:

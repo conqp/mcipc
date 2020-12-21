@@ -6,6 +6,7 @@ from mcipc.rcon.je.errors import InvalidArgument
 from mcipc.rcon.je.errors import InvalidInteger
 from mcipc.rcon.je.errors import InvalidNameOrUUID
 from mcipc.rcon.je.errors import LocationNotFound
+from mcipc.rcon.je.errors import NoPlayerFound
 from mcipc.rcon.je.errors import UnexpectedTrailingData
 from mcipc.rcon.je.errors import UnknownCommand
 from mcipc.rcon.je.types import Biome
@@ -30,6 +31,7 @@ __all__ = [
     'InvalidInteger',
     'InvalidNameOrUUID',
     'LocationNotFound',
+    'NoPlayerFound',
     'UnexpectedTrailingData',
     'UnknownCommand',
     'Biome',

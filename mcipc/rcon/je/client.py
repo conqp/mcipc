@@ -11,6 +11,7 @@ from mcipc.rcon.commands.op import deop, op
 from mcipc.rcon.commands.reload import reload
 from mcipc.rcon.commands.tag import tag
 from mcipc.rcon.commands.whitelist import whitelist
+from mcipc.rcon.functions import parsed
 from mcipc.rcon.je.commands.advancement import advancement
 from mcipc.rcon.je.commands.attribute import attribute
 from mcipc.rcon.je.commands.ban import ban, ban_ip, banlist, pardon
@@ -62,6 +63,11 @@ from mcipc.rcon.je.commands.trigger import trigger
 from mcipc.rcon.je.commands.weather import weather
 from mcipc.rcon.je.commands.worldborder import worldborder
 from mcipc.rcon.je.errors import check_result
+from mcipc.rcon.je.parsers.help import parse as parse_help
+from mcipc.rcon.je.parsers.kick import parse as parse_kick
+from mcipc.rcon.je.parsers.location import parse as parse_location
+from mcipc.rcon.je.parsers.players import parse as parse_players
+from mcipc.rcon.je.parsers.seed import parse as parse_seed
 
 
 __all__ = ['Client']
@@ -99,13 +105,13 @@ class Client(Client):   # pylint: disable=E0102
     gamemode = gamemode
     gamerule = gamerule
     give = give
-    help = help
+    help = parsed(help, parse_help)
     item = property(item)
-    kick = kick
+    kick = parsed(kick, parse_kick)
     kill = kill
-    list = list
-    locate = locate
-    locatebiome = locatebiome
+    list = parsed(list, parse_players)
+    locate = parsed(locate, parse_location)
+    locatebiome = parsed(locatebiome, parse_location)
     loot = property(loot)
     me = me
     op = op
@@ -123,7 +129,7 @@ class Client(Client):   # pylint: disable=E0102
     say = say
     schedule = property(schedule)
     scoreboard = property(scoreboard)
-    seed = property(seed)
+    seed = property(parsed(seed, parse_seed))
     send_url = send_url
     setblock = setblock
     setidletimeout = setidletimeout
