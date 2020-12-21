@@ -29,7 +29,7 @@ copyright = '2020, Richard Neumann'
 author = 'Richard Neumann'
 
 # The full version, including alpha/beta/rc tags
-release = '1.4.5'
+release = '2.0.3'
 
 
 # -- General configuration ---------------------------------------------------
