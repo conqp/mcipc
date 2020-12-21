@@ -16,26 +16,37 @@ The following example assumes a server running on :code:`127.0.0.1` and on the R
 
 .. code-block:: python
 
-    from mcipc.rcon import Client
+	from mcipc.be.rcon import Client    # For Bedrock Edition servers.
+	from mcipc.ee.rcon import Client    # For Education Edition servers.
+	from mcipc.je.rcon import Client    # For Java Edition servers.
 
-    with Client('127.0.0.1', 5000) as client:
-        client.login('mysecretpassword')    # Perform initial login.
-        seed = client.seed                  # Get the server's seed.
-        players = client.players            # Get the server's players info.
-        mansion = client.locate('Mansion')  # Get the next mansion's location.
+	with Client('127.0.0.1', 5000, passwd='mysecretpassword') as client:
+	    seed = client.seed                  # Get the server's seed.
+	    players = client.players            # Get the server's players info.
+	    mansion = client.locate('mansion')  # Get the next mansion's location.
 
-    print(seed)
-    print(players)
-    print(mansion)
+	print(seed)
+	print(players)
+	print(mansion)
+
+Output of the above example for Java Edition clients:
+
+.. code-block:: python
+
+	-8217057902979500137
+	Players(online=1, max=20, players=(Player(name='coNQP', uuid=None, state=None),))
+	Location(name='mansion', x=-7216, y=None, z=-1952, distance=7479)
 
 .. seealso::
 
-    :py:class:`mcipc.rcon.client.Client`
+    Bedrock Edition client: :py:class:`mcipc.rcon.client.be.Client`
+    Education Edition client: :py:class:`mcipc.rcon.client.ee.Client`
+    Java Edition client: :py:class:`mcipc.rcon.client.je.Client`
 
 JSON conversion
 ---------------
 
-:py:class:`mcipc.rcon.datastructures.seed.Seed`, :py:class:`mcipc.rcon.datastructures.players.Players` and :py:class:`mcipc.rcon.datastructures.location.Location` objects provide a :code:`to_json()` method to return their values in a JSON compatible format:
+:py:class:`mcipc.rcon.response_types.seed.Seed`, :py:class:`mcipc.rcon.response_types.players.Players` and :py:class:`mcipc.rcon.response_types.location.Location` objects provide a :code:`to_json()` method to return their values in a JSON compatible format:
 
 .. code-block:: python
 

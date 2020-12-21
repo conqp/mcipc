@@ -52,17 +52,27 @@ The `RCON` protocol is used to remotely control a Minecraft server, i.e. execute
 commands on a Minecraft server and receive the respective results.
 
 ```python
-from mcipc.rcon import Client
+from mcipc.be.rcon import Client    # For Bedrock Edition servers.
+from mcipc.ee.rcon import Client    # For Education Edition servers.
+from mcipc.je.rcon import Client    # For Java Edition servers.
 
 with Client('127.0.0.1', 5000) as client:
     client.login('mysecretpassword')    # Perform initial login.
     seed = client.seed                  # Get the server's seed.
     players = client.players            # Get the server's players info.
-    mansion = client.locate('Mansion')  # Get the next mansion's location.
+    mansion = client.locate('mansion')  # Get the next mansion's location.
 
 print(seed)
 print(players)
 print(mansion)
+```
+
+Output of the above example for Java Edition clients:
+
+```python
+-8217057902979500137
+Players(online=1, max=20, players=(Player(name='coNQP', uuid=None, state=None),))
+Location(name='mansion', x=-7216, y=None, z=-1952, distance=7479)
 ```
 
 ## Credits

@@ -8,7 +8,6 @@ Subpackages
    :maxdepth: 4
 
    mcipc.rcon.je.commands
-   mcipc.rcon.je.parsers
 
 Submodules
 ----------
@@ -17,14 +16,6 @@ mcipc.rcon.je.client module
 ---------------------------
 
 .. automodule:: mcipc.rcon.je.client
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-mcipc.rcon.je.errors module
----------------------------
-
-.. automodule:: mcipc.rcon.je.errors
    :members:
    :undoc-members:
    :show-inheritance:

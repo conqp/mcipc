@@ -32,6 +32,14 @@ mcipc.rcon.editions module
    :undoc-members:
    :show-inheritance:
 
+mcipc.rcon.errors module
+------------------------
+
+.. automodule:: mcipc.rcon.errors
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 mcipc.rcon.functions module
 ---------------------------
 
