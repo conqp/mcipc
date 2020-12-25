@@ -49,10 +49,14 @@ class Response(NamedTuple):
         bytes_ = b''
 
         while True:
-            bytes_ += file.read(1)
+            byte := file.read(1)
 
-            with suppress(ValueError):
-                challenge_token = BigEndianSignedInt32(bytes_.decode())
+            if byte == b'\x00':
+                try:
+                    challenge_token = BigEndianSignedInt32(bytes_.decode())
+                except ValueError:
+                    bytes_ += byte
+
                 break
 
         return cls(type_, session_id, challenge_token)
