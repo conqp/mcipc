@@ -55,8 +55,8 @@ class Response(NamedTuple):
                     challenge_token = BigEndianSignedInt32(bytes_.decode())
                 except ValueError:
                     bytes_ += byte
-
-                break
+                else:
+                    break
 
         return cls(type_, session_id, challenge_token)
 
