@@ -5,6 +5,7 @@ from contextlib import suppress
 from typing import IO, NamedTuple
 
 from mcipc.query.proto.common import MAGIC
+from mcipc.query.proto.common import NULL
 from mcipc.query.proto.common import random_session_id
 from mcipc.query.proto.common import BigEndianSignedInt32
 from mcipc.query.proto.common import Type
@@ -51,7 +52,7 @@ class Response(NamedTuple):
         while True:
             byte = file.read(1)
 
-            if byte == b'\x00':
+            if byte == NULL:
                 with suppress(ValueError):
                     challenge_token = BigEndianSignedInt32(bytes_.decode())
                     break

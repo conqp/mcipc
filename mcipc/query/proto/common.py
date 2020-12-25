@@ -10,6 +10,7 @@ from typing import IO, Iterable, Iterator, Union
 
 __all__ = [
     'MAGIC',
+    'NULL',
     'decodeall',
     'ip_or_hostname',
     'random_session_id',
@@ -19,6 +20,7 @@ __all__ = [
 
 
 MAGIC = b'\xfe\xfd'
+NULL = b'\0'
 SESSION_ID_MASK = 0x0F0F0F0F
 
 

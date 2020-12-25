@@ -4,6 +4,7 @@ from __future__ import annotations
 from typing import IO, Iterator, NamedTuple
 
 from mcipc.query.proto.common import MAGIC
+from mcipc.query.proto.common import NULL
 from mcipc.query.proto.common import ip_or_hostname
 from mcipc.query.proto.common import random_session_id
 from mcipc.query.proto.common import BigEndianSignedInt32
@@ -15,7 +16,6 @@ __all__ = ['Request', 'FullStats']
 
 
 PADDING = b'\x00\x00\x00\x00'
-NULL = b'\0'
 
 
 def read_stats(file: IO) -> dict:
