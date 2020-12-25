@@ -43,8 +43,8 @@ class Response(NamedTuple):
     @classmethod
     def read(cls, file: IO) -> Response:
         """Reads the response from a file-like object."""
-        type_ = Type.from_bytes(file.read(1))
-        session_id = BigEndianSignedInt32.from_bytes(file.read(4))
+        type_ = Type.read(file)
+        session_id = BigEndianSignedInt32.read(file)
         # For challenge token, see: https://wiki.vg/Query#Handshake
         bytes_ = b''
 
