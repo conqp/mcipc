@@ -99,7 +99,7 @@ class Client(BaseClient, HandshakeMixin, BasicStatsMixin, FullStatsMixin):
         with self._socket.makefile('wb', buffering=buffer) as file:
             file.write(bytes(request))
 
-        with self._socket.makefile('wb', buffering=buffer) as file:
+        with self._socket.makefile('rb', buffering=buffer) as file:
             if isinstance(request, HandshakeRequest):
                 return read_handshake(file)
 
