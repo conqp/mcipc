@@ -140,7 +140,7 @@ class FullStats(NamedTuple):
         session_id = BigEndianSignedInt32.read(file)
         _ = file.read(11)   # Discard padding.
         stats = read_stats(file)
-        _ = file.read(10)     # Discard padding.
+        _ = file.read(10)   # Discard padding.
         players = tuple(read_players(file))
         return cls(type_, session_id, *stats_from_dict(stats), players)
 
