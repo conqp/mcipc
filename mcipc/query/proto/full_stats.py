@@ -1,7 +1,7 @@
 """Full statistics protocol."""
 
 from __future__ import annotations
-from typing import Generator, NamedTuple, Tuple
+from typing import IO, Iterator, NamedTuple
 
 from mcipc.query.proto.common import MAGIC
 from mcipc.query.proto.common import ip_or_hostname
@@ -11,14 +11,14 @@ from mcipc.query.proto.common import IPAddressOrHostname
 from mcipc.query.proto.common import Type
 
 
-__all__ = ['Request', 'FullStats', 'FullStatsMixin']
+__all__ = ['Request', 'FullStats']
 
 
 PADDING = b'\x00\x00\x00\x00'
 NULL = b'\0'
 
 
-def get_dict(bytes_: bytes) -> Tuple[int, dict]:
+def read_stats(file: IO) -> dict:
     """Returns the end index and a dictionary
     of zero-separated key-value pairs.
     """
@@ -28,12 +28,12 @@ def get_dict(bytes_: bytes) -> Tuple[int, dict]:
     key = None
     is_key = True
 
-    for index, integer in enumerate(bytes_):
-        byte = bytes([integer])
+    while True:
+        byte = file.read(1)
 
         if byte == NULL:
             if not item and is_key:
-                return (index, dictionary)
+                return dictionary
 
             if is_key:
                 key = item
@@ -47,16 +47,14 @@ def get_dict(bytes_: bytes) -> Tuple[int, dict]:
         else:
             item += byte.decode('latin-1')
 
-    raise ValueError('Bytes string not properly terminated.', bytes_)
 
-
-def items(bytes_: bytes) -> Generator[str, None, None]:
+def read_players(file: IO) -> Iterator[str]:
     """Yields zero-byte-separated items."""
 
     item = ''
 
-    for integer in bytes_:
-        byte = bytes([integer])
+    while True:
+        byte = file.read(1)
 
         if byte == NULL:
             if not item:
@@ -112,6 +110,11 @@ class Request(NamedTuple):
         payload += self.padding
         return payload
 
+    @classmethod
+    def create(cls, challenge_token: BigEndianSignedInt32) -> Request:
+        """Creates a new request with the given challenge token."""
+        return cls(session_id=random_session_id(),
+                   challenge_token=challenge_token)
 
 class FullStats(NamedTuple):
     """Full statistics response."""
@@ -131,16 +134,14 @@ class FullStats(NamedTuple):
     players: tuple
 
     @classmethod
-    def from_bytes(cls, bytes_: bytes) -> FullStats:
-        """Creates the full stats object from the respective bytes."""
-        type_ = Type.from_bytes(bytes_[0:1])
-        session_id = BigEndianSignedInt32.from_bytes(bytes_[1:5])
-        index = 16      # Discard padding.
-        offset, stats = get_dict(bytes_[index:])
-        index += offset
-        index += 1      # Discard additional null byte.
-        index += 10     # Discard padding.
-        players = tuple(items(bytes_[index:]))
+    def read(cls, file: IO) -> FullStats:
+        """Read a full stats response."""
+        type_ = Type.read(file)
+        session_id = BigEndianSignedInt32.read(file)
+        _ = file.read(11)   # Discard padding.
+        stats = read_stats(file)
+        _ = file.read(10)     # Discard padding.
+        players = tuple(read_players(file))
         return cls(type_, session_id, *stats_from_dict(stats), players)
 
     def to_json(self) -> dict:
@@ -160,16 +161,3 @@ class FullStats(NamedTuple):
             'host_ip': str(self.host_ip),
             'players': self.players
         }
-
-
-class FullStatsMixin:   # pylint: disable=R0903
-    """Query client mixin for full stats."""
-
-    @property
-    def full_stats(self) -> FullStats:
-        """Returns full stats"""
-        request = Request(
-            session_id=random_session_id(),
-            challenge_token=self.challenge_token)
-        bytes_ = self.communicate(request)
-        return FullStats.from_bytes(bytes_)

@@ -1,7 +1,7 @@
 """Basic statistics protocol."""
 
 from __future__ import annotations
-from typing import NamedTuple
+from typing import IO, NamedTuple
 
 from mcipc.query.proto.common import MAGIC
 from mcipc.query.proto.common import decodeall
@@ -12,7 +12,7 @@ from mcipc.query.proto.common import IPAddressOrHostname
 from mcipc.query.proto.common import Type
 
 
-__all__ = ['Request', 'BasicStats', 'BasicStatsMixin']
+__all__ = ['Request', 'BasicStats']
 
 
 class Request(NamedTuple):
@@ -31,6 +31,12 @@ class Request(NamedTuple):
         payload += bytes(self.challenge_token)
         return payload
 
+    @classmethod
+    def create(cls, challenge_token: BigEndianSignedInt32) -> Request:
+        """Creates a new request with the given challenge token."""
+        return cls(session_id=random_session_id(),
+                   challenge_token=challenge_token)
+
 
 class BasicStats(NamedTuple):
     """Basic statistics response packet."""
@@ -46,11 +52,19 @@ class BasicStats(NamedTuple):
     host_ip: IPAddressOrHostname
 
     @classmethod
-    def from_bytes(cls, bytes_: bytes) -> BasicStats:   # pylint: disable=R0914
-        """Creates the packet from the respective bytes."""
-        type_ = Type.from_bytes(bytes_[0:1])
-        session_id = BigEndianSignedInt32.from_bytes(bytes_[1:5])
-        *blocks, port_ip, _ = bytes_[5:].split(b'\0')
+    def read(cls, file: IO) -> BasicStats:
+        """Reads the basic stats from a file-like object."""
+        type_ = Type.read(file)
+        session_id = BigEndianSignedInt32.read(file)
+        body = b''
+
+        while True:
+            body += file.read(1)
+
+            if len(body.split(b'\0')) == 7:
+                break
+
+        *blocks, port_ip, _ = body.split(b'\0')
         motd, game_type, map_, num_players, max_players = decodeall(blocks)
         num_players = int(num_players)
         max_players = int(max_players)
@@ -73,16 +87,3 @@ class BasicStats(NamedTuple):
             'host_port': self.host_port,
             'host_ip': str(self.host_ip)
         }
-
-
-class BasicStatsMixin:  # pylint: disable=R0903
-    """Query client mixin for basic stats."""
-
-    @property
-    def basic_stats(self) -> BasicStats:
-        """Returns basic stats"""
-        request = Request(
-            session_id=random_session_id(),
-            challenge_token=self.challenge_token)
-        bytes_ = self.communicate(request)
-        return BasicStats.from_bytes(bytes_)

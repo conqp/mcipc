@@ -1,24 +1,18 @@
 """Low-level protocol stuff."""
 
-from typing import Union
-
-from mcipc.query.proto.basic_stats import BasicStatsMixin
+from mcipc.query.proto.basic_stats import BasicStats
 from mcipc.query.proto.basic_stats import Request as BasicStatsRequest
-from mcipc.query.proto.full_stats import FullStatsMixin
+from mcipc.query.proto.full_stats import FullStats
 from mcipc.query.proto.full_stats import Request as FullStatsRequest
-from mcipc.query.proto.handshake import HandshakeMixin
 from mcipc.query.proto.handshake import Request as HandshakeRequest
+from mcipc.query.proto.handshake import Response
 
 
 __all__ = [
-    'BasicStatsMixin',
+    'BasicStats',
     'BasicStatsRequest',
-    'FullStatsMixin',
+    'FullStats',
     'FullStatsRequest',
-    'HandshakeMixin',
     'HandshakeRequest',
-    'Request'
+    'Response'
 ]
-
-
-Request = Union[BasicStatsRequest, FullStatsRequest, HandshakeRequest]

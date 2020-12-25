@@ -5,7 +5,7 @@ from enum import Enum
 from functools import partial
 from ipaddress import IPv4Address, IPv6Address, ip_address
 from random import randint
-from typing import Iterable, Iterator, Union
+from typing import IO, Iterable, Iterator, Union
 
 
 __all__ = [
@@ -71,6 +71,11 @@ class BigEndianSignedInt32(int):
         """Reutns the int from the given bytes."""
         return super().from_bytes(bytes_, 'big', signed=True)
 
+    @classmethod
+    def read(cls, file: IO) -> BigEndianSignedInt32:
+        """Reads a big endian int32 from a file-like object."""
+        return cls.from_bytes(file.read(4))
+
 
 class Type(Enum):
     """Request type."""
@@ -86,3 +91,8 @@ class Type(Enum):
     def from_bytes(cls, bytes_: bytes) -> Type:
         """Returns the type from the respective bytes."""
         return cls(int.from_bytes(bytes_, 'big'))
+
+    @classmethod
+    def read(cls, file: IO) -> Type:
+        """Reads the type from a file-like object."""
+        return cls.from_bytes(file.read(1))
