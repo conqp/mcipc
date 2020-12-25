@@ -84,5 +84,5 @@ class BasicStatsMixin:  # pylint: disable=R0903
         request = Request(
             session_id=random_session_id(),
             challenge_token=self.challenge_token)
-        bytes_ = self.communicate(bytes(request))
+        bytes_ = self.communicate(request)
         return BasicStats.from_bytes(bytes_)

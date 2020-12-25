@@ -135,9 +135,10 @@ class FullStats(NamedTuple):
         """Creates the full stats object from the respective bytes."""
         type_ = Type.from_bytes(bytes_[0:1])
         session_id = BigEndianSignedInt32.from_bytes(bytes_[1:5])
-        index = 16  # Discard padding.
-        index, stats = get_dict(bytes_[index:])
-        index += 16 + 1     # Discard additional null byte.
+        index = 16      # Discard padding.
+        offset, stats = get_dict(bytes_[index:])
+        index += offset
+        index += 1      # Discard additional null byte.
         index += 10     # Discard padding.
         players = tuple(items(bytes_[index:]))
         return cls(type_, session_id, *stats_from_dict(stats), players)
@@ -170,5 +171,5 @@ class FullStatsMixin:   # pylint: disable=R0903
         request = Request(
             session_id=random_session_id(),
             challenge_token=self.challenge_token)
-        bytes_ = self.communicate(bytes(request))
+        bytes_ = self.communicate(request)
         return FullStats.from_bytes(bytes_)

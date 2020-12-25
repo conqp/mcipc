@@ -1,11 +1,14 @@
 """Query client library."""
 
 from socket import SOCK_DGRAM, socket
-from typing import Generator
 
 from mcipc.query.proto import BasicStatsMixin
+from mcipc.query.proto import BasicStatsRequest
 from mcipc.query.proto import FullStatsMixin
+from mcipc.query.proto import FullStatsRequest
 from mcipc.query.proto import HandshakeMixin
+from mcipc.query.proto import HandshakeRequest
+from mcipc.query.proto import Request
 
 
 __all__ = ['Client']
@@ -52,19 +55,49 @@ class Client(BaseClient, HandshakeMixin, BasicStatsMixin, FullStatsMixin):
 
         return result
 
-    def _recv_chunks(self, buffer: int = 4096) -> Generator[bytes, None, None]:
-        """Yields chunks of bytes from the socket."""
-        while chunk := self._socket.recv(buffer):
-            yield chunk
+    def _recv_handshake(self, buffer: int = 4096) -> bytes:
+        """Receives a handshake response."""
+        header = self._socket.recv(4)
+        body = b''
 
-            if len(chunk) < buffer:
-                return
+        while True:
+            body += self._socket.recv(buffer)
 
-    def _recv_all(self, buffer: int = 4096) -> bytes:
-        """Receives all bytes from the socket."""
-        return b''.join(self._recv_chunks(buffer=buffer))
+            if b'\x00' in body:
+                return header + body
 
-    def communicate(self, request: bytes, *, buffer: int = 4096) -> bytes:
+    def _recv_basic_stats(self, buffer: int = 4096) -> bytes:
+        """Receives a basic stats response."""
+        header = self._socket.recv(4)
+        body = b''
+
+        while True:
+            body += self._socket.recv(buffer)
+
+            if len(body.split(b'\0')) == 7:
+                return header + body
+
+    def _recv_full_stats(self, buffer: int = 4096) -> bytes:
+        """Receives a full stats response."""
+        result = b''
+
+        while True:
+            result += self._socket.recv(buffer)
+
+            if result[-3:] == b'\x00\x00\x00':
+                return result
+
+    def communicate(self, request: Request, *, buffer: int = 4096) -> bytes:
         """Sends and receives bytes."""
-        self._socket.send(request)
-        return self._recv_all(buffer=buffer)
+        self._socket.send(bytes(request))
+
+        if isinstance(request, HandshakeRequest):
+            return self._recv_handshake(buffer=buffer)
+
+        if isinstance(request, BasicStatsRequest):
+            return self._recv_basic_stats(buffer=buffer)
+
+        if isinstance(request, FullStatsRequest):
+            return self._recv_full_stats(buffer=buffer)
+
+        raise ValueError('Unknown request type:', request)

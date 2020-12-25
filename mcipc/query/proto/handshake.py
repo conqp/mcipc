@@ -58,7 +58,7 @@ class HandshakeMixin:   # pylint: disable=R0903
     def handshake(self, *, set_challenge_token: bool = True) -> Response:
         """Performs a handshake."""
         request = Request(session_id=random_session_id())
-        bytes_ = self.communicate(bytes(request))
+        bytes_ = self.communicate(request)
         response = Response.from_bytes(bytes_)
 
         if set_challenge_token:
