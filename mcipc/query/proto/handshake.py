@@ -1,7 +1,6 @@
 """Handshake protocol."""
 
 from __future__ import annotations
-from contextlib import suppress
 from typing import IO, NamedTuple
 
 from mcipc.query.proto.common import MAGIC
@@ -49,7 +48,7 @@ class Response(NamedTuple):
         bytes_ = b''
 
         while True:
-            byte := file.read(1)
+            byte = file.read(1)
 
             if byte == b'\x00':
                 try:
