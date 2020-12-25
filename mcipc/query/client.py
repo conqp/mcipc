@@ -4,6 +4,7 @@ from socket import SOCK_DGRAM, socket
 
 from mcipc.query.proto import BasicStats
 from mcipc.query.proto import BasicStatsRequest
+from mcipc.query.proto import BigEndianSignedInt32
 from mcipc.query.proto import FullStats
 from mcipc.query.proto import FullStatsRequest
 from mcipc.query.proto import HandshakeRequest
@@ -31,7 +32,7 @@ class Client:
         self._socket.connect((self.host, self.port))
 
         if self.challenge_token is None:
-            self.handshake()
+            self.challenge_token = self.handshake()
 
         return self
 
@@ -61,7 +62,7 @@ class Client:
         with self._socket.makefile('rb') as file:
             return FullStats.read(file)
 
-    def handshake(self, *, set_challenge_token: bool = True) -> Response:
+    def handshake(self) -> BigEndianSignedInt32:
         """Performs a handshake."""
         request = HandshakeRequest.create()
 
@@ -71,7 +72,4 @@ class Client:
         with self._socket.makefile('rb') as file:
             response = Response.read(file)
 
-        if set_challenge_token:
-            self.challenge_token = response.challenge_token
-
-        return response
+        return response.challenge_token
