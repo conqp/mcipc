@@ -1,6 +1,7 @@
 """Handshake protocol."""
 
 from __future__ import annotations
+from contextlib import suppress
 from typing import IO, NamedTuple
 
 from mcipc.query.proto.common import MAGIC
@@ -51,12 +52,11 @@ class Response(NamedTuple):
             byte = file.read(1)
 
             if byte == b'\x00':
-                try:
+                with suppress(ValueError):
                     challenge_token = BigEndianSignedInt32(bytes_.decode())
-                except ValueError:
-                    bytes_ += byte
-                else:
                     break
+
+            bytes_ += byte
 
         return cls(type_, session_id, challenge_token)
 
