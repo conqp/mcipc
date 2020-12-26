@@ -1,8 +1,0 @@
-#! /usr/bin/env python3
-"""A Minecraft Query client."""
-
-from mcipc.query.queryclt import main
-
-
-if __name__ == '__main__':
-    main()

@@ -25,8 +25,13 @@ setup(
         'mcipc.rcon.response_types',
         'mcipc.server'
     ],
-    scripts=['files/mcstubsrv', 'files/queryclt'],
     install_requires=['rcon'],
+    entry_points={
+        'console_scripts': [
+            'mcstubsrv = mcipc.server.stubsrv:main',
+            'queryclt = mcipc.query.queryclt:main'
+        ],
+    },
     url='https://github.com/conqp/mcipc',
     license='GPLv3',
     description='A Minecraft server inter-process communication library.',
