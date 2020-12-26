@@ -16,10 +16,7 @@ from mcipc.query.proto import Response
 __all__ = ['Client']
 
 
-DEPRECATION_WARNING = (
-    'The property Client.%s is deprecated and will be removed '
-    'in future versions. Use Client.stats(%s) instead.'
-)
+WARN_TEMP = 'Client.{} is deprecated. Use Client.stats({}) instead.'
 
 
 class Client:
@@ -51,14 +48,14 @@ class Client:
     @property
     def basic_stats(self) -> BasicStats:
         """Returns basic stats."""
-        warn(DEPRECATION_WARNING.format('basic_stats', ''), DeprecationWarning)
+        warn(WARN_TEMP.format('basic_stats', ''), FutureWarning, stacklevel=2)
         return self.stats()
 
     @property
     def full_stats(self) -> FullStats:
         """Returns full stats."""
-        warn(DEPRECATION_WARNING.format('full_stats', 'full=True'),
-             DeprecationWarning)
+        warn(WARN_TEMP.format('full_stats', 'full=True'), FutureWarning,
+             stacklevel=2)
         return self.stats(full=True)
 
     def handshake(self) -> BigEndianSignedInt32:
