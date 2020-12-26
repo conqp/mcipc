@@ -87,74 +87,78 @@ def get_credentials(server: str) -> Tuple[str, int]:
             exit(2)
 
 
-def basic_stats(client: Client, args: Namespace):   # pylint: disable=R0911
+def get_basic_stats(client: Client, args: Namespace):   # pylint: disable=R0911
     """Handles basic stats queries."""
 
+    basic_stats = client.stats(full=False)
+
     if not args.field:
-        return dumps(client.basic_stats.to_json(), indent=args.indent)
+        return dumps(basic_stats.to_json(), indent=args.indent)
 
     if args.field == 'motd':
-        return client.basic_stats.motd
+        return basic_stats.motd
 
     if args.field == 'game-type':
-        return client.basic_stats.game_type
+        return basic_stats.game_type
 
     if args.field == 'map':
-        return client.basic_stats.map
+        return basic_stats.map
 
     if args.field == 'num-players':
-        return client.basic_stats.num_players
+        return basic_stats.num_players
 
     if args.field == 'max-players':
-        return client.basic_stats.max_players
+        return basic_stats.max_players
 
     if args.field == 'host-port':
-        return client.basic_stats.host_port
+        return basic_stats.host_port
 
     if args.field == 'host-ip':
-        return client.basic_stats.host_ip
+        return basic_stats.host_ip
 
     raise ValueError('Invalid action.')
 
 
-def full_stats(client: Client, args: Namespace):    # pylint: disable=R0911
+def get_full_stats(client: Client, args: Namespace):    # pylint: disable=R0911
     """Handles full stats queries."""
 
+    full_stats = client.stats(full=True)
+
     if not args.field:
-        return dumps(client.full_stats.to_json(), indent=args.indent)
+        return dumps(full_stats.to_json(), indent=args.indent)
 
     if args.field == 'hostname':
-        return client.full_stats.host_name
+        return full_stats.host_name
 
     if args.field == 'game-type':
-        return client.full_stats.game_type
+        return full_stats.game_type
 
     if args.field == 'game-id':
-        return client.full_stats.game_id
+        return full_stats.game_id
 
     if args.field == 'version':
-        return client.full_stats.version
+        return full_stats.version
 
     if args.field == 'plugins':
-        return dumps(client.full_stats.plugins, indent=args.indent)
+        return dumps(full_stats.plugins, indent=args.indent)
 
     if args.field == 'map':
-        return client.full_stats.map
+        return full_stats.map
 
     if args.field == 'num-players':
-        return client.full_stats.num_players
+        return full_stats.num_players
 
     if args.field == 'max-players':
-        return client.full_stats.max_players
+        return full_stats.max_players
 
     if args.field == 'host-port':
-        return client.full_stats.host_port
+        return full_stats.host_port
 
     if args.field == 'host-ip':
-        return client.full_stats.host_ip
+        return full_stats.host_ip
 
     if args.field == 'players':
-        return dumps(client.full_stats.players, indent=args.indent)
+        return dumps(full_stats.players, indent=args.indent)
 
     raise ValueError('Invalid action.')
 
@@ -170,9 +174,9 @@ def main():
     try:
         with Client(host, port, timeout=args.timeout) as client:
             if args.action == 'basic-stats':
-                print(basic_stats(client, args), flush=True)
+                print(get_basic_stats(client, args), flush=True)
             elif args.action == 'full-stats':
-                print(full_stats(client, args), flush=True)
+                print(get_full_stats(client, args), flush=True)
     except KeyboardInterrupt:
         print()
         LOGGER.error('Aborted by user.')
