@@ -116,6 +116,7 @@ class Request(NamedTuple):
         return cls(session_id=random_session_id(),
                    challenge_token=challenge_token)
 
+
 class FullStats(NamedTuple):
     """Full statistics response."""
 
