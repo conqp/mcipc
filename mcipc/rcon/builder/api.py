@@ -25,7 +25,7 @@ def mktunnel(client: Client, profile: Profile, start: Vec3, *,
     if end is None:
         end = start + direction.value * length
     else:
-        start = Vec3(start)     # Ensure Vec3 object.
+        end = Vec3(end)     # Ensure Vec3 object.
 
     direction = check_xz_dir(start, end)
     profile = list(normalize(profile, default=default))
