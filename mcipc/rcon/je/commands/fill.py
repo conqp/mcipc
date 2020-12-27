@@ -12,9 +12,12 @@ def fill(self: Client, from_: Vec3, to: Vec3, block: str,
          mode: FillMode = None, filter: str = None) -> str:
     """Fills all or parts of a region with a specific block."""
 
-    command = ['fill', from_, to, block, (mode := FillMode(mode))]
+    command = ['fill', from_, to, block]
 
-    if filter is not None and mode == FillMode.REPLACE:
-        command.append(filter)
+    if mode is not None:
+        command.append(mode := FillMode(mode))
+
+        if filter is not None and mode == FillMode.REPLACE:
+            command.append(filter)
 
     return self.run(*command)
