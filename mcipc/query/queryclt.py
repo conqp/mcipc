@@ -71,6 +71,21 @@ def get_args() -> Namespace:
         'host-ip', help='returns the IP address of the server')
     full_stats_field.add_parser(
         'players', help='returns a list of online players')
+    # Checks stats.
+    check_parser = subparsers.add_parser(
+        'check', help='checks for certain conditions')
+    check_parser.add_parser(
+        '--max-players', type=int, metavar='players',
+        help='set upper boundary for online players')
+    check_parser.add_parser(
+        '--min-players', type=int, metavar='players',
+        help='set lower boundary for online players')
+    check_parser.add_parser(
+        '--players-online', nargs='+', metavar='player',
+        help='specify players that must be online')
+    check_parser.add_parser(
+        '--players-offline', nargs='+', metavar='player',
+        help='specify players that must be offline')
     return parser.parse_args()
 
 
@@ -163,6 +178,30 @@ def get_full_stats(client: Client, args: Namespace):    # pylint: disable=R0911
     raise ValueError('Invalid action.')
 
 
+def check(client: Client, args: Namespace) -> bool:
+    """Checks whether the specified conditions are met."""
+
+    stats = client.stats(full=True)
+
+    if args.max_players is not None:
+        if stats.num_players > args.may_players:
+            return False
+
+    if args.min_players is not None:
+        if stats.num_players < args.min_players:
+            return False
+
+    if args.players_online is not None:
+        if any(player not in stats.players for player in args.players_online):
+            return False
+
+    if args.players_offline is not None:
+        if any(player in stats.players for player in args.players_offline):
+            return False
+
+    return True
+
+
 def main():
     """Runs the RCON client."""
 
@@ -177,6 +216,8 @@ def main():
                 print(get_basic_stats(client, args), flush=True)
             elif args.action == 'full-stats':
                 print(get_full_stats(client, args), flush=True)
+            elif args.action == 'check':
+                exit(0 if check(client, args) else 1)
     except KeyboardInterrupt:
         print()
         LOGGER.error('Aborted by user.')
