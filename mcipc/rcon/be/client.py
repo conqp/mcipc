@@ -48,6 +48,7 @@ from mcipc.rcon.be.commands.weather import weather
 from mcipc.rcon.be.commands.worldbuilder import wb, worldbuilder
 from mcipc.rcon.be.commands.wsserver import connect, wsserver
 from mcipc.rcon.be.commands.xp import xp
+from mcipc.rcon.builder import mktunnel
 from mcipc.rcon.commands.chat import me, say, tell, tellraw, send_url
 from mcipc.rcon.commands.execute import execute
 from mcipc.rcon.commands.function import function
@@ -133,3 +134,5 @@ class Client(Client):   # pylint: disable=E0102
     worldbuilder = worldbuilder
     wsserver = wsserver
     xp = experience = xp
+    # Custom methods.
+    mktunnel = mktunnel
