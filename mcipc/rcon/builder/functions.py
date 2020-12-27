@@ -46,10 +46,10 @@ def get_offset(y: int, xz: int, direction: Vec3, anchor: Anchor) -> Vec3:
     left = anchor in {Anchor.TOP_LEFT, Anchor.BOTTOM_LEFT}
 
     if direction.north:
-        return Vec3(-xz if left else xz, -y if top else y, 0)
+        return Vec3(xz if left else -xz, -y if top else y, 0)
 
     if direction.south:
-        return Vec3(xz if left else -xz, -y if top else y, 0)
+        return Vec3(-xz if left else xz, -y if top else y, 0)
 
     if direction.east:
         return Vec3(0, -y if top else y, xz if left else -xz)
