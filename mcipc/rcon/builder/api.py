@@ -17,7 +17,7 @@ def mktunnel(client: Client, profile: Profile, start: Vec3, *,
              anchor: Anchor = Anchor.BOTTOM_RIGHT, default: Item = Item.AIR):
     """Creates a tunnel with the given profile."""
 
-    start = Vec3(start)     # Ensure Vec3 object.
+    start = Vec3(*start)    # Ensure Vec3 object.
 
     if not validate(profile):
         raise ValueError('Invalid matrix.')
@@ -25,7 +25,7 @@ def mktunnel(client: Client, profile: Profile, start: Vec3, *,
     if end is None:
         end = start + direction.value * length
     else:
-        end = Vec3(end)     # Ensure Vec3 object.
+        end = Vec3(*end)    # Ensure Vec3 object.
 
     direction = check_xz_dir(start, end)
     profile = list(normalize(profile, default=default))
