@@ -74,16 +74,16 @@ def get_args() -> Namespace:
     # Checks stats.
     check_parser = subparsers.add_parser(
         'check', help='checks for certain conditions')
-    check_parser.add_parser(
+    check_parser.add_argument(
         '--max-players', type=int, metavar='players',
         help='set upper boundary for online players')
-    check_parser.add_parser(
+    check_parser.add_argument(
         '--min-players', type=int, metavar='players',
         help='set lower boundary for online players')
-    check_parser.add_parser(
+    check_parser.add_argument(
         '--players-online', nargs='+', metavar='player',
         help='specify players that must be online')
-    check_parser.add_parser(
+    check_parser.add_argument(
         '--players-offline', nargs='+', metavar='player',
         help='specify players that must be offline')
     return parser.parse_args()
