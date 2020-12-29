@@ -21,7 +21,7 @@ The following example assumes a server running on :code:`127.0.0.1` and on the d
     from mcipc.query import Client
 
     with Client('127.0.0.1', 25565) as client:
-        basic_stats = client.basic_stats
+        basic_stats = client.stats()
 
     print(basic_stats)
 
@@ -35,7 +35,7 @@ For retrieving full stats of a server, the same premises apply.
     from mcipc.query import Client
 
     with Client('127.0.0.1', 25565) as client:
-        full_stats = client.full_stats
+        full_stats = client.stats(full=True)
 
     print(full_stats)
 
