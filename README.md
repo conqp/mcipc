@@ -58,7 +58,7 @@ from mcipc.rcon.je import Biome, Client     # For Java Edition servers.
 
 with Client('127.0.0.1', 5000, passwd='mysecretpassword') as client:
     seed = client.seed                              # Get the server's seed.
-    players = client.players                        # Get the server's players info.
+    players = client.list()                         # Get the server's players info.
     mansion = client.locate('mansion')              # Get the next mansion's location.
     badlands = client.locatebiome(Biome.BADLANDS)   # Get the next location of a badlands biome.
 
