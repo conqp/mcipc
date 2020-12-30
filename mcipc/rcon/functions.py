@@ -5,7 +5,7 @@ from enum import Enum
 from functools import wraps
 from json import dumps
 from re import fullmatch
-from typing import Callable, Generator, Iterable, Iterator
+from typing import Callable, Iterable, Iterator
 
 
 __all__ = [
@@ -78,7 +78,7 @@ def stringify(value: type) -> str:
     return str(value)
 
 
-def until_none(items: Iterable[type]) -> Generator[type, None, None]:
+def until_none(items: Iterable[type]) -> Iterator[type]:
     """Yields items until one item is None."""
 
     for item in items:
