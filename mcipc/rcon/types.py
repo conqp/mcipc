@@ -3,7 +3,7 @@
 from __future__ import annotations
 from enum import Enum
 from ipaddress import IPv4Address, IPv6Address
-from typing import NamedTuple, Union
+from typing import Tuple, Union
 
 
 __all__ = [
@@ -15,7 +15,6 @@ __all__ = [
     'CamerashakeType',
     'CloneMode',
     'Color',
-    'CommandSelector',
     'Coordinate',
     'DatapackMode',
     'DatapackState',
@@ -35,8 +34,6 @@ __all__ = [
     'SetblockMode',
     'StorageType',
     'Style',
-    'TargetSelector',
-    'TargetSelectorPrefix',
     'TargetType',
     'TargetValue',
     'TimeType',
@@ -48,7 +45,11 @@ __all__ = [
 
 Coordinate = Union[int, str]
 IPAddressOrHostname = Union[IPv4Address, IPv6Address, str]
-JSON = Union[dict, float, int, list, str]
+JSON = Union[bool, dict, float, int, list, str]
+Rotation = Tuple[Coordinate, Coordinate]
+Vec2 = Tuple[Coordinate, Coordinate]
+Vec3 = Tuple[Coordinate, Coordinate, Coordinate]
+TargetValue = Union[Vec3, str]
 
 
 class Ability(Enum):
@@ -231,13 +232,6 @@ class MaskMode(Enum):
     FILTERED = 'filtered'
 
 
-class Rotation(NamedTuple):
-    """Represents a rotation."""
-
-    yaw: Coordinate
-    pitch: Coordinate
-
-
 class ScanMode(Enum):
     """Available scan modes."""
 
@@ -270,44 +264,6 @@ class Style(Enum):
     PROGRESS = 'progress'
 
 
-class TargetSelector:
-    """A target selector."""
-
-    __slots__ = ('prefix', 'args')
-
-    def __init__(self, prefix: TargetSelectorPrefix = None, args: dict = None):
-        """Sets the prefix and properties."""
-        self.prefix = prefix
-        self.args = {} if args is None else args
-
-    def __str__(self):
-        """Returns a Minecraft command string."""
-        items = []
-
-        if self.prefix is not None:
-            items.append(self.prefix.value)
-
-        if args := ','.join(f'{key}={value}' for key, value in self.args):
-            items.append(f'[{args}]')
-
-        if not items:
-            raise ValueError('Cannot stringify an empty target selector.')
-
-        return ''.join(items)
-
-
-class TargetSelectorPrefix(Enum):
-    """Available target selector prefixes."""
-
-    NEAREST_PLAYER = '@p'
-    RANDOM_PLAYER = '@r'
-    ALL_PLAYERS = '@a'
-    ALL_ENTITIES = '@e'
-    CALLER = '@s'   # Entity executing the command.
-    PLAYER_AGENT = '@c'
-    ALL_AGENTS = '@v'
-
-
 class TargetType(Enum):
     """A target type."""
 
@@ -324,27 +280,8 @@ class TimeType(Enum):
     DAY = 'day'
 
 
-class Vec2(NamedTuple):
-    """A 2D vector."""
-
-    x: Coordinate
-    z: Coordinate
-
-
-class Vec3(NamedTuple):
-    """A 3D vector."""
-
-    x: Coordinate
-    y: Coordinate
-    z: Coordinate
-
-
 class XPUnit(Enum):
     """Available experience units."""
 
     LEVELS = 'levels'
     POINTS = 'points'
-
-
-CommandSelector = Union[TargetSelector, str]
-TargetValue = Union[Vec3, str]
