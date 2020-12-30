@@ -80,10 +80,7 @@ def stringify(value: type) -> str:
     if isinstance(value, str):
         return value
 
-    if isinstance(value, bool):
-        return 'true' if value else 'false'
-
-    if isinstance(value, (dict, list)):
+    if isinstance(value, (bool, dict, list)):
         return dumps(value)
 
     if isinstance(value, tuple):
