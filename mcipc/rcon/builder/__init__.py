@@ -5,4 +5,4 @@ from mcipc.rcon.builder.item import Item
 from mcipc.rcon.builder.types import Anchor, Direction, Profile, Row, Vec3
 
 
-__all__ = ['Anchor', 'Direction', 'Profile', 'Row', 'Vec3', 'mktunnel']
+__all__ = ['Anchor', 'Direction', 'Item', 'Profile', 'Row', 'Vec3', 'mktunnel']

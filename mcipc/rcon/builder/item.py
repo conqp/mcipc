@@ -6,6 +6,7 @@ from enum import Enum
 __all__ = ['Item']
 
 
+# pylint: disable=C0302
 class Item(Enum):
     """Minecraft items."""
 
@@ -229,7 +230,8 @@ class Item(Enum):
     CORNFLOWER = 'minecraft:cornflower'
     COW_SPAWN_EGG = 'minecraft:cow_spawn_egg'
     CRACKED_NETHER_BRICKS = 'minecraft:cracked_nether_bricks'
-    CRACKED_POLISHED_BLACKSTONE_BRICKS = 'minecraft:cracked_polished_blackstone_bricks'
+    CRACKED_POLISHED_BLACKSTONE_BRICKS = \
+        'minecraft:cracked_polished_blackstone_bricks'
     CRACKED_STONE_BRICKS = 'minecraft:cracked_stone_bricks'
     CRAFTING_TABLE = 'minecraft:crafting_table'
     CREEPER_BANNER_PATTERN = 'minecraft:creeper_banner_pattern'
@@ -771,10 +773,12 @@ class Item(Enum):
     POLISHED_BLACKSTONE = 'minecraft:polished_blackstone'
     POLISHED_BLACKSTONE_BRICKS = 'minecraft:polished_blackstone_bricks'
     POLISHED_BLACKSTONE_BRICK_SLAB = 'minecraft:polished_blackstone_brick_slab'
-    POLISHED_BLACKSTONE_BRICK_STAIRS = 'minecraft:polished_blackstone_brick_stairs'
+    POLISHED_BLACKSTONE_BRICK_STAIRS = \
+        'minecraft:polished_blackstone_brick_stairs'
     POLISHED_BLACKSTONE_BRICK_WALL = 'minecraft:polished_blackstone_brick_wall'
     POLISHED_BLACKSTONE_BUTTON = 'minecraft:polished_blackstone_button'
-    POLISHED_BLACKSTONE_PRESSURE_PLATE = 'minecraft:polished_blackstone_pressure_plate'
+    POLISHED_BLACKSTONE_PRESSURE_PLATE = \
+        'minecraft:polished_blackstone_pressure_plate'
     POLISHED_BLACKSTONE_SLAB = 'minecraft:polished_blackstone_slab'
     POLISHED_BLACKSTONE_STAIRS = 'minecraft:polished_blackstone_stairs'
     POLISHED_BLACKSTONE_WALL = 'minecraft:polished_blackstone_wall'
