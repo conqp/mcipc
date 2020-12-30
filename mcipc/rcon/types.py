@@ -15,7 +15,6 @@ __all__ = [
     'CamerashakeType',
     'CloneMode',
     'Color',
-    'Coordinate',
     'DatapackMode',
     'DatapackState',
     'DataType',
@@ -43,12 +42,11 @@ __all__ = [
 ]
 
 
-Coordinate = Union[int, str]
+IntOrStr = Union[int, str]
 IPAddressOrHostname = Union[IPv4Address, IPv6Address, str]
 JSON = Union[bool, dict, float, int, list, str]
-Rotation = Tuple[Coordinate, Coordinate]
-Vec2 = Tuple[Coordinate, Coordinate]
-Vec3 = Tuple[Coordinate, Coordinate, Coordinate]
+IntRange = Rotation = Vec2 = Tuple[IntOrStr, IntOrStr]
+Vec3 = Tuple[IntOrStr, IntOrStr, IntOrStr]
 TargetValue = Union[Vec3, str]
 
 
@@ -200,28 +198,6 @@ class Hand(Enum):
 
     MAINHAND = 'mainhand'
     OFFHAND = 'offhand'
-
-
-class IntRange:
-    """An integer range."""
-
-    __slots__ = ('start', 'end')
-
-    def __init__(self, start: int = None, end: int = None):
-        """Sets start and end."""
-        self.start = start
-        self.end = end
-
-    def __str__(self):
-        """Returns a string for the Minecraft server."""
-        if self.start == self.end:
-            if self.start is not None:
-                return str(self.start)
-
-            raise ValueError('Either start or end need to be specified.')
-
-        items = map(lambda item: '' if item is None else str(item), self)
-        return '..'.join(items)
 
 
 class MaskMode(Enum):

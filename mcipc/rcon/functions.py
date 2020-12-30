@@ -7,9 +7,12 @@ from json import dumps
 from re import fullmatch
 from typing import Callable, Iterable, Iterator
 
+from mcipc.rcon.types import IntRange
+
 
 __all__ = [
     'boolmap',
+    'int_range_to_str',
     'parsed',
     'str_until_none',
     'stringify',
@@ -31,6 +34,20 @@ def boolmap(text: str, true: str = None, false: str = None, *,
         raise ValueError(f'Unexpected text returned: {text}')
 
     return default
+
+
+def int_range_to_str(int_range: IntRange) -> str:
+    """Returns a string for the Minecraft server."""
+
+    start, end = int_range
+
+    if start == end:
+        if start is not None:
+            return str(start)
+
+        raise ValueError('Either start or end need to be specified.')
+
+    return '..'.join(map(lambda i: '' if i is None else str(i), int_range))
 
 
 def parsed(parser: Callable[[str], type]) -> Callable[[Callable], Callable]:
