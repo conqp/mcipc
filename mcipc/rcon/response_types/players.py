@@ -1,7 +1,7 @@
 """Information about online players."""
 
 from re import Match, fullmatch
-from typing import Generator, NamedTuple, Tuple
+from typing import Iterator, NamedTuple, Tuple
 from uuid import UUID
 
 
@@ -58,7 +58,7 @@ def player_from_java_name(name: str) -> Player:
     return Player(name, uuid=uuid)
 
 
-def players_from_java_names(names: str) -> Generator[Player, None, None]:
+def players_from_java_names(names: str) -> Iterator[Player]:
     """Yields players from a Java Edition response names."""
 
     for name in filter(None, map(str.strip, names.split(', '))):
@@ -75,7 +75,7 @@ def player_from_paper_name(name: str) -> Player:
     return Player(name, state=state)
 
 
-def players_from_paper_names(names: str) -> Generator[Player, None, None]:
+def players_from_paper_names(names: str) -> Iterator[Player]:
     """Yields players from a paper server response names."""
 
     for name in filter(None, names.split('\n')):
