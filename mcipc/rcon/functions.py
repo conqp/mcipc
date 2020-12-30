@@ -83,10 +83,10 @@ def stringify(value: type) -> str:
     if isinstance(value, bool):
         return 'true' if value else 'false'
 
-    if isinstance(value, dict):
+    if isinstance(value, (dict, list)):
         return dumps(value)
 
-    if isinstance(value, (list, tuple)):
+    if isinstance(value, tuple):
         return ' '.join(map(stringify, value))
 
     if isinstance(value, Enum):
