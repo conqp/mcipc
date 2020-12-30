@@ -1,8 +1,8 @@
 """RCON client library."""
 
 from mcipc.rcon.be import Client as BedrockClient
-from mcipc.rcon.editions import Edition
 from mcipc.rcon.ee import Client as EducationClient
+from mcipc.rcon.enumerations import Edition
 from mcipc.rcon.errors import CommandError
 from mcipc.rcon.errors import InvalidArgument
 from mcipc.rcon.errors import InvalidInteger

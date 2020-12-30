@@ -1,9 +1,33 @@
-"""Types for RCON commands."""
+"""Types for type hints."""
 
-from __future__ import annotations
-from enum import Enum
 from ipaddress import IPv4Address, IPv6Address
 from typing import Tuple, Union
+
+from mcipc.rcon.enumerations import Ability
+from mcipc.rcon.enumerations import Action
+from mcipc.rcon.enumerations import Anchor
+from mcipc.rcon.enumerations import Attribute
+from mcipc.rcon.enumerations import BossbarSlot
+from mcipc.rcon.enumerations import CamerashakeType
+from mcipc.rcon.enumerations import CloneMode
+from mcipc.rcon.enumerations import Color
+from mcipc.rcon.enumerations import DatapackMode
+from mcipc.rcon.enumerations import DatapackState
+from mcipc.rcon.enumerations import DataType
+from mcipc.rcon.enumerations import DebugCommand
+from mcipc.rcon.enumerations import Difficulty
+from mcipc.rcon.enumerations import Direction
+from mcipc.rcon.enumerations import FillMode
+from mcipc.rcon.enumerations import GameMode
+from mcipc.rcon.enumerations import Hand
+from mcipc.rcon.enumerations import MaskMode
+from mcipc.rcon.enumerations import ScanMode
+from mcipc.rcon.enumerations import SetblockMode
+from mcipc.rcon.enumerations import StorageType
+from mcipc.rcon.enumerations import Style
+from mcipc.rcon.enumerations import TargetType
+from mcipc.rcon.enumerations import TimeType
+from mcipc.rcon.enumerations import XPUnit
 
 
 __all__ = [
@@ -45,219 +69,31 @@ __all__ = [
 IntOrStr = Union[int, str]
 IPAddressOrHostname = Union[IPv4Address, IPv6Address, str]
 JSON = Union[bool, dict, float, int, list, str]
-IntRange = Rotation = Vec2 = Tuple[IntOrStr, IntOrStr]
-Vec3 = Tuple[IntOrStr, IntOrStr, IntOrStr]
-TargetValue = Union[Vec3, str]
-
-
-class Ability(Enum):
-    """Player ability."""
-
-    WORLDBUILDER = 'worldbuilder'
-    MAYFLY = 'mayfly'
-    MUTE = 'mute'
-
-
-class Action(Enum):
-    """Modifier action."""
-
-    ADD = 'add'
-    MULTIPLY = 'multiply'
-    MULTIPLY_BASE = 'multiply_base'
-
-
-class Anchor(Enum):
-    """Available entity anchors."""
-
-    EYES = 'eyes'
-    FEET = 'feet'
-
-
-class Attribute(Enum):
-    """Boss bar attributes."""
-
-    COLOR = 'color'
-    MAX = 'max'
-    NAME = 'name'
-    PLAYERS = 'players'
-    STYLE = 'style'
-    VALUE = 'value'
-    VISIBLE = 'visible'
-
-
-class BossbarSlot(Enum):
-    """A target slot off a boss bar."""
-
-    VALUE = 'value'
-    MAX = 'max'
-
-
-class CamerashakeType(Enum):
-    """Camera shake types."""
-
-    POSITIONAL = 'positional'
-    ROTATIONAL = 'rotational'
-
-
-class CloneMode(Enum):
-    """Clone modes."""
-
-    FORCE = 'force'
-    MOVE = 'move'
-    NORMAL = 'normal'
-
-
-class Color(Enum):
-    """Boss bar colors."""
-
-    BLUE = 'blue'
-    GREEN = 'green'
-    PINK = 'pink'
-    PURPLE = 'purple'
-    RED = 'red'
-    WHITE = 'white'
-    YELLOW = 'yellow'
-
-
-class DatapackMode(Enum):
-    """Available modes."""
-
-    AFTER = 'after'
-    BEFORE = 'before'
-    FIRST = 'first'
-    LAST = 'last'
-
-
-class DatapackState(Enum):
-    """Available states."""
-
-    AVAILABLE = 'available'
-    ENABLED = 'enabled'
-
-
-class DataType(Enum):
-    """Data types."""
-
-    BYTE = 'byte'
-    DOUBLE = 'double'
-    FLOAT = 'float'
-    INT = 'int'
-    LONG = 'long'
-    SHORT = 'short'
-
-
-class DebugCommand(Enum):
-    """Available debug commands."""
-
-    START = 'start'
-    STOP = 'stop'
-    REPORT = 'report'
-
-
-class Difficulty(Enum):
-    """Available difficulties."""
-
-    PEACEFUL = 'peaceful'
-    EASY = 'easy'
-    NORMAL = 'normal'
-    HARD = 'hard'
-
-
-class Direction(Enum):
-    """Specifies the direction of Agent to destroy."""
-
-    FORWARD = 'forward'
-    BACK = 'back'
-    LEFT = 'left'
-    RIGHT = 'right'
-    UP = 'up'
-    DOWN = 'down'
-
-
-class FillMode(Enum):
-    """Available fill modes."""
-
-    DESTROY = 'destroy'
-    HOLLOW = 'hollow'
-    KEEP = 'keep'
-    OUTLINE = 'outline'
-    REPLACE = 'replace'
-
-
-class GameMode(Enum):
-    """Available game modes."""
-
-    ADVENTURE = 'adventure'
-    CREATIVE = 'creative'
-    SPECTATOR = 'spectator'
-    SURVIVAL = 'survival'
-
-
-class Hand(Enum):
-    """Available hands."""
-
-    MAINHAND = 'mainhand'
-    OFFHAND = 'offhand'
-
-
-class MaskMode(Enum):
-    """Masking mode."""
-
-    REPLACE = 'replace'
-    MASKED = 'masked'
-    FILTERED = 'filtered'
-
-
-class ScanMode(Enum):
-    """Available scan modes."""
-
-    ALL = 'all'
-    MASKED = 'masked'
-
-
-class SetblockMode(Enum):
-    """Available modes to set blocks."""
-
-    DESTROY = 'destroy'
-    KEEP = 'keep'
-    REPLACE = 'replace'
-
-
-class StorageType(Enum):
-    """Storage types."""
-
-    RESULT = 'result'
-    SUCCESS = 'success'
-
-
-class Style(Enum):
-    """Available boss bar styles."""
-
-    NOTCHED_6 = 'notched_6'
-    NOTCHED_10 = 'notched_10'
-    NOTCHED_12 = 'notched_12'
-    NOTCHED_20 = 'notched_20'
-    PROGRESS = 'progress'
-
-
-class TargetType(Enum):
-    """A target type."""
-
-    BLOCK = 'block'
-    ENTITY = 'entity'
-    STORAGE = 'storage'
-
-
-class TimeType(Enum):
-    """Available time types."""
-
-    DAYTIME = 'daytime'
-    GAMETIME = 'gametime'
-    DAY = 'day'
-
-
-class XPUnit(Enum):
-    """Available experience units."""
-
-    LEVELS = 'levels'
-    POINTS = 'points'
+IntRange = Rotation = Vec2 = Union[Tuple[IntOrStr, IntOrStr], str]
+TargetValue = Vec3 = Union[Tuple[IntOrStr, IntOrStr, IntOrStr], str]
+# Enumeration / str unions.
+Ability = Union[Ability, str]
+Action = Union[Action, str]
+Anchor = Union[Anchor, str]
+Attribute = Union[Attribute, str]
+BossbarSlot = Union[BossbarSlot, str]
+CamerashakeType = Union[CamerashakeType, str]
+CloneMode = Union[CloneMode, str]
+Color = Union[Color, str]
+DatapackMode = Union[DatapackMode, str]
+DatapackState = Union[DatapackState, str]
+DataType = Union[DataType, str]
+DebugCommand = Union[DebugCommand, str]
+Difficulty = Union[Difficulty, str]
+Direction = Union[Direction, str]
+FillMode = Union[FillMode, str]
+GameMode = Union[GameMode, str]
+Hand = Union[Hand, str]
+MaskMode = Union[MaskMode, str]
+ScanMode = Union[ScanMode, str]
+SetblockMode = Union[SetblockMode, str]
+StorageType = Union[StorageType, str]
+Style = Union[Style, str]
+TargetType = Union[TargetType, str]
+TimeType = Union[TimeType, str]
+XPUnit = Union[XPUnit, str]
