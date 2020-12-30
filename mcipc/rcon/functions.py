@@ -1,6 +1,6 @@
 """Command proxies."""
 
-from __future__ import annotations
+from contextlib import suppress
 from enum import Enum
 from functools import wraps
 from json import dumps
@@ -60,8 +60,13 @@ def parsed(parser: Callable[[str], type]) -> Callable[[Callable], Callable]:
             """Wrapper function thats parses the function's return value."""
             return parser(function(*args, **kwargs))
 
-        if 'return' in parser.__annotations__:
-            inner.__annotations__['return'] = parser.__annotations__['return']
+        try:
+            annotations = parser.__annotations__
+        except AttributeError:
+            inner.__annotations__['return'] = parser
+        else:
+            with suppress(KeyError):
+                inner.__annotations__['return'] = annotations['return']
 
         return inner
 
