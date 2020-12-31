@@ -9,6 +9,7 @@ __all__ = [
     'Color',
     'Enchantment',
     'ParticleMode',
+    'RenderType',
     'ScheduleMode',
     'SoundSource',
     'Structure',

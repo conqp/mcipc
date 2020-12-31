@@ -7,6 +7,7 @@ from mcipc.rcon.je.enumerations import CollisionRule
 from mcipc.rcon.je.enumerations import Color
 from mcipc.rcon.je.enumerations import Enchantment
 from mcipc.rcon.je.enumerations import ParticleMode
+from mcipc.rcon.je.enumerations import RenderType
 from mcipc.rcon.je.enumerations import ScheduleMode
 from mcipc.rcon.je.enumerations import SoundSource
 from mcipc.rcon.je.enumerations import Structure
@@ -22,6 +23,7 @@ __all__ = [
     'Color',
     'Enchantment',
     'ParticleMode',
+    'RenderType',
     'ScheduleMode',
     'SoundSource',
     'Structure',
@@ -39,6 +41,7 @@ CollisionRule = Union[CollisionRule, str]
 Color = Union[Color, str]
 Enchantment = Union[Enchantment, str]
 ParticleMode = Union[ParticleMode, str]
+RenderType = Union[RenderType, str]
 ScheduleMode = Union[ScheduleMode, str]
 SoundSource = Union[SoundSource, str]
 Structure = Union[Structure, str]
