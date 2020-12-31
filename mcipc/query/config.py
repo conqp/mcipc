@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 from configparser import ConfigParser, SectionProxy
+from os import getenv, name
 from pathlib import Path
 from typing import Dict, Iterator, NamedTuple, Tuple
 
@@ -12,7 +13,13 @@ __all__ = ['CONFIG']
 
 
 CONFIG = ConfigParser()
-CONFIG_FILE = Path('/etc/query.conf')
+
+if name == 'posix':
+    CONFIG_FILE = Path('/etc/query.conf')
+elif name == 'nt':
+    CONFIG_FILE = Path(getenv('LOCALAPPDATA')).joinpath('query.conf')
+else:
+    raise NotImplementedError(f'Unsupported operating system: {name}')
 
 
 class Config(NamedTuple):
