@@ -2,9 +2,9 @@
 
 from argparse import ArgumentParser, Namespace
 from logging import getLogger
-from socket import socket
 from subprocess import CalledProcessError, check_call
 from sys import exit    # pylint: disable=W0622
+from typing import IO
 
 from mcipc.server import MAX_PLAYERS
 from mcipc.server import PROTOCOL
@@ -71,14 +71,14 @@ class ServerLauncher(StubServer):
 
         return True
 
-    def _perform_login(self, connection: socket):
+    def _perform_login(self, wfile: IO):
         """Performs a login."""
         if self._start_server():
             response = get_response('Server has been started.')
         else:
             response = get_response('Server could not be started.')
 
-        connection.send(response)
+        wfile.write(response)
 
 
 def main():

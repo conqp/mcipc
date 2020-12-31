@@ -3,8 +3,7 @@
 from __future__ import annotations
 from json import dumps, loads
 from logging import getLogger
-from socket import socket
-from typing import NamedTuple
+from typing import IO, NamedTuple
 
 from mcipc.server.datatypes import VarInt
 from mcipc.server.enumerations import State
@@ -25,19 +24,19 @@ class Handshake(NamedTuple):
     next_state: State
 
     @classmethod
-    def from_socket(cls, sock: socket) -> Handshake:
-        """Creates a handshake object from the respective bytes."""
-        size = VarInt.from_socket(sock)
+    def read(cls, file: IO) -> Handshake:
+        """Reads a handshake object from a file-like object."""
+        size = VarInt.read(file)
         LOGGER.debug('Read size: %s', size)
-        version = VarInt.from_socket(sock)
+        version = VarInt.read(file)
         LOGGER.debug('Read version: %s', version)
         version_length = len(bytes(version))
         payload_size = size - version_length - 1    # Do not read next state.
-        payload = sock.recv(payload_size)
+        payload = file.read(payload_size)
         LOGGER.debug('Read payload: %s', payload)
         address = payload[4:-2].decode()
         port = int.from_bytes(payload[-2:], 'little')
-        next_state = State.from_socket(sock)
+        next_state = State.read(file)
         return cls(version, address, port, next_state)
 
 
@@ -61,15 +60,15 @@ class SLPResponse(NamedTuple):
         return payload_size + payload
 
     @classmethod
-    def from_socket(cls, sock: socket) -> SLPResponse:
-        """Creates the SLP response from the respective payload."""
-        total_size = VarInt.from_socket(sock)
+    def read(cls, file: IO) -> SLPResponse:
+        """Read an SLP response from a file-like object."""
+        total_size = VarInt.read(file)
         LOGGER.debug('Read total size: %s', total_size)
-        packet_id = VarInt.from_socket(sock)
+        packet_id = VarInt.read(file)
         LOGGER.debug('Read packet ID: %s', packet_id)
-        json_size = VarInt.from_socket(sock)
+        json_size = VarInt.read(file)
         LOGGER.debug('Read JSON size: %s', json_size)
-        json_bytes = sock.recv(json_size)
+        json_bytes = file.read(json_size)
         LOGGER.debug('Read JSON bytes: %s', json_bytes)
         string = json_bytes.decode('latin-1')
         json = loads(string)
