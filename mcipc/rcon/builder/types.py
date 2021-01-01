@@ -22,9 +22,9 @@ class Anchor(Enum):
 class Vec3(NamedTuple):
     """A 3D vector."""
 
-    x: int = 0
-    y: int = 0
-    z: int = 0
+    x: Union[int, float] = 0
+    y: Union[int, float] = 0
+    z: Union[int, float] = 0
 
     def __add__(self, other):
         return type(self)(self.x + other.x, self.y + other.y, self.z + other.z)
@@ -53,7 +53,7 @@ class Vec3(NamedTuple):
     @property
     def length(self):
         """Returns the length of the spatial diagonal."""
-        return sqrt(pow(self.dx, 2), pow(self.dy, 2), pow(self.dz, 2))
+        return sqrt(pow(self.dx, 2) + pow(self.dy, 2) + pow(self.dz, 2))
 
     @property
     def west(self):
@@ -76,7 +76,7 @@ class Vec3(NamedTuple):
         return self.z > 0
 
     @property
-    def donw(self):
+    def down(self):
         """Checks whether the vector points down."""
         return self.y < 0
 
