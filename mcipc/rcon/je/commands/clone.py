@@ -1,14 +1,14 @@
 """Implementation of the clone command."""
 
 from mcipc.rcon.client import Client
-from mcipc.rcon import CloneMode, MaskMode
-from mcipc.rcon.types import Vec3 as Vec3Hint
+from mcipc.rcon.types import Vec3, CloneMode, MaskMode
+from mcipc.rcon import MaskMode as MaskModeType
 
 
 __all__ = ['clone']
 
 
-def clone(self: Client, begin: Vec3Hint, end: Vec3Hint, destination: Vec3Hint, *,
+def clone(self: Client, begin: Vec3, end: Vec3, destination: Vec3, *,
           mask_mode: MaskMode = None,
           filter: str = None,   # pylint: disable=W0622
           clone_mode: CloneMode = None) -> str:
@@ -17,9 +17,9 @@ def clone(self: Client, begin: Vec3Hint, end: Vec3Hint, destination: Vec3Hint, *
     args = ['clone', begin, end, destination]
 
     if mask_mode is not None:
-        args.append(mask_mode := MaskMode(mask_mode))
+        args.append(mask_mode := MaskModeType(mask_mode))
 
-        if mask_mode == str(MaskMode.FILTERED):
+        if mask_mode == str(MaskModeType.FILTERED):
             if filter is None:
                 raise ValueError('Missing filter.')
 
