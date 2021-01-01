@@ -67,10 +67,12 @@ __all__ = [
 
 
 IntOrStr = Union[int, str]
+Coordinate = Union[IntOrStr, float]
 IPAddressOrHostname = Union[IPv4Address, IPv6Address, str]
 JSON = Union[bool, dict, float, int, list, str]
-IntRange = Rotation = Vec2 = Union[Tuple[IntOrStr, IntOrStr], str]
-TargetValue = Vec3 = Union[Tuple[IntOrStr, IntOrStr, IntOrStr], str]
+IntRange = Rotation = Union[Tuple[IntOrStr, IntOrStr], str]
+Vec2 = Union[Tuple[Coordinate, Coordinate], str]
+TargetValue = Vec3 = Union[Tuple[Coordinate, Coordinate, Coordinate], str]
 # Enumeration / str unions.
 Ability = Union[Ability, str]
 Action = Union[Action, str]
