@@ -1,14 +1,15 @@
 """Implementation of the fill command."""
 
 from mcipc.rcon.client import Client
-from mcipc.rcon.types import FillMode, Vec3
+from mcipc.rcon import FillMode
+from mcipc.rcon.types import Vec3 as Vec3Hint
 
 
 __all__ = ['fill']
 
 
 # pylint: disable=C0103,R0913,W0622
-def fill(self: Client, from_: Vec3, to: Vec3, block: str,
+def fill(self: Client, from_: Vec3Hint, to: Vec3Hint, block: str,
          mode: FillMode = None, filter: str = None) -> str:
     """Fills all or parts of a region with a specific block."""
 
