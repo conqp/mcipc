@@ -46,22 +46,22 @@ def offsets(profile: Profile, direction: Vec3, anchor: Anchor):
     if anchor in {Anchor.BOTTOM_LEFT, Anchor.BOTTOM_RIGHT}:
         y_start = height - 1
     if anchor in {Anchor.TOP_RIGHT, Anchor.BOTTOM_RIGHT}:
-        x_start = 1 - width
+        x_start = width - 1
 
     for y, row in enumerate(profile):  # pylint: disable=C0103
         for xz, block in enumerate(row):  # pylint: disable=C0103
             if direction.north:
-                v = Vec3(x_start + xz, y_start - y, 0)
+                v = Vec3(-x_start + xz, y_start - y, 0)
             elif direction.south:
-                v = Vec3(-x_start - xz, y_start - y, 0)
+                v = Vec3(x_start - xz, y_start - y, 0)
             elif direction.east:
-                v = Vec3(0, y_start - y, x_start + xz)
+                v = Vec3(0, y_start - y, -x_start + xz)
             elif direction.west:
-                v = Vec3(0, y_start - y, -x_start - xz)
+                v = Vec3(0, y_start - y, x_start - xz)
             elif direction.up:
-                v = Vec3(x_start + xz, 0, y_start - y)
+                v = Vec3(-x_start + xz, 0, y_start - y)
             elif direction.down:
-                v = Vec3(x_start + xz, 0, y_start + y)
+                v = Vec3(-x_start + xz, 0, y_start + y)
             else:
                 raise ValueError("Cannot determine offset.")
             yield block, v
