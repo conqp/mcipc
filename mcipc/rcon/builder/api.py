@@ -7,6 +7,7 @@ from mcipc.rcon.builder.functions import validate
 from mcipc.rcon.builder.item import Item
 from mcipc.rcon.builder.types import Anchor, Direction, Profile, Vec3
 from mcipc.rcon.client import Client
+from mcipc.rcon.enumerations import FillMode
 
 
 __all__ = ['mktunnel']
@@ -14,7 +15,8 @@ __all__ = ['mktunnel']
 
 def mktunnel(client: Client, profile: Profile, start: Vec3, *,
              end: Vec3 = None, direction: Direction = None, length: int = 1,
-             anchor: Anchor = Anchor.BOTTOM_RIGHT, default: Item = Item.AIR):
+             anchor: Anchor = Anchor.BOTTOM_RIGHT, default: Item = Item.AIR,
+             mode: FillMode = None, filter: str = None):
     """Creates a tunnel with the given profile."""
 
     start = Vec3(*start)    # Ensure Vec3 object.
@@ -33,5 +35,7 @@ def mktunnel(client: Client, profile: Profile, start: Vec3, *,
     for y, row in enumerate(profile):   # pylint: disable=C0103
         for xz, block in enumerate(row):    # pylint: disable=C0103
             offset = get_offset(y, xz, direction, anchor)
-            result = client.fill(start + offset, end + offset, block)
+            result = client.fill(
+                start + offset, end + offset, block, mode=mode, filter=filter
+            )
             print(result)

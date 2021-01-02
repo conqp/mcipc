@@ -57,4 +57,10 @@ def get_offset(y: int, xz: int, direction: Vec3, anchor: Anchor) -> Vec3:
     if direction.west:
         return Vec3(0, -y if top else y, -xz if left else xz)
 
+    if direction.up:
+        return Vec3(xz if left else -xz, 0, -y if top else y)
+
+    if direction.down:
+        return Vec3(xz if left else -xz, 0, y if top else -y)
+
     raise ValueError('Cannot determine offset.')
