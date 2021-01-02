@@ -38,29 +38,30 @@ def check_xz_dir(start: Vec3, end: Vec3) -> Vec3:
     return end - start
 
 
-# pylint: disable=C0103
-def get_offset(y: int, xz: int, direction: Vec3, anchor: Anchor) -> Vec3:
-    """Returns returns the offset."""
+def offsets(profile: Profile, direction: Vec3, anchor: Anchor):
+    height = len(profile)
+    width = len(profile[0])
 
-    top = anchor in {Anchor.TOP_LEFT, Anchor.TOP_RIGHT}
-    left = anchor in {Anchor.TOP_LEFT, Anchor.BOTTOM_LEFT}
+    y_start = x_start = 0
+    if anchor in {Anchor.BOTTOM_LEFT, Anchor.BOTTOM_RIGHT}:
+        y_start = height - 1
+    if anchor in {Anchor.TOP_RIGHT, Anchor.BOTTOM_RIGHT}:
+        x_start = 1 - width
 
-    if direction.north:
-        return Vec3(xz if left else -xz, -y if top else y, 0)
-
-    if direction.south:
-        return Vec3(-xz if left else xz, -y if top else y, 0)
-
-    if direction.east:
-        return Vec3(0, -y if top else y, xz if left else -xz)
-
-    if direction.west:
-        return Vec3(0, -y if top else y, -xz if left else xz)
-
-    if direction.up:
-        return Vec3(xz if left else -xz, 0, -y if top else y)
-
-    if direction.down:
-        return Vec3(xz if left else -xz, 0, y if top else -y)
-
-    raise ValueError('Cannot determine offset.')
+    for y, row in enumerate(profile):  # pylint: disable=C0103
+        for xz, block in enumerate(row):  # pylint: disable=C0103
+            if direction.north:
+                v = Vec3(x_start + xz, y_start - y, 0)
+            elif direction.south:
+                v = Vec3(-x_start - xz, y_start - y, 0)
+            elif direction.east:
+                v = Vec3(0, y_start - y, x_start + xz)
+            elif direction.west:
+                v = Vec3(0, y_start - y, -x_start - xz)
+            elif direction.up:
+                v = Vec3(x_start + xz, 0, y_start - y)
+            elif direction.down:
+                v = Vec3(x_start + xz, 0, y_start + y)
+            else:
+                raise ValueError("Cannot determine offset.")
+            yield block, v

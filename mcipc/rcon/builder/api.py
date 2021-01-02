@@ -1,7 +1,7 @@
 """Exposed API functions."""
 
 from mcipc.rcon.builder.functions import check_xz_dir
-from mcipc.rcon.builder.functions import get_offset
+from mcipc.rcon.builder.functions import offsets
 from mcipc.rcon.builder.functions import normalize
 from mcipc.rcon.builder.functions import validate
 from mcipc.rcon.builder.item import Item
@@ -25,17 +25,15 @@ def mktunnel(client: Client, profile: Profile, start: Vec3, *,
         raise ValueError('Invalid matrix.')
 
     if end is None:
-        end = start + direction.value * length
+        end = start + direction.value * (length - 1)
     else:
         end = Vec3(*end)    # Ensure Vec3 object.
 
-    direction = check_xz_dir(start, end)
+    final_direction: Vec3 = check_xz_dir(start, end)
     profile = list(normalize(profile, default=default))
 
-    for y, row in enumerate(profile):   # pylint: disable=C0103
-        for xz, block in enumerate(row):    # pylint: disable=C0103
-            offset = get_offset(y, xz, direction, anchor)
-            result = client.fill(
-                start + offset, end + offset, block, mode=mode, filter=filter
-            )
-            print(result)
+    for block, offset in offsets(profile, final_direction, anchor):
+        result = client.fill(
+            start + offset, end + offset, block, mode=mode, filter=filter
+        )
+        print(result)
