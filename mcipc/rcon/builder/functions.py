@@ -61,7 +61,7 @@ def offsets(profile: Profile, direction: Vec3, anchor: Anchor):
             elif direction.up:
                 v = Vec3(-x_start + xz, 0, y_start - y)
             elif direction.down:
-                v = Vec3(-x_start + xz, 0, y_start + y)
+                v = Vec3(-x_start + xz, 0, -y_start + y)
             else:
                 raise ValueError("Cannot determine offset.")
             yield block, v
