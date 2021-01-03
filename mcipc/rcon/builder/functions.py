@@ -47,6 +47,9 @@ def offsets(profile: Profile, direction: Vec3, anchor: Anchor):
         y_start = height - 1
     if anchor in {Anchor.TOP_RIGHT, Anchor.BOTTOM_RIGHT}:
         x_start = width - 1
+    elif anchor == Anchor.MIDDLE:
+        x_start = int(width / 2)
+        y_start = int(height / 2)
 
     for y, row in enumerate(profile):  # pylint: disable=C0103
         for xz, block in enumerate(row):  # pylint: disable=C0103

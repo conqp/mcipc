@@ -17,6 +17,7 @@ class Anchor(Enum):
     TOP_RIGHT = 'top_right'
     BOTTOM_LEFT = 'bottom_left'
     BOTTOM_RIGHT = 'bottom_right'
+    MIDDLE = 'middle'
 
 
 class Vec3(NamedTuple):
