@@ -33,7 +33,6 @@ def mktunnel(client: Client, profile: Profile, start: Vec3, *,
     profile = list(normalize(profile, default=default))
 
     for block, offset in offsets(profile, final_direction, anchor):
-        result = client.fill(
+        client.fill(
             start + offset, end + offset, block, mode=mode, filter=filter
         )
-        print(result)
