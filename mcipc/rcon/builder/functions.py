@@ -2,7 +2,7 @@
 
 from typing import Iterator
 
-from mcipc.rcon.builder.item import Item
+from mcipc.rcon.enumerations import Item
 from mcipc.rcon.builder.types import Anchor, Profile, Row, Vec3
 
 

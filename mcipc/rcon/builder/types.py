@@ -4,7 +4,7 @@ from enum import Enum
 from math import sqrt
 from typing import List, NamedTuple, Union
 
-from mcipc.rcon.builder.item import Item
+from mcipc.rcon.enumerations import Item
 
 
 __all__ = ['Anchor', 'Direction', 'Profile', 'Row', 'Vec3']

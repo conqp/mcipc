@@ -2,6 +2,8 @@
 
 from enum import Enum
 
+from mcipc.rcon.item import Item
+
 
 __all__ = [
     'Ability',
@@ -22,6 +24,7 @@ __all__ = [
     'FillMode',
     'GameMode',
     'Hand',
+    'Item',
     'MaskMode',
     'ScanMode',
     'SetblockMode',

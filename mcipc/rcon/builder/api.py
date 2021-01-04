@@ -4,10 +4,9 @@ from mcipc.rcon.builder.functions import check_xz_dir
 from mcipc.rcon.builder.functions import get_offset
 from mcipc.rcon.builder.functions import normalize
 from mcipc.rcon.builder.functions import validate
-from mcipc.rcon.builder.item import Item
 from mcipc.rcon.builder.types import Anchor, Direction, Profile, Vec3
 from mcipc.rcon.client import Client
-from mcipc.rcon.enumerations import FillMode
+from mcipc.rcon.enumerations import FillMode, Item
 
 
 __all__ = ['mktunnel']
