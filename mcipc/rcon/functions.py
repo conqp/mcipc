@@ -73,7 +73,7 @@ def parsed(parser: Callable[[str], Any]) -> Callable[[Callable], Callable]:
     return decorator
 
 
-def str_until_none(*items: object) -> Iterator[str]:
+def str_until_none(*items: Any) -> Iterator[str]:
     """Yields the items converted to str until one item is None."""
 
     return map(stringify, until_none(items))
