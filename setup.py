@@ -17,7 +17,6 @@ setup(
         'mcipc.rcon',
         'mcipc.rcon.be',
         'mcipc.rcon.be.commands',
-        'mcipc.rcon.builder',
         'mcipc.rcon.commands',
         'mcipc.rcon.ee',
         'mcipc.rcon.ee.commands',
