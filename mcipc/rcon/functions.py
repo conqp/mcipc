@@ -5,7 +5,7 @@ from enum import Enum
 from functools import wraps
 from json import dumps
 from re import fullmatch
-from typing import Callable, Iterable, Iterator
+from typing import Any, Callable, Iterable, Iterator
 
 from mcipc.rcon.types import IntRange
 
@@ -50,7 +50,7 @@ def int_range_to_str(int_range: IntRange) -> str:
     return '..'.join(map(lambda i: '' if i is None else str(i), int_range))
 
 
-def parsed(parser: Callable[[str], type]) -> Callable[[Callable], Callable]:
+def parsed(parser: Callable[[str], Any]) -> Callable[[Callable], Callable]:
     """Updates a function to parse its result with a parser."""
 
     def decorator(function: Callable) -> Callable:
@@ -79,7 +79,7 @@ def str_until_none(*items: object) -> Iterator[str]:
     return map(stringify, until_none(items))
 
 
-def stringify(value: type) -> str:
+def stringify(value: Any) -> str:
     """Yields strings from the given object."""
 
     if isinstance(value, str):
@@ -98,7 +98,7 @@ def stringify(value: type) -> str:
     return str(value)
 
 
-def until_none(items: Iterable[type]) -> Iterator[type]:
+def until_none(items: Iterable[Any]) -> Iterator[Any]:
     """Yields items until one item is None."""
 
     for item in items:
