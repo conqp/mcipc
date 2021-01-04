@@ -95,6 +95,9 @@ def stringify(value: Any) -> str:
         if '__str__' not in type(value).__dict__:
             return stringify(value.value)
 
+    if isinstance(value, range):
+        return f'{value[0]}..{value[-1]}'
+
     return str(value)
 
 
