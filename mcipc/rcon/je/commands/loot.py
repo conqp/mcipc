@@ -56,7 +56,7 @@ class LootProxy(CommandProxy):
         """Delegates to a
         :py:class:`mcipc.rcon.je.commands.loot.SourceProxy`
         """
-        self._proxy(SourceProxy, 'spawn', target_pos)
+        return self._proxy(SourceProxy, 'spawn', target_pos)
 
     @property
     def replace(self) -> ReplaceProxy:
