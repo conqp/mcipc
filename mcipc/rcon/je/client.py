@@ -1,6 +1,5 @@
 """Client implementation for Java Edition."""
 
-from mcipc.rcon.builder import mktunnel
 from mcipc.rcon.client import Client
 from mcipc.rcon.commands.chat import me, say, tell, tellraw, send_url
 from mcipc.rcon.commands.execute import execute
@@ -149,5 +148,3 @@ class Client(Client):   # pylint: disable=E0102
     whitelist = property(whitelist)
     worldborder = property(worldborder)
     xp = xp
-    # Custom methods.
-    mktunnel = mktunnel
