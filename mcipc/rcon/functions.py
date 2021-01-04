@@ -92,10 +92,8 @@ def stringify(value: type) -> str:
         return ' '.join(map(stringify, value))
 
     if isinstance(value, Enum):
-        if '__str__' in type(value).__dict__:
-            return str(value)
-
-        return stringify(value.value)
+        if '__str__' not in type(value).__dict__:
+            return stringify(value.value)
 
     return str(value)
 
