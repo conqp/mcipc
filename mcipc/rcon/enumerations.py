@@ -30,6 +30,7 @@ __all__ = [
     'SetblockMode',
     'StorageType',
     'Style',
+    'TargetSelector',
     'TargetType',
     'TimeType',
     'XPUnit'
@@ -232,6 +233,18 @@ class Style(Enum):
     NOTCHED_12 = 'notched_12'
     NOTCHED_20 = 'notched_20'
     PROGRESS = 'progress'
+
+
+class TargetSelector(Enum):
+    """A target selector."""
+
+    AGENT = '@c'
+    ALL_AGENTS = '@v'
+    ALL_ENTITIES = '@e'
+    ALL_PLAYERS = '@a'
+    ISSUER = '@s'
+    NEAREST_PLAYER = '@p'
+    RANDOM_PLAYER = '@r'
 
 
 class TargetType(Enum):
