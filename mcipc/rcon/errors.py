@@ -1,6 +1,5 @@
 """Errors returned from Java Edition servers via RCON."""
 
-from functools import lru_cache, partial
 from re import fullmatch
 
 
@@ -61,23 +60,13 @@ ERRORS = {
 }
 
 
-@lru_cache()
-def get_exception(response: str) -> Exception:
-    """Returns an exception based on a respnse string."""
-
-    for regex, exception in ERRORS.items():
-        if (match := fullmatch(regex, response)) is not None:
-            return partial(exception, *match.groups())
-
-    return None
-
-
 def check_result(response: str) -> str:
     """Raises an appropriate exceptions if
     the string is considered erroneous.
     """
 
-    if (exception := get_exception(response)) is not None:
-        raise exception()
+    for regex, exception in ERRORS.items():
+        if (match := fullmatch(regex, response)) is not None:
+            raise exception(*match.groups())
 
     return response
