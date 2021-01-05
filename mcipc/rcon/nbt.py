@@ -9,15 +9,12 @@ from mcipc.rcon.functions import stringify
 __all__ = ['NBT']
 
 
-TargetType = Union[Item, TargetSelector, str]
-
-
 class NBT:
     """Represents a named binary tag."""
 
     __slots__ = ('target', 'tags')
 
-    def __init__(self, target: TargetType, **tags):
+    def __init__(self, target: Union[Item, TargetSelector, str], **tags):
         """Stores the object name and optional tags."""
         self.target = target
         self.tags = tags

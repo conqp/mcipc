@@ -20,14 +20,16 @@ from mcipc.rcon.enumerations import Direction
 from mcipc.rcon.enumerations import FillMode
 from mcipc.rcon.enumerations import GameMode
 from mcipc.rcon.enumerations import Hand
+from mcipc.rcon.enumerations import Item
 from mcipc.rcon.enumerations import MaskMode
 from mcipc.rcon.enumerations import ScanMode
 from mcipc.rcon.enumerations import SetblockMode
 from mcipc.rcon.enumerations import StorageType
 from mcipc.rcon.enumerations import Style
-from mcipc.rcon.enumerations import TargetType
+from mcipc.rcon.enumerations import TargetSelector
 from mcipc.rcon.enumerations import TimeType
 from mcipc.rcon.enumerations import XPUnit
+from mcipc.rcon.nbt import NBT
 
 
 __all__ = [
@@ -45,6 +47,7 @@ __all__ = [
     'DebugCommand',
     'Difficulty',
     'Direction',
+    'Entity',
     'FillMode',
     'GameMode',
     'Hand',
@@ -57,7 +60,6 @@ __all__ = [
     'SetblockMode',
     'StorageType',
     'Style',
-    'TargetType',
     'TargetValue',
     'TimeType',
     'Vec2',
@@ -88,6 +90,7 @@ DataType = Union[DataType, str]
 DebugCommand = Union[DebugCommand, str]
 Difficulty = Union[Difficulty, str]
 Direction = Union[Direction, str]
+Entity = Union[Item, NBT, TargetSelector, str]
 FillMode = Union[FillMode, str]
 GameMode = Union[GameMode, str]
 Hand = Union[Hand, str]
@@ -96,6 +99,5 @@ ScanMode = Union[ScanMode, str]
 SetblockMode = Union[SetblockMode, str]
 StorageType = Union[StorageType, str]
 Style = Union[Style, str]
-TargetType = Union[TargetType, str]
 TimeType = Union[TimeType, str]
 XPUnit = Union[XPUnit, str]
