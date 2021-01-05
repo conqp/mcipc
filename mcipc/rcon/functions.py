@@ -5,13 +5,14 @@ from enum import Enum
 from functools import wraps
 from json import dumps
 from re import fullmatch
-from typing import Any, Callable, Iterable, Iterator
+from typing import Any, Callable, Iterable, Iterator, Tuple
 
 from mcipc.rcon.types import IntRange
 
 
 __all__ = [
     'boolmap',
+    'ensure_one',
     'int_range_to_str',
     'parsed',
     'str_until_none',
@@ -34,6 +35,17 @@ def boolmap(text: str, true: str = None, false: str = None, *,
         raise ValueError(f'Unexpected text returned: {text}')
 
     return default
+
+
+def ensure_one(**kwargs: Any) -> Tuple[str, Any]:   # pylint: disable=R1710
+    """Ensures that only one argument is set."""
+
+    if sum(value is not None for value in kwargs.values()) != 1:
+        raise ValueError('Must specify exactly one of:', kwargs.keys())
+
+    for key, value in kwargs.items():
+        if value is not None:
+            return (key, value)
 
 
 def int_range_to_str(int_range: IntRange) -> str:
