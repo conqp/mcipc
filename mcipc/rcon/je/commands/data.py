@@ -1,8 +1,9 @@
 """Implementation of the data command."""
 
 from mcipc.rcon.client import Client
+from mcipc.rcon.functions import ensure_one
 from mcipc.rcon.proxy import CommandProxy
-from mcipc.rcon.types import TargetType, TargetValue
+from mcipc.rcon.types import Entity, Vec3
 
 
 __all__ = ['DataProxy', 'DataModifyProxy', 'DataModifySubProxy', 'data']
@@ -11,9 +12,11 @@ __all__ = ['DataProxy', 'DataModifyProxy', 'DataModifySubProxy', 'data']
 class DataModifySubProxy(CommandProxy):
     """Sub-proxy for the modify method."""
 
-    def from_(self, typ: TargetType, value: TargetValue, path: str) -> str:
+    def from_(self, *, block: Vec3 = None, entity: Entity = None,
+              storage: str = None, path: str) -> str:
         """Appends data."""
-        return self._run('from', typ, value, path)
+        key, value = ensure_one(block=block, entity=entity, storage=storage)
+        return self._run('from', key, value, path)
 
     def value(self, value: str) -> str:
         """Sets data value."""
@@ -61,32 +64,38 @@ class DataModifyProxy(CommandProxy):
 class DataProxy(CommandProxy):
     """Proxy for data sub-commands."""
 
-    def get(self, typ: TargetType, value: TargetValue, path: str = None,
-            scale: float = None) -> str:
+    def get(self, *, block: Vec3 = None, entity: Entity = None,
+            storage: str = None, path: str = None, scale: float = None) -> str:
         """Read off the entire NBT data or the subsection of the NBT data
         from the targeted block position or entity to the executor with
         syntax highlighting, scaled by <scale> if specified.
         """
-        return self._run('get', typ, value, path, scale)
+        key, value = ensure_one(block=block, entity=entity, storage=storage)
+        return self._run('get', key, value, path, scale)
 
-    def merge(self, typ: TargetType, value: TargetValue, nbt: dict) -> str:
+    def merge(self, *, block: Vec3 = None, entity: Entity = None,
+              storage: str = None, nbt: dict) -> str:
         """Merge the NBT data from the sourced block
         position or entity with the specified <nbt> data.
         """
-        return self._run('merge', typ, value, nbt)
+        key, value = ensure_one(block=block, entity=entity, storage=storage)
+        return self._run('merge', key, value, nbt)
 
-    def modify(self, typ: TargetType, value: TargetValue,
-               path: str) -> DataModifyProxy:
+    def modify(self, *, block: Vec3 = None, entity: Entity = None,
+               storage: str = None, path: str) -> DataModifyProxy:
         """Delegates to a
         :py:class:`mcipc.rcon.je.commands.data.DataModifyProxy`
         """
-        return self._proxy(DataModifyProxy, 'modify', typ, value, path)
+        key, value = ensure_one(block=block, entity=entity, storage=storage)
+        return self._proxy(DataModifyProxy, 'modify', key, value, path)
 
-    def remove(self, typ: TargetType, value: TargetValue, path: str) -> str:
+    def remove(self, *, block: Vec3 = None, entity: Entity = None,
+               storage: str = None, path: str) -> str:
         """Removes NBT data at <path> from the targeted block
         position or entity. Player NBT data cannot be removed.
         """
-        return self._run('remove', typ, value, path)
+        key, value = ensure_one(block=block, entity=entity, storage=storage)
+        return self._run('remove', key, value, path)
 
 
 def data(self: Client) -> DataProxy:
