@@ -43,12 +43,12 @@ For retrieving full stats of a server, the same premises apply.
 
     :py:class:`mcipc.query.client.Client`
 
-JSON conversion
----------------
+JSON serialization
+------------------
 
-Both :py:class:`mcipc.query.proto.basic_stats.BasicStats` and :py:class:`mcipc.query.proto.full_stats.FullStats` provide a :code:`to_json()` method to return their values in a JSON compatible dict:
+Both :py:class:`mcipc.query.proto.basic_stats.BasicStats` and :py:class:`mcipc.query.proto.full_stats.FullStats` objects can be serialized into a JSON-ish `dict` by passing them to the `dict()` constructor:
 
 .. code-block:: python
 
-    basic_stats_as_json = basic_stats.to_json()		# Is of type dict.
-    full_stats_as_json = full_stats.to_json() 		# Is of type dict.
+    basic_stats_as_json = dict(basic_stats)	# Is of type dict.
+    full_stats_as_json = dict(full_stats)	# Is of type dict.

@@ -46,12 +46,12 @@ Example output of the above commands with a Java Edition client:
     * Education Edition client: :py:class:`mcipc.rcon.ee.Client`
     * Java Edition client: :py:class:`mcipc.rcon.je.Client`
 
-JSON conversion
----------------
+JSON serialization
+------------------
 
-:py:class: :py:class:`mcipc.rcon.response_types.players.Players` and :py:class:`mcipc.rcon.response_types.location.Location` objects provide a :code:`to_json()` method to return their values in a JSON compatible format:
+:py:class: :py:class:`mcipc.rcon.response_types.players.Players` and :py:class:`mcipc.rcon.response_types.location.Location` objects can be serialized into a JSON-ish `dict` by passing them to the `dict()` constructor:
 
 .. code-block:: python
 
-    players_as_json = players.to_json() 	# Is of type dict.
-    mansion_as_json = mansion.to_json() 	# Is of type dict.
+    players_as_json = dict(players) 	# Is of type dict.
+    mansion_as_json = dict(mansion) 	# Is of type dict.
