@@ -4,6 +4,8 @@ from re import Match, fullmatch
 from typing import Iterator, NamedTuple, Tuple
 from uuid import UUID
 
+from mcipc.functions import dictmodel
+
 
 __all__ = ['Player', 'Players', 'parse']
 
@@ -14,6 +16,7 @@ REGEX_PAPER = '.+ §c(\\d+)§6 .+ §c(\\d+)§6 .+\\.([\\s\\S]*)'
 REGEX_PAPER_NAME = '§6(.+)§r: (?:§4)?(\\w+)(?:§r)?§f'
 
 
+@dictmodel
 class Player(NamedTuple):
     """Player names with optional UUIDs."""
 
@@ -21,11 +24,8 @@ class Player(NamedTuple):
     uuid: UUID = None
     state: str = None
 
-    def to_json(self) -> dict:
-        """Returns a JSON-ish dict."""
-        return {'name': str(self), 'uuid': self.uuid.hex, 'state': self.state}
 
-
+@dictmodel
 class Players(NamedTuple):
     """Online players information."""
 
@@ -37,14 +37,6 @@ class Players(NamedTuple):
     def names(self) -> Tuple[str]:  # XXX: For backward compatibility.
         """Returns a tuple of the players' names."""
         return tuple(player.name for player in self.players)
-
-    def to_json(self) -> dict:
-        """Returns a JSON-ish dict."""
-        return {
-            'online': self.online,
-            'max': self.max,
-            'players': [player.to_json() for player in self.players]
-        }
 
 
 def player_from_java_name(name: str) -> Player:

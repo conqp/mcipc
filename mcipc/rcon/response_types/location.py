@@ -3,6 +3,7 @@
 from re import fullmatch
 from typing import NamedTuple, Union
 
+from mcipc.functions import dictmodel
 from mcipc.rcon.errors import LocationNotFound
 
 
@@ -13,6 +14,7 @@ REGEX = ('The nearest (.+) is at \\[(-?\\d+), (~|-?\\d+), '
          '(-?\\d+)\\] \\((\\d+) block[s]? away\\)')
 
 
+@dictmodel
 class Location(NamedTuple):
     """A 3D location."""
 
@@ -21,16 +23,6 @@ class Location(NamedTuple):
     y: Union[int, None]
     z: int
     distance: int
-
-    def to_json(self) -> dict:
-        """Returns a JSON-ish dict."""
-        return {
-            'name': self.name,
-            'x': self.x,
-            'y': self.y,
-            'z': self.z,
-            'distance': self.distance
-        }
 
 
 def parse(text: str) -> Location:

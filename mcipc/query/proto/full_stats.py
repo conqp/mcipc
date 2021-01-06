@@ -3,6 +3,7 @@
 from __future__ import annotations
 from typing import IO, Iterator, NamedTuple
 
+from mcipc.functions import dictmodel
 from mcipc.query.proto.common import MAGIC
 from mcipc.query.proto.common import NULL
 from mcipc.query.proto.common import ip_or_hostname
@@ -117,6 +118,7 @@ class Request(NamedTuple):
                    challenge_token=challenge_token)
 
 
+@dictmodel
 class FullStats(NamedTuple):
     """Full statistics response."""
 
@@ -144,21 +146,3 @@ class FullStats(NamedTuple):
         file.read(10)   # Discard padding.
         players = tuple(read_players(file))
         return cls(type_, session_id, *stats_from_dict(stats), players)
-
-    def to_json(self) -> dict:
-        """Returns a JSON-ish dict."""
-        return {
-            'type': self.type.value,
-            'session_id': self.session_id,
-            'host_name': self.host_name,
-            'game_type': self.game_type,
-            'game_id': self.game_id,
-            'version': self.version,
-            'plugins': self.plugins,
-            'map': self.map,
-            'num_players': self.num_players,
-            'max_players': self.max_players,
-            'host_port': self.host_port,
-            'host_ip': str(self.host_ip),
-            'players': self.players
-        }
