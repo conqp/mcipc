@@ -12,13 +12,16 @@ JSON = Union[dict, list, float, int, str, bool, type(None)]
 def jsonify(value: Any) -> JSON:
     """Converts a value into a JSON-compliant value."""
 
+    if value is None:
+        return None
+
     if isinstance(value, dict):
         return {key: jsonify(value) for key, value in value.items()}
 
     if isinstance(value, list):
         return [jsonify(item) for item in value]
 
-    if isinstance(value, (float, int, str, bool, type(None))):
+    if isinstance(value, (float, int, str, bool)):
         return value
 
     try:
