@@ -50,7 +50,7 @@ def get_json_item(instance: type, index_or_key: Union[int, str]) -> Any:
 
 
 def json_serializable(cls: type) -> type:
-    """Extends a class with methods to return a JSON-ish
+    """Extends a NamedTuple with methods to return a JSON-ish
     dict when passed to the dict() constructor.
     """
 
