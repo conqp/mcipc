@@ -20,6 +20,14 @@ mcipc.rcon.je.client module
    :undoc-members:
    :show-inheritance:
 
+mcipc.rcon.je.enumerations module
+---------------------------------
+
+.. automodule:: mcipc.rcon.je.enumerations
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 mcipc.rcon.je.types module
 --------------------------
 

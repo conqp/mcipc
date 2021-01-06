@@ -11,6 +11,17 @@ Subpackages
    mcipc.rcon
    mcipc.server
 
+Submodules
+----------
+
+mcipc.functions module
+----------------------
+
+.. automodule:: mcipc.functions
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

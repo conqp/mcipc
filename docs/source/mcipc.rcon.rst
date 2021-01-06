@@ -24,10 +24,10 @@ mcipc.rcon.client module
    :undoc-members:
    :show-inheritance:
 
-mcipc.rcon.editions module
---------------------------
+mcipc.rcon.enumerations module
+------------------------------
 
-.. automodule:: mcipc.rcon.editions
+.. automodule:: mcipc.rcon.enumerations
    :members:
    :undoc-members:
    :show-inheritance:
@@ -44,6 +44,22 @@ mcipc.rcon.functions module
 ---------------------------
 
 .. automodule:: mcipc.rcon.functions
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+mcipc.rcon.item module
+----------------------
+
+.. automodule:: mcipc.rcon.item
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+mcipc.rcon.nbt module
+---------------------
+
+.. automodule:: mcipc.rcon.nbt
    :members:
    :undoc-members:
    :show-inheritance:
