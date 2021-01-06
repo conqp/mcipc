@@ -4,7 +4,7 @@ from re import Match, fullmatch
 from typing import Iterator, NamedTuple, Tuple
 from uuid import UUID
 
-from mcipc.functions import dictmodel
+from mcipc.functions import json_serializable
 
 
 __all__ = ['Player', 'Players', 'parse']
@@ -16,7 +16,7 @@ REGEX_PAPER = '.+ §c(\\d+)§6 .+ §c(\\d+)§6 .+\\.([\\s\\S]*)'
 REGEX_PAPER_NAME = '§6(.+)§r: (?:§4)?(\\w+)(?:§r)?§f'
 
 
-@dictmodel
+@json_serializable
 class Player(NamedTuple):
     """Player names with optional UUIDs."""
 
@@ -25,7 +25,7 @@ class Player(NamedTuple):
     state: str = None
 
 
-@dictmodel
+@json_serializable
 class Players(NamedTuple):
     """Online players information."""
 

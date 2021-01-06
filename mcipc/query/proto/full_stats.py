@@ -3,7 +3,7 @@
 from __future__ import annotations
 from typing import IO, Iterator, NamedTuple
 
-from mcipc.functions import dictmodel
+from mcipc.functions import json_serializable
 from mcipc.query.proto.common import MAGIC
 from mcipc.query.proto.common import NULL
 from mcipc.query.proto.common import ip_or_hostname
@@ -118,7 +118,7 @@ class Request(NamedTuple):
                    challenge_token=challenge_token)
 
 
-@dictmodel
+@json_serializable
 class FullStats(NamedTuple):
     """Full statistics response."""
 

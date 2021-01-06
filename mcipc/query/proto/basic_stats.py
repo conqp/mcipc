@@ -3,7 +3,7 @@
 from __future__ import annotations
 from typing import IO, NamedTuple
 
-from mcipc.functions import dictmodel
+from mcipc.functions import json_serializable
 from mcipc.query.proto.common import MAGIC
 from mcipc.query.proto.common import NULL
 from mcipc.query.proto.common import decodeall
@@ -40,7 +40,7 @@ class Request(NamedTuple):
                    challenge_token=challenge_token)
 
 
-@dictmodel
+@json_serializable
 class BasicStats(NamedTuple):
     """Basic statistics response packet."""
 

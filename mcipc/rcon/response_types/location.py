@@ -3,7 +3,7 @@
 from re import fullmatch
 from typing import NamedTuple, Union
 
-from mcipc.functions import dictmodel
+from mcipc.functions import json_serializable
 from mcipc.rcon.errors import LocationNotFound
 
 
@@ -14,7 +14,7 @@ REGEX = ('The nearest (.+) is at \\[(-?\\d+), (~|-?\\d+), '
          '(-?\\d+)\\] \\((\\d+) block[s]? away\\)')
 
 
-@dictmodel
+@json_serializable
 class Location(NamedTuple):
     """A 3D location."""
 

@@ -3,7 +3,7 @@
 from re import fullmatch
 from typing import NamedTuple
 
-from mcipc.functions import dictmodel
+from mcipc.functions import json_serializable
 from mcipc.rcon.errors import NoPlayerFound
 
 
@@ -13,7 +13,7 @@ __all__ = ['KickedPlayer', 'parse']
 REGEX = 'Kicked (.*): (.*)'
 
 
-@dictmodel
+@json_serializable
 class KickedPlayer(NamedTuple):
     """Stores information about a kicked player."""
 
