@@ -1,10 +1,32 @@
 """Common functions."""
 
+from typing import Any, Union
+
 
 __all__ = ['json_serializable']
 
 
-JSON = (dict, list, float, int, str, bool, type(None))
+JSON = Union[dict, list, float, int, str, bool, type(None)]
+
+
+def jsonify(value: Any) -> JSON:
+    """Converts a value into a JSON-compliant value."""
+
+    if isinstance(value, dict):
+        return {key: jsonify(value) for key, value in value.items()}
+
+    if isinstance(value, list):
+        return [jsonify(item) for item in value]
+
+    if isinstance(value, (float, int, str, bool, type(None))):
+        return value
+
+    try:
+        dct = dict(value)
+    except (TypeError, ValueError):
+        return str(value)
+
+    return jsonify(dct)
 
 
 def get_json_item(instance, index_or_key):
@@ -16,13 +38,7 @@ def get_json_item(instance, index_or_key):
         except AttributeError:
             raise IndexError(index_or_key) from None
 
-        if isinstance(value, JSON):
-            return value
-
-        try:
-            return dict(value)
-        except (TypeError, ValueError):
-            return str(value)
+        return jsonify(value)
 
     return super().__getitem__(index_or_key)
 
