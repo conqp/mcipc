@@ -55,7 +55,7 @@ def json_serializable(cls: type) -> type:
     """
 
     if not hasattr(cls, 'keys'):
-        if not (isinstance(cls, tuple) and hasattr(cls, '_fields')):
+        if not (issubclass(cls, tuple) and hasattr(cls, '_fields')):
             raise TypeError('Type does not implement method keys(self):', cls)
 
         cls.keys = lambda self: self._fields
