@@ -5,9 +5,7 @@ from enum import Enum
 from functools import wraps
 from json import dumps
 from re import fullmatch
-from typing import Any, Callable, Iterable, Iterator, Tuple
-
-from mcipc.rcon.types import IntRange
+from typing import Any, Callable, Iterable, Iterator, Tuple, Union
 
 
 __all__ = [
@@ -48,8 +46,11 @@ def ensure_one(**kwargs: Any) -> Tuple[str, Any]:   # pylint: disable=R1710
             return (key, value)
 
 
-def int_range_to_str(int_range: IntRange) -> str:
+def int_range_to_str(int_range: Union[Tuple[int, int], str]) -> str:
     """Returns a string for the Minecraft server."""
+
+    if isinstance(int_range, str):
+        return int_range
 
     start, end = int_range
 
