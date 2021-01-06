@@ -1,3 +1,6 @@
+[![Documentation Status](https://readthedocs.org/projects/mcipc/badge/?version=latest)](https://mcipc.readthedocs.io/en/latest/?badge=latest)
+[![Testing Status](https://travis-ci.com/conqp/mcipc.svg?branch=master&status=passed)](https://travis-ci.com/github/conqp/mcipc)
+
 # mcipc
 A Minecraft inter-process communication API implementing the [RCON](http://wiki.vg/RCON) and [Query](http://wiki.vg/Query) protocols.
 
@@ -23,7 +26,6 @@ It also depends on [rcon](https://github.com/conqp/rcon) which has been split fr
 If you install `mcicp` via `pip`, it will automatically be installed as a dependency.
 
 ## Documentation
-[![Documentation Status](https://readthedocs.org/projects/mcipc/badge/?version=latest)](https://mcipc.readthedocs.io/en/latest/?badge=latest)  
 Documentation is available on [readthedocs](https://mcipc.readthedocs.io/en/latest).
 
 ## Quick start
