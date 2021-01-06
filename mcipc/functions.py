@@ -32,8 +32,11 @@ def jsonify(value: Any) -> JSON:
     return jsonify(dct)
 
 
-def get_json_item(instance, index_or_key):
-    """Returns the respective item by index or field name."""
+def get_json_item(instance: type, index_or_key: Union[int, str]) -> Any:
+    """Returns the respective item by index or field name.
+    In the case of a field name, the item will be converted
+    into a JSON-ish value.
+    """
 
     if isinstance(index_or_key, str):
         try:
