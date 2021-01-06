@@ -1,5 +1,6 @@
 """Common functions."""
 
+from enum import Enum
 from typing import Any, Union
 
 
@@ -9,7 +10,7 @@ __all__ = ['json_serializable']
 JSON = Union[dict, list, float, int, str, bool, None]
 
 
-def jsonify(value: Any) -> JSON:
+def jsonify(value: Any) -> JSON:    # pylint: disable=R0911
     """Converts a value into a JSON-compliant value."""
 
     if value is None:
@@ -23,6 +24,9 @@ def jsonify(value: Any) -> JSON:
 
     if isinstance(value, (float, int, str, bool)):
         return value
+
+    if isinstance(value, Enum):
+        return jsonify(value.value)
 
     try:
         value = dict(value)
