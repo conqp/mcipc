@@ -54,6 +54,11 @@ def json_serializable(cls: type) -> type:
     dict when passed to the dict() constructor.
     """
 
-    cls.keys = lambda self: self._fields
+    if not hasattr(cls, 'keys'):
+        if not (isinstance(cls, tuple) and hasattr(cls, '_fields')):
+            raise TypeError('Type does not implement method keys(self):', cls)
+
+        cls.keys = lambda self: self._fields
+
     cls.__getitem__ = get_json_item
     return cls
