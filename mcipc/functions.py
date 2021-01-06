@@ -25,11 +25,11 @@ def jsonify(value: Any) -> JSON:
         return value
 
     try:
-        dct = dict(value)
+        value = dict(value)
     except (TypeError, ValueError):
         return str(value)
 
-    return jsonify(dct)
+    return {key: jsonify(value) for key, value in value.items()}
 
 
 def get_json_item(instance: type, index_or_key: Union[int, str]) -> Any:
