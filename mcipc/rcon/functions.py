@@ -5,13 +5,12 @@ from enum import Enum
 from functools import wraps
 from json import dumps
 from re import fullmatch
-from typing import Any, Callable, Iterable, Iterator, Tuple, Union
+from typing import Any, Callable, Iterable, Iterator, Tuple
 
 
 __all__ = [
     'boolmap',
     'ensure_one',
-    'int_range_to_str',
     'parsed',
     'str_until_none',
     'stringify',
@@ -44,23 +43,6 @@ def ensure_one(**kwargs: Any) -> Tuple[str, Any]:   # pylint: disable=R1710
     for key, value in kwargs.items():
         if value is not None:
             return (key, value)
-
-
-def int_range_to_str(int_range: Union[Tuple[int, int], str]) -> str:
-    """Returns a string for the Minecraft server."""
-
-    if isinstance(int_range, str):
-        return int_range
-
-    start, end = int_range
-
-    if start == end:
-        if start is not None:
-            return str(start)
-
-        raise ValueError('Either start or end need to be specified.')
-
-    return '..'.join(map(lambda i: '' if i is None else str(i), int_range))
 
 
 def parsed(parser: Callable[[str], Any]) -> Callable[[Callable], Callable]:

@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from mcipc.rcon.client import Client
-from mcipc.rcon.functions import int_range_to_str
 from mcipc.rcon.proxy import CommandProxy
 from mcipc.rcon.types import Anchor
 from mcipc.rcon.types import BossbarSlot
@@ -31,7 +30,7 @@ class ScoreProxy(CommandProxy):
     # pylint: disable=W0622
     def matches(self, range: IntRange) -> ExecuteProxy:
         """Matches a range."""
-        return self._proxy(ExecuteProxy, 'matches', int_range_to_str(range))
+        return self._proxy(ExecuteProxy, 'matches', range)
 
     # pylint: disable=C0103
     def lt(self, source: str, objective: str) -> ExecuteProxy:
