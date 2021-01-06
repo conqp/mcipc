@@ -49,7 +49,7 @@ Example output of the above commands with a Java Edition client:
 JSON serialization
 ------------------
 
-:py:class: :py:class:`mcipc.rcon.response_types.players.Players` and :py:class:`mcipc.rcon.response_types.location.Location` objects can be serialized into a JSON-ish `dict` by passing them to the `dict()` constructor:
+:py:class:`mcipc.rcon.response_types.players.Players` and :py:class:`mcipc.rcon.response_types.location.Location` objects can be serialized into a JSON-ish `dict` by passing them to the `dict()` constructor:
 
 .. code-block:: python
 
