@@ -6,7 +6,7 @@ from typing import Any, Union
 __all__ = ['json_serializable']
 
 
-JSON = Union[dict, list, float, int, str, bool, type(None)]
+JSON = Union[dict, list, float, int, str, bool, None]
 
 
 def jsonify(value: Any) -> JSON:
