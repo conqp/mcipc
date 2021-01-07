@@ -28,7 +28,7 @@ class TestFullStats(TestCase):
             20,
             25565,
             self.ip_address,
-            ('coNQP', 'foo')
+            ['coNQP', 'foo']
         )
         self.json = {
             'type': int(self.type.value),
@@ -43,7 +43,7 @@ class TestFullStats(TestCase):
             'max_players': 20,
             'host_port': 25565,
             'host_ip': str(self.ip_address),
-            'players': ('coNQP', 'foo')
+            'players': ['coNQP', 'foo']
         }
 
     def test_json_serialization(self):
