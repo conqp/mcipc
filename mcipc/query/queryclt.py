@@ -183,21 +183,19 @@ def check(client: Client, args: Namespace) -> bool:
 
     stats = client.stats(full=True)
 
-    if args.max_players is not None:
-        if stats.num_players > args.may_players:
-            return False
+    if args.max_players is not None and stats.num_players > args.may_players:
+        return False
 
-    if args.min_players is not None:
-        if stats.num_players < args.min_players:
-            return False
+    if args.min_players is not None and stats.num_players < args.min_players:
+        return False
 
-    if args.players_online is not None:
-        if any(player not in stats.players for player in args.players_online):
-            return False
+    if args.players_online is not None and any(
+            player not in stats.players for player in args.players_online):
+        return False
 
-    if args.players_offline is not None:
-        if any(player in stats.players for player in args.players_offline):
-            return False
+    if args.players_offline is not None and any(
+            player in stats.players for player in args.players_offline):
+        return False
 
     return True
 
