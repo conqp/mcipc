@@ -1,6 +1,5 @@
 [![Documentation Status](https://readthedocs.org/projects/mcipc/badge/?version=latest)](https://mcipc.readthedocs.io/en/latest/?badge=latest)
-[![Bugs](https://sonarqube.richard-neumann.de/api/project_badges/measure?project=mcipc&metric=bugs)](https://sonarqube.richard-neumann.de/dashboard?id=mcipc)
-
+[![Quality Gate Status](https://sonarqube.richard-neumann.de/api/project_badges/measure?project=mcipc&metric=alert_status)](https://sonarqube.richard-neumann.de/dashboard?id=mcipc)
 
 # mcipc
 A Minecraft inter-process communication API implementing the [RCON](http://wiki.vg/RCON) and [Query](http://wiki.vg/Query) protocols.
