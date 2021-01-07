@@ -9,10 +9,10 @@ __all__ = ['parse']
 def parse(text: str) -> dict:
     """Creates the help object from a server response text."""
 
-    help = defaultdict(list)    # pylint: disable=W0622
+    help_ = defaultdict(list)
 
     for use_case in filter(None, text.split('/')):
         command, *arguments = use_case.split()
-        help[command].append(arguments)
+        help_[command].append(arguments)
 
-    return help
+    return help_
