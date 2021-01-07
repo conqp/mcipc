@@ -63,7 +63,7 @@ class WhitelistProxy(CommandProxy):
         return self._run('remove', name)
 
 
-def whitelist(self: Client) -> str:
+def whitelist(self: Client) -> WhitelistProxy:
     """Delegates to a
     :py:class:`mcipc.rcon.commands.whitelist.WhitelistProxy`
     """
