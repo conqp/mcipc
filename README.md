@@ -1,6 +1,12 @@
 [![Documentation Status](https://readthedocs.org/projects/mcipc/badge/?version=latest)](https://mcipc.readthedocs.io/en/latest/?badge=latest)
-[![Jenkins](https://jenkins.richard-neumann.de/job/mcipc/job/master/badge/icon?)](https://travis-ci.com/github/conqp/mcipc)
-[![Quality Gate Status](https://sonarqube.richard-neumann.de/api/project_badges/measure?project=mcipc&metric=alert_status)]
+[Bugs](https://sonarqube.richard-neumann.de/api/project_badges/measure?project=mcipc&metric=bugs)
+[Code Smells](https://sonarqube.richard-neumann.de/api/project_badges/measure?project=mcipc&metric=code_smells)
+[Maintainability Rating](https://sonarqube.richard-neumann.de/api/project_badges/measure?project=mcipc&metric=sqale_rating)
+[Quality Gate Status](https://sonarqube.richard-neumann.de/api/project_badges/measure?project=mcipc&metric=alert_status)
+[Reliability Rating](https://sonarqube.richard-neumann.de/api/project_badges/measure?project=mcipc&metric=reliability_rating)
+[Security Rating](https://sonarqube.richard-neumann.de/api/project_badges/measure?project=mcipc&metric=security_rating)
+[Technical Debt](https://sonarqube.richard-neumann.de/api/project_badges/measure?project=mcipc&metric=sqale_index)
+[Vulnerabilities](https://sonarqube.richard-neumann.de/api/project_badges/measure?project=mcipc&metric=vulnerabilities)
 
 # mcipc
 A Minecraft inter-process communication API implementing the [RCON](http://wiki.vg/RCON) and [Query](http://wiki.vg/Query) protocols.
