@@ -1,7 +1,7 @@
 """Information about online players."""
 
 from re import Match, fullmatch
-from typing import Iterator, NamedTuple, Tuple
+from typing import Iterator, NamedTuple, Optional, Tuple
 from uuid import UUID
 
 from mcipc.functions import json_serializable
@@ -21,8 +21,8 @@ class Player(NamedTuple):
     """Player names with optional UUIDs."""
 
     name: str
-    uuid: UUID = None
-    state: str = None
+    uuid: Optional[UUID] = None
+    state: Optional[str] = None
 
 
 @json_serializable
