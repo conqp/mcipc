@@ -1,26 +1,14 @@
 """Implementation of the weather command."""
 
 from mcipc.rcon.client import Client
-from mcipc.rcon.proxy import CommandProxy
+from mcipc.rcon.je.commands.weather import WeatherProxy
 
 
 __all__ = ['WeatherProxy', 'weather']
 
 
-class WeatherProxy(CommandProxy):
+class WeatherProxy(WeatherProxy):   # pylint disable=E0102
     """Proxy for weather commands."""
-
-    def clear(self, duration: int = None) -> str:
-        """Sets the weather to clear."""
-        return self._run('clear', duration)
-
-    def rain(self, duration: int = None) -> str:
-        """Sets the weahter to raining."""
-        return self._run('rain', duration)
-
-    def thunder(self, duration: int = None) -> str:
-        """Sets the weather to a thunderstorm."""
-        return self._run('thunder', duration)
 
     def query(self) -> str:
         """Queries the current weather."""
