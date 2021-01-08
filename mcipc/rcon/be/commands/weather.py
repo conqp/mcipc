@@ -1,13 +1,13 @@
 """Implementation of the weather command."""
 
 from mcipc.rcon.client import Client
-from mcipc.rcon.je.commands.weather import WeatherProxy
+from mcipc.rcon.commands.weather import WeatherProxy
 
 
 __all__ = ['WeatherProxy', 'weather']
 
 
-class WeatherProxy(WeatherProxy):   # pylint disable=E0102
+class WeatherProxy(WeatherProxy):   # pylint: disable=E0102
     """Proxy for weather commands."""
 
     def query(self) -> str:
