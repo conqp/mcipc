@@ -48,8 +48,7 @@ def player_from_java_name(name: str) -> Player:
         raise ValueError(f'Invalid Java Edition server string: {name}')
 
     name, uuid = match.groups()
-    uuid = None if uuid is None else UUID(uuid)
-    return Player(name, uuid=uuid)
+    return Player(name, uuid=None if uuid is None else UUID(uuid))
 
 
 def players_from_java_names(names: str) -> Iterator[Player]:
