@@ -1,7 +1,7 @@
 """Information about online players."""
 
 from re import Match, fullmatch
-from typing import Iterator, NamedTuple, Optional, Tuple
+from typing import Iterator, List, NamedTuple, Optional
 from uuid import UUID
 
 from mcipc.functions import json_serializable
@@ -31,12 +31,14 @@ class Players(NamedTuple):
 
     online: int
     max: int
-    players: Tuple[Player]
+    players: List[Player]
 
     @property
-    def names(self) -> Tuple[str]:  # XXX: For backward compatibility.
-        """Returns a tuple of the players' names."""
-        return tuple(player.name for player in self.players)
+    def names(self) -> List[str]:
+        """Returns a list of the players' names
+        for backward compatibility.
+        """
+        return [player.name for player in self.players]
 
 
 def player_from_java_name(name: str) -> Player:
@@ -79,7 +81,7 @@ def from_java(match: Match) -> Players:
 
     online, max_, names = match.groups()
     players = players_from_java_names(names)
-    return Players(int(online), int(max_), tuple(players))
+    return Players(int(online), int(max_), list(players))
 
 
 def from_paper(match: Match) -> Players:
@@ -89,7 +91,7 @@ def from_paper(match: Match) -> Players:
 
     online, max_, names = match.groups()
     players = players_from_paper_names(names)
-    return Players(int(online), int(max_), tuple(players))
+    return Players(int(online), int(max_), list(players))
 
 
 def parse(text: str) -> Players:
