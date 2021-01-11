@@ -36,7 +36,7 @@ Example output of the above commands with a Java Edition client:
 .. code-block:: python
 
 	-8217057902979500137
-	Players(online=1, max=20, players=(Player(name='coNQP', uuid=None, state=None),))
+	Players(online=1, max=20, players=[Player(name='coNQP', uuid=None, state=None)])
 	Location(name='mansion', x=-7216, y=None, z=-1952, distance=7479)
 	Location(name='minecraft:badlands', x=1512, y=None, z=3388, distance=3634)
 
