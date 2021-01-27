@@ -1,7 +1,7 @@
 """Full statistics protocol."""
 
 from __future__ import annotations
-from typing import IO, Iterator, List, NamedTuple
+from typing import IO, Iterator, NamedTuple
 
 from mcipc.functions import json_serializable
 from mcipc.query.proto.common import MAGIC
@@ -134,7 +134,7 @@ class FullStats(NamedTuple):
     max_players: int
     host_port: int
     host_ip: IPAddressOrHostname
-    players: List[str]
+    players: list[str]
 
     @classmethod
     def read(cls, file: IO) -> FullStats:

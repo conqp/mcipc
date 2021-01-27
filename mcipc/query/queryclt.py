@@ -5,7 +5,6 @@ from json import dumps
 from logging import DEBUG, INFO, basicConfig, getLogger
 from socket import timeout
 from sys import exit, stdout    # pylint: disable=W0622
-from typing import Tuple
 
 from mcipc.query.exceptions import InvalidConfig
 from mcipc.query.client import Client
@@ -89,7 +88,7 @@ def get_args() -> Namespace:
     return parser.parse_args()
 
 
-def get_credentials(server: str) -> Tuple[str, int]:
+def get_credentials(server: str) -> tuple[str, int]:
     """Get the credentials for a server from the respective server name."""
 
     try:

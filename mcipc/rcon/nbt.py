@@ -1,6 +1,6 @@
 """Named binary tags."""
 
-from typing import Any, Dict, Union
+from typing import Any, Union
 
 from mcipc.rcon.enumerations import Item, TargetSelector
 from mcipc.rcon.functions import stringify
@@ -9,7 +9,7 @@ from mcipc.rcon.functions import stringify
 __all__ = ['NBT']
 
 
-def tags_to_str(tags: Dict[str, Any]) -> str:
+def tags_to_str(tags: dict[str, Any]) -> str:
     """Returns the tags as a string."""
 
     return ', '.join(f'{key}={stringify(val)}' for key, val in tags.items())

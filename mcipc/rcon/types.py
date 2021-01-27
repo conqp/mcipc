@@ -1,7 +1,7 @@
 """Types for type hints."""
 
 from ipaddress import IPv4Address, IPv6Address
-from typing import Tuple, Union
+from typing import Union
 
 from mcipc.rcon.enumerations import Ability
 from mcipc.rcon.enumerations import Action
@@ -73,9 +73,9 @@ Coordinate = Union[IntOrStr, float]
 IntRange = Union[range, str]
 IPAddressOrHostname = Union[IPv4Address, IPv6Address, str]
 JSON = Union[bool, dict, float, int, list, str]
-Rotation = Union[Tuple[IntOrStr, IntOrStr], str]
-Vec2 = Union[Tuple[Coordinate, Coordinate], str]
-TargetValue = Vec3 = Union[Tuple[Coordinate, Coordinate, Coordinate], str]
+Rotation = Union[tuple[IntOrStr, IntOrStr], str]
+Vec2 = Union[tuple[Coordinate, Coordinate], str]
+TargetValue = Vec3 = Union[tuple[Coordinate, Coordinate, Coordinate], str]
 # Enumeration / str unions.
 Ability = Union[Ability, str]
 Action = Union[Action, str]

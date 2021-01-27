@@ -1,7 +1,7 @@
 """Information about online players."""
 
 from re import Match, fullmatch
-from typing import Iterator, List, NamedTuple, Optional
+from typing import Iterator, NamedTuple, Optional
 from uuid import UUID
 
 from mcipc.functions import json_serializable
@@ -31,10 +31,10 @@ class Players(NamedTuple):
 
     online: int
     max: int
-    players: List[Player]
+    players: list[Player]
 
     @property
-    def names(self) -> List[str]:
+    def names(self) -> list[str]:
         """Returns a list of the players' names
         for backward compatibility.
         """

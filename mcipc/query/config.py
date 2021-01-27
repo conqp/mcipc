@@ -4,7 +4,7 @@ from __future__ import annotations
 from configparser import ConfigParser, SectionProxy
 from os import getenv, name
 from pathlib import Path
-from typing import Dict, Iterator, NamedTuple, Tuple
+from typing import Iterator, NamedTuple
 
 from mcipc.query.exceptions import InvalidConfig
 
@@ -53,14 +53,14 @@ class Config(NamedTuple):
         return cls(host, port)
 
 
-def entries(config_parser: ConfigParser) -> Iterator[Tuple[str, Config]]:
+def entries(config_parser: ConfigParser) -> Iterator[tuple[str, Config]]:
     """Yields config entries."""
 
     for section in config_parser.sections():
         yield (section, Config.from_config_section(config_parser[section]))
 
 
-def servers() -> Dict[str, Config]:
+def servers() -> dict[str, Config]:
     """Returns a dictionary of servers."""
 
     CONFIG.read(CONFIG_FILE)
