@@ -17,6 +17,17 @@ __all__ = ['Client']
 
 
 WARN_TEMP = 'Client.{} is deprecated. Use Client.stats({}) instead.'
+Request = Union[BasicStatsRequest, FullStatsRequest]
+Response = Union[BasicStats, FullStats]
+
+
+def get_message_types(full: bool) -> tuple[Request, Response]:
+    """Returns request and response types."""
+
+    if full:
+        return (FullStatsRequest, FullStats)
+
+    return (BasicStatsRequest, BasicStats)
 
 
 class Client:
@@ -72,16 +83,11 @@ class Client:
 
     def stats(self, full: bool = False) -> Union[BasicStats, FullStats]:
         """Returns basic or full stats."""
-        if full:
-            request = FullStatsRequest.create(self.challenge_token)
-        else:
-            request = BasicStatsRequest.create(self.challenge_token)
+        request_type, return_type = get_message_types(full)
+        request = request_type.create(self.challenge_token)
 
         with self._socket.makefile('wb') as file:
             file.write(bytes(request))
 
         with self._socket.makefile('rb') as file:
-            if full:
-                return FullStats.read(file)
-
-            return BasicStats.read(file)
+            return return_type.read(file)
