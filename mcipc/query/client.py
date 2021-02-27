@@ -30,14 +30,22 @@ class Client:
         self.timeout = timeout
         self.challenge_token = None
 
-    def __enter__(self):
-        """Conntects the socket."""
+    def connect(self):
+        """Contects the socket."""
         self._socket.__enter__()
         self._socket.settimeout(self.timeout)
         self._socket.connect((self.host, self.port))
 
         if self.challenge_token is None:
             self.challenge_token = self.handshake()
+
+    def disconnect(self):
+        """Delegates to the underlying socket's exit method."""
+        return self._socket.__exit__()
+
+    def __enter__(self):
+        """connect on entering a context"""
+        self.connect()
 
         return self
 
