@@ -2,7 +2,6 @@
 
 from functools import partial
 from re import fullmatch
-from typing import List
 
 from mcipc.rcon.client import Client
 from mcipc.rcon.functions import boolmap, parsed
@@ -20,7 +19,7 @@ REMOVED = 'Removed (.+) from the whitelist'
 LIST = 'There are (\\d+) whitelisted players: (.*)'
 
 
-def parse_list(response: str) -> List[str]:
+def parse_list(response: str) -> list[str]:
     """Returns a list of whitelisted players."""
 
     if match := fullmatch(LIST, response):

@@ -5,7 +5,7 @@ from enum import Enum
 from functools import wraps
 from json import dumps
 from re import fullmatch
-from typing import Any, Callable, Iterable, Iterator, Tuple
+from typing import Any, Callable, Iterable, Iterator
 
 
 __all__ = [
@@ -34,7 +34,7 @@ def boolmap(text: str, true: str = None, false: str = None, *,
     return default
 
 
-def ensure_one(**kwargs: Any) -> Tuple[str, Any]:   # pylint: disable=R1710
+def ensure_one(**kwargs: Any) -> tuple[str, Any]:
     """Ensures that only one argument is set."""
 
     if sum(value is not None for value in kwargs.values()) != 1:
@@ -43,6 +43,8 @@ def ensure_one(**kwargs: Any) -> Tuple[str, Any]:   # pylint: disable=R1710
     for key, value in kwargs.items():
         if value is not None:
             return (key, value)
+
+    raise ValueError('Not-none value disappeared.')
 
 
 def parsed(parser: Callable[[str], Any]) -> Callable[[Callable], Callable]:
