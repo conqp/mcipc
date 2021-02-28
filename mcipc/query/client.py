@@ -57,7 +57,6 @@ class Client:
     def __enter__(self):
         """connect on entering a context"""
         self.connect()
-
         return self
 
     def __exit__(self, typ, value, traceback):
