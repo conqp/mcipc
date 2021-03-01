@@ -12,4 +12,4 @@ Otherwise you can install `mcipc` via pip:
 Requirements
 ============
 
-`mcipc` requires Python 3.8 or higher.
+`mcipc` requires Python 3.9 or higher.
