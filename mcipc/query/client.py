@@ -17,11 +17,11 @@ __all__ = ['Client']
 
 
 WARN_TEMP = 'Client.{} is deprecated. Use Client.stats({}) instead.'
-RequestType = Union[BasicStatsRequest, FullStatsRequest]
-ResponseType = Union[BasicStats, FullStats]
+BasicMessages = tuple[BasicStatsRequest, BasicStats]
+FullMessages = tuple[FullStatsRequest, FullStats]
 
 
-def get_message_types(full: bool) -> tuple[RequestType, ResponseType]:
+def get_message_types(full: bool) -> Union[BasicMessages, FullMessages]:
     """Returns request and response types."""
 
     if full:
