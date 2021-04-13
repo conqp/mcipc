@@ -44,7 +44,6 @@ class Client:
     def connect(self):
         """Contects the socket."""
         self._socket.__enter__()
-        self._socket.settimeout(self.timeout)
         self._socket.connect((self.host, self.port))
 
         if self.challenge_token is None:
@@ -62,6 +61,16 @@ class Client:
     def __exit__(self, typ, value, traceback):
         """Delegates to the underlying socket's exit method."""
         return self._socket.__exit__(typ, value, traceback)
+
+    @property
+    def timeout(self) -> float:
+        """Returns the socket timeout."""
+        return self._socket.gettimeout()
+
+    @timeout.setter
+    def timeout(self, timeout: float):
+        """Sets the socket timeout."""
+        self._socket.settimeout(timeout)
 
     @property
     def basic_stats(self) -> BasicStats:
