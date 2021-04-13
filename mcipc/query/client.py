@@ -1,7 +1,7 @@
 """Query client library."""
 
 from socket import SOCK_DGRAM, socket
-from typing import Union
+from typing import Optional, Union
 from warnings import warn
 
 from mcipc.query.proto import BasicStats
@@ -41,7 +41,7 @@ class Client:
         self.timeout = timeout
         self.challenge_token = None
 
-    def connect(self):
+    def connect(self) -> None:
         """Contects the socket."""
         self._socket.__enter__()
         self._socket.connect((self.host, self.port))
@@ -49,7 +49,7 @@ class Client:
         if self.challenge_token is None:
             self.challenge_token = self.handshake()
 
-    def disconnect(self):
+    def disconnect(self) -> Optional[bool]:
         """Delegates to the underlying socket's exit method."""
         self.challenge_token = None
         return self._socket.__exit__(None, None, None)
