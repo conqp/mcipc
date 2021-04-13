@@ -51,16 +51,17 @@ class Client:
 
     def disconnect(self):
         """Delegates to the underlying socket's exit method."""
-        return self._socket.__exit__()
+        self.challenge_token = None
+        return self._socket.__exit__(None, None, None)
 
     def __enter__(self):
         """connect on entering a context"""
         self.connect()
         return self
 
-    def __exit__(self, typ, value, traceback):
+    def __exit__(self, *_):
         """Delegates to the underlying socket's exit method."""
-        return self._socket.__exit__(typ, value, traceback)
+        return self.disconnect()
 
     @property
     def timeout(self) -> float:
