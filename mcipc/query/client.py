@@ -52,7 +52,7 @@ class Client:
     def disconnect(self) -> Optional[bool]:
         """Delegates to the underlying socket's exit method."""
         self.challenge_token = None
-        return self._socket.__exit__(None, None, None)
+        return self._socket.__exit__()
 
     def __enter__(self):
         """connect on entering a context"""
