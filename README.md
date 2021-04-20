@@ -83,7 +83,7 @@ Location(name='minecraft:badlands', x=1512, y=None, z=3388, distance=3634)
 Many thanks to all contributers to the [Minecraft Wiki](https://minecraft.gamepedia.com/) and the [Wiki.vg](https://wiki.vg/Main_Page).
 
 ## License
-Copyright (C) 2018-2020 Richard Neumann <mail at richard dash neumann period de>
+Copyright (C) 2018-2021 Richard Neumann <mail at richard dash neumann period de>
 
 mcipc is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
