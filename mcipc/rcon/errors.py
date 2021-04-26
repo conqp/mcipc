@@ -2,50 +2,15 @@
 
 from re import fullmatch
 
-
-__all__ = [
-    'CommandError',
-    'InvalidArgument',
-    'InvalidInteger',
-    'InvalidNameOrUUID',
-    'LocationNotFound',
-    'NoPlayerFound',
-    'UnexpectedTrailingData',
-    'UnknownCommand',
-    'check_result'
-]
+from mcipc.rcon.exceptions import InvalidArgument
+from mcipc.rcon.exceptions import InvalidInteger
+from mcipc.rcon.exceptions import InvalidNameOrUUID
+from mcipc.rcon.exceptions import NoPlayerFound
+from mcipc.rcon.exceptions import UnexpectedTrailingData
+from mcipc.rcon.exceptions import UnknownCommand
 
 
-class CommandError(Exception):
-    """Indicates an error with an RCON command."""
-
-
-class InvalidArgument(CommandError):
-    """Represents an invalid argument error."""
-
-
-class InvalidInteger(CommandError):
-    """Represents an invalid argument error."""
-
-
-class InvalidNameOrUUID(CommandError):
-    """Indicates an invalid name or UUID."""
-
-
-class LocationNotFound(CommandError):
-    """Indicates that the given location could not be found."""
-
-
-class NoPlayerFound(CommandError):
-    """Indicates that no player was found."""
-
-
-class UnexpectedTrailingData(CommandError):
-    """Indicates unexpected trailing data."""
-
-
-class UnknownCommand(CommandError):
-    """Represents an unknown command error."""
+__all__ = ['check_result']
 
 
 ERRORS = {

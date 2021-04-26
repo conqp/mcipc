@@ -28,14 +28,14 @@ from mcipc.rcon.enumerations import Style
 from mcipc.rcon.enumerations import TargetType
 from mcipc.rcon.enumerations import TimeType
 from mcipc.rcon.enumerations import XPUnit
-from mcipc.rcon.errors import CommandError
-from mcipc.rcon.errors import InvalidArgument
-from mcipc.rcon.errors import InvalidInteger
-from mcipc.rcon.errors import InvalidNameOrUUID
-from mcipc.rcon.errors import LocationNotFound
-from mcipc.rcon.errors import NoPlayerFound
-from mcipc.rcon.errors import UnexpectedTrailingData
-from mcipc.rcon.errors import UnknownCommand
+from mcipc.rcon.exceptions import CommandError
+from mcipc.rcon.exceptions import InvalidArgument
+from mcipc.rcon.exceptions import InvalidInteger
+from mcipc.rcon.exceptions import InvalidNameOrUUID
+from mcipc.rcon.exceptions import LocationNotFound
+from mcipc.rcon.exceptions import NoPlayerFound
+from mcipc.rcon.exceptions import UnexpectedTrailingData
+from mcipc.rcon.exceptions import UnknownCommand
 from mcipc.rcon.je import Client as JavaClient
 
 

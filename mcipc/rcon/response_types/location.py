@@ -4,7 +4,7 @@ from re import fullmatch
 from typing import NamedTuple, Optional
 
 from mcipc.functions import json_serializable
-from mcipc.rcon.errors import LocationNotFound
+from mcipc.rcon.exceptions import LocationNotFound
 
 
 __all__ = ['Location', 'parse']
