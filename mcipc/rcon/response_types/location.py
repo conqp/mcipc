@@ -1,7 +1,7 @@
 """Locations."""
 
 from re import fullmatch
-from typing import NamedTuple, Union
+from typing import NamedTuple, Optional
 
 from mcipc.functions import json_serializable
 from mcipc.rcon.errors import LocationNotFound
@@ -20,7 +20,7 @@ class Location(NamedTuple):
 
     name: str
     x: int
-    y: Union[int, None]
+    y: Optional[int]
     z: int
     distance: int
 
