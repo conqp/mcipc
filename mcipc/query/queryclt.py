@@ -107,7 +107,7 @@ def get_basic_stats(client: Client, args: Namespace):   # pylint: disable=R0911
     basic_stats = client.stats(full=False)
 
     if not args.field:
-        return dumps(basic_stats.to_json(), indent=args.indent)
+        return dumps(dict(basic_stats), indent=args.indent)
 
     if args.field == 'motd':
         return basic_stats.motd
@@ -139,7 +139,7 @@ def get_full_stats(client: Client, args: Namespace):    # pylint: disable=R0911
     full_stats = client.stats(full=True)
 
     if not args.field:
-        return dumps(full_stats.to_json(), indent=args.indent)
+        return dumps(dict(full_stats.to_json), indent=args.indent)
 
     if args.field == 'hostname':
         return full_stats.host_name
