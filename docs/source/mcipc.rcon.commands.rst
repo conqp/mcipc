@@ -76,6 +76,14 @@ mcipc.rcon.commands.tag module
    :undoc-members:
    :show-inheritance:
 
+mcipc.rcon.commands.weather module
+----------------------------------
+
+.. automodule:: mcipc.rcon.commands.weather
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 mcipc.rcon.commands.whitelist module
 ------------------------------------
 
