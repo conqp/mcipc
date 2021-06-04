@@ -1,5 +1,5 @@
-Modules
-=======
+mcipc
+=====
 
 .. toctree::
    :maxdepth: 4
