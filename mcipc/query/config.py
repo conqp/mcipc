@@ -17,7 +17,7 @@ CONFIG = ConfigParser()
 if name == 'posix':
     CONFIG_FILE = Path('/etc/query.conf')
 elif name == 'nt':
-    CONFIG_FILE = Path(getenv('LOCALAPPDATA')).joinpath('query.conf')
+    CONFIG_FILE = Path(getenv('LOCALAPPDATA')) / 'query.conf'
 else:
     raise NotImplementedError(f'Unsupported operating system: {name}')
 
