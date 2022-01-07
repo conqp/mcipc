@@ -33,7 +33,7 @@ def jsonify(value: Any) -> JSON:    # pylint: disable=R0911
     except (TypeError, ValueError):
         return str(value)
 
-    return {key: jsonify(value) for key, value in value.items()}
+    return jsonify(value)
 
 
 def get_json_item(instance: type, index_or_key: Union[int, str]) -> Any:
@@ -46,7 +46,7 @@ def get_json_item(instance: type, index_or_key: Union[int, str]) -> Any:
         try:
             value = getattr(instance, index_or_key)
         except AttributeError:
-            raise IndexError(index_or_key) from None
+            raise KeyError(index_or_key) from None
 
         return jsonify(value)
 
