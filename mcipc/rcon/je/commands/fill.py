@@ -1,5 +1,6 @@
 """Implementation of the fill command."""
 
+from typing import Optional
 from mcipc.rcon.client import Client
 from mcipc.rcon.enumerations import FillMode
 from mcipc.rcon.types import FillMode as FillModeHint, Vec3
@@ -8,9 +9,14 @@ from mcipc.rcon.types import FillMode as FillModeHint, Vec3
 __all__ = ['fill']
 
 
-# pylint: disable=C0103,R0913,W0622
-def fill(self: Client, from_: Vec3, to: Vec3, block: str,
-         mode: FillModeHint = None, filter: str = None) -> str:
+def fill(
+        self: Client,
+        from_: Vec3,
+        to: Vec3,
+        block: str,
+        mode: Optional[FillModeHint] = None,
+        filter: Optional[str] = None
+) -> str:
     """Fills all or parts of a region with a specific block."""
 
     command = ['fill', from_, to, block]

@@ -1,5 +1,7 @@
 """Implementation of the teleport command."""
 
+from typing import Optional
+
 from mcipc.rcon.client import Client
 from mcipc.rcon.types import Anchor, Rotation, Vec3
 
@@ -7,10 +9,17 @@ from mcipc.rcon.types import Anchor, Rotation, Vec3
 __all__ = ['teleport']
 
 
-def teleport(self: Client, *, destination: str = None, location: Vec3 = None,
-             targets: str = None, rotation: Rotation = None,
-             facing_location: Vec3 = None, facing_entity: str = None,
-             facing_anchor: Anchor = None) -> str:
+def teleport(
+        self: Client,
+        *,
+        destination: Optional[str] = None,
+        location: Optional[Vec3] = None,
+        targets: Optional[str] = None,
+        rotation: Optional[Rotation] = None,
+        facing_location: Optional[Vec3] = None,
+        facing_entity: Optional[str] = None,
+        facing_anchor: Optional[Anchor] = None
+) -> str:
     """Teleports the player."""
 
     command = ['teleport']

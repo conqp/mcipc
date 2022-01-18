@@ -1,6 +1,6 @@
 """Implementation of loot command."""
 
-from typing import Union
+from typing import Optional, Union
 
 from mcipc.rcon.client import Client
 from mcipc.rcon.proxy import CommandProxy
@@ -13,8 +13,12 @@ __all__ = ['LootProxy', 'ReplaceProxy', 'SourceProxy', 'loot']
 class SourceProxy(CommandProxy):
     """Proxy for source commands."""
 
-    def fish(self, loot_table: str, pos: Vec3,
-             tool_or_hand: Union[Hand, str] = None) -> str:
+    def fish(
+            self,
+            loot_table: str,
+            pos: Vec3,
+            tool_or_hand: Optional[Union[Hand, str]] = None
+    ) -> str:
         """Runs the command with the fish source."""
         return self._run('fish', loot_table, pos, tool_or_hand)
 
@@ -26,7 +30,11 @@ class SourceProxy(CommandProxy):
         """Runs the command with a killed target as source."""
         return self._run('kill', target)
 
-    def mine(self, pos: Vec3, tool_or_hand: Union[Hand, str] = None) -> str:
+    def mine(
+            self,
+            pos: Vec3,
+            tool_or_hand: Optional[Union[Hand, str]] = None
+    ) -> str:
         """Runs the command with a mined resource as source."""
         return self._run('mine', pos, tool_or_hand)
 
@@ -34,15 +42,23 @@ class SourceProxy(CommandProxy):
 class ReplaceProxy(CommandProxy):
     """Proxy for replace commands."""
 
-    def entity(self, entities: str, slot: str,
-               count: int = None) -> SourceProxy:
+    def entity(
+            self,
+            entities: str,
+            slot: str,
+            count: Optional[int] = None
+    ) -> SourceProxy:
         """Delegates to a
         :py:class:`mcipc.rcon.je.commands.loot.SourceProxy`
         """
         return self._proxy(SourceProxy, 'entity', entities, slot, count)
 
-    def block(self, target_pos: Vec3, slot: str,
-              count: int = None) -> SourceProxy:
+    def block(
+            self,
+            target_pos: Vec3,
+            slot: str,
+            count: Optional[int] = None
+    ) -> SourceProxy:
         """Delegates to a
         :py:class:`mcipc.rcon.je.commands.loot.SourceProxy`
         """

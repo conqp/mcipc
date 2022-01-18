@@ -1,5 +1,7 @@
 """Implementation of the scoreboard command."""
 
+from typing import Optional
+
 from mcipc.rcon.client import Client
 from mcipc.rcon.proxy import CommandProxy
 from mcipc.rcon.je.types import RenderType
@@ -29,8 +31,12 @@ class ModifyProxy(CommandProxy):
 class ObjectivesProxy(CommandProxy):
     """Proxy for objectives sub commands."""
 
-    def add(self, objective: str, criterion: str,
-            display_name: str = None) -> str:
+    def add(
+            self,
+            objective: str,
+            criterion: str,
+            display_name: Optional[str] = None
+    ) -> str:
         """Adds an objective to the scoreboard."""
         return self._run('add', objective, criterion, display_name)
 
@@ -48,7 +54,7 @@ class ObjectivesProxy(CommandProxy):
         """Removes an objective from the scoreboard."""
         return self._run('remove', objective)
 
-    def setdisplay(self, slot: str, objective: str = None):
+    def setdisplay(self, slot: str, objective: Optional[str] = None) -> str:
         """Sets the display slot of an objective."""
         return self._run('setdisplay', slot, objective)
 
@@ -88,7 +94,7 @@ class PlayersProxy(CommandProxy):
         """
         return self._run('remove', targets, objective, score)
 
-    def reset(self, targets: str, objective: str = None) -> str:
+    def reset(self, targets: str, objective: Optional[str] = None) -> str:
         """Resets a player's score."""
         return self._run('reset', targets, objective)
 

@@ -9,7 +9,6 @@ from mcipc.rcon.types import Difficulty
 __all__ = ['difficulty']
 
 
-# pylint: disable=W0621
 @parsed(parse)
 def difficulty(self: Client, difficulty: Difficulty) -> bool:
     """Sets the difficulty."""

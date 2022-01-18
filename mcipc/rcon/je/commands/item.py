@@ -1,5 +1,7 @@
 """Implementation of the item command."""
 
+from typing import Optional
+
 from mcipc.rcon.client import Client
 from mcipc.rcon.proxy import CommandProxy
 from mcipc.rcon.types import Vec3
@@ -11,11 +13,21 @@ __all__ = ['CopyProxy', 'ItemProxy', 'ItemSubProxy', 'item']
 class CopyProxy(CommandProxy):
     """Proxy for item copy commands."""
 
-    def block(self, pos: Vec3, slot: str, modifier: str = None) -> str:
+    def block(
+            self,
+            pos: Vec3,
+            slot: str,
+            modifier: Optional[str] = None
+    ) -> str:
         """Copies a block."""
         return self._run('block', pos, slot, modifier)
 
-    def entity(self, targets: str, slot: str, modifier: str = None) -> str:
+    def entity(
+            self,
+            targets: str,
+            slot: str,
+            modifier: Optional[str] = None
+    ) -> str:
         """Copies an entity."""
         return self._run('entity', targets, slot, modifier)
 
@@ -35,7 +47,7 @@ class ItemSubProxy(CommandProxy):
         return self._run('modify', modifier)
 
     # pylint: disable=W0621
-    def replace(self, item: str, count: int = None) -> str:
+    def replace(self, item: str, count: Optional[int] = None) -> str:
         """Replaces an item."""
         return self._run('replace', item, count)
 

@@ -1,5 +1,7 @@
 """Implementation of the advancement command."""
 
+from typing import Optional
+
 from mcipc.rcon.client import Client
 from mcipc.rcon.proxy import CommandProxy
 
@@ -15,7 +17,7 @@ class AdvancementSubProxy(CommandProxy):
         return self._run('everything')
 
     # pylint: disable=W0621
-    def only(self, advancement: str, criterion: str = None) -> str:
+    def only(self, advancement: str, criterion: Optional[str] = None) -> str:
         """Only grants or revokes the given advancement."""
         return self._run(advancement, criterion)
 

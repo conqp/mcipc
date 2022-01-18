@@ -1,5 +1,7 @@
 """Implementation of the worldborder command."""
 
+from typing import Optional
+
 from mcipc.rcon.client import Client
 from mcipc.rcon.proxy import CommandProxy
 from mcipc.rcon.types import Vec2
@@ -35,7 +37,7 @@ class WarningProxy(CommandProxy):
 class WorldborderProxy(CommandProxy):
     """Proxy for worldborder commands."""
 
-    def add(self, distance: float, time: int = None) -> str:
+    def add(self, distance: float, time: Optional[int] = None) -> str:
         """Adds a world border."""
         return self._run('add', distance, time)
 
@@ -54,7 +56,7 @@ class WorldborderProxy(CommandProxy):
         """Returns information about the world border."""
         return self._run('get')
 
-    def set(self, distance: float, time: int = None) -> str:
+    def set(self, distance: float, time: Optional[int] = None) -> str:
         """Sets the world border."""
         return self._run('set', distance, time)
 

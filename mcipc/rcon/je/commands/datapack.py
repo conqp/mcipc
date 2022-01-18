@@ -1,5 +1,7 @@
 """Implementation of the datapack command."""
 
+from typing import Optional
+
 from mcipc.rcon.client import Client
 from mcipc.rcon.proxy import CommandProxy
 from mcipc.rcon.types import DatapackMode, DatapackState
@@ -15,8 +17,12 @@ class DatapackProxy(CommandProxy):
         """Disables a datapack."""
         return self._run('disable', name)
 
-    def enable(self, name: str, mode: DatapackMode,
-               existing: str = None) -> str:
+    def enable(
+            self,
+            name: str,
+            mode: DatapackMode,
+            existing: Optional[str] = None
+    ) -> str:
         """Enables a datapack."""
         command = ['enable', name, mode]
 
@@ -28,7 +34,7 @@ class DatapackProxy(CommandProxy):
 
         return self._run(*command)
 
-    def list(self, state: DatapackState = None) -> str:
+    def list(self, state: Optional[DatapackState] = None) -> str:
         """Lists the enabled datapacks."""
         command = ['list']
 

@@ -26,6 +26,6 @@ def banlist(self: Client, *ips_or_players: IPAddressOrHostname) -> str:
 
 
 def pardon(self: Client, target: str) -> str:
-    """Removes entries from the banlist."""
+    """Removes entries from the ban list."""
 
     return self.run('pardon', target)

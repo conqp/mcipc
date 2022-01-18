@@ -1,5 +1,7 @@
 """Implementation of the attribute command."""
 
+from typing import Optional
+
 from mcipc.rcon.client import Client
 from mcipc.rcon.proxy import CommandProxy
 from mcipc.rcon.types import Action
@@ -17,7 +19,7 @@ __all__ = [
 class ValueProxy(CommandProxy):    # pylint: disable=R0903
     """Proxy for attribute value getter."""
 
-    def get(self, uuid: str, scale: float = None) -> str:
+    def get(self, uuid: str, scale: Optional[float] = None) -> str:
         """Returns the value of the modifier with the specified UUID."""
         return self._run('get', uuid, scale)
 
@@ -25,7 +27,7 @@ class ValueProxy(CommandProxy):    # pylint: disable=R0903
 class BaseProxy(CommandProxy):
     """Proxy to modify bases."""
 
-    def get(self, scale: float = None) -> str:
+    def get(self, scale: Optional[float] = None) -> str:
         """Returns the base value of the specified attribute."""
         return self._run('get', scale)
 
@@ -74,7 +76,7 @@ class AttributeProxy(CommandProxy):
         """
         return self._proxy(ModifierProxy, 'modifier')
 
-    def get(self, scale: float = None) -> str:
+    def get(self, scale: Optional[float] = None) -> str:
         """Returns the total value of the specified attribute."""
         return self._run('get', scale)
 
