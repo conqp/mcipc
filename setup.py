@@ -3,6 +3,9 @@
 
 from setuptools import setup
 
+with open('README.md') as file:
+    long_description = file.read()
+
 setup(
     name='mcipc',
     use_scm_version=True,
@@ -35,7 +38,7 @@ setup(
     url='https://github.com/conqp/mcipc',
     license='GPLv3',
     description='A Minecraft server inter-process communication library.',
-    long_description=open('README.md').read(),
+    long_description=long_description,
     long_description_content_type="text/markdown",
     keywords='minecraft python server rcon query'
 )
