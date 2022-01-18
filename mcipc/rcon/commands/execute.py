@@ -1,6 +1,7 @@
 """Implementation of the execute command."""
 
 from __future__ import annotations
+from typing import Optional
 
 from mcipc.rcon.client import Client
 from mcipc.rcon.proxy import CommandProxy
@@ -106,9 +107,13 @@ class ConditionalProxy(CommandProxy):
 class StoreProxy(CommandProxy):
     """Proxy to handle store sub-command."""
 
-    def block(self, target_pos: Vec3, path: str,
-              type: DataType,   # pylint: disable=W0622
-              scale: float) -> ExecuteProxy:
+    def block(
+            self,
+            target_pos: Vec3,
+            path: str,
+            type: DataType,
+            scale: float
+    ) -> ExecuteProxy:
         """Saves the final command's return value
         as tag data within a block entity.
         """
@@ -121,9 +126,13 @@ class StoreProxy(CommandProxy):
         """
         return self._proxy(ExecuteProxy, 'bossbar', ident, value)
 
-    def entity(self, target: str, path: str,
-               type: DataType,  # pylint: disable=W0622
-               scale: float) -> ExecuteProxy:
+    def entity(
+            self,
+            target: str,
+            path: str,
+            type: DataType,
+            scale: float
+    ) -> ExecuteProxy:
         """Save the final command's return value
         in one of an entity's data tags.
         """
@@ -135,9 +144,13 @@ class StoreProxy(CommandProxy):
         """
         return self._proxy(ExecuteProxy, 'score', targets, objective)
 
-    def storage(self, target: str, path: str,
-                type: DataType,     # pylint: disable=W0622
-                scale: float) -> ExecuteProxy:
+    def storage(
+            self,
+            target: str,
+            path: str,
+            type: DataType,
+            scale: float
+    ) -> ExecuteProxy:
         """Uses the <path> within storage <target>
         to store the return value in.
         """
@@ -170,8 +183,13 @@ class ExecuteProxy(CommandProxy):
         """Executes the command at the given targets."""
         return self._proxy(type(self), 'at', targets)
 
-    def facing(self, *, pos: Vec3 = None, targets: str = None,
-               anchor: Anchor = None) -> ExecuteProxy:
+    def facing(
+            self,
+            *,
+            pos: Optional[Vec3] = None,
+            targets: Optional[str] = None,
+            anchor: Optional[Anchor] = None
+    ) -> ExecuteProxy:
         """Faces a position or entity."""
         if sum(item is not None for item in (pos, targets)) != 1:
             raise ValueError('Must specify either pos or targets.')
@@ -188,8 +206,12 @@ class ExecuteProxy(CommandProxy):
         """Executes in the given dimension."""
         return self._proxy(type(self), 'in', dimension)
 
-    def positioned(self, *, pos: Vec3 = None,
-                   targets: str = None) -> ExecuteProxy:
+    def positioned(
+            self,
+            *,
+            pos: Optional[Vec3] = None,
+            targets: Optional[str] = None
+    ) -> ExecuteProxy:
         """Runs the command with a given positioning."""
         if sum(item is not None for item in (pos, targets)) != 1:
             raise ValueError('Must specify either pos or targets.')
@@ -199,8 +221,12 @@ class ExecuteProxy(CommandProxy):
 
         return self._proxy(type(self), 'positioned', 'as', targets)
 
-    def rotated(self, *, rot: Rotation = None,
-                targets: str = None) -> ExecuteProxy:
+    def rotated(
+            self,
+            *,
+            rot: Optional[Rotation] = None,
+            targets: Optional[str] = None
+    ) -> ExecuteProxy:
         """Executes the command with the given rotation."""
         if sum(item is not None for item in (rot, targets)) != 1:
             raise ValueError('Must specify either rot or targets.')

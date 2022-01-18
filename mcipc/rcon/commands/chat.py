@@ -1,5 +1,7 @@
 """Chat-realted commands."""
 
+from typing  import Optional
+
 from mcipc.rcon.client import Client
 
 
@@ -42,7 +44,12 @@ def tellraw(self: Client, player: str, obj: dict) -> str:
     return self.run('tellraw', player, obj)
 
 
-def send_url(self: Client, player: str, url: str, text: str = None) -> str:
+def send_url(
+        self: Client,
+        player: str,
+        url: str,
+        text: Optional[str] = None
+) -> str:
     """Sends a URL to the specified player.
     If no text is specified, it will default to the original URL.
     """
