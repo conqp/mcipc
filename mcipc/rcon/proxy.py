@@ -1,6 +1,5 @@
 """Command proxies."""
 
-from __future__ import annotations
 from typing import TypeVar
 
 from mcipc.rcon.functions import until_none
