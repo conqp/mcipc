@@ -1,6 +1,6 @@
 """Client implementation for Java Edition."""
 
-from mcipc.rcon.client import Client
+from mcipc.rcon.client import Client as _Client
 from mcipc.rcon.commands.chat import me, say, tell, tellraw, send_url
 from mcipc.rcon.commands.execute import execute
 from mcipc.rcon.commands.function import function
@@ -67,7 +67,7 @@ from mcipc.rcon.je.commands.worldborder import worldborder
 __all__ = ['Client']
 
 
-class Client(Client):   # pylint: disable=E0102
+class Client(_Client):
     """A high-level RCON client with methods for the Java Edition."""
 
     # pylint: disable=W0221
