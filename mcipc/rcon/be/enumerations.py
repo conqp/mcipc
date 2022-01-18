@@ -312,5 +312,5 @@ class TimeSpec(Enum):
     NIGHT = 'night'
     NOON = 'noon'
     MIDNIGHT = 'midnight'
-    SUNRISE = 'sunrise‌'
-    SUNSET = 'sunset‌'
+    SUNRISE = 'sunrise'
+    SUNSET = 'sunset'
