@@ -57,13 +57,13 @@ from mcipc.rcon.commands.gamerule import gamerule
 from mcipc.rcon.commands.kick import kick
 from mcipc.rcon.commands.kill import kill
 from mcipc.rcon.commands.op import deop, op
-from mcipc.rcon.client import Client
+from mcipc.rcon.client import Client as _Client
 
 
 __all__ = ['Client']
 
 
-class Client(Client):   # pylint: disable=E0102
+class Client(_Client):
     """Client for the Education Edition."""
 
     ability = ability
