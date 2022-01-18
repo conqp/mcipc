@@ -6,7 +6,6 @@ from enum import Enum
 __all__ = ['Item']
 
 
-# pylint: disable=C0302
 class Item(Enum):
     """Minecraft items."""
 
