@@ -6,7 +6,7 @@ from re import fullmatch
 __all__ = ['parse']
 
 
-REGEX = '.*\\[(-?\\d+)\\]'
+REGEX = r'.*\[(-?\d+)\]'
 
 
 def parse(text: str) -> int:

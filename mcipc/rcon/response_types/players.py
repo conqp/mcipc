@@ -10,10 +10,10 @@ from mcipc.functions import json_serializable
 __all__ = ['Player', 'Players', 'parse']
 
 
-REGEX_JAVA = '.+ (\\d+) .+ (\\d+) .+: (.*)'
-REGEX_JAVA_NAME = '(\\S+)(?: \\((\\S+)\\))?'
-REGEX_PAPER = '.+ §c(\\d+)§6 .+ §c(\\d+)§6 .+\\.([\\s\\S]*)'
-REGEX_PAPER_NAME = '§6(.+)§r: (?:§4)?(\\w+)(?:§r)?§f'
+REGEX_JAVA = r'.+ (\d+) .+ (\d+) .+: (.*)'
+REGEX_JAVA_NAME = r'(\S+)(?: \((\S+)\))?'
+REGEX_PAPER = r'.+ §c(\d+)§6 .+ §c(\d+)§6 .+\.([\s\S]*)'
+REGEX_PAPER_NAME = r'§6(.+)§r: (?:§4)?(\w+)(?:§r)?§f'
 
 
 @json_serializable
