@@ -4,7 +4,7 @@ from re import fullmatch
 from typing import NamedTuple
 
 from mcipc.functions import json_serializable
-from mcipc.rcon.errors import NoPlayerFound
+from mcipc.rcon.exceptions import NoPlayerFound
 
 
 __all__ = ['KickedPlayer', 'parse']
