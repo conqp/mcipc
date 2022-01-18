@@ -58,13 +58,13 @@ from mcipc.rcon.commands.op import deop, op
 from mcipc.rcon.commands.reload import reload
 from mcipc.rcon.commands.tag import tag
 from mcipc.rcon.commands.whitelist import whitelist
-from mcipc.rcon.client import Client
+from mcipc.rcon.client import Client as _Client
 
 
 __all__ = ['Client']
 
 
-class Client(Client):   # pylint: disable=E0102
+class Client(_Client):
     """RCON client for the Bedrock Edition."""
 
     ability = ability
