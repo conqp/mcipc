@@ -10,8 +10,10 @@ from mcipc.rcon.exceptions import LocationNotFound
 __all__ = ['Location', 'parse']
 
 
-REGEX = ('The nearest (.+) is at \\[(-?\\d+), (~|-?\\d+), '
-         '(-?\\d+)\\] \\((\\d+) block[s]? away\\)')
+REGEX = (
+    r'The nearest (.+) is at \[(-?\d+), (~|-?\d+), '
+    r'(-?\d+)\] \((\d+) block[s]? away\)'
+)
 
 
 @json_serializable
