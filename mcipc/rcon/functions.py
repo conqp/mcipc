@@ -5,7 +5,7 @@ from enum import Enum
 from functools import wraps
 from json import dumps
 from re import fullmatch
-from typing import Any, Callable, Iterable, Iterator
+from typing import Any, Callable, Iterable, Iterator, Optional
 
 
 __all__ = [
@@ -18,8 +18,13 @@ __all__ = [
 ]
 
 
-def boolmap(text: str, true: str = None, false: str = None, *,
-            default: bool = None) -> bool:
+def boolmap(
+        text: str,
+        true: Optional[str] = None,
+        false: Optional[str] = None,
+        *,
+        default: bool = None
+) -> bool:
     """Parses a boolean value from a text with the given regex strings."""
 
     if true is not None and fullmatch(true, text) is not None:
@@ -42,9 +47,9 @@ def ensure_one(**kwargs: Any) -> tuple[str, Any]:
 
     for key, value in kwargs.items():
         if value is not None:
-            return (key, value)
+            return key, value
 
-    raise ValueError('Not-none value disappeared.')
+    raise RuntimeError('Not-none value disappeared.')
 
 
 def parsed(parser: Callable[[str], Any]) -> Callable[[Callable], Callable]:
