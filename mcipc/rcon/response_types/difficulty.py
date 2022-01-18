@@ -1,6 +1,6 @@
 """Parsing responses from the difficulty command."""
 
-from mcipc.rcon.functions import boolmap
+from mcipc.rcon.functions import parse_bool
 
 
 __all__ = ['parse']
@@ -15,4 +15,4 @@ def parse(text: str) -> bool:
     returned by the difficulty command.
     """
 
-    return boolmap(text, true=SET, false=UNCHANGED)
+    return parse_bool(text, true=SET, false=UNCHANGED)

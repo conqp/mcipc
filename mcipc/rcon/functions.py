@@ -9,8 +9,8 @@ from typing import Any, Callable, Iterable, Iterator, Optional
 
 
 __all__ = [
-    'boolmap',
     'ensure_one',
+    'parse_bool',
     'parsed',
     'str_until_none',
     'stringify',
@@ -18,7 +18,20 @@ __all__ = [
 ]
 
 
-def boolmap(
+def ensure_one(**kwargs: Any) -> tuple[str, Any]:
+    """Ensures that only one argument is set."""
+
+    if sum(value is not None for value in kwargs.values()) != 1:
+        raise ValueError('Must specify exactly one of:', kwargs.keys())
+
+    for key, value in kwargs.items():
+        if value is not None:
+            return key, value
+
+    raise RuntimeError('Not-none value disappeared.')
+
+
+def parse_bool(
         text: str,
         true: Optional[str] = None,
         false: Optional[str] = None,
@@ -37,19 +50,6 @@ def boolmap(
         raise ValueError(f'Unexpected text returned: {text}')
 
     return default
-
-
-def ensure_one(**kwargs: Any) -> tuple[str, Any]:
-    """Ensures that only one argument is set."""
-
-    if sum(value is not None for value in kwargs.values()) != 1:
-        raise ValueError('Must specify exactly one of:', kwargs.keys())
-
-    for key, value in kwargs.items():
-        if value is not None:
-            return key, value
-
-    raise RuntimeError('Not-none value disappeared.')
 
 
 def parsed(parser: Callable[[str], Any]) -> Callable[[Callable], Callable]:
