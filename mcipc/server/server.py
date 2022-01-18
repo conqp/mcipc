@@ -15,8 +15,8 @@ __all__ = ['MAX_PLAYERS', 'PROTOCOL', 'VERSION', 'get_response', 'StubServer']
 
 LOGGER = getLogger(__file__)
 MAX_PLAYERS = 20
-PROTOCOL = 485
-VERSION = '1.16.4'
+PROTOCOL = 753
+VERSION = '1.18.1'
 
 
 def get_response(text: str) -> bytes:

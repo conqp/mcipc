@@ -10,7 +10,7 @@ __all__ = ['json_serializable']
 JSON = Union[dict, list, float, int, str, bool, None]
 
 
-def jsonify(value: Any) -> JSON:    # pylint: disable=R0911
+def jsonify(value: Any) -> JSON:
     """Converts a value into a JSON-compliant value."""
 
     if value is None:
