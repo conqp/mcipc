@@ -11,12 +11,12 @@ from mcipc.rcon.proxy import CommandProxy
 __all__ = ['WhitelistProxy', 'whitelist']
 
 
-ADDED = 'Added (.+) to the whitelist'
-TURNED_OFF = 'Whitelist is now turned off'
-TURNED_ON = 'Whitelist is now turned on'
-RELOADED = 'Reloaded the whitelist'
-REMOVED = 'Removed (.+) from the whitelist'
-LIST = 'There are (\\d+) whitelisted players: (.*)'
+ADDED = r'Added (.+) to the whitelist'
+TURNED_OFF = r'Whitelist is now turned off'
+TURNED_ON = r'Whitelist is now turned on'
+RELOADED = r'Reloaded the whitelist'
+REMOVED = r'Removed (.+) from the whitelist'
+LIST = r'There are (\d+) whitelisted players: (.*)'
 
 
 def parse_list(response: str) -> list[str]:

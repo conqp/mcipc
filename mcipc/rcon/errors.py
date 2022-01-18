@@ -14,14 +14,14 @@ __all__ = ['check_result']
 
 
 ERRORS = {
-    'Incorrect argument for command(.*)<--\\[HERE\\]': InvalidArgument,
-    'Invalid integer(.*)<--\\[HERE\\]': InvalidInteger,
-    'Invalid name or UUID(.*)<--\\[HERE\\]': InvalidNameOrUUID,
+    r'Incorrect argument for command(.*)<--\[HERE\]': InvalidArgument,
+    r'Invalid integer(.*)<--\[HERE\]': InvalidInteger,
+    r'Invalid name or UUID(.*)<--\[HERE\]': InvalidNameOrUUID,
     'No player was found': NoPlayerFound,
-    ('Expected whitespace to end one argument, but found trailing data'
-     '(.*)<--\\[HERE\\]'): UnexpectedTrailingData,
-    ('Unknown or incomplete command, see below for error'
-     '(.*)<--\\[HERE\\]'): UnknownCommand
+    (r'Expected whitespace to end one argument, but found trailing data'
+     r'(.*)<--\[HERE\]'): UnexpectedTrailingData,
+    (r'Unknown or incomplete command, see below for error'
+     r'(.*)<--\[HERE\]'): UnknownCommand
 }
 
 
