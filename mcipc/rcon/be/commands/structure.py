@@ -1,5 +1,7 @@
 """Implementation of the structure command."""
 
+from typing import Optional
+
 from mcipc.rcon.be.types import Mirror
 from mcipc.rcon.be.types import Rotation
 from mcipc.rcon.be.types import StructureAnimationMode
@@ -15,10 +17,16 @@ __all__ = ['StructureProxy', 'structure']
 class StructureProxy(CommandProxy):
     """Proxy for structure commands."""
 
-    # pylint: disable=C0103,R0913
-    def save(self, name: str, from_: Vec3, to: Vec3,
-             save_mode: StructureSaveMode = None, includes_blocks: bool = None,
-             *, includes_entities: bool = None) -> str:
+    def save(
+            self,
+            name: str,
+            from_: Vec3,
+            to: Vec3,
+            save_mode: Optional[StructureSaveMode] = None,
+            includes_blocks: Optional[bool] = None,
+            *,
+            includes_entities: Optional[bool] = None
+    ) -> str:
         """Saves a structure."""
 
         command = ['save', name, from_, to]
@@ -28,12 +36,20 @@ class StructureProxy(CommandProxy):
 
         return self._run(*command, save_mode, includes_blocks)
 
-    def load(self, name: str, to: Vec3, rotation: Rotation = None,
-             mirror: Mirror = None, includes_entities: bool = None,
-             includes_blocks: bool = None, integrity: float = None,
-             seed: str = None, *,
-             animation_mode: StructureAnimationMode = None,
-             animation_seconds: float = None) -> str:
+    def load(
+            self,
+            name: str,
+            to: Vec3,
+            rotation: Optional[Rotation] = None,
+            mirror: Optional[Mirror] = None,
+            includes_entities: Optional[bool] = None,
+            includes_blocks: Optional[bool] = None,
+            integrity: Optional[float] = None,
+            seed: str = Optional[None],
+            *,
+            animation_mode: Optional[StructureAnimationMode] = None,
+            animation_seconds: Optional[float] = None
+    ) -> str:
         """Loads a structure."""
         command = ['load', name, to, rotation, mirror]
 

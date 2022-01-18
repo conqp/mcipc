@@ -1,5 +1,7 @@
 """Implementation of the summon command."""
 
+from typing import Optional
+
 from mcipc.rcon.client import Client
 from mcipc.rcon.types import Vec3
 
@@ -7,8 +9,13 @@ from mcipc.rcon.types import Vec3
 __all__ = ['summon']
 
 
-def summon(self: Client, entity_type: str, spawn_pos: Vec3 = None,
-           spawn_event: str = None, name_tag: str = None) -> str:
+def summon(
+        self: Client,
+        entity_type: str,
+        spawn_pos: Optional[Vec3] = None,
+        spawn_event: Optional[str] = None,
+        name_tag: Optional[str] = None
+) -> str:
     """Summons an entity."""
 
     command = ['summon', entity_type]

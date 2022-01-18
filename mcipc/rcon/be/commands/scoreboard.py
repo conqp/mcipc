@@ -1,6 +1,6 @@
 """Implementation of the scoreboard command."""
 
-from typing import Union
+from typing import Optional, Union
 
 from mcipc.rcon.be.types import Location, Operator, Order
 from mcipc.rcon.client import Client
@@ -13,7 +13,7 @@ __all__ = ['ObjectivesProxy', 'PlayersProxy', 'ScoreboardProxy', 'scoreboard']
 class ObjectivesProxy(CommandProxy):
     """Proxy for objective commands."""
 
-    def add(self, objective: str, display_name: str = None) -> str:
+    def add(self, objective: str, display_name: Optional[str] = None) -> str:
         """Adds an objective."""
         return self._run('add', objective, 'dummy', display_name)
 
@@ -25,8 +25,12 @@ class ObjectivesProxy(CommandProxy):
         """Removes an objective."""
         return self._run('remove', objective)
 
-    def setdisplay(self, location: Location, objective: str,
-                   order: Order = None) -> str:
+    def setdisplay(
+            self,
+            location: Location,
+            objective: str,
+            order: Optional[Order] = None
+    ) -> str:
         """Sets a display."""
         command = ['setdisplay', location := Location(location), objective]
 
@@ -39,22 +43,32 @@ class ObjectivesProxy(CommandProxy):
 class PlayersProxy(CommandProxy):
     """Proxy for player commands."""
 
-    def list(self, playername: str = None) -> str:
+    def list(self, playername: Optional[str] = None) -> str:
         """Lists player scores."""
         return self._run('list', playername)
 
-    def reset(self, player: str, objective: str = None) -> str:
+    def reset(self, player: str, objective: Optional[str] = None) -> str:
         """Resets a player's score."""
         return self._run('reset', player, objective)
 
     # pylint: disable=W0622
-    def test(self, player: str, objective: str, min: Union[int, str],
-             max: Union[int, str] = None) -> str:
+    def test(
+            self,
+            player: str,
+            objective: str,
+            min: Union[int, str],
+            max: Optional[Union[int, str]] = None
+    ) -> str:
         """Tests whether a player's score is within the given boundaries."""
         return self._run('test', player, objective, min, max)
 
-    def random(self, player: str, objective: str, min: int,
-               max: int = None) -> str:
+    def random(
+            self,
+            player: str,
+            objective: str,
+            min: int,
+            max: Optional[int] = None
+    ) -> str:
         """Sets a random score for the player's objective."""
         return self._run('random', player, objective, min, max)
 
