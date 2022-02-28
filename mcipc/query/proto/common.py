@@ -70,7 +70,7 @@ class BigEndianSignedInt32(int):
 
     @classmethod
     def from_bytes(cls, bytes_: bytes) -> BigEndianSignedInt32:
-        """Reutns the int from the given bytes."""
+        """Returns the int from the given bytes."""
         return super().from_bytes(bytes_, 'big', signed=True)
 
     @classmethod
@@ -86,8 +86,8 @@ class Type(Enum):
     STAT = 0
 
     def __bytes__(self):
-        """Reuturns the integer value as big endian."""
-        return self.value.to_bytes(1, 'big')    # pylint: disable=E1101
+        """Returns the integer value as big endian."""
+        return self.value.to_bytes(1, 'big')
 
     @classmethod
     def from_bytes(cls, bytes_: bytes) -> Type:
