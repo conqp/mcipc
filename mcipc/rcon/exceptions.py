@@ -17,15 +17,15 @@ class CommandError(Exception):
     """Indicates an error with an RCON command."""
 
 
-class InvalidArgument(CommandError):
+class InvalidArgument(TypeError, CommandError):
     """Represents an invalid argument error."""
 
 
-class InvalidInteger(CommandError):
+class InvalidInteger(ValueError, CommandError):
     """Indicates an invalid integer value."""
 
 
-class InvalidNameOrUUID(CommandError):
+class InvalidNameOrUUID(ValueError, CommandError):
     """Indicates an invalid name or UUID."""
 
 
@@ -41,5 +41,5 @@ class UnexpectedTrailingData(CommandError):
     """Indicates unexpected trailing data."""
 
 
-class UnknownCommand(CommandError):
+class UnknownCommand(ValueError, CommandError):
     """Represents an unknown command error."""
