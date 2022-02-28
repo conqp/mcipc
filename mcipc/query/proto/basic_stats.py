@@ -6,7 +6,7 @@ from typing import IO, NamedTuple
 from mcipc.functions import json_serializable
 from mcipc.query.proto.common import MAGIC
 from mcipc.query.proto.common import NULL
-from mcipc.query.proto.common import decodeall
+from mcipc.query.proto.common import decode_all
 from mcipc.query.proto.common import ip_or_hostname
 from mcipc.query.proto.common import random_session_id
 from mcipc.query.proto.common import BigEndianSignedInt32
@@ -68,7 +68,7 @@ class BasicStats(NamedTuple):
                 break
 
         *blocks, port_ip, _ = body.split(NULL)
-        motd, game_type, map_, num_players, max_players = decodeall(blocks)
+        motd, game_type, map_, num_players, max_players = decode_all(blocks)
         num_players = int(num_players)
         max_players = int(max_players)
         host_port = int.from_bytes(port_ip[0:2], 'little')

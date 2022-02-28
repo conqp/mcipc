@@ -11,7 +11,7 @@ from typing import IO, Iterable, Iterator, Union
 __all__ = [
     'MAGIC',
     'NULL',
-    'decodeall',
+    'decode_all',
     'ip_or_hostname',
     'random_session_id',
     'IPAddressOrHostname',
@@ -27,7 +27,7 @@ SESSION_ID_MASK = 0x0F0F0F0F
 IPAddressOrHostname = Union[IPv4Address, IPv6Address, str]
 
 
-def decodeall(blocks: Iterable[bytes], encoding='latin-1') -> Iterator[str]:
+def decode_all(blocks: Iterable[bytes], encoding='latin-1') -> Iterator[str]:
     """Decodes all byte blocks with the given encoding."""
 
     return map(partial(bytes.decode, encoding=encoding), blocks)
