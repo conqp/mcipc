@@ -1,6 +1,5 @@
 """Common functions."""
 
-from enum import Enum
 from typing import Any, Union
 
 
@@ -24,9 +23,6 @@ def jsonify(value: Any) -> JSON:
 
     if isinstance(value, (float, int, str, bool)):
         return value
-
-    if isinstance(value, Enum):
-        return jsonify(value.value)
 
     try:
         value = dict(value)
