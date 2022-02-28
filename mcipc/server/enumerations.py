@@ -10,7 +10,7 @@ from mcipc.server.datatypes import VarInt
 __all__ = ['State']
 
 
-class State(Enum):
+class State(VarInt, Enum):
     """Protocol state."""
 
     HANDSHAKE = VarInt(0)

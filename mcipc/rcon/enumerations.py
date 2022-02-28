@@ -37,7 +37,7 @@ __all__ = [
 ]
 
 
-class Ability(Enum):
+class Ability(str, Enum):
     """Player ability."""
 
     WORLDBUILDER = 'worldbuilder'
@@ -45,7 +45,7 @@ class Ability(Enum):
     MUTE = 'mute'
 
 
-class Action(Enum):
+class Action(str, Enum):
     """Modifier action."""
 
     ADD = 'add'
@@ -53,14 +53,14 @@ class Action(Enum):
     MULTIPLY_BASE = 'multiply_base'
 
 
-class Anchor(Enum):
+class Anchor(str, Enum):
     """Available entity anchors."""
 
     EYES = 'eyes'
     FEET = 'feet'
 
 
-class Attribute(Enum):
+class Attribute(str, Enum):
     """Boss bar attributes."""
 
     COLOR = 'color'
@@ -72,21 +72,21 @@ class Attribute(Enum):
     VISIBLE = 'visible'
 
 
-class BossbarSlot(Enum):
+class BossbarSlot(str, Enum):
     """A target slot off a boss bar."""
 
     VALUE = 'value'
     MAX = 'max'
 
 
-class CamerashakeType(Enum):
+class CamerashakeType(str, Enum):
     """Camera shake types."""
 
     POSITIONAL = 'positional'
     ROTATIONAL = 'rotational'
 
 
-class CloneMode(Enum):
+class CloneMode(str, Enum):
     """Clone modes."""
 
     FORCE = 'force'
@@ -94,7 +94,7 @@ class CloneMode(Enum):
     NORMAL = 'normal'
 
 
-class Color(Enum):
+class Color(str, Enum):
     """Boss bar colors."""
 
     BLUE = 'blue'
@@ -106,7 +106,7 @@ class Color(Enum):
     YELLOW = 'yellow'
 
 
-class DatapackMode(Enum):
+class DatapackMode(str, Enum):
     """Available modes."""
 
     AFTER = 'after'
@@ -115,14 +115,14 @@ class DatapackMode(Enum):
     LAST = 'last'
 
 
-class DatapackState(Enum):
+class DatapackState(str, Enum):
     """Available states."""
 
     AVAILABLE = 'available'
     ENABLED = 'enabled'
 
 
-class DataType(Enum):
+class DataType(str, Enum):
     """Data types."""
 
     BYTE = 'byte'
@@ -133,7 +133,7 @@ class DataType(Enum):
     SHORT = 'short'
 
 
-class DebugCommand(Enum):
+class DebugCommand(str, Enum):
     """Available debug commands."""
 
     START = 'start'
@@ -141,7 +141,7 @@ class DebugCommand(Enum):
     REPORT = 'report'
 
 
-class Difficulty(Enum):
+class Difficulty(str, Enum):
     """Available difficulties."""
 
     PEACEFUL = 'peaceful'
@@ -150,7 +150,7 @@ class Difficulty(Enum):
     HARD = 'hard'
 
 
-class Direction(Enum):
+class Direction(str, Enum):
     """Specifies the direction of Agent to destroy."""
 
     FORWARD = 'forward'
@@ -161,7 +161,7 @@ class Direction(Enum):
     DOWN = 'down'
 
 
-class Edition(Enum):
+class Edition(str, Enum):
     """Represents the several Minecraft editions."""
 
     BEDROCK = 'Bedrock Edition'
@@ -169,7 +169,7 @@ class Edition(Enum):
     JAVA = 'Java Edition'
 
 
-class FillMode(Enum):
+class FillMode(str, Enum):
     """Available fill modes."""
 
     DESTROY = 'destroy'
@@ -179,7 +179,7 @@ class FillMode(Enum):
     REPLACE = 'replace'
 
 
-class GameMode(Enum):
+class GameMode(str, Enum):
     """Available game modes."""
 
     ADVENTURE = 'adventure'
@@ -188,14 +188,14 @@ class GameMode(Enum):
     SURVIVAL = 'survival'
 
 
-class Hand(Enum):
+class Hand(str, Enum):
     """Available hands."""
 
     MAINHAND = 'mainhand'
     OFFHAND = 'offhand'
 
 
-class MaskMode(Enum):
+class MaskMode(str, Enum):
     """Masking mode."""
 
     REPLACE = 'replace'
@@ -203,14 +203,14 @@ class MaskMode(Enum):
     FILTERED = 'filtered'
 
 
-class ScanMode(Enum):
+class ScanMode(str, Enum):
     """Available scan modes."""
 
     ALL = 'all'
     MASKED = 'masked'
 
 
-class SetblockMode(Enum):
+class SetblockMode(str, Enum):
     """Available modes to set blocks."""
 
     DESTROY = 'destroy'
@@ -218,14 +218,14 @@ class SetblockMode(Enum):
     REPLACE = 'replace'
 
 
-class StorageType(Enum):
+class StorageType(str, Enum):
     """Storage types."""
 
     RESULT = 'result'
     SUCCESS = 'success'
 
 
-class Style(Enum):
+class Style(str, Enum):
     """Available boss bar styles."""
 
     NOTCHED_6 = 'notched_6'
@@ -235,7 +235,7 @@ class Style(Enum):
     PROGRESS = 'progress'
 
 
-class TargetSelector(Enum):
+class TargetSelector(str, Enum):
     """A target selector."""
 
     AGENT = '@c'
@@ -247,7 +247,7 @@ class TargetSelector(Enum):
     RANDOM_PLAYER = '@r'
 
 
-class TargetType(Enum):
+class TargetType(str, Enum):
     """A target type."""
 
     BLOCK = 'block'
@@ -255,7 +255,7 @@ class TargetType(Enum):
     STORAGE = 'storage'
 
 
-class TimeType(Enum):
+class TimeType(str, Enum):
     """Available time types."""
 
     DAYTIME = 'daytime'
@@ -263,7 +263,7 @@ class TimeType(Enum):
     DAY = 'day'
 
 
-class XPUnit(Enum):
+class XPUnit(str, Enum):
     """Available experience units."""
 
     LEVELS = 'levels'

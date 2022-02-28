@@ -20,7 +20,7 @@ __all__ = [
 ]
 
 
-class Biome(Enum):
+class Biome(str, Enum):
     """Available biomes in the Java Edition."""
 
     BADLANDS = 'badlands'
@@ -105,7 +105,7 @@ class Biome(Enum):
     WOODED_MOUNTAINS = 'wooded_mountains'
 
 
-class CollisionRule(Enum):
+class CollisionRule(str, Enum):
     """Available collision rules."""
 
     ALWAYS = 'always'
@@ -114,7 +114,7 @@ class CollisionRule(Enum):
     PUSH_OWN_TEAM = 'pushOwnTeam'
 
 
-class Color(Enum):
+class Color(str, Enum):
     """Available colors."""
 
     AQUA = 'aqua'
@@ -136,7 +136,7 @@ class Color(Enum):
     WHITE = 'white'
 
 
-class Enchantment(Enum):
+class Enchantment(str, Enum):
     """Available enchantments in the Java Edition."""
 
     AQUA_AFFINITY = 'aqua_affinity'
@@ -180,28 +180,28 @@ class Enchantment(Enum):
     UNBREAKING = 'unbreaking'
 
 
-class ParticleMode(Enum):
+class ParticleMode(str, Enum):
     """Available particle modes."""
 
     FORCE = 'force'
     NORMAL = 'normal'
 
 
-class RenderType(Enum):
+class RenderType(str, Enum):
     """Available render types."""
 
     HEARTS = 'hearts'
     INTEGER = 'integer'
 
 
-class ScheduleMode(Enum):
+class ScheduleMode(str, Enum):
     """Available schedule modes."""
 
     APPEND = 'append'
     REPLACE = 'replace'
 
 
-class SoundSource(Enum):
+class SoundSource(str, Enum):
     """Available sound sources."""
 
     MASTER = 'master'
@@ -216,7 +216,7 @@ class SoundSource(Enum):
     VOICE = 'voice'
 
 
-class Structure(Enum):
+class Structure(str, Enum):
     """Available structures in the Java Edition."""
 
     BASTION_REMNANT = 'bastion_remnant'
@@ -239,7 +239,7 @@ class Structure(Enum):
     VILLAGE = 'village'
 
 
-class TeamOption(Enum):
+class TeamOption(str, Enum):
     """Available team options."""
 
     COLLISION_RULE = 'collisionRule'
@@ -253,7 +253,7 @@ class TeamOption(Enum):
     SUFFIX = 'suffix'
 
 
-class TimeSpec(Enum):
+class TimeSpec(str, Enum):
     """Available time specifications."""
 
     DAY = 'day'
@@ -262,7 +262,7 @@ class TimeSpec(Enum):
     MIDNIGHT = 'midnight'
 
 
-class TimeUnit(Enum):
+class TimeUnit(str, Enum):
     """Available time units."""
 
     DAY = 'd'
@@ -270,7 +270,7 @@ class TimeUnit(Enum):
     TICK = 't'
 
 
-class Visibility(Enum):
+class Visibility(str, Enum):
     """Available visibility types."""
 
     NEVER = 'never'

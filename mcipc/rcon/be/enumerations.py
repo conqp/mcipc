@@ -26,7 +26,7 @@ __all__ = [
 ]
 
 
-class Biome(Enum):
+class Biome(str, Enum):
     """Available biomes in the Bedrock Edition."""
 
     BADLANDS = 'mesa'
@@ -106,7 +106,7 @@ class Biome(Enum):
     WOODED_MOUNTAINS = 'extreme_hills_plus_trees'
 
 
-class Enchantment(Enum):
+class Enchantment(str, Enum):
     """Available enchantments in the Bedrock Edition."""
 
     AQUA_AFFINITY = 'aqua_affinity'
@@ -150,7 +150,7 @@ class Enchantment(Enum):
     UNBREAKING = 'unbreaking'
 
 
-class EntityEquipmentSlot(Enum):
+class EntityEquipmentSlot(str, Enum):
     """Available entity equipment slots."""
 
     ARMOR_CHEST = 'armor.chest'
@@ -171,14 +171,14 @@ class EntityEquipmentSlot(Enum):
     WEAPON_OFFHAND = 'weapon.offhand'
 
 
-class FillType(Enum):
+class FillType(str, Enum):
     """Available fill types."""
 
     IF_GROUP_FITS = 'if_group_fits'
     UNTIL_FULL = 'until_full'
 
 
-class Location(Enum):
+class Location(str, Enum):
     """Available locations."""
 
     BELOWNAME = 'belowname'
@@ -186,14 +186,14 @@ class Location(Enum):
     SIDEBAR = 'sidebar'
 
 
-class MatchMode(Enum):
+class MatchMode(str, Enum):
     """Available block matching modes."""
 
     ALL = 'all'
     MASKED = 'masked'
 
 
-class Mirror(Enum):
+class Mirror(str, Enum):
     """Available mirror modes."""
 
     X = 'x'
@@ -202,14 +202,14 @@ class Mirror(Enum):
     NONE = 'none'
 
 
-class MusicRepeatMode(Enum):
+class MusicRepeatMode(str, Enum):
     """Available music repeat modes."""
 
     LOOP = 'loop'
     PLAY_ONCE = 'play_once'
 
 
-class Operator(Enum):
+class Operator(str, Enum):
     """Available operators."""
 
     ADDITION = '+'
@@ -223,21 +223,21 @@ class Operator(Enum):
     SWAP = '><'
 
 
-class Order(Enum):
+class Order(str, Enum):
     """Available orderings."""
 
     ASCENDING = 'ascending'
     DESCENDING = 'descending'
 
 
-class ReplaceMode(Enum):
+class ReplaceMode(str, Enum):
     """Available replace modes."""
 
     DESTROY = 'destroy'
     KEEP = 'keep'
 
 
-class RideRules(Enum):
+class RideRules(str, Enum):
     """Available ride rules."""
 
     NO_RIDE_CHANGE = 'no_ride_change'
@@ -245,7 +245,7 @@ class RideRules(Enum):
     SKIP_RIDERS = 'skip_riders'
 
 
-class Rotation(Enum):
+class Rotation(str, Enum):
     """Available rotation modes."""
 
     DEG_0 = '0_degrees'
@@ -254,7 +254,7 @@ class Rotation(Enum):
     DEG_270 = '270_degrees'
 
 
-class SaveCommand(Enum):
+class SaveCommand(str, Enum):
     """Available save commands."""
 
     HOLD = 'hold'
@@ -262,7 +262,7 @@ class SaveCommand(Enum):
     RESUME = 'resume'
 
 
-class Structure(Enum):
+class Structure(str, Enum):
     """Available structures in the Bedrock Edition."""
 
     BASTION_REMNANT = 'bastionremnant'
@@ -284,28 +284,28 @@ class Structure(Enum):
     VILLAGE = 'village'
 
 
-class StructureAnimationMode(Enum):
+class StructureAnimationMode(str, Enum):
     """Available structure animations."""
 
     BLOCK_BY_BLOCK = 'block_by_block'
     LAYER_BY_LAYER = 'layer_by_layer'
 
 
-class StructureSaveMode(Enum):
+class StructureSaveMode(str, Enum):
     """Available structure save modes."""
 
     DISK = 'disk'
     MEMORY = 'memory'
 
 
-class TeleportRules(Enum):
+class TeleportRules(str, Enum):
     """Available teleportation rules."""
 
     TELEPORT_RIDE = 'teleport_ride'
     TELEPORT_RIDER = 'teleport_rider'
 
 
-class TimeSpec(Enum):
+class TimeSpec(str, Enum):
     """Available time specifications."""
 
     DAY = 'day'
