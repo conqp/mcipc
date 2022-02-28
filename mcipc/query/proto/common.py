@@ -14,6 +14,7 @@ __all__ = [
     'decode_all',
     'ip_or_hostname',
     'random_session_id',
+    'BigEndianSignedInt32',
     'IPAddressOrHostname',
     'Type'
 ]
