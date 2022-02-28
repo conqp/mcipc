@@ -1,6 +1,6 @@
 """Command proxies."""
 
-from typing import TypeVar
+from typing import Type, TypeVar
 
 from mcipc.rcon.functions import until_none
 from mcipc.rcon.client import Client
@@ -25,7 +25,7 @@ class CommandProxy:
     def __repr__(self):
         return f'{type(self).__name__}({self._client}, {self._args})'
 
-    def _proxy(self, cls: DelegatedType, *args: str) -> DelegatedType():
+    def _proxy(self, cls: Type[DelegatedType], *args: str) -> DelegatedType:
         """Returns a sub-proxy."""
         return cls(self._client, *self._args, *until_none(args))
 
