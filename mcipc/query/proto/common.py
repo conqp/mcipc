@@ -79,7 +79,7 @@ class BigEndianSignedInt32(int):
         return cls.from_bytes(file.read(4))
 
 
-class Type(Enum):
+class Type(int, Enum):
     """Request type."""
 
     HANDSHAKE = 9
