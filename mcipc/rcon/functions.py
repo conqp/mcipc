@@ -1,7 +1,6 @@
 """Command proxies."""
 
 from contextlib import suppress
-from enum import Enum
 from functools import wraps
 from json import dumps
 from re import fullmatch
@@ -92,9 +91,6 @@ def stringify(value: Any) -> str:
 
     if isinstance(value, tuple):
         return ' '.join(map(stringify, value))
-
-    if isinstance(value, Enum) and '__str__' not in type(value).__dict__:
-        return stringify(value.value)
 
     if isinstance(value, range):
         return f'{value[0]}..{value[-1]}'
