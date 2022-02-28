@@ -22,7 +22,7 @@ class InvalidArgument(CommandError):
 
 
 class InvalidInteger(CommandError):
-    """Represents an invalid argument error."""
+    """Indicates an invalid integer value."""
 
 
 class InvalidNameOrUUID(CommandError):
