@@ -71,7 +71,7 @@ class BigEndianSignedInt32(int):
     @classmethod
     def from_bytes(cls, bytes_: bytes) -> BigEndianSignedInt32:
         """Returns the int from the given bytes."""
-        return super().from_bytes(bytes_, 'big', signed=True)
+        return cls(super().from_bytes(bytes_, 'big', signed=True))
 
     @classmethod
     def read(cls, file: IO) -> BigEndianSignedInt32:
