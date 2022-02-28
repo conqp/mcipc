@@ -17,7 +17,7 @@ __all__ = [
 ]
 
 
-def ensure_one(**kwargs: Any) -> tuple[str, Any]:
+def ensure_one(**kwargs: dict[str, Any]) -> tuple[str, Any]:
     """Ensures that only one argument is set."""
 
     if sum(value is not None for value in kwargs.values()) != 1:
