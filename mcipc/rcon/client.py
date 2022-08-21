@@ -8,7 +8,7 @@ from mcipc.rcon.functions import str_until_none
 __all__ = ['Client']
 
 
-class Client(source.Client, frag_detect='seed'):
+class Client(source.Client):
     """An RCON client for Minecraft."""
 
     def run(self, command: str, *arguments: str) -> str:
