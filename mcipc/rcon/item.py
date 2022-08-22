@@ -1190,7 +1190,7 @@ class Item(str, Enum):
 
     @classmethod
     def _missing_(cls, value: str):
-        """Strip away excess prefix."""
+        """Add missing prefix."""
         if not value.startswith(PREFIX):
             return cls(f'{PREFIX}{value}')
 
