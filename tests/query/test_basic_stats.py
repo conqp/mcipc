@@ -14,28 +14,28 @@ class TestBasicStats(TestCase):
         """Sets up test data."""
         self.type = Type.STAT
         self.session_id = random_session_id()
-        self.ip_address = IPv4Address('127.0.0.1')
+        self.ip_address = IPv4Address("127.0.0.1")
         self.basic_stats = BasicStats(
             self.type,
             self.session_id,
-            'Message of the day',
-            'survival',
-            'world',
+            "Message of the day",
+            "survival",
+            "world",
             1,
             20,
             25565,
-            self.ip_address
+            self.ip_address,
         )
         self.json = {
-            'type': int(self.type.value),
-            'session_id': int(self.session_id),
-            'motd': 'Message of the day',
-            'game_type': 'survival',
-            'map': 'world',
-            'num_players': 1,
-            'max_players': 20,
-            'host_port': 25565,
-            'host_ip': str(self.ip_address)
+            "type": int(self.type.value),
+            "session_id": int(self.session_id),
+            "motd": "Message of the day",
+            "game_type": "survival",
+            "map": "world",
+            "num_players": 1,
+            "max_players": 20,
+            "host_port": 25565,
+            "host_ip": str(self.ip_address),
         }
 
     def test_json_serialization(self):

@@ -6,13 +6,13 @@ from mcipc.rcon.item import Item
 
 
 SAMPLES = {
-    Item.AIR: ('minecraft:air', 'air'),
-    Item.WATER: ('minecraft:water', 'water'),
-    Item.POPPY: ('minecraft:poppy', 'poppy'),
+    Item.AIR: ("minecraft:air", "air"),
+    Item.WATER: ("minecraft:water", "water"),
+    Item.POPPY: ("minecraft:poppy", "poppy"),
     Item.ZOMBIFIED_PIGLIN_SPAWN_EGG: (
-        'minecraft:zombified_piglin_spawn_egg',
-        'zombified_piglin_spawn_egg'
-    )
+        "minecraft:zombified_piglin_spawn_egg",
+        "zombified_piglin_spawn_egg",
+    ),
 }
 
 
