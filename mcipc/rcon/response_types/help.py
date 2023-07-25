@@ -3,7 +3,7 @@
 from collections import defaultdict
 
 
-__all__ = ['parse']
+__all__ = ["parse"]
 
 
 def parse(text: str) -> dict:
@@ -11,7 +11,7 @@ def parse(text: str) -> dict:
 
     help_ = defaultdict(list)
 
-    for use_case in filter(None, text.split('/')):
+    for use_case in filter(None, text.split("/")):
         command, *arguments = use_case.split()
         help_[command].append(arguments)
 

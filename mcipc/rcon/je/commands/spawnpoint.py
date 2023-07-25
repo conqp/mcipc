@@ -6,15 +6,15 @@ from mcipc.rcon.client import Client
 from mcipc.rcon.types import Vec3
 
 
-__all__ = ['spawnpoint']
+__all__ = ["spawnpoint"]
 
 
 def spawnpoint(
-        self: Client,
-        targets: Optional[str] = None,
-        pos: Optional[Vec3] = None,
-        angle: Optional[float] = None
+    self: Client,
+    targets: Optional[str] = None,
+    pos: Optional[Vec3] = None,
+    angle: Optional[float] = None,
 ) -> str:
     """Sets the spawn point for a player."""
 
-    return self.run('spawnpoint', targets, pos, angle)
+    return self.run("spawnpoint", targets, pos, angle)

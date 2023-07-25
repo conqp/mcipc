@@ -7,7 +7,7 @@ from typing import IO
 from mcipc.server.functions import rshift
 
 
-__all__ = ['VarInt']
+__all__ = ["VarInt"]
 
 
 LOGGER = getLogger(__file__)
@@ -19,10 +19,10 @@ class VarInt(int):
     def __bytes__(self):
         """Returns the respective bytes."""
         if self == 0:
-            return self.to_bytes(1, 'little')
+            return self.to_bytes(1, "little")
 
         value = int(self)
-        bytes_ = b''
+        bytes_ = b""
 
         while True:
             temp = value & 0b01111111
@@ -31,7 +31,7 @@ class VarInt(int):
             if value:
                 temp |= 0b10000000
 
-            bytes_ += temp.to_bytes(1, 'little')
+            bytes_ += temp.to_bytes(1, "little")
 
             if not value:
                 break
@@ -46,10 +46,10 @@ class VarInt(int):
 
         while True:
             if bytes_count > 4:  # Compensate for start index 0.
-                raise ValueError('VarInt is too big.')
+                raise ValueError("VarInt is too big.")
 
             byte = file.read(1)
-            read = int.from_bytes(byte, 'little')
+            read = int.from_bytes(byte, "little")
             value = read & 0b01111111
             shift = 7 * bytes_count
             result |= value << shift
@@ -58,5 +58,5 @@ class VarInt(int):
             if (read & 0b10000000) == 0:
                 break
 
-        LOGGER.debug('Read %i bytes of VarInt.', bytes_count)
+        LOGGER.debug("Read %i bytes of VarInt.", bytes_count)
         return cls(result)

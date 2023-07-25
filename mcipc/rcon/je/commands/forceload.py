@@ -7,7 +7,7 @@ from mcipc.rcon.proxy import CommandProxy
 from mcipc.rcon.types import Vec2
 
 
-__all__ = ['ForceloadProxy', 'forceload']
+__all__ = ["ForceloadProxy", "forceload"]
 
 
 class ForceloadProxy(CommandProxy):
@@ -18,23 +18,19 @@ class ForceloadProxy(CommandProxy):
         """Forces the chunk at the <from> position (through to <to> if set) in
         the dimension of the command's execution to be loaded constantly.
         """
-        return self._run('add', from_, to)
+        return self._run("add", from_, to)
 
-    def remove(
-            self,
-            from_or_all: Union[Vec2, 'all'],
-            to: Optional[Vec2] = None
-    ) -> str:
+    def remove(self, from_or_all: Union[Vec2, "all"], to: Optional[Vec2] = None) -> str:
         """Unforces the chunk at the <from> position (through to <to> if set)
         in the dimension of the command's execution to be loaded constantly.
         """
-        if from_or_all == 'all':
-            return self._run('remove', 'all')
+        if from_or_all == "all":
+            return self._run("remove", "all")
 
         if to is None:
-            raise ValueError('To must be specified, if not removing all.')
+            raise ValueError("To must be specified, if not removing all.")
 
-        return self._run('remove', from_or_all, to)
+        return self._run("remove", from_or_all, to)
 
     def query(self, pos: Optional[Vec2] = None) -> str:
         """If chunk coordinates are given, displays the specified chunk in the
@@ -42,7 +38,7 @@ class ForceloadProxy(CommandProxy):
         which chunks in the dimension of the command's execution are force
         loaded.
         """
-        return self._run('query', pos)
+        return self._run("query", pos)
 
 
 def forceload(self: Client) -> ForceloadProxy:
@@ -50,4 +46,4 @@ def forceload(self: Client) -> ForceloadProxy:
     :py:class:`mcipc.rcon.je.commands.forceload.ForceloadProxy`
     """
 
-    return ForceloadProxy(self, 'forceload')
+    return ForceloadProxy(self, "forceload")

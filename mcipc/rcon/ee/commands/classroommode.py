@@ -3,7 +3,7 @@
 from mcipc.rcon.client import Client
 
 
-__all__ = ['classroommode']
+__all__ = ["classroommode"]
 
 
 def classroommode(self: Client):

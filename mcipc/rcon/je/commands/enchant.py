@@ -6,15 +6,12 @@ from mcipc.rcon.client import Client
 from mcipc.rcon.je.types import Enchantment
 
 
-__all__ = ['enchant']
+__all__ = ["enchant"]
 
 
 def enchant(
-        self: Client,
-        target: str,
-        enchantment: Enchantment,
-        level: Optional[int] = None
+    self: Client, target: str, enchantment: Enchantment, level: Optional[int] = None
 ) -> str:
     """Enchants the target."""
 
-    return self.run('enchant', target, enchantment, level)
+    return self.run("enchant", target, enchantment, level)

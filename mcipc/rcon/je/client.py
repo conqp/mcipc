@@ -30,9 +30,9 @@ from mcipc.rcon.je.commands.fill import fill
 from mcipc.rcon.je.commands.forceload import forceload
 from mcipc.rcon.je.commands.gamemode import gamemode
 from mcipc.rcon.je.commands.give import give
-from mcipc.rcon.je.commands.help import help    # pylint: disable=W0622
+from mcipc.rcon.je.commands.help import help  # pylint: disable=W0622
 from mcipc.rcon.je.commands.item import item
-from mcipc.rcon.je.commands.list import list    # pylint: disable=W0622
+from mcipc.rcon.je.commands.list import list  # pylint: disable=W0622
 from mcipc.rcon.je.commands.locate import locate
 from mcipc.rcon.je.commands.locatebiome import locatebiome
 from mcipc.rcon.je.commands.loot import loot
@@ -64,7 +64,7 @@ from mcipc.rcon.je.commands.weather import weather
 from mcipc.rcon.je.commands.worldborder import worldborder
 
 
-__all__ = ['Client']
+__all__ = ["Client"]
 
 
 class Client(_Client):

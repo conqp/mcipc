@@ -3,10 +3,10 @@
 from mcipc.rcon.client import Client
 
 
-__all__ = ['transferserver']
+__all__ = ["transferserver"]
 
 
 def transferserver(self: Client, server: str, port: int) -> str:
     """Transfer player to another server."""
 
-    return self.run('transferserver', server, port)
+    return self.run("transferserver", server, port)

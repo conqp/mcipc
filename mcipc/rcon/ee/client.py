@@ -9,8 +9,8 @@ from mcipc.rcon.be.commands.enchant import enchant
 from mcipc.rcon.be.commands.fill import fill
 from mcipc.rcon.be.commands.gamemode import gamemode
 from mcipc.rcon.be.commands.give import give
-from mcipc.rcon.be.commands.help import help    # pylint: disable=W0622
-from mcipc.rcon.be.commands.list import list    # pylint: disable=W0622
+from mcipc.rcon.be.commands.help import help  # pylint: disable=W0622
+from mcipc.rcon.be.commands.list import list  # pylint: disable=W0622
 from mcipc.rcon.be.commands.locate import locate
 from mcipc.rcon.be.commands.mobevent import mobevent
 from mcipc.rcon.be.commands.playsound import playsound
@@ -60,7 +60,7 @@ from mcipc.rcon.commands.op import deop, op
 from mcipc.rcon.client import Client as _Client
 
 
-__all__ = ['Client']
+__all__ = ["Client"]
 
 
 class Client(_Client):

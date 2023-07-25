@@ -7,7 +7,7 @@ from typing import IO
 from mcipc.server.datatypes import VarInt
 
 
-__all__ = ['State']
+__all__ = ["State"]
 
 
 class State(VarInt, Enum):

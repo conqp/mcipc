@@ -3,10 +3,10 @@
 from mcipc.rcon.client import Client
 
 
-__all__ = ['position']
+__all__ = ["position"]
 
 
 def position(self: Client) -> str:
     """Toggles player coordinates to be displayed on the HUD."""
 
-    return self.run('position')
+    return self.run("position")

@@ -8,7 +8,7 @@ from mcipc.rcon.proxy import CommandProxy
 from mcipc.rcon.types import Vec3
 
 
-__all__ = ['ReplaceitemProxy', 'replaceitem']
+__all__ = ["ReplaceitemProxy", "replaceitem"]
 
 
 class ReplaceitemProxy(CommandProxy):
@@ -16,18 +16,18 @@ class ReplaceitemProxy(CommandProxy):
 
     # pylint: disable=R0913
     def block(
-            self,
-            position: Vec3,
-            slot_id: int,
-            item_name: str,
-            amount: Optional[int] = None,
-            data: Optional[int] = None,
-            components: Optional[dict] = None,
-            *,
-            old_item_handling: Optional[ReplaceMode] = None
+        self,
+        position: Vec3,
+        slot_id: int,
+        item_name: str,
+        amount: Optional[int] = None,
+        data: Optional[int] = None,
+        components: Optional[dict] = None,
+        *,
+        old_item_handling: Optional[ReplaceMode] = None
     ) -> str:
         """Replaces a block."""
-        command = ['block', position, 'slot.container', slot_id]
+        command = ["block", position, "slot.container", slot_id]
 
         if old_item_handling is not None:
             command.append(old_item_handling)
@@ -35,19 +35,19 @@ class ReplaceitemProxy(CommandProxy):
         return self._run(*command, item_name, amount, data, components)
 
     def entity(
-            self,
-            target: str,
-            slot_type: EntityEquipmentSlot,
-            slot_id: int,
-            item_name: str,
-            amount: Optional[int] = None,
-            data: Optional[int] = None,
-            components: Optional[dict] = None,
-            *,
-            old_item_handling: Optional[ReplaceMode] = None
+        self,
+        target: str,
+        slot_type: EntityEquipmentSlot,
+        slot_id: int,
+        item_name: str,
+        amount: Optional[int] = None,
+        data: Optional[int] = None,
+        components: Optional[dict] = None,
+        *,
+        old_item_handling: Optional[ReplaceMode] = None
     ) -> str:
         """Replaces an item."""
-        command = ['entity', target, slot_type, slot_id]
+        command = ["entity", target, slot_type, slot_id]
 
         if old_item_handling is not None:
             command.append(old_item_handling)
@@ -60,4 +60,4 @@ def replaceitem(self: Client) -> ReplaceitemProxy:
     :py:class:`mcipc.rcon.be.commands.replaceitem.ReplaceitemProxy`
     """
 
-    return ReplaceitemProxy(self, 'replaceitem')
+    return ReplaceitemProxy(self, "replaceitem")

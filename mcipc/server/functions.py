@@ -1,7 +1,7 @@
 """Common functions."""
 
 
-__all__ = ['rshift']
+__all__ = ["rshift"]
 
 
 def rshift(integer: int, shift: int) -> int:

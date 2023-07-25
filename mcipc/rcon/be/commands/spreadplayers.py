@@ -4,17 +4,17 @@ from mcipc.rcon.be.types import RelativeFloat
 from mcipc.rcon.client import Client
 
 
-__all__ = ['spreadplayers']
+__all__ = ["spreadplayers"]
 
 
 def spreadplayers(
-        self: Client,
-        x: RelativeFloat,
-        y: RelativeFloat,
-        spread_distance: float,
-        max_range: float,
-        victim: str
+    self: Client,
+    x: RelativeFloat,
+    y: RelativeFloat,
+    spread_distance: float,
+    max_range: float,
+    victim: str,
 ) -> str:
     """Spreads players."""
 
-    return self.run('spreadplayers', x, y, spread_distance, max_range, victim)
+    return self.run("spreadplayers", x, y, spread_distance, max_range, victim)

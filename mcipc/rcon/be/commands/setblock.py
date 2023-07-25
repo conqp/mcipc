@@ -6,16 +6,16 @@ from mcipc.rcon.client import Client
 from mcipc.rcon.types import SetblockMode, Vec3
 
 
-__all__ = ['setblock']
+__all__ = ["setblock"]
 
 
 def setblock(
-        self: Client,
-        position: Vec3,
-        tile_name: str,
-        tile_data: Optional[int] = None,
-        mode: Optional[SetblockMode] = None
+    self: Client,
+    position: Vec3,
+    tile_name: str,
+    tile_data: Optional[int] = None,
+    mode: Optional[SetblockMode] = None,
 ) -> str:
     """Sets a block."""
 
-    return self.run('setblock', position, tile_name, tile_data, mode)
+    return self.run("setblock", position, tile_name, tile_data, mode)

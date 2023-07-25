@@ -3,7 +3,7 @@
 from typing import Any, Union
 
 
-__all__ = ['json_serializable']
+__all__ = ["json_serializable"]
 
 
 JSON = Union[dict, list, float, int, str, bool, None]
@@ -54,9 +54,9 @@ def json_serializable(cls: type) -> type:
     dict when passed to the dict() constructor.
     """
 
-    if not hasattr(cls, 'keys'):
-        if not (issubclass(cls, tuple) and hasattr(cls, '_fields')):
-            raise TypeError('Type does not implement method keys(self):', cls)
+    if not hasattr(cls, "keys"):
+        if not (issubclass(cls, tuple) and hasattr(cls, "_fields")):
+            raise TypeError("Type does not implement method keys(self):", cls)
 
         cls.keys = lambda self: self._fields
 

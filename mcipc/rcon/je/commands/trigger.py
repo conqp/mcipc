@@ -4,7 +4,7 @@ from mcipc.rcon.client import Client
 from mcipc.rcon.proxy import CommandProxy
 
 
-__all__ = ['TriggerProxy', 'trigger']
+__all__ = ["TriggerProxy", "trigger"]
 
 
 class TriggerProxy(CommandProxy):
@@ -12,15 +12,15 @@ class TriggerProxy(CommandProxy):
 
     def __call__(self, objective: str) -> str:
         """Adds 1 to the current value of <objective>."""
-        return self._run('objective')
+        return self._run("objective")
 
     def add(self, objective: str, value: int) -> str:
         """Adds <value> to the current value of <objective>."""
-        return self._run('add', objective, value)
+        return self._run("add", objective, value)
 
     def set(self, objective: str, value: int) -> str:
         """Sets the value of <objective> to <value>."""
-        return self._run('set', objective, value)
+        return self._run("set", objective, value)
 
 
 def trigger(self: Client) -> TriggerProxy:
@@ -28,4 +28,4 @@ def trigger(self: Client) -> TriggerProxy:
     :py:class:`mcipc.rcon.je.commands.trigger.TriggerProxy`
     """
 
-    return TriggerProxy(self, 'trigger')
+    return TriggerProxy(self, "trigger")

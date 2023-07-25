@@ -7,12 +7,12 @@ from mcipc.functions import json_serializable
 from mcipc.rcon.exceptions import LocationNotFound
 
 
-__all__ = ['Location', 'parse']
+__all__ = ["Location", "parse"]
 
 
 REGEX = (
-    r'The nearest (.+) is at \[(-?\d+), (~|-?\d+), '
-    r'(-?\d+)\] \((\d+) block[s]? away\)'
+    r"The nearest (.+) is at \[(-?\d+), (~|-?\d+), "
+    r"(-?\d+)\] \((\d+) block[s]? away\)"
 )
 
 
@@ -33,6 +33,5 @@ def parse(text: str) -> Location:
     if (match := fullmatch(REGEX, text)) is None:
         raise LocationNotFound(text)
 
-    name, x, y, z, distance = match.groups()    # pylint: disable=C0103
-    return Location(name, int(x), None if y == '~' else int(y), int(z),
-                    int(distance))
+    name, x, y, z, distance = match.groups()  # pylint: disable=C0103
+    return Location(name, int(x), None if y == "~" else int(y), int(z), int(distance))

@@ -7,23 +7,23 @@ from mcipc.rcon.client import Client
 from mcipc.rcon.types import Vec3
 
 
-__all__ = ['teleport']
+__all__ = ["teleport"]
 
 
 def extend_command(
-        look_at_position: Vec3,
-        look_at_entity: str,
-        y_rot: RelativeFloat,
-        x_rot: RelativeFloat,
-        check_for_blocks: bool
+    look_at_position: Vec3,
+    look_at_entity: str,
+    y_rot: RelativeFloat,
+    x_rot: RelativeFloat,
+    check_for_blocks: bool,
 ):
     """Extends the command with common sub commands."""
 
     if look_at_position is not None:
-        yield'facing'
+        yield "facing"
         yield look_at_position
     elif look_at_entity is not None:
-        yield 'facing'
+        yield "facing"
         yield look_at_entity
     else:
         if y_rot is not None:
@@ -36,31 +36,40 @@ def extend_command(
 
 
 def teleport(
-        self: Client,
-        *,
-        destination: Optional[Union[Vec3, str]] = None,
-        victim: Optional[str] = None,
-        check_for_blocks: Optional[bool] = None,
-        y_rot: Optional[RelativeFloat] = None,
-        x_rot: Optional[RelativeFloat] = None,
-        look_at_position: Optional[Vec3] = None,
-        look_at_entity: Optional[str] = None
+    self: Client,
+    *,
+    destination: Optional[Union[Vec3, str]] = None,
+    victim: Optional[str] = None,
+    check_for_blocks: Optional[bool] = None,
+    y_rot: Optional[RelativeFloat] = None,
+    x_rot: Optional[RelativeFloat] = None,
+    look_at_position: Optional[Vec3] = None,
+    look_at_entity: Optional[str] = None
 ) -> str:
     """Teleports the player."""
 
-    command = ['teleport']
+    command = ["teleport"]
 
     if victim is not None:
         if destination is None:
-            raise TypeError('Must spectify destination on victim.')
+            raise TypeError("Must spectify destination on victim.")
 
-        command += [victim, destination, *extend_command(
-            look_at_position, look_at_entity, y_rot, x_rot, check_for_blocks)]
+        command += [
+            victim,
+            destination,
+            *extend_command(
+                look_at_position, look_at_entity, y_rot, x_rot, check_for_blocks
+            ),
+        ]
 
     elif destination is not None:
-        command += [destination, *extend_command(
-            look_at_position, look_at_entity, y_rot, x_rot, check_for_blocks)]
+        command += [
+            destination,
+            *extend_command(
+                look_at_position, look_at_entity, y_rot, x_rot, check_for_blocks
+            ),
+        ]
     else:
-        raise TypeError('Must specify either destination or victim.')
+        raise TypeError("Must specify either destination or victim.")
 
     return self.run(*command)

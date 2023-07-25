@@ -3,11 +3,11 @@
 from mcipc.rcon.functions import parse_bool
 
 
-__all__ = ['parse']
+__all__ = ["parse"]
 
 
-SET = r'The difficulty has been set to (\w+)'
-UNCHANGED = r'The difficulty did not change; it is already set to (\w+)'
+SET = r"The difficulty has been set to (\w+)"
+UNCHANGED = r"The difficulty did not change; it is already set to (\w+)"
 
 
 def parse(text: str) -> bool:

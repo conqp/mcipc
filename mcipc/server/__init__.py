@@ -11,13 +11,13 @@ from mcipc.server.server import StubServer
 
 
 __all__ = [
-    'MAX_PLAYERS',
-    'PROTOCOL',
-    'VERSION',
-    'get_response',
-    'Handshake',
-    'SLPResponse',
-    'State',
-    'StubServer',
-    'VarInt'
+    "MAX_PLAYERS",
+    "PROTOCOL",
+    "VERSION",
+    "get_response",
+    "Handshake",
+    "SLPResponse",
+    "State",
+    "StubServer",
+    "VarInt",
 ]

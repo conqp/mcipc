@@ -9,17 +9,17 @@ from typing import Iterator, NamedTuple
 from mcipc.query.exceptions import InvalidConfig
 
 
-__all__ = ['CONFIG']
+__all__ = ["CONFIG"]
 
 
 CONFIG = ConfigParser()
 
-if name == 'posix':
-    CONFIG_FILE = Path('/etc/query.conf')
-elif name == 'nt':
-    CONFIG_FILE = Path(getenv('LOCALAPPDATA')) / 'query.conf'
+if name == "posix":
+    CONFIG_FILE = Path("/etc/query.conf")
+elif name == "nt":
+    CONFIG_FILE = Path(getenv("LOCALAPPDATA")) / "query.conf"
 else:
-    raise NotImplementedError(f'Unsupported operating system: {name}')
+    raise NotImplementedError(f"Unsupported operating system: {name}")
 
 
 class Config(NamedTuple):
@@ -32,14 +32,14 @@ class Config(NamedTuple):
     def from_string(cls, string: str) -> Config:
         """Reads the credentials from the given string."""
         try:
-            host, port = string.split(':')
+            host, port = string.split(":")
         except ValueError:
-            raise InvalidConfig(f'Invalid socket: {string}.') from None
+            raise InvalidConfig(f"Invalid socket: {string}.") from None
 
         try:
             port = int(port)
         except ValueError:
-            raise InvalidConfig(f'Not an integer: {port}.') from None
+            raise InvalidConfig(f"Not an integer: {port}.") from None
 
         return cls(host, port)
 
@@ -48,8 +48,8 @@ class Config(NamedTuple):
         """Creates a credentials tuple from
         the respective config section.
         """
-        host = section['host']
-        port = section.getint('port')
+        host = section["host"]
+        port = section.getint("port")
         return cls(host, port)
 
 

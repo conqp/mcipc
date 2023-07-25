@@ -8,12 +8,12 @@ from typing import Any, Callable, Iterable, Iterator, Optional
 
 
 __all__ = [
-    'ensure_one',
-    'parse_bool',
-    'parsed',
-    'str_until_none',
-    'stringify',
-    'until_none'
+    "ensure_one",
+    "parse_bool",
+    "parsed",
+    "str_until_none",
+    "stringify",
+    "until_none",
 ]
 
 
@@ -21,21 +21,21 @@ def ensure_one(**kwargs: dict[str, Any]) -> tuple[str, Any]:
     """Ensures that only one argument is set."""
 
     if sum(value is not None for value in kwargs.values()) != 1:
-        raise ValueError('Must specify exactly one of:', kwargs.keys())
+        raise ValueError("Must specify exactly one of:", kwargs.keys())
 
     for key, value in kwargs.items():
         if value is not None:
             return key, value
 
-    raise RuntimeError('Not-none value disappeared.')
+    raise RuntimeError("Not-none value disappeared.")
 
 
 def parse_bool(
-        text: str,
-        true: Optional[str] = None,
-        false: Optional[str] = None,
-        *,
-        default: bool = None
+    text: str,
+    true: Optional[str] = None,
+    false: Optional[str] = None,
+    *,
+    default: bool = None,
 ) -> bool:
     """Parses a boolean value from a text with the given regex strings."""
 
@@ -46,7 +46,7 @@ def parse_bool(
         return False
 
     if default is None:
-        raise ValueError(f'Unexpected text returned: {text}')
+        raise ValueError(f"Unexpected text returned: {text}")
 
     return default
 
@@ -56,6 +56,7 @@ def parsed(parser: Callable[[str], Any]) -> Callable[[Callable], Callable]:
 
     def decorator(function: Callable) -> Callable:
         """Decorator that wraps the function and updates its return type."""
+
         @wraps(function)
         def inner(*args, **kwargs):
             """Wrapper function thats parses the function's return value."""
@@ -64,10 +65,10 @@ def parsed(parser: Callable[[str], Any]) -> Callable[[Callable], Callable]:
         try:
             annotations = parser.__annotations__
         except AttributeError:
-            inner.__annotations__['return'] = parser
+            inner.__annotations__["return"] = parser
         else:
             with suppress(KeyError):
-                inner.__annotations__['return'] = annotations['return']
+                inner.__annotations__["return"] = annotations["return"]
 
         return inner
 
@@ -90,10 +91,10 @@ def stringify(value: Any) -> str:
         return dumps(value)
 
     if isinstance(value, tuple):
-        return ' '.join(map(stringify, value))
+        return " ".join(map(stringify, value))
 
     if isinstance(value, range):
-        return f'{value[0]}..{value[-1]}'
+        return f"{value[0]}..{value[-1]}"
 
     return str(value)
 

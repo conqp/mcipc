@@ -7,31 +7,23 @@ from mcipc.rcon.proxy import CommandProxy
 from mcipc.rcon.types import Vec3
 
 
-__all__ = ['ReplaceitemProxy', 'replaceitem']
+__all__ = ["ReplaceitemProxy", "replaceitem"]
 
 
 class ReplaceitemProxy(CommandProxy):
     """Proxy for replaceitem related commands."""
 
     def block(
-            self,
-            pos: Vec3,
-            slot: str,
-            item: str,
-            count: Optional[int] = None
+        self, pos: Vec3, slot: str, item: str, count: Optional[int] = None
     ) -> str:
         """Replaces a block."""
-        self._run('block', pos, slot, item, count)
+        self._run("block", pos, slot, item, count)
 
     def entity(
-            self,
-            targets: str,
-            slot: str,
-            item: str,
-            count: Optional[int] = None
+        self, targets: str, slot: str, item: str, count: Optional[int] = None
     ) -> str:
         """Replaces an entity."""
-        self._run('entity', targets, slot, item, count)
+        self._run("entity", targets, slot, item, count)
 
 
 def replaceitem(self: Client) -> ReplaceitemProxy:
@@ -39,4 +31,4 @@ def replaceitem(self: Client) -> ReplaceitemProxy:
     :py:class:`mcipc.rcon.je.commands.replaceitem.ReplaceitemProxy`
     """
 
-    return ReplaceitemProxy(self, 'replaceitem')
+    return ReplaceitemProxy(self, "replaceitem")

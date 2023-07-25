@@ -5,7 +5,7 @@ from rcon import source
 from mcipc.rcon.functions import str_until_none
 
 
-__all__ = ['Client']
+__all__ = ["Client"]
 
 
 class Client(source.Client):

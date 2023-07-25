@@ -6,11 +6,11 @@ from mcipc.rcon.response_types.difficulty import parse
 from mcipc.rcon.types import Difficulty
 
 
-__all__ = ['difficulty']
+__all__ = ["difficulty"]
 
 
 @parsed(parse)
 def difficulty(self: Client, difficulty: Difficulty) -> bool:
     """Sets the difficulty."""
 
-    return self.run('difficulty', difficulty)
+    return self.run("difficulty", difficulty)

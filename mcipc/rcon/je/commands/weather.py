@@ -4,7 +4,7 @@ from mcipc.rcon.client import Client
 from mcipc.rcon.commands.weather import WeatherProxy
 
 
-__all__ = ['WeatherProxy', 'weather']
+__all__ = ["WeatherProxy", "weather"]
 
 
 def weather(self: Client) -> WeatherProxy:
@@ -12,4 +12,4 @@ def weather(self: Client) -> WeatherProxy:
     :py:class:`mcipc.rcon.je.commands.weather.WeatherProxy`
     """
 
-    return WeatherProxy(self, 'weather')
+    return WeatherProxy(self, "weather")

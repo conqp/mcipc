@@ -1,7 +1,7 @@
 """Common exceptions."""
 
 
-__all__ = ['InvalidConfig']
+__all__ = ["InvalidConfig"]
 
 
 class InvalidConfig(ValueError):

@@ -13,8 +13,8 @@ from mcipc.rcon.be.commands.fill import fill
 from mcipc.rcon.be.commands.fog import fog
 from mcipc.rcon.be.commands.gamemode import gamemode
 from mcipc.rcon.be.commands.give import give
-from mcipc.rcon.be.commands.help import help    # pylint: disable=W0622
-from mcipc.rcon.be.commands.list import list    # pylint: disable=W0622
+from mcipc.rcon.be.commands.help import help  # pylint: disable=W0622
+from mcipc.rcon.be.commands.list import list  # pylint: disable=W0622
 from mcipc.rcon.be.commands.locate import locate
 from mcipc.rcon.be.commands.mixer import mixer
 from mcipc.rcon.be.commands.mobevent import mobevent
@@ -61,7 +61,7 @@ from mcipc.rcon.commands.whitelist import whitelist
 from mcipc.rcon.client import Client as _Client
 
 
-__all__ = ['Client']
+__all__ = ["Client"]
 
 
 class Client(_Client):

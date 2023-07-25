@@ -7,10 +7,10 @@ from mcipc.functions import json_serializable
 from mcipc.rcon.exceptions import NoPlayerFound
 
 
-__all__ = ['KickedPlayer', 'parse']
+__all__ = ["KickedPlayer", "parse"]
 
 
-REGEX = r'Kicked (.*): (.*)'
+REGEX = r"Kicked (.*): (.*)"
 
 
 @json_serializable

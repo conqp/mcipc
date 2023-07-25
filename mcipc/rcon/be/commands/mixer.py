@@ -3,7 +3,7 @@
 from mcipc.rcon.client import Client
 
 
-__all__ = ['mixer']
+__all__ = ["mixer"]
 
 
 def mixer(self: Client) -> str:

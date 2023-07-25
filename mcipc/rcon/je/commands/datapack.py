@@ -7,7 +7,7 @@ from mcipc.rcon.proxy import CommandProxy
 from mcipc.rcon.types import DatapackMode, DatapackState
 
 
-__all__ = ['DatapackProxy', 'datapack']
+__all__ = ["DatapackProxy", "datapack"]
 
 
 class DatapackProxy(CommandProxy):
@@ -15,20 +15,17 @@ class DatapackProxy(CommandProxy):
 
     def disable(self, name: str) -> str:
         """Disables a datapack."""
-        return self._run('disable', name)
+        return self._run("disable", name)
 
     def enable(
-            self,
-            name: str,
-            mode: DatapackMode,
-            existing: Optional[str] = None
+        self, name: str, mode: DatapackMode, existing: Optional[str] = None
     ) -> str:
         """Enables a datapack."""
-        command = ['enable', name, mode]
+        command = ["enable", name, mode]
 
         if mode in {DatapackMode.AFTER, DatapackMode.BEFORE}:
             if existing is None:
-                raise ValueError('Missing value for existing datapack.')
+                raise ValueError("Missing value for existing datapack.")
 
             command.append(existing)
 
@@ -36,7 +33,7 @@ class DatapackProxy(CommandProxy):
 
     def list(self, state: Optional[DatapackState] = None) -> str:
         """Lists the enabled datapacks."""
-        command = ['list']
+        command = ["list"]
 
         if state is not None:
             command.append(state)
@@ -49,4 +46,4 @@ def datapack(self: Client) -> DatapackProxy:
     :py:class:`mcipc.rcon.je.commands.datapack.DatapackProxy`
     """
 
-    return DatapackProxy(self, 'datapack')
+    return DatapackProxy(self, "datapack")

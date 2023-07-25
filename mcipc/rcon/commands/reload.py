@@ -3,7 +3,7 @@
 from mcipc.rcon.client import Client
 
 
-__all__ = ['reload']
+__all__ = ["reload"]
 
 
 def reload(self: Client) -> str:
@@ -11,4 +11,4 @@ def reload(self: Client) -> str:
     in behavior packs in Bedrock Edition.
     """
 
-    return self.run('reload')
+    return self.run("reload")

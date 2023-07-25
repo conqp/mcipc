@@ -7,7 +7,7 @@ from mcipc.rcon.proxy import CommandProxy
 from mcipc.rcon.types import Vec3
 
 
-__all__ = ['ScheduleProxy', 'schedule']
+__all__ = ["ScheduleProxy", "schedule"]
 
 
 class ScheduleProxy(CommandProxy):
@@ -20,11 +20,11 @@ class ScheduleProxy(CommandProxy):
 
     def circle(self, center: Vec3, radius: int, function: Path) -> str:
         """Adds a circle."""
-        return self._run('circle', center, radius, function)
+        return self._run("circle", center, radius, function)
 
     def tickingarea(self, name: str, function: Path) -> str:
         """Adds a ticking ares."""
-        return self._run('tickingarea', name, function)
+        return self._run("tickingarea", name, function)
 
 
 def schedule(self: Client) -> ScheduleProxy:
@@ -32,4 +32,4 @@ def schedule(self: Client) -> ScheduleProxy:
     :py:class:`mcipc.rcon.be.commands.schedule.ScheduleProxy`
     """
 
-    return ScheduleProxy(self, 'schedule', 'on_area_loaded', 'add')
+    return ScheduleProxy(self, "schedule", "on_area_loaded", "add")

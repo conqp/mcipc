@@ -4,7 +4,7 @@ from mcipc.rcon.client import Client
 from mcipc.rcon.commands.weather import WeatherProxy as _WeatherProxy
 
 
-__all__ = ['WeatherProxy', 'weather']
+__all__ = ["WeatherProxy", "weather"]
 
 
 class WeatherProxy(_WeatherProxy):
@@ -12,7 +12,7 @@ class WeatherProxy(_WeatherProxy):
 
     def query(self) -> str:
         """Queries the current weather."""
-        return self._run('query')
+        return self._run("query")
 
 
 def weather(self: Client) -> WeatherProxy:
@@ -20,4 +20,4 @@ def weather(self: Client) -> WeatherProxy:
     :py:class:`mcipc.rcon.be.commands.weather.WeatherProxy`
     """
 
-    return WeatherProxy(self, 'weather')
+    return WeatherProxy(self, "weather")

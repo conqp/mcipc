@@ -9,26 +9,26 @@ from typing import IO, Iterable, Iterator, Union
 
 
 __all__ = [
-    'MAGIC',
-    'NULL',
-    'decode_all',
-    'ip_or_hostname',
-    'random_session_id',
-    'BigEndianSignedInt32',
-    'IPAddressOrHostname',
-    'Type'
+    "MAGIC",
+    "NULL",
+    "decode_all",
+    "ip_or_hostname",
+    "random_session_id",
+    "BigEndianSignedInt32",
+    "IPAddressOrHostname",
+    "Type",
 ]
 
 
-MAGIC = b'\xfe\xfd'
-NULL = b'\0'
+MAGIC = b"\xfe\xfd"
+NULL = b"\0"
 SESSION_ID_MASK = 0x0F0F0F0F
 
 
 IPAddressOrHostname = Union[IPv4Address, IPv6Address, str]
 
 
-def decode_all(blocks: Iterable[bytes], encoding='latin-1') -> Iterator[str]:
+def decode_all(blocks: Iterable[bytes], encoding="latin-1") -> Iterator[str]:
     """Decodes all byte blocks with the given encoding."""
 
     return map(partial(bytes.decode, encoding=encoding), blocks)
@@ -63,16 +63,16 @@ class BigEndianSignedInt32(int):
         super().__init__()
 
         if not self.MIN <= self <= self.MAX:
-            raise ValueError('Signed int32 out of bounds:', self)
+            raise ValueError("Signed int32 out of bounds:", self)
 
     def __bytes__(self):
         """Returns the int as bytes."""
-        return self.to_bytes(4, 'big', signed=True)
+        return self.to_bytes(4, "big", signed=True)
 
     @classmethod
     def from_bytes(cls, bytes_: bytes) -> BigEndianSignedInt32:
         """Returns the int from the given bytes."""
-        return cls(super().from_bytes(bytes_, 'big', signed=True))
+        return cls(super().from_bytes(bytes_, "big", signed=True))
 
     @classmethod
     def read(cls, file: IO) -> BigEndianSignedInt32:
@@ -88,12 +88,12 @@ class Type(int, Enum):
 
     def __bytes__(self):
         """Returns the integer value as big endian."""
-        return self.value.to_bytes(1, 'big')
+        return self.value.to_bytes(1, "big")
 
     @classmethod
     def from_bytes(cls, bytes_: bytes) -> Type:
         """Returns the type from the respective bytes."""
-        return cls(int.from_bytes(bytes_, 'big'))
+        return cls(int.from_bytes(bytes_, "big"))
 
     @classmethod
     def read(cls, file: IO) -> Type:

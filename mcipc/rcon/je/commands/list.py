@@ -5,11 +5,11 @@ from mcipc.rcon.functions import parsed
 from mcipc.rcon.response_types.players import parse
 
 
-__all__ = ['list']
+__all__ = ["list"]
 
 
 @parsed(parse)
 def list(client: Client, uuids: bool = False) -> str:
     """Returns the players."""
 
-    return client.run('list', 'uuids' if uuids else None)
+    return client.run("list", "uuids" if uuids else None)

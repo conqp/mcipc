@@ -3,10 +3,10 @@
 from mcipc.rcon.client import Client
 
 
-__all__ = ['code']
+__all__ = ["code"]
 
 
 def code(self: Client) -> str:
     """Used to access code connection."""
 
-    return self.run('code')
+    return self.run("code")

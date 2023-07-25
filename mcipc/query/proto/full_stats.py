@@ -13,10 +13,10 @@ from mcipc.query.proto.common import IPAddressOrHostname
 from mcipc.query.proto.common import Type
 
 
-__all__ = ['Request', 'FullStats']
+__all__ = ["Request", "FullStats"]
 
 
-PADDING = b'\x00\x00\x00\x00'
+PADDING = b"\x00\x00\x00\x00"
 
 
 def read_stats(file: IO) -> dict:
@@ -24,7 +24,7 @@ def read_stats(file: IO) -> dict:
     of zero-separated key-value pairs.
     """
 
-    item = ''
+    item = ""
     dictionary = {}
     key = None
     is_key = True
@@ -44,15 +44,15 @@ def read_stats(file: IO) -> dict:
                 key = None
                 is_key = True
 
-            item = ''
+            item = ""
         else:
-            item += byte.decode('latin-1')
+            item += byte.decode("latin-1")
 
 
 def read_players(file: IO) -> Iterator[str]:
     """Yields zero-byte-separated items."""
 
-    item = ''
+    item = ""
 
     while True:
         byte = file.read(1)
@@ -62,35 +62,35 @@ def read_players(file: IO) -> Iterator[str]:
                 return
 
             yield item
-            item = ''
+            item = ""
         else:
-            item += byte.decode('latin-1')
+            item += byte.decode("latin-1")
 
 
 def plugins_to_dict(string: str) -> dict:
     """Convers a plugins string into a dictionary."""
 
     try:
-        mod, plugins = string.split(': ')
+        mod, plugins = string.split(": ")
     except ValueError:  # No plugins.
         return {}
 
-    return {mod: plugins.split('; ')}
+    return {mod: plugins.split("; ")}
 
 
 def stats_from_dict(dictionary: dict):
     """Yields statistics options from the provided dictionary."""
 
-    yield dictionary['hostname']
-    yield dictionary['gametype']
-    yield dictionary['game_id']
-    yield dictionary['version']
-    yield plugins_to_dict(dictionary['plugins'])
-    yield dictionary['map']
-    yield int(dictionary['numplayers'])
-    yield int(dictionary['maxplayers'])
-    yield int(dictionary['hostport'])
-    yield ip_or_hostname(dictionary['hostip'])
+    yield dictionary["hostname"]
+    yield dictionary["gametype"]
+    yield dictionary["game_id"]
+    yield dictionary["version"]
+    yield plugins_to_dict(dictionary["plugins"])
+    yield dictionary["map"]
+    yield int(dictionary["numplayers"])
+    yield int(dictionary["maxplayers"])
+    yield int(dictionary["hostport"])
+    yield ip_or_hostname(dictionary["hostip"])
 
 
 class Request(NamedTuple):
@@ -114,8 +114,7 @@ class Request(NamedTuple):
     @classmethod
     def create(cls, challenge_token: BigEndianSignedInt32) -> Request:
         """Creates a new request with the given challenge token."""
-        return cls(session_id=random_session_id(),
-                   challenge_token=challenge_token)
+        return cls(session_id=random_session_id(), challenge_token=challenge_token)
 
 
 @json_serializable
@@ -141,8 +140,8 @@ class FullStats(NamedTuple):
         """Read a full stats response."""
         type_ = Type.read(file)
         session_id = BigEndianSignedInt32.read(file)
-        file.read(11)   # Discard padding.
+        file.read(11)  # Discard padding.
         stats = read_stats(file)
-        file.read(10)   # Discard padding.
+        file.read(10)  # Discard padding.
         players = list(read_players(file))
         return cls(type_, session_id, *stats_from_dict(stats), players)

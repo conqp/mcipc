@@ -14,7 +14,7 @@ from mcipc.query.proto.common import IPAddressOrHostname
 from mcipc.query.proto.common import Type
 
 
-__all__ = ['Request', 'BasicStats']
+__all__ = ["Request", "BasicStats"]
 
 
 class Request(NamedTuple):
@@ -36,8 +36,7 @@ class Request(NamedTuple):
     @classmethod
     def create(cls, challenge_token: BigEndianSignedInt32) -> Request:
         """Creates a new request with the given challenge token."""
-        return cls(session_id=random_session_id(),
-                   challenge_token=challenge_token)
+        return cls(session_id=random_session_id(), challenge_token=challenge_token)
 
 
 @json_serializable
@@ -59,7 +58,7 @@ class BasicStats(NamedTuple):
         """Reads the basic stats from a file-like object."""
         type_ = Type.read(file)
         session_id = BigEndianSignedInt32.read(file)
-        body = b''
+        body = b""
 
         while True:
             body += file.read(1)
@@ -71,8 +70,16 @@ class BasicStats(NamedTuple):
         motd, game_type, map_, num_players, max_players = decode_all(blocks)
         num_players = int(num_players)
         max_players = int(max_players)
-        host_port = int.from_bytes(port_ip[0:2], 'little')
+        host_port = int.from_bytes(port_ip[0:2], "little")
         host_ip = ip_or_hostname(port_ip[2:].decode())
         return cls(
-            type_, session_id, motd, game_type, map_, num_players, max_players,
-            host_port, host_ip)
+            type_,
+            session_id,
+            motd,
+            game_type,
+            map_,
+            num_players,
+            max_players,
+            host_port,
+            host_ip,
+        )

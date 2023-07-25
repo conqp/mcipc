@@ -18,21 +18,21 @@ from mcipc.rcon.je.enumerations import Visibility
 
 
 __all__ = [
-    'Biome',
-    'CollisionRule',
-    'Color',
-    'Enchantment',
-    'ParticleMode',
-    'RenderType',
-    'ScheduleMode',
-    'SoundSource',
-    'Structure',
-    'TeamOption',
-    'TeamValue',
-    'Time',
-    'TimeSpec',
-    'TimeUnit',
-    'Visibility'
+    "Biome",
+    "CollisionRule",
+    "Color",
+    "Enchantment",
+    "ParticleMode",
+    "RenderType",
+    "ScheduleMode",
+    "SoundSource",
+    "Structure",
+    "TeamOption",
+    "TeamValue",
+    "Time",
+    "TimeSpec",
+    "TimeUnit",
+    "Visibility",
 ]
 
 

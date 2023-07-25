@@ -10,11 +10,11 @@ from mcipc.query.proto.handshake import Response
 
 
 __all__ = [
-    'BasicStats',
-    'BasicStatsRequest',
-    'BigEndianSignedInt32',
-    'FullStats',
-    'FullStatsRequest',
-    'HandshakeRequest',
-    'Response'
+    "BasicStats",
+    "BasicStatsRequest",
+    "BigEndianSignedInt32",
+    "FullStats",
+    "FullStatsRequest",
+    "HandshakeRequest",
+    "Response",
 ]

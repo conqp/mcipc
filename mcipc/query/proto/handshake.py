@@ -11,7 +11,7 @@ from mcipc.query.proto.common import BigEndianSignedInt32
 from mcipc.query.proto.common import Type
 
 
-__all__ = ['Request', 'Response']
+__all__ = ["Request", "Response"]
 
 
 class Request(NamedTuple):
@@ -47,7 +47,7 @@ class Response(NamedTuple):
         type_ = Type.read(file)
         session_id = BigEndianSignedInt32.read(file)
         # For challenge token, see: https://wiki.vg/Query#Handshake
-        bytes_ = b''
+        bytes_ = b""
 
         while True:
             byte = file.read(1)
@@ -64,7 +64,7 @@ class Response(NamedTuple):
     def to_json(self) -> dict:
         """Returns a JSON-ish dict."""
         return {
-            'type': self.type.value,
-            'session_id': self.session_id,
-            'challenge_token': self.challenge_token
+            "type": self.type.value,
+            "session_id": self.session_id,
+            "challenge_token": self.challenge_token,
         }

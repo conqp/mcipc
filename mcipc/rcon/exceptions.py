@@ -2,14 +2,14 @@
 
 
 __all__ = [
-    'CommandError',
-    'InvalidArgument',
-    'InvalidInteger',
-    'InvalidNameOrUUID',
-    'LocationNotFound',
-    'NoPlayerFound',
-    'UnexpectedTrailingData',
-    'UnknownCommand'
+    "CommandError",
+    "InvalidArgument",
+    "InvalidInteger",
+    "InvalidNameOrUUID",
+    "LocationNotFound",
+    "NoPlayerFound",
+    "UnexpectedTrailingData",
+    "UnknownCommand",
 ]
 
 

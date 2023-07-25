@@ -7,24 +7,21 @@ from mcipc.rcon.je.types import ScheduleMode, Time
 from mcipc.rcon.proxy import CommandProxy
 
 
-__all__ = ['ScheduleProxy', 'schedule']
+__all__ = ["ScheduleProxy", "schedule"]
 
 
 class ScheduleProxy(CommandProxy):
     """Proxy for schedule sub-commands."""
 
     def function(
-            self,
-            function: str,
-            time: Time,
-            mode: Optional[ScheduleMode] = None
+        self, function: str, time: Time, mode: Optional[ScheduleMode] = None
     ) -> str:
         """Adds a schedule."""
-        return self._run('function', function, time, mode)
+        return self._run("function", function, time, mode)
 
     def clear(self, function: str) -> str:
         """Removes a schedule."""
-        return self._run('clear', function)
+        return self._run("clear", function)
 
 
 def schedule(self: Client) -> ScheduleProxy:
@@ -32,4 +29,4 @@ def schedule(self: Client) -> ScheduleProxy:
     :py:class:`mcipc.rcon.je.commands.schedule.ScheduleProxy`
     """
 
-    return ScheduleProxy(self, 'schedule')
+    return ScheduleProxy(self, "schedule")

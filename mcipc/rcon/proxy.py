@@ -6,16 +6,16 @@ from mcipc.rcon.functions import until_none
 from mcipc.rcon.client import Client
 
 
-__all__ = ['CommandProxy']
+__all__ = ["CommandProxy"]
 
 
-DelegatedType = TypeVar('DelegatedType')
+DelegatedType = TypeVar("DelegatedType")
 
 
 class CommandProxy:
     """A basic command proxy."""
 
-    __slots__ = ('_client', '_args')
+    __slots__ = ("_client", "_args")
 
     def __init__(self, client: Client, *args: str):
         """Sets the client and arguments."""
@@ -23,7 +23,7 @@ class CommandProxy:
         self._args = tuple(until_none(args))
 
     def __repr__(self):
-        return f'{type(self).__name__}({self._client}, {self._args})'
+        return f"{type(self).__name__}({self._client}, {self._args})"
 
     def _proxy(self, cls: Type[DelegatedType], *args: str) -> DelegatedType:
         """Returns a sub-proxy."""

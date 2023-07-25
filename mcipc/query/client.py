@@ -13,10 +13,10 @@ from mcipc.query.proto import HandshakeRequest
 from mcipc.query.proto import Response
 
 
-__all__ = ['Client']
+__all__ = ["Client"]
 
 
-WARN_TEMP = 'Client.{} is deprecated. Use Client.stats({}) instead.'
+WARN_TEMP = "Client.{} is deprecated. Use Client.stats({}) instead."
 BasicMessages = tuple[BasicStatsRequest, BasicStats]
 FullMessages = tuple[FullStatsRequest, FullStats]
 
@@ -76,24 +76,23 @@ class Client:
     @property
     def basic_stats(self) -> BasicStats:
         """Returns basic stats."""
-        warn(WARN_TEMP.format('basic_stats', ''), FutureWarning, stacklevel=2)
+        warn(WARN_TEMP.format("basic_stats", ""), FutureWarning, stacklevel=2)
         return self.stats()
 
     @property
     def full_stats(self) -> FullStats:
         """Returns full stats."""
-        warn(WARN_TEMP.format('full_stats', 'full=True'), FutureWarning,
-             stacklevel=2)
+        warn(WARN_TEMP.format("full_stats", "full=True"), FutureWarning, stacklevel=2)
         return self.stats(full=True)
 
     def handshake(self) -> BigEndianSignedInt32:
         """Performs a handshake."""
         request = HandshakeRequest.create()
 
-        with self._socket.makefile('wb') as file:
+        with self._socket.makefile("wb") as file:
             file.write(bytes(request))
 
-        with self._socket.makefile('rb') as file:
+        with self._socket.makefile("rb") as file:
             response = Response.read(file)
 
         return response.challenge_token
@@ -103,8 +102,8 @@ class Client:
         request_type, return_type = get_message_types(full)
         request = request_type.create(self.challenge_token)
 
-        with self._socket.makefile('wb') as file:
+        with self._socket.makefile("wb") as file:
             file.write(bytes(request))
 
-        with self._socket.makefile('rb') as file:
+        with self._socket.makefile("rb") as file:
             return return_type.read(file)

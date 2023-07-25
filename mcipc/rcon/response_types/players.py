@@ -7,13 +7,13 @@ from uuid import UUID
 from mcipc.functions import json_serializable
 
 
-__all__ = ['Player', 'Players', 'parse']
+__all__ = ["Player", "Players", "parse"]
 
 
-REGEX_JAVA = r'.+ (\d+) .+ (\d+) .+: (.*)'
-REGEX_JAVA_NAME = r'(\S+)(?: \((\S+)\))?'
-REGEX_PAPER = r'.+ §c(\d+)§6 .+ §c(\d+)§6 .+\.([\s\S]*)'
-REGEX_PAPER_NAME = r'§6(.+)§r: (?:§4)?(\w+)(?:§r)?§f'
+REGEX_JAVA = r".+ (\d+) .+ (\d+) .+: (.*)"
+REGEX_JAVA_NAME = r"(\S+)(?: \((\S+)\))?"
+REGEX_PAPER = r".+ §c(\d+)§6 .+ §c(\d+)§6 .+\.([\s\S]*)"
+REGEX_PAPER_NAME = r"§6(.+)§r: (?:§4)?(\w+)(?:§r)?§f"
 
 
 @json_serializable
@@ -45,7 +45,7 @@ def player_from_java_name(name: str) -> Player:
     """Returns a player from a Java Edition response name."""
 
     if (match := fullmatch(REGEX_JAVA_NAME, name)) is None:
-        raise ValueError(f'Invalid Java Edition server string: {name}')
+        raise ValueError(f"Invalid Java Edition server string: {name}")
 
     name, uuid = match.groups()
     return Player(name, uuid=None if uuid is None else UUID(uuid))
@@ -54,7 +54,7 @@ def player_from_java_name(name: str) -> Player:
 def players_from_java_names(names: str) -> Iterator[Player]:
     """Yields players from a Java Edition response names."""
 
-    for name in filter(None, map(str.strip, names.split(', '))):
+    for name in filter(None, map(str.strip, names.split(", "))):
         yield player_from_java_name(name)
 
 
@@ -62,7 +62,7 @@ def player_from_paper_name(name: str) -> Player:
     """Returns a player from a Paper server response name."""
 
     if (match := fullmatch(REGEX_PAPER_NAME, name.strip())) is None:
-        raise ValueError(f'Invalid Paper server string: {name}')
+        raise ValueError(f"Invalid Paper server string: {name}")
 
     state, name = match.groups()
     return Player(name, state=state)
@@ -71,7 +71,7 @@ def player_from_paper_name(name: str) -> Player:
 def players_from_paper_names(names: str) -> Iterator[Player]:
     """Yields players from a paper server response names."""
 
-    for name in filter(None, names.split('\n')):
+    for name in filter(None, names.split("\n")):
         yield player_from_paper_name(name)
 
 
@@ -102,4 +102,4 @@ def parse(text: str) -> Players:
     if (match := fullmatch(REGEX_PAPER, text)) is not None:
         return from_paper(match)
 
-    raise ValueError('Unexpected players response:', text)
+    raise ValueError("Unexpected players response:", text)
